@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import TemplateLibrary from './TemplateLibrary';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -64,15 +64,14 @@ export default class MockData extends React.PureComponent {
     };
   }
   render() {
-    return <div>
-      <h2>Welcome to React components</h2>
+    return (
       <TemplateLibrary
-            templates={this.state.templates}
-            upload={this.state.upload}
-            import={this.state.import}
-            addTemp={this.state.addTemp}
-            addToCont={this.state.addToCont}
-        />
-    </div>
+        templates={this.state.templates}
+        upload={this.state.upload}
+        import={this.state.import}
+        addTemp={this.state.addTemp}
+        addToCont={this.state.addToCont} 
+      />
+    )
   }
 }
