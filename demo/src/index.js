@@ -6,7 +6,6 @@ import Example from '../../src'
 class Demo extends Component {
   render() {
     return <div>
-      <h1>cicero-ui Demo</h1>
       <Example/>
     </div>
   }
