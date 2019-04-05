@@ -1,4 +1,11 @@
-# cicero-ui
+# Cicero UI Library
+
+The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
+
+## How this project is structured
+
+Packages: 
+- `TemplateLibrary`: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format](https://github.com/accordproject/cicero).
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
