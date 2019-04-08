@@ -2,6 +2,16 @@
 
 The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
 
+## Development Instructions - Build
+
+1. Fork project to your repository.
+2. Clone to your local machine with `git clone`
+3. `cd` into the directory.
+4. Run `npm install`.
+5. Build a production state with `npm run build`.
+6. Create a global link with `npm link`.
+7. Copy the <NAME> value from `package.json` for the link to Template Studio.
+
 ## How this project is structured
 
 Packages: 
