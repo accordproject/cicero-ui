@@ -1,9 +1,19 @@
 import _ from 'lodash';
+
+/* React */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+/* Styling */
 import styled from 'styled-components';
 import { Button, Card, Input } from 'semantic-ui-react';
 
+/* Cicero */
+import { TemplateLibrary } from '@accordproject/cicero-core';
+import * as ciceroPackageJson from '@accordproject/cicero-core/package.json';
+const ciceroVersion = ciceroPackageJson.version;
+
+/* Internal */
 // import CustomLoader from '../CustomLoader';
 import TemplateCard from './TemplateCard';
 // import TemplateDetails from './TemplateDetails';
@@ -58,13 +68,14 @@ const TemplateCards = styled(Card.Group)`
  * A Template Library component that will display the filtered list of templates
  * and provide drag-and-drop functionality.
  */
-class TemplateLibrary extends React.PureComponent {
+class TemplateLibraryComponent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
       loading: false,
       templateUri: false,
+      templates: []
     };
     this.onQueryChange = this.onQueryChange.bind(this);
     this.handleHideTemplate = this.handleHideTemplate.bind(this);
@@ -73,6 +84,7 @@ class TemplateLibrary extends React.PureComponent {
 
   componentDidMount() {
     // this.fetchTemplates();
+    this.loadAPTemplateLibrary();
   }
 
   onQueryChange(e, el) {
@@ -100,6 +112,26 @@ class TemplateLibrary extends React.PureComponent {
     //   });
   }
 
+  loadAPTemplateLibrary() {
+    const templateLibrary = new TemplateLibrary();
+    const promisedIndex =
+          templateLibrary.getTemplateIndex({ latestVersion: false, ciceroVersion });
+    return promisedIndex.then((templateIndex) => {
+      const templates = [];
+      for (const t in templateIndex) {
+        if (Object.prototype.hasOwnProperty.call(templateIndex, t)) {
+          templates.push({ 
+            key: templateIndex[t].uri, 
+            name: templateIndex[t].name,
+            text: templateIndex[t].description, 
+            version: templateIndex[t].version
+          });
+        }
+      }
+      this.setState({ templates });
+    });
+  }
+
   /**
    * Called by React when the component has been mounted into the DOM tree
    */
@@ -109,11 +141,6 @@ class TemplateLibrary extends React.PureComponent {
    * @return {*} the react component
    */
   render() {
-    let { templates } = this.props;
-    if (this.state.query.length) {
-      const query = new RegExp(this.state.query, 'i');
-      templates = templates.filter(t => t.name.match(query));
-    }
     return (
       <div>
         <TemplatesWrapper>
@@ -148,9 +175,9 @@ class TemplateLibrary extends React.PureComponent {
           </Functionality>
           <TemplateCards>
             {
-            _.sortBy(templates, ['name']).map(t => (
+            _.sortBy(this.state.templates, ['name']).map(t => (
               <TemplateCard
-                key={t.uri}
+                key={t.key}
                 addToCont={this.props.addToCont}
                 template={t}
                 handleViewTemplate={this.handleViewTemplate}
@@ -183,4 +210,4 @@ TemplateLibrary.propTypes = {
   templates: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default TemplateLibrary;
+export default TemplateLibraryComponent;
