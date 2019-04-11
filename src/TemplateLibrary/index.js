@@ -119,7 +119,7 @@ class TemplateLibrary extends React.PureComponent {
         <TemplatesWrapper>
           {/* <CustomLoader active={this.state.loading} /> */}
           <Header>
-            Smart Clauses
+            Clause Templates
             {this.props.import
             && <UploadImport
               onClick={this.props.import}
