@@ -9,8 +9,9 @@ The Accord Project Cicero UI Library can be used for implementing React componen
 3. `cd` into the directory.
 4. Run `npm install`.
 5. Build a production state with `npm run build`.
-6. Create a global link with `npm link`.
-7. Copy the <NAME> value from `package.json` for the link to Template Studio.
+6. Ensure the `<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,500i,700" rel="stylesheet">` line is in the *.html file of Template Studio.
+7. Create a global link with `npm link`.
+8. Copy the <NAME> value from `package.json` for the link to Template Studio.
 
 ## How this project is structured
 
