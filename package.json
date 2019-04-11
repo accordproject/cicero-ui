@@ -20,6 +20,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
+    "@accordproject/cicero-core": "^0.12.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "semantic-ui-css": "^2.4.1",
@@ -39,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.12.4",
+    "html-webpack-plugin": "^3.2.0",
     "nwb": "0.23.x",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
