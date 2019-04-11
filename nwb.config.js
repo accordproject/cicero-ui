@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 module.exports = {
   type: 'react-component',
   npm: {
@@ -5,8 +7,17 @@ module.exports = {
     umd: false
   },
   webpack: {
-    html: {
-      template: 'demo/src/index.html'
+    config(config) {
+      config.node = {
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
+      };
+      config.plugins.push(new HtmlWebpackPlugin({
+        template: 'demo/src/index.html', 
+        mountId: 'demo'
+      }))
+      return config;
     }
   }
 }
