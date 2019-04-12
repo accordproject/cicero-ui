@@ -131,7 +131,7 @@ class TemplateLibraryComponent extends React.PureComponent {
           <Functionality>
             <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
             <AddClauseBtn
-              content="New Smart Clause Template"
+              content="New Clause Template"
               color="blue"
               fluid
               icon="plus"
