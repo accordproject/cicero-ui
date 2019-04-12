@@ -70,13 +70,9 @@ class TemplateLibraryComponent extends React.PureComponent {
     super(props);
     this.state = {
       query: '',
-      loading: false,
-      templateUri: false,
       templates: []
     };
     this.onQueryChange = this.onQueryChange.bind(this);
-    this.handleHideTemplate = this.handleHideTemplate.bind(this);
-    this.handleViewTemplate = this.handleViewTemplate.bind(this);
   }
 
   componentDidMount() {
@@ -85,14 +81,6 @@ class TemplateLibraryComponent extends React.PureComponent {
 
   onQueryChange(e, el) {
     this.setState({ query: el.value });
-  }
-
-  handleViewTemplate(templateUri) {
-    this.setState({ templateUri });
-  }
-
-  handleHideTemplate() {
-    this.setState({ templateUri: false });
   }
 
   loadAPTemplateLibrary() {
