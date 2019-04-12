@@ -10,13 +10,10 @@ import { Button, Card, Input } from 'semantic-ui-react';
 
 /* Cicero */
 import { TemplateLibrary } from '@accordproject/cicero-core';
-import * as ciceroPackageJson from '@accordproject/cicero-core/package.json';
-const ciceroVersion = ciceroPackageJson.version;
+import { version as ciceroVersion } from '@accordproject/cicero-core/package.json';
 
 /* Internal */
-// import CustomLoader from '../CustomLoader';
 import TemplateCard from './TemplateCard';
-// import TemplateDetails from './TemplateDetails';
 
 const TemplatesWrapper = styled.div`
   position: relative;
@@ -83,7 +80,6 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   componentDidMount() {
-    // this.fetchTemplates();
     this.loadAPTemplateLibrary();
   }
 
@@ -97,19 +93,6 @@ class TemplateLibraryComponent extends React.PureComponent {
 
   handleHideTemplate() {
     this.setState({ templateUri: false });
-  }
-
-  fetchTemplates() {
-    if (this.props.templates.length > 0) return;
-
-    this.setState({ loading: true });
-    // templateMethods.fetchTemplates()
-    //   .then((templates) => {
-    //     this.setState({ loading: false, templates });
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ error, loading: false });
-    //   });
   }
 
   loadAPTemplateLibrary() {
@@ -133,10 +116,6 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   /**
-   * Called by React when the component has been mounted into the DOM tree
-   */
-
-  /**
    * Render this React component
    * @return {*} the react component
    */
@@ -144,7 +123,6 @@ class TemplateLibraryComponent extends React.PureComponent {
     return (
       <div>
         <TemplatesWrapper>
-          {/* <CustomLoader active={this.state.loading} /> */}
           <Header>
             Clause Templates
             {this.props.import
@@ -185,14 +163,6 @@ class TemplateLibraryComponent extends React.PureComponent {
             ))
           }
           </TemplateCards>
-          {/* <TemplateDetails
-          btnText="Add to Contract"
-          onClick={() => this.props.handleAddClause(this.state.templateUri)}
-          onClose={this.handleHideTemplate}
-          open={!!this.state.templateUri}
-          templates={this.props.templates}
-          templateUri={this.state.templateUri}
-        /> */}
         </TemplatesWrapper>
       </div>
     );
