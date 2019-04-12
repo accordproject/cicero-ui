@@ -1,12 +1,19 @@
 import _ from 'lodash';
+
+/* React */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+/* Styling */
 import styled from 'styled-components';
 import { Button, Card, Input } from 'semantic-ui-react';
 
-// import CustomLoader from '../CustomLoader';
+/* Cicero */
+import { TemplateLibrary } from '@accordproject/cicero-core';
+import { version as ciceroVersion } from '@accordproject/cicero-core/package.json';
+
+/* Internal */
 import TemplateCard from './TemplateCard';
-// import TemplateDetails from './TemplateDetails';
 
 const TemplatesWrapper = styled.div`
   position: relative;
@@ -58,66 +65,52 @@ const TemplateCards = styled(Card.Group)`
  * A Template Library component that will display the filtered list of templates
  * and provide drag-and-drop functionality.
  */
-class TemplateLibrary extends React.PureComponent {
+class TemplateLibraryComponent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
-      loading: false,
-      templateUri: false,
+      templates: []
     };
     this.onQueryChange = this.onQueryChange.bind(this);
-    this.handleHideTemplate = this.handleHideTemplate.bind(this);
-    this.handleViewTemplate = this.handleViewTemplate.bind(this);
   }
 
   componentDidMount() {
-    // this.fetchTemplates();
+    this.loadAPTemplateLibrary();
   }
 
   onQueryChange(e, el) {
     this.setState({ query: el.value });
   }
 
-  handleViewTemplate(templateUri) {
-    this.setState({ templateUri });
+  loadAPTemplateLibrary() {
+    const templateLibrary = new TemplateLibrary();
+    const promisedIndex =
+          templateLibrary.getTemplateIndex({ latestVersion: false, ciceroVersion });
+    return promisedIndex.then((templateIndex) => {
+      const templates = [];
+      for (const t in templateIndex) {
+        if (Object.prototype.hasOwnProperty.call(templateIndex, t)) {
+          templates.push({ 
+            key: templateIndex[t].uri, 
+            name: templateIndex[t].name,
+            text: templateIndex[t].description, 
+            version: templateIndex[t].version
+          });
+        }
+      }
+      this.setState({ templates });
+    });
   }
-
-  handleHideTemplate() {
-    this.setState({ templateUri: false });
-  }
-
-  fetchTemplates() {
-    if (this.props.templates.length > 0) return;
-
-    this.setState({ loading: true });
-    // templateMethods.fetchTemplates()
-    //   .then((templates) => {
-    //     this.setState({ loading: false, templates });
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ error, loading: false });
-    //   });
-  }
-
-  /**
-   * Called by React when the component has been mounted into the DOM tree
-   */
 
   /**
    * Render this React component
    * @return {*} the react component
    */
   render() {
-    let { templates } = this.props;
-    if (this.state.query.length) {
-      const query = new RegExp(this.state.query, 'i');
-      templates = templates.filter(t => t.name.match(query));
-    }
     return (
       <div>
         <TemplatesWrapper>
-          {/* <CustomLoader active={this.state.loading} /> */}
           <Header>
             Clause Templates
             {this.props.import
@@ -138,7 +131,7 @@ class TemplateLibrary extends React.PureComponent {
           <Functionality>
             <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
             <AddClauseBtn
-              content="New Smart Clause Template"
+              content="New Clause Template"
               color="blue"
               fluid
               icon="plus"
@@ -148,9 +141,9 @@ class TemplateLibrary extends React.PureComponent {
           </Functionality>
           <TemplateCards>
             {
-            _.sortBy(templates, ['name']).map(t => (
+            _.sortBy(this.state.templates, ['name']).map(t => (
               <TemplateCard
-                key={t.uri}
+                key={t.key}
                 addToCont={this.props.addToCont}
                 template={t}
                 handleViewTemplate={this.handleViewTemplate}
@@ -158,14 +151,6 @@ class TemplateLibrary extends React.PureComponent {
             ))
           }
           </TemplateCards>
-          {/* <TemplateDetails
-          btnText="Add to Contract"
-          onClick={() => this.props.handleAddClause(this.state.templateUri)}
-          onClose={this.handleHideTemplate}
-          open={!!this.state.templateUri}
-          templates={this.props.templates}
-          templateUri={this.state.templateUri}
-        /> */}
         </TemplatesWrapper>
       </div>
     );
@@ -183,4 +168,4 @@ TemplateLibrary.propTypes = {
   templates: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default TemplateLibrary;
+export default TemplateLibraryComponent;
