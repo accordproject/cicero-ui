@@ -73,34 +73,36 @@ class TemplateLibraryComponent extends React.PureComponent {
       templates: []
     };
     this.onQueryChange = this.onQueryChange.bind(this);
+    this.loadAPTemplateLibrary = this.loadAPTemplateLibrary.bind(this);
   }
 
   componentDidMount() {
-    this.loadAPTemplateLibrary();
+    this.loadAPTemplateLibrary()
+      .then(templates => {
+        this.props.outputTemplates(templates)
+      })
+      .catch(err => console.log(err))
   }
 
   onQueryChange(e, el) {
     this.setState({ query: el.value });
   }
 
-  loadAPTemplateLibrary() {
+  async loadAPTemplateLibrary() {
+    const templates = [];
     const templateLibrary = new TemplateLibrary();
-    const promisedIndex =
-          templateLibrary.getTemplateIndex({ latestVersion: false, ciceroVersion });
-    return promisedIndex.then((templateIndex) => {
-      const templates = [];
-      for (const t in templateIndex) {
-        if (Object.prototype.hasOwnProperty.call(templateIndex, t)) {
-          templates.push({ 
-            key: templateIndex[t].uri, 
-            name: templateIndex[t].name,
-            text: templateIndex[t].description, 
-            version: templateIndex[t].version
-          });
-        }
+    const templateIndex = await templateLibrary.getTemplateIndex({ latestVersion: false, ciceroVersion });
+    for (const t in templateIndex) {
+      if (Object.prototype.hasOwnProperty.call(templateIndex, t)) {
+        templates.push({ 
+          key: templateIndex[t].uri, 
+          name: templateIndex[t].name,
+          text: templateIndex[t].description, 
+          version: templateIndex[t].version
+        });
       }
-      this.setState({ templates });
-    });
+    }
+    return Promise.resolve(templates);
   }
 
   /**
@@ -111,7 +113,7 @@ class TemplateLibraryComponent extends React.PureComponent {
     return (
       <div>
         <TemplatesWrapper>
-          <Header>
+        <Header>
             Clause Templates
             {this.props.import
             && <UploadImport
@@ -141,7 +143,7 @@ class TemplateLibraryComponent extends React.PureComponent {
           </Functionality>
           <TemplateCards>
             {
-            _.sortBy(this.state.templates, ['name']).map(t => (
+            _.sortBy(this.props.templates, ['name']).map(t => (
               <TemplateCard
                 key={t.key}
                 addToCont={this.props.addToCont}
@@ -166,6 +168,7 @@ TemplateLibrary.propTypes = {
   addTemp: PropTypes.func,
   addToCont: PropTypes.func,
   templates: PropTypes.arrayOf(PropTypes.object),
+  outputTemplates: PropTypes.func
 };
 
 export default TemplateLibraryComponent;
