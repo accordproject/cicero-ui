@@ -65,23 +65,33 @@ const TemplateCards = styled(Card.Group)`
  * A Template Library component that will display the filtered list of templates
  * and provide drag-and-drop functionality.
  */
+
 class TemplateLibraryComponent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
-      templates: []
+      templates: [],
     };
     this.onQueryChange = this.onQueryChange.bind(this);
     this.loadAPTemplateLibrary = this.loadAPTemplateLibrary.bind(this);
   }
 
+  static propTypes = {
+    upload: PropTypes.func,
+    import: PropTypes.func,
+    addTemp: PropTypes.func,
+    addToCont: PropTypes.func,
+    templates: PropTypes.arrayOf(PropTypes.object),
+    outputTemplates: PropTypes.func,
+  }
+
   componentDidMount() {
     this.loadAPTemplateLibrary()
-      .then(templates => {
-        this.props.outputTemplates(templates)
+      .then((templates) => {
+        this.props.outputTemplates(templates);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   }
 
   onQueryChange(e, el) {
@@ -89,20 +99,11 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   async loadAPTemplateLibrary() {
-    const templates = [];
     const templateLibrary = new TemplateLibrary();
-    const templateIndex = await templateLibrary.getTemplateIndex({ latestVersion: false, ciceroVersion });
-    for (const t in templateIndex) {
-      if (Object.prototype.hasOwnProperty.call(templateIndex, t)) {
-        templates.push({ 
-          key: templateIndex[t].uri, 
-          name: templateIndex[t].name,
-          text: templateIndex[t].description, 
-          version: templateIndex[t].version
-        });
-      }
-    }
-    return Promise.resolve(templates);
+    const templateIndex = await templateLibrary
+      .getTemplateIndex({ latestVersion: false, ciceroVersion });
+    const templateIndexArray = Object.values(templateIndex);
+    return Promise.resolve(templateIndexArray);
   }
 
   /**
@@ -158,17 +159,5 @@ class TemplateLibraryComponent extends React.PureComponent {
     );
   }
 }
-
-/**
- * The property types for this component
- */
-TemplateLibrary.propTypes = {
-  upload: PropTypes.func,
-  import: PropTypes.func,
-  addTemp: PropTypes.func,
-  addToCont: PropTypes.func,
-  templates: PropTypes.arrayOf(PropTypes.object),
-  outputTemplates: PropTypes.func
-};
 
 export default TemplateLibraryComponent;
