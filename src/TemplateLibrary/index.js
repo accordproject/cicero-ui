@@ -61,6 +61,14 @@ const TemplateCards = styled(Card.Group)`
   width: 100%;
 `;
 
+const loadAPTemplateLibrary = async () => {
+  const templateLibrary = new TemplateLibrary();
+  const templateIndex = await templateLibrary
+    .getTemplateIndex({ latestVersion: false, ciceroVersion });
+  const templateIndexArray = Object.values(templateIndex);
+  return Promise.resolve(templateIndexArray);
+};
+
 /**
  * A Template Library component that will display the filtered list of templates
  * and provide drag-and-drop functionality.
@@ -74,7 +82,6 @@ class TemplateLibraryComponent extends React.PureComponent {
       templates: [],
     };
     this.onQueryChange = this.onQueryChange.bind(this);
-    this.loadAPTemplateLibrary = this.loadAPTemplateLibrary.bind(this);
   }
 
   static propTypes = {
@@ -87,23 +94,15 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.loadAPTemplateLibrary()
+    loadAPTemplateLibrary()
       .then((templates) => {
         this.props.outputTemplates(templates);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }
 
   onQueryChange(e, el) {
     this.setState({ query: el.value });
-  }
-
-  async loadAPTemplateLibrary() {
-    const templateLibrary = new TemplateLibrary();
-    const templateIndex = await templateLibrary
-      .getTemplateIndex({ latestVersion: false, ciceroVersion });
-    const templateIndexArray = Object.values(templateIndex);
-    return Promise.resolve(templateIndexArray);
   }
 
   /**
