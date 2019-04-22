@@ -11,5 +11,9 @@
       "react": {
         "version": "detect"
       }
+    },
+    "rules": {
+      "no-script-url": 0,
+      "no-console": [0, "error"]
     }
   }
