@@ -21,10 +21,6 @@ var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
@@ -120,47 +116,10 @@ var Functionality = _styledComponents["default"].div(_templateObject4());
 var SearchInput = (0, _styledComponents["default"])(_semanticUiReact.Input)(_templateObject5());
 var AddClauseBtn = (0, _styledComponents["default"])(_semanticUiReact.Button)(_templateObject6());
 var TemplateCards = (0, _styledComponents["default"])(_semanticUiReact.Card.Group)(_templateObject7());
-
-var loadAPTemplateLibrary =
-/*#__PURE__*/
-function () {
-  var _ref = (0, _asyncToGenerator2["default"])(
-  /*#__PURE__*/
-  _regenerator["default"].mark(function _callee() {
-    var templateLibrary, templateIndex, templateIndexArray;
-    return _regenerator["default"].wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            templateLibrary = new TemplateLibrary();
-            _context.next = 3;
-            return templateLibrary.getTemplateIndex({
-              latestVersion: false,
-              ciceroVersion: ciceroVersion
-            });
-
-          case 3:
-            templateIndex = _context.sent;
-            templateIndexArray = Object.values(templateIndex);
-            return _context.abrupt("return", Promise.resolve(templateIndexArray));
-
-          case 6:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function loadAPTemplateLibrary() {
-    return _ref.apply(this, arguments);
-  };
-}();
 /**
  * A Template Library component that will display the filtered list of templates
  * and provide drag-and-drop functionality.
  */
-
 
 var TemplateLibraryComponent =
 /*#__PURE__*/
@@ -173,30 +132,37 @@ function (_React$PureComponent) {
     (0, _classCallCheck2["default"])(this, TemplateLibraryComponent);
     _this = (0, _possibleConstructorReturn2["default"])(this, (0, _getPrototypeOf2["default"])(TemplateLibraryComponent).call(this, props));
     _this.state = {
-      query: '',
-      templates: []
+      query: ''
     };
     _this.onQueryChange = _this.onQueryChange.bind((0, _assertThisInitialized2["default"])(_this));
     return _this;
   }
 
   (0, _createClass2["default"])(TemplateLibraryComponent, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
+    key: "onQueryChange",
+    value: function onQueryChange(e, input) {
+      var query = input.value.toLowerCase().trim();
 
-      loadAPTemplateLibrary().then(function (templates) {
-        _this2.props.outputTemplates(templates);
-      })["catch"](function (err) {
-        return console.error(err);
-      });
+      if (query !== this.state.query) {
+        this.setState({
+          query: query
+        });
+      }
     }
   }, {
-    key: "onQueryChange",
-    value: function onQueryChange(e, el) {
-      this.setState({
-        query: el.value
-      });
+    key: "filterTemplates",
+    value: function filterTemplates(templates) {
+      var query = this.state.query;
+      var filteredTemplates = templates;
+
+      if (query.length) {
+        var regex = new RegExp(query, 'i');
+        filteredTemplates = _lodash["default"].filter(filteredTemplates, function (t) {
+          return t.name.match(regex) || t.uri.match(regex);
+        });
+      }
+
+      return filteredTemplates;
     }
     /**
      * Render this React component
@@ -206,8 +172,9 @@ function (_React$PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
+      var filtered = this.filterTemplates(this.props.templates);
       return _react["default"].createElement("div", null, _react["default"].createElement(TemplatesWrapper, null, _react["default"].createElement(Header, null, "Clause Templates", this.props["import"] && _react["default"].createElement(UploadImport, {
         onClick: this.props["import"],
         href: "javascript:void(0);"
@@ -227,12 +194,12 @@ function (_React$PureComponent) {
         icon: "plus",
         id: "addClauseBtn",
         onClick: this.props.addTemp
-      })), _react["default"].createElement(TemplateCards, null, _lodash["default"].sortBy(this.props.templates, ['name']).map(function (t) {
+      })), _react["default"].createElement(TemplateCards, null, _lodash["default"].sortBy(filtered, ['name']).map(function (t) {
         return _react["default"].createElement(_TemplateCard["default"], {
           key: t.uri,
-          addToCont: _this3.props.addToCont,
+          addToCont: _this2.props.addToCont,
           template: t,
-          handleViewTemplate: _this3.handleViewTemplate
+          handleViewTemplate: _this2.handleViewTemplate
         });
       }))));
     }
@@ -245,8 +212,7 @@ function (_React$PureComponent) {
   "import": _propTypes["default"].func,
   addTemp: _propTypes["default"].func,
   addToCont: _propTypes["default"].func,
-  templates: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  outputTemplates: _propTypes["default"].func
+  templates: _propTypes["default"].arrayOf(_propTypes["default"].object)
 });
 var _default = TemplateLibraryComponent;
 exports["default"] = _default;
