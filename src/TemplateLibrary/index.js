@@ -67,7 +67,6 @@ class TemplateLibraryComponent extends React.PureComponent {
     super(props);
     this.state = {
       query: '',
-      templates: [],
     };
     this.onQueryChange = this.onQueryChange.bind(this);
   }
@@ -80,8 +79,23 @@ class TemplateLibraryComponent extends React.PureComponent {
     templates: PropTypes.arrayOf(PropTypes.object),
   }
 
-  onQueryChange(e, el) {
-    this.setState({ query: el.value });
+  onQueryChange(e, input) {
+    const query = input.value.toLowerCase().trim();
+    if (query !== this.state.query) {
+      this.setState({ query });
+    }
+  }
+
+  filterTemplates(templates) {
+    const { query } = this.state;
+    let filteredTemplates = templates;
+    if (query.length) {
+      const regex = new RegExp(query, 'i');
+      filteredTemplates = _.filter(filteredTemplates, t => (
+        t.name.match(regex) || t.uri.match(regex)
+      ));
+    }
+    return filteredTemplates;
   }
 
   /**
@@ -89,6 +103,7 @@ class TemplateLibraryComponent extends React.PureComponent {
    * @return {*} the react component
    */
   render() {
+    const filtered = this.filterTemplates(this.props.templates);
     return (
       <div>
         <TemplatesWrapper>
@@ -122,7 +137,7 @@ class TemplateLibraryComponent extends React.PureComponent {
           </Functionality>
           <TemplateCards>
             {
-            _.sortBy(this.props.templates, ['name']).map(t => (
+            _.sortBy(filtered, ['name']).map(t => (
               <TemplateCard
                 key={t.uri}
                 addToCont={this.props.addToCont}
