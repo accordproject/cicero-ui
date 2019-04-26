@@ -64,5 +64,10 @@
   "repository": "",
   "keywords": [
     "react-component"
-  ]
+  ],
+  "jest": {
+    "setupFiles": [
+      "./src/utilities/test/jestEnzyme"
+    ]
+  }
 }
