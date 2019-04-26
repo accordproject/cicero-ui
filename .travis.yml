@@ -1,16 +1,21 @@
-sudo: false
-
 language: node_js
 node_js:
-  - 8
-
-before_install:
-  - npm install codecov.io coveralls
-
+  - '8'
+dist: trusty
+before_install: |
+  set -e
+  export PATH="./$HOME/node_modules/.bin:$PATH"
+  npm install -g @alrra/travis-scripts
+  date
+install: |
+  set -e
+  date
+  npm install
+  date
+script: npm run build && npm run test 2>&1
+after_failure: tail -n +1 -- /home/travis/.npm/_logs/*-debug.log
 after_success:
-  - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-
-branches:
-  only:
-    - master
+cache:
+  directories:
+  - node_modules
+services: 
