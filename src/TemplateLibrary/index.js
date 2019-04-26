@@ -107,7 +107,7 @@ class TemplateLibraryComponent extends React.PureComponent {
     return (
       <div>
         <TemplatesWrapper>
-        <Header>
+        <Header><p>I am not in the snapshot</p>
             Clause Templates
             {this.props.import
             && <UploadImport
