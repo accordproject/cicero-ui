@@ -14,6 +14,39 @@ The Accord Project Cicero UI Library can be used for implementing React componen
 8. Create a global link with `npm link`.
 9. Copy the <NAME> value from `package.json` for the link to Template Studio.
 
+---
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm run start`
+
+Runs the app in the development mode.<br>
+Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
+**NOTE**: These require templates to be passed down through props from an app in which these components should be rendered.
+
+### `npm run test`
+
+Launches JEST over the repository.
+
+### `npm run lint`
+
+Runs ESLint.
+
+### `npm run build`
+
+Builds the app for production to the `demo` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
+
+---
+
 ## How this project is structured
 
 Packages: 
