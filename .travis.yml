@@ -12,7 +12,7 @@ install: |
   date
   npm install
   date
-script: npm run test 2>&1
+script: npm run build && npm run test 2>&1
 after_failure: tail -n +1 -- /home/travis/.npm/_logs/*-debug.log
 after_success:
 cache:
