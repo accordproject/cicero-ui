@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TemplateLibrary /> on initialization renders page correctly 1`] = `
+<div>
+  <styled.div>
+    <styled.div>
+      Clause Templates
+    </styled.div>
+    <styled.div>
+      <Styled(Input)
+        className="icon"
+        fluid={true}
+        icon="search"
+        onChange={[Function]}
+        placeholder="Search..."
+      />
+      <Styled(Button)
+        color="blue"
+        content="New Clause Template"
+        fluid={true}
+        icon="plus"
+        id="addClauseBtn"
+      />
+    </styled.div>
+    <Styled(CardGroup) />
+  </styled.div>
+</div>
+`;
