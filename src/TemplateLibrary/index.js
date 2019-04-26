@@ -8,10 +8,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button, Card, Input } from 'semantic-ui-react';
 
-/* Cicero */
-import { TemplateLibrary } from '@accordproject/cicero-core';
-import { version as ciceroVersion } from '@accordproject/cicero-core/package.json';
-
 /* Internal */
 import TemplateCard from './TemplateCard';
 
@@ -61,14 +57,6 @@ const TemplateCards = styled(Card.Group)`
   width: 100%;
 `;
 
-const loadAPTemplateLibrary = async () => {
-  const templateLibrary = new TemplateLibrary();
-  const templateIndex = await templateLibrary
-    .getTemplateIndex({ latestVersion: false, ciceroVersion });
-  const templateIndexArray = Object.values(templateIndex);
-  return Promise.resolve(templateIndexArray);
-};
-
 /**
  * A Template Library component that will display the filtered list of templates
  * and provide drag-and-drop functionality.
@@ -79,7 +67,6 @@ class TemplateLibraryComponent extends React.PureComponent {
     super(props);
     this.state = {
       query: '',
-      templates: [],
     };
     this.onQueryChange = this.onQueryChange.bind(this);
   }
@@ -90,19 +77,25 @@ class TemplateLibraryComponent extends React.PureComponent {
     addTemp: PropTypes.func,
     addToCont: PropTypes.func,
     templates: PropTypes.arrayOf(PropTypes.object),
-    outputTemplates: PropTypes.func,
   }
 
-  componentDidMount() {
-    loadAPTemplateLibrary()
-      .then((templates) => {
-        this.props.outputTemplates(templates);
-      })
-      .catch(err => console.error(err));
+  onQueryChange(e, input) {
+    const query = input.value.toLowerCase().trim();
+    if (query !== this.state.query) {
+      this.setState({ query });
+    }
   }
 
-  onQueryChange(e, el) {
-    this.setState({ query: el.value });
+  filterTemplates(templates) {
+    const { query } = this.state;
+    let filteredTemplates = templates;
+    if (query.length) {
+      const regex = new RegExp(query, 'i');
+      filteredTemplates = _.filter(filteredTemplates, t => (
+        t.name.match(regex) || t.uri.match(regex)
+      ));
+    }
+    return filteredTemplates;
   }
 
   /**
@@ -110,6 +103,7 @@ class TemplateLibraryComponent extends React.PureComponent {
    * @return {*} the react component
    */
   render() {
+    const filtered = this.filterTemplates(this.props.templates);
     return (
       <div>
         <TemplatesWrapper>
@@ -143,9 +137,9 @@ class TemplateLibraryComponent extends React.PureComponent {
           </Functionality>
           <TemplateCards>
             {
-            _.sortBy(this.props.templates, ['name']).map(t => (
+            _.sortBy(filtered, ['name']).map(t => (
               <TemplateCard
-                key={t.key}
+                key={t.uri}
                 addToCont={this.props.addToCont}
                 template={t}
                 handleViewTemplate={this.handleViewTemplate}

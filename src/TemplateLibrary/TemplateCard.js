@@ -42,7 +42,7 @@ class TemplateCard extends React.Component {
   render() {
     const { template } = this.props;
     return (
-        <CardContainer fluid key={template.key}>
+        <CardContainer fluid key={template.uri}>
             <Card.Content>
               <TemplateLogo src={template.icon} />
               <Card.Header>
@@ -50,12 +50,12 @@ class TemplateCard extends React.Component {
                 <Version>v {template.version}</Version>
               </Card.Header>
               <DescriptionContainer>
-                {template.text}
+                {template.description}
               </DescriptionContainer>
             </Card.Content>
             <TemplateActions
               addToCont={this.props.addToCont}
-              uriKey={template.key}
+              uriKey={template.uri}
               handleViewDetails={this.props.handleViewTemplate}
             />
         </CardContainer>
