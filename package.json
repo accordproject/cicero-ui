@@ -9,7 +9,13 @@
     "build": "webpack --config webpack.config.js --mode production",
     "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore ./src",
     "test": "jest",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "publish": "./scripts/manualrelease.sh",
+    "pkgcheck": "node ./scripts/pkgcheck.js",
+    "pkgstamp": "node ./scripts/pkgstamp.js",
+    "pkgbump": "node ./scripts/pkgbump.js && node ./scripts/pkgcheck.js --fix",
+    "pkgset": "node ./scripts/pkgset.js",
+    "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
     "lodash": "^4.17.11",
