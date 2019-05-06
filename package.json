@@ -17,6 +17,8 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
+    "@accordproject/cicero-core": "^0.12.2",
+    "@accordproject/markdown-editor": "^0.2.7",
     "lodash": "^4.17.11",
     "node-sass": "^4.11.0",
     "prop-types": "^15.7.2",
