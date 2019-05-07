@@ -67,9 +67,9 @@ const contractProps = {
 //   }
 // }
 
-const ContractAssembler = props => (<MarkdownEditor markdown={props.markdown}
+const ContractAssembler = props => (<div><MarkdownEditor markdown={props.markdown}
         onChange={props.onChange}
-        plugins={props.plugins}/>);
+        plugins={props.plugins}/></div>);
 
 const ContractEditor = () => ContractAssembler(contractProps);
 
