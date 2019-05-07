@@ -6,10 +6,12 @@ import { ContractEditor } from '../../src';
 
 class Demo extends Component {
   render() {
-    return <div>
-      <ContractEditor/>
-    </div>;
+    return (
+    <div>
+      <ContractEditor />
+    </div>
+    );
   }
 }
 
-render(<Demo/>, document.querySelector('#demo'));
+render(<Demo/>, document.querySelector('#root'));
