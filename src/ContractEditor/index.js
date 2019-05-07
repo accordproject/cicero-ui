@@ -18,31 +18,65 @@ import { MarkdownEditor } from '@accordproject/markdown-editor';
 import List from '@accordproject/markdown-editor/dist/plugins/list';
 import ClausePlugin from './plugins/clausePlugin';
 
+function storeLocal(editor) {
+  localStorage.setItem('markdown-editor', editor.getMarkdown());
+}
+
+const defaultMarkdown = `# Supply Agreement
+  This is a supply agreement between Party A and Party B.
+  
+  # Payment
+  
+  <clause src="https://templates.accordproject.org/archives/full-payment-upon-signature@0.5.0.cta">
+  Upon the signing of this Agreement, "Dan" shall pay the total purchase price to "Steve" in the amount of 0.01 USD.
+  </clause>
+  
+  ## Late Delivery And Penalty
+  
+  <clause src="https://templates.accordproject.org/archives/latedeliveryandpenalty@0.9.1.cta">
+  Late Delivery and Penalty. In case of delayed delivery except for Force Majeure cases, "Dan" (the Seller) shall pay to "Steve" (the Buyer) for every 2 days of delay penalty amounting to 10.5% of the total value of the Equipment whose delivery has been delayed. Any fractional part of a days is to be considered a full days. The total amount of penalty shall not however, exceed 55% of the total value of the Equipment involved in late delivery. If the delay is more than 15 days, the Buyer is entitled to terminate this Contract.
+  </clause>
+  
+  End.
+  `;
+
+const contractProps = {
+  plugins: [List(), ClausePlugin()],
+  markdown: defaultMarkdown,
+  onChange: storeLocal,
+};
+
 /**
  * A rich text contract editor
  */
-class ContractEditor extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = props;
-    this.props.plugins.push(List(), ClausePlugin());
-  }
+// class ContractEditor extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.props = somethingHere;
+//     this.props.plugins.push(List(), ClausePlugin());
+//   }
 
-  /**
-   * Render this React component
-   * @return {*} the react component
-   */
-  render() {
-    return (<MarkdownEditor markdown={this.props.markdown}
-      onChange={this.props.onChange}
-      plugins={this.props.plugins}/>);
-  }
-}
+//   /**
+//    * Render this React component
+//    * @return {*} the react component
+//    */
+//   render() {
+//     return (<MarkdownEditor markdown={this.props.markdown}
+//       onChange={this.props.onChange}
+//       plugins={this.props.plugins}/>);
+//   }
+// }
+
+const ContractAssembler = props => (<MarkdownEditor markdown={props.markdown}
+        onChange={props.onChange}
+        plugins={props.plugins}/>);
+
+const ContractEditor = () => ContractAssembler(contractProps);
 
 /**
  * The property types for this component
  */
-ContractEditor.propTypes = {
+ContractAssembler.propTypes = {
   markdown: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
@@ -59,4 +93,4 @@ ContractEditor.propTypes = {
   })),
 };
 
-export { ContractEditor };
+export default ContractEditor;
