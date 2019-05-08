@@ -39,7 +39,7 @@ Other channels for support are:
 
 If you find a bug in the source code, you can help us by submitting an issue to our [GitHub Repository][github-issues]. Even better, you can submit a Pull Request with a fix.
 
-**Please see the **[**Submission Guidelines**](#submit)** below.**
+**Please see the **[**Submission Guidelines**](contributing.md#submit)** below.**
 
 ### <a name="feature"></a> Missing a Feature?
 
@@ -55,7 +55,7 @@ If you would like to implement a new feature then consider what kind of change i
 
   as a Pull Request. See the section about [Pull Request Submission Guidelines](contributing.md#submit-pr), and
 
-  for detailed information the [core development documentation](developers/).
+  for detailed information the [core development documentation][developers].
 
 ### <a name="docs"></a> Want a Doc Fix?
 
@@ -65,7 +65,7 @@ If you want to help improve the docs, it's a good idea to let others know what y
 
 If you're making a small change \(typo, phrasing\) don't worry about filing an issue first. Use the friendly blue "Improve this doc" button at the top right of the doc page to fork the repository in-place and make a quick change on the fly. The commit message is preformatted to the right type and scope, so you only have to add the description.
 
-For large fixes, please build and test the documentation before submitting the PR to be sure you haven't accidentally introduced any layout or formatting issues. You should also make sure that your commit message follows the [**Commit Message Guidelines**](developers/#commits).
+For large fixes, please build and test the documentation before submitting the PR to be sure you haven't accidentally introduced any layout or formatting issues. You should also make sure that your commit message follows the [**Commit Message Guidelines**][developers.commits].
 
 ## <a name="submit"></a> Issue Submission Guidelines
 
@@ -165,6 +165,9 @@ After your pull request is merged, you can safely delete your branch and pull th
     git pull --ff upstream master
   ```
 
+## License <a name="license"></a>
+Accord Project source code files are made available under the Apache License, Version 2.0 (Apache-2.0), located in the LICENSE file. Accord Project documentation files are made available under the Creative Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.
+
 [coc]: https://github.com/accordproject/docs/blob/master/Accord%20Project%20Code%20of%20Conduct.pdf
 [dco]: https://developercertificate.org/
 [developers]: DEVELOPERS.md
@@ -177,6 +180,3 @@ After your pull request is merged, you can safely delete your branch and pull th
 [github-new-issue]: https://github.com/accordproject/cicero-ui/issues/new
 [github]: https://github.com/accordproject/cicero-ui
 [pulls]: https://github.com/accordproject/cicero-ui/pulls
-
-## License <a name="license"></a>
-Accord Project source code files are made available under the Apache License, Version 2.0 (Apache-2.0), located in the LICENSE file. Accord Project documentation files are made available under the Creative Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.
