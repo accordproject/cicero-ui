@@ -61,6 +61,7 @@ function ClausePlugin() {
     const template = clauseNode.data.get('template');
 
     if (template) {
+      console.log(`Found template on node: ${template.getIdentifier()}`);
       try {
         const ciceroClause = new Clause(template);
         ciceroClause.parse(textNode.text.trim());
@@ -71,6 +72,8 @@ function ClausePlugin() {
         console.log(error);
         editor.command(BadParse, clauseNode, error);
       }
+    } else {
+      console.log('Template not found on node.');
     }
 
 
@@ -96,7 +99,7 @@ function ClausePlugin() {
      * @param {Editor} editor
      * @param {Function} next
      */
-  function renderNode(props, editor) {
+  function renderNode(props, editor, next) {
     // `next` in the arguments after `editor`
     renderNode.propTypes = {
       node: PropTypes.any,
@@ -107,13 +110,23 @@ function ClausePlugin() {
     const { node, children } = props;
     // `attributes` in the arguments after `node`
 
-    const { src } = node.data.get('attributes');
-    if (!node.data.get('template')) {
-      Template.fromUrl(src, null)
+    // REVIEW - this doesn't belong here. We should be pulling the templates
+    // from the redux store??
+    const nodeAttributes = node.data.get('attributes');
+    const loadedTemplate = node.data.get('template');
+    const src = nodeAttributes.get('src');
+
+    if (!loadedTemplate && src) {
+      console.log(`Loading template: ${src}`);
+      Template.fromUrl(src.toString())
         .then((template) => {
           const newData = node.data.asMutable();
           newData.set('template', template);
           editor.command(SetNodeData, node, newData);
+          console.log(`Template loaded: ${template.getIdentifier()}`);
+        })
+        .catch((err) => {
+          console.log(`Failed to load template: ${err}`);
         });
     }
 
