@@ -1,5 +1,7 @@
 # Cicero UI Library
 
+[![Build Status](https://travis-ci.org/accordproject/cicero-ui.svg?branch=master)](https://travis-ci.org/accordproject/cicero-ui) [![npm version](https://badge.fury.io/js/%40accordproject%2Fcicero-ui.svg)](https://badge.fury.io/js/%40accordproject%2Fcicero-ui)
+
 The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
 
 ## Development Instructions - Build
@@ -32,6 +34,7 @@ You will also see any lint errors in the console.
 ### `npm run test`
 
 Launches JEST over the repository.
+Current snapshot tests requires `npm test -- -u` in order to update when all changes are final.
 
 ### `npm run lint`
 
@@ -47,22 +50,15 @@ Your app is ready to be deployed!
 
 ---
 
-## How this project is structured
 
-Packages: 
-- `TemplateLibrary`: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format](https://github.com/accordproject/cicero).
+## Structure of the Code Repository
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+Top level repository (cicero-ui), with sub packages. The entire package is published as an independent npm module:
+- `TemplateLibrary` : Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
+- `ContractEditor` : This is a ReactJS component for a rich text contract editor. It is based on the [@accordproject/markdown-editor][markdown] component.
 
-Describe cicero-ui here.
+[cicero]: https://github.com/accordproject/cicero
+[markdown]: https://github.com/accordproject/markdown-editor
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
-
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
-
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+## License <a name="license"></a>
+Accord Project source code files are made available under the Apache License, Version 2.0 (Apache-2.0), located in the LICENSE file. Accord Project documentation files are made available under the Creative Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.
