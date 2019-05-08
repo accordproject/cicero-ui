@@ -15,7 +15,7 @@ const StyledIcon = styled(Icon)`
 /**
  * A plugin for a clause embedded in a contract
  */
-function ClausePlugin() {
+function ClausePlugin(templates) {
   const plugin = 'Clause';
   const tags = ['clause'];
   const markdownTags = ['clause'];
@@ -118,16 +118,25 @@ function ClausePlugin() {
 
     if (!loadedTemplate && src) {
       console.log(`Loading template: ${src}`);
-      Template.fromUrl(src.toString())
-        .then((template) => {
-          const newData = node.data.asMutable();
-          newData.set('template', template);
-          editor.command(SetNodeData, node, newData);
-          console.log(`Template loaded: ${template.getIdentifier()}`);
-        })
-        .catch((err) => {
-          console.log(`Failed to load template: ${err}`);
-        });
+      const temp = templates[src];
+      let newData;
+      if (temp) {
+        newData = node.data.asMutable();
+        newData.set('template', temp);
+        editor.command(SetNodeData, node, newData);
+        console.log(`Template received: ${temp.uri}`);
+      } else {
+        Template.fromUrl(src.toString())
+          .then((template) => {
+            newData = node.data.asMutable();
+            newData.set('template', template);
+            editor.command(SetNodeData, node, newData);
+            console.log(`Template loaded: ${template.getIdentifier()}`);
+          })
+          .catch((err) => {
+            console.log(`Failed to load template: ${err}`);
+          });
+      }
     }
 
     return (<ClauseComponent {...props}>{children}</ClauseComponent>);
