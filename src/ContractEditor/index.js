@@ -18,6 +18,9 @@ import { MarkdownEditor } from '@accordproject/markdown-editor';
 import List from '@accordproject/markdown-editor/dist/plugins/list';
 import ClausePlugin from './plugins/clausePlugin';
 
+/**
+ * A rich text contract editor
+ */
 function storeLocal(editor) {
   localStorage.setItem('markdown-editor', editor.getMarkdown());
 }
@@ -49,36 +52,21 @@ const contractProps = {
 /**
  * A rich text contract editor
  */
-// class ContractEditor extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.props = somethingHere;
-//     this.props.plugins.push(List(), ClausePlugin());
-//   }
-
-//   /**
-//    * Render this React component
-//    * @return {*} the react component
-//    */
-//   render() {
-//     return (<MarkdownEditor markdown={this.props.markdown}
-//       onChange={this.props.onChange}
-//       plugins={this.props.plugins}/>);
-//   }
-// }
-
-const ContractAssembler = props => (<div><MarkdownEditor markdown={props.markdown}
-        onChange={props.onChange}
-        plugins={props.plugins}/></div>);
-
-const ContractEditor = () => ContractAssembler(contractProps);
+const ContractEditor = props => (
+  <MarkdownEditor
+    markdown={props.markdown || contractProps.markdown}
+    onChange={props.onChange || contractProps.onChange}
+    plugins={props.plugins.push(List(), ClausePlugin(props.templates))}
+    templates={props.templates}
+  />
+);
 
 /**
  * The property types for this component
  */
-ContractAssembler.propTypes = {
+ContractEditor.propTypes = {
   markdown: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
@@ -91,6 +79,7 @@ ContractAssembler.propTypes = {
     markdownTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     schema: PropTypes.object.isRequired,
   })),
+  templates: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default ContractEditor;
