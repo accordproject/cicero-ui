@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
-<div>
-  <MarkdownEditor
-    markdown="# Supply Agreement
+<MarkdownEditor
+  markdown="# Supply Agreement
   This is a supply agreement between Party A and Party B.
   
   # Payment
@@ -20,97 +19,96 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
   
   End.
   "
-    onChange={[Function]}
-    plugins={
-      Array [
-        Object {
-          "fromHTML": [Function],
-          "fromMarkdown": [Function],
-          "markdownTags": Array [
-            "list",
-            "item",
-          ],
-          "onKeyDown": [Function],
-          "plugin": "list",
-          "renderNode": [Function],
-          "schema": Object {
-            "blocks": Object {
-              "list": Object {
-                "nodes": Array [
-                  Object {
-                    "match": Object {
-                      "type": "list_item",
-                    },
+  onChange={[Function]}
+  plugins={
+    Array [
+      Object {
+        "fromHTML": [Function],
+        "fromMarkdown": [Function],
+        "markdownTags": Array [
+          "list",
+          "item",
+        ],
+        "onKeyDown": [Function],
+        "plugin": "list",
+        "renderNode": [Function],
+        "schema": Object {
+          "blocks": Object {
+            "list": Object {
+              "nodes": Array [
+                Object {
+                  "match": Object {
+                    "type": "list_item",
                   },
-                ],
-              },
-              "list_item": Object {
-                "marks": Array [
-                  Object {
-                    "type": "bold",
-                  },
-                  Object {
-                    "type": "italic",
-                  },
-                ],
-                "nodes": Array [
-                  Object {
-                    "match": Array [
-                      Object {
-                        "object": "text",
-                      },
-                      Object {
-                        "type": "link",
-                      },
-                    ],
-                  },
-                ],
-                "parent": Object {
-                  "type": "list",
                 },
+              ],
+            },
+            "list_item": Object {
+              "marks": Array [
+                Object {
+                  "type": "bold",
+                },
+                Object {
+                  "type": "italic",
+                },
+              ],
+              "nodes": Array [
+                Object {
+                  "match": Array [
+                    Object {
+                      "object": "text",
+                    },
+                    Object {
+                      "type": "link",
+                    },
+                  ],
+                },
+              ],
+              "parent": Object {
+                "type": "list",
               },
             },
           },
-          "tags": Array [
-            "ul",
-            "ol",
-            "li",
-          ],
-          "toMarkdown": [Function],
         },
-        Object {
-          "fromHTML": [Function],
-          "fromMarkdown": [Function],
-          "markdownTags": Array [
-            "clause",
-          ],
-          "onChange": [Function],
-          "onKeyDown": [Function],
-          "plugin": "Clause",
-          "renderNode": [Function],
-          "renderToolbar": [Function],
-          "schema": Object {
-            "blocks": Object {
-              "Clause": Object {
-                "nodes": Array [
-                  Object {
-                    "match": Array [
-                      Object {
-                        "type": "paragraph",
-                      },
-                    ],
-                  },
-                ],
-              },
+        "tags": Array [
+          "ul",
+          "ol",
+          "li",
+        ],
+        "toMarkdown": [Function],
+      },
+      Object {
+        "fromHTML": [Function],
+        "fromMarkdown": [Function],
+        "markdownTags": Array [
+          "clause",
+        ],
+        "onChange": [Function],
+        "onKeyDown": [Function],
+        "plugin": "Clause",
+        "renderNode": [Function],
+        "renderToolbar": [Function],
+        "schema": Object {
+          "blocks": Object {
+            "Clause": Object {
+              "nodes": Array [
+                Object {
+                  "match": Array [
+                    Object {
+                      "type": "paragraph",
+                    },
+                  ],
+                },
+              ],
             },
           },
-          "tags": Array [
-            "clause",
-          ],
-          "toMarkdown": [Function],
         },
-      ]
-    }
-  />
-</div>
+        "tags": Array [
+          "clause",
+        ],
+        "toMarkdown": [Function],
+      },
+    ]
+  }
+/>
 `;

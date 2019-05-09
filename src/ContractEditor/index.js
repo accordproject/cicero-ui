@@ -56,7 +56,7 @@ const ContractEditor = props => (
   <MarkdownEditor
     markdown={props.markdown || contractProps.markdown}
     onChange={props.onChange || contractProps.onChange}
-    plugins={props.plugins.push(List(), ClausePlugin(props.templates))}
+    plugins={props.plugins.concat([List(), ClausePlugin(props.templates)])}
     templates={props.templates}
   />
 );
