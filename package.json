@@ -81,6 +81,9 @@
   "jest": {
     "setupFiles": [
       "./src/utilities/test/jestEnzyme"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss|sass|styl)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   }
 }
