@@ -49,26 +49,9 @@ const contractProps = {
 /**
  * A rich text contract editor
  */
-// class ContractEditor extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.props = somethingHere;
-//     this.props.plugins.push(List(), ClausePlugin());
-//   }
-
-//   /**
-//    * Render this React component
-//    * @return {*} the react component
-//    */
-//   render() {
-//     return (<MarkdownEditor markdown={this.props.markdown}
-//       onChange={this.props.onChange}
-//       plugins={this.props.plugins}/>);
-//   }
-// }
-
 const ContractAssembler = props => (<div><MarkdownEditor markdown={props.markdown}
         onChange={props.onChange}
+        lockText={true}
         plugins={props.plugins}/></div>);
 
 const ContractEditor = () => ContractAssembler(contractProps);
@@ -79,6 +62,7 @@ const ContractEditor = () => ContractAssembler(contractProps);
 ContractAssembler.propTypes = {
   markdown: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  lockText: PropTypes.bool.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,

@@ -1,5 +1,5 @@
 import { Mark } from 'slate';
-import Text from '../utilities/text';
+import Text from './text';
 
 export default function AddParsingErrorMark(editor, node, err) {
   function getLineText(offset) {
@@ -8,7 +8,8 @@ export default function AddParsingErrorMark(editor, node, err) {
   }
 
   function getLineLength(offset) {
-    return getLineText(offset).length;
+    const lineText = getLineText(offset);
+    return lineText ? lineText.length : 0;
   }
 
   function extractTextPosition(message) {
@@ -43,6 +44,7 @@ export default function AddParsingErrorMark(editor, node, err) {
 
   editor
     .withoutSaving(() => {
-      editor.addMarkByKey(node.getFirstText().key, charIndex, node.text.length, Mark.create({ type: 'error' }));
+      const textNode = node.getFirstText();
+      editor.addMarkByKey(textNode.key, charIndex, Math.min(5, textNode.text.length), Mark.create({ data: null, type: 'error' }));
     });
 }

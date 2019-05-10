@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Template, Clause } from '@accordproject/cicero-core';
-import BadParse from '../commands/BadParse';
-import GoodParse from '../commands/GoodParse';
-import SetNodeData from '../commands/SetNodeData';
+import BadParse from '../../SlateCommands/BadParse';
+import GoodParse from '../../SlateCommands/GoodParse';
+import SetNodeData from '../../SlateCommands/SetNodeData';
 import ClauseComponent from '../components/ClauseComponent';
 
 const StyledIcon = styled(Icon)`

@@ -6,5 +6,5 @@ export default function GoodParse(editor, node, parseResult) {
   newData.set('json', JSON.stringify(parseResult, null, 4));
   newData.set('valid', true);
   newData.set('error', null);
-  editor.command(SetNodeData, node, newData).command(RemoveErrorMark, node, node.text.length);
+  editor.command(SetNodeData, node, newData).command(RemoveErrorMark, node);
 }
