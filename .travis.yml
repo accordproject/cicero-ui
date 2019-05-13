@@ -12,7 +12,7 @@ install: |
   date
   npm install
   date
-script: npm run build && npm run transpile && npm run test 2>&1
+script: npm run build && npm run test 2>&1
 deploy:
   provider: script
   script:
