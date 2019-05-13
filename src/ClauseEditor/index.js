@@ -99,7 +99,7 @@ function ClauseEditor(props) {
         ref={editorRef}
         {...props}
         onChange={(editor) => {
-          const text = editor.getPlainText().replace(/{{/g, '').replace(/}}/g, '');
+          const text = editor.getMarkdown();
           setPlainText(text);
           props.onChange(editor);
         }}
