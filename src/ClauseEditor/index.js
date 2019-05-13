@@ -114,6 +114,7 @@ function ClauseEditor(props) {
 ClauseEditor.propTypes = {
   markdown: PropTypes.string,
   onParse: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   lockText: PropTypes.bool.isRequired,
   templateUrl: PropTypes.string.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
