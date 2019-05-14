@@ -3,6 +3,7 @@
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <div>
   <MarkdownEditor
+    lockText={true}
     markdown="# Supply Agreement
   This is a supply agreement between Party A and Party B.
   
@@ -32,7 +33,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
           ],
           "onKeyDown": [Function],
           "plugin": "list",
-          "renderNode": [Function],
+          "renderBlock": [Function],
           "schema": Object {
             "blocks": Object {
               "list": Object {
