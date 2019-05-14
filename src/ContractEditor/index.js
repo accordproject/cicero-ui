@@ -56,8 +56,8 @@ const ContractEditor = props => (
   <MarkdownEditor
     markdown={props.markdown || contractProps.markdown}
     onChange={props.onChange || contractProps.onChange}
-    plugins={props.plugins.concat([List(), ClausePlugin(props.templates)])}
-    templates={props.templates}
+    plugins={props.plugins.concat([List(), ClausePlugin(props.getTemplateFromUrl)])}
+    getTemplateFromUrl={props.getTemplateFromUrl}
     lockText={true}
   />
 );
@@ -81,7 +81,7 @@ ContractEditor.propTypes = {
     markdownTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     schema: PropTypes.object.isRequired,
   })),
-  templates: PropTypes.arrayOf(PropTypes.object),
+  getTemplateFromUrl: PropTypes.func.isRequired,
 };
 
 export default ContractEditor;
