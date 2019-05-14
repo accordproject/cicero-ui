@@ -12,36 +12,31 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Icon, Message, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { MarkdownEditor } from '@accordproject/markdown-editor';
 import { Template, Clause } from '@accordproject/cicero-core';
-import BadParse from '../SlateCommands/BadParse';
-import GoodParse from '../SlateCommands/GoodParse';
 import './ClauseEditor.css';
 
 /**
  * Clause Editor React component. The component displays the text of the
- * Clause in a MarkdownEditor and parses the text uses an associated template.
+ * Clause in a MarkdownEditor and parses the text using an associated template.
  * @param {*} props the props for the component. See the declared PropTypes
  * for details.
  */
 function ClauseEditor(props) {
-  /**
-   * A reference to the Markdown Editor. We need this is the parsing effect
-   * to get the contents of the editor
-   */
-  const editorRef = useRef(null);
-
   /**
    * A flag that indicates we are currenty loading the template for this clause
    */
   const [loadingTemplate, setLoadingTemplate] = useState(false);
 
   /**
-   * The loaded template associated with this Clause. This is set by the next effect.
+   * The loaded template associated with this Clause. This defaults
+   * to the template that was passed in props. If no template is specified
+   * in props then the template is loaded from the props.templateUrl.
    */
-  const [template, setTemplate] = useState(null);
+  const [template, setTemplate] = useState(props.template);
 
   /**
    * The error loading the template
@@ -49,12 +44,40 @@ function ClauseEditor(props) {
   const [error, setError] = useState(null);
 
   /**
-   * The plain text contents of the editor
+   * The contents of the editor
    */
-  const [plainText, setPlainText] = useState('');
+  const [editorText, setEditorText] = useState(props.markdown);
 
   /**
-   * Loads the template set in props.templateUrl
+   * The result of parsing
+   */
+  const [parseResult, setParseResult] = useState(null);
+
+  /**
+   * The text to parse
+   */
+  const [parseText, setParseText] = useState(null);
+
+  /**
+   * Sets the editorText when the template changes, or the props.clauseData.
+   */
+  useEffect(() => {
+    if (template) {
+      if (props.clauseData) {
+        // @ts-ignore
+        const ciceroClause = new Clause(template);
+        ciceroClause.setData(props.clauseData);
+        const text = ciceroClause.generateText(/* { wrapVariables: true } */);
+        setEditorText(text);
+      } else {
+        setEditorText(template.getMetadata().getSample());
+      }
+    }
+  }, [props.clauseData, template]);
+
+  /**
+   * Loads the template set in props.templateUrl if
+   * props.template is not set
    */
   useEffect(() => {
     if (!loadingTemplate && !template && !error) {
@@ -62,48 +85,72 @@ function ClauseEditor(props) {
       Template.fromUrl(props.templateUrl)
         .then((template) => {
           setTemplate(template);
+          console.log(`setTemplate: ${template.getIdentifier()}`);
         })
         .catch((err) => {
           setError(err.message);
         });
     }
-  });
+  }, [error, loadingTemplate, props.templateUrl, template]);
 
   /**
-   * Parses the contents of the editor using the loaded template
+   * Parses the contents of parseText using the loaded template
+   * and calls props.onParse with the results
    */
   useEffect(() => {
-    // if we haven't loaded the template yet, we skip parsing
-    const markdownEditor = editorRef.current;
-    const slateEditor = markdownEditor.editor.current;
-
-    if (markdownEditor && template && slateEditor) {
-      const block = slateEditor.value.document.getBlocks().get(0);
-
+    if (template && parseText) {
       try {
+        // @ts-ignore
         const ciceroClause = new Clause(template);
-        ciceroClause.parse(plainText);
+        ciceroClause.parse(parseText);
         const parseResult = ciceroClause.getData();
+        setParseResult(parseResult);
         props.onParse(parseResult);
-        slateEditor.command(GoodParse, block, parseResult);
       } catch (error) {
+        setParseResult(error);
         props.onParse(error);
-        slateEditor.command(BadParse, block, error);
       }
     }
-  });
+  }, [parseText, props, template]);
+
+  let message = null;
+
+  if (parseResult) {
+    if (parseResult.toString().startsWith('Error')) {
+      message = <Message negative attached='bottom'>
+    <Icon name='warning sign'/>
+    {parseResult.toString()}
+  </Message>;
+    } else {
+      message = <Message positive attached='bottom'>
+    <Icon name='check square'/>
+    {JSON.stringify(parseResult, null, 2)}
+  </Message>;
+    }
+  }
+
+  if (!parseResult) {
+    message = <Message positive attached='bottom'>
+    <Icon name='circle notched' loading />
+    Loading...
+  </Message>;
+  }
+
+  const plugins = [];
 
   return (
     <div>
       <MarkdownEditor
-        ref={editorRef}
-        {...props}
-        onChange={(editor) => {
-          const text = editor.getPlainText().replace(/{{/g, '').replace(/}}/g, '');
-          setPlainText(text);
-          props.onChange(editor);
+        markdownMode={false}
+        markdown={editorText}
+        lockText={props.lockText}
+        plugins={plugins}
+        onChange={(value, markdown) => {
+          setParseText(markdown.trim());
+          props.onChange(value, markdown);
         }}
       />
+      {message}
     </div>
   );
 }
@@ -112,10 +159,13 @@ function ClauseEditor(props) {
  * The property types for this component
  */
 ClauseEditor.propTypes = {
-  markdown: PropTypes.string,
+  clauseData: PropTypes.object,
+  markdown: PropTypes.string.isRequired,
   onParse: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   lockText: PropTypes.bool.isRequired,
-  templateUrl: PropTypes.string.isRequired,
+  templateUrl: PropTypes.string,
+  template: PropTypes.object,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
