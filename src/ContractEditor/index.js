@@ -58,6 +58,7 @@ const ContractEditor = props => (
     onChange={props.onChange || contractProps.onChange}
     plugins={props.plugins.concat([List(), ClausePlugin(props.templates)])}
     templates={props.templates}
+    lockText={true}
   />
 );
 
@@ -66,7 +67,8 @@ const ContractEditor = props => (
  */
 ContractEditor.propTypes = {
   markdown: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  lockText: PropTypes.bool.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,

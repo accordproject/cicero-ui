@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/cicero-ui",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "cicero-ui React component",
   "main": "dist/index.js",
   "scripts": {
@@ -18,68 +18,74 @@
   },
   "dependencies": {
     "@accordproject/cicero-core": "^0.12.2",
-    "@accordproject/markdown-editor": "^0.2.7",
+    "@accordproject/markdown-editor": "^0.3.3",
     "lodash": "^4.17.11",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-table": "^6.10.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.86.0",
+    "semantic-ui-react": "^0.87.1",
     "styled-components": "^4.2.0"
   },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-transform-modules-commonjs": "^7.4.4",
-    "@babel/plugin-transform-runtime": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
-    "@clausehq/eslint-config": "^0.1.6",
+    "@clausehq/eslint-config": "^0.1.7",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "clean-webpack-plugin": "^2.0.1",
+    "clean-webpack-plugin": "^2.0.2",
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-loopback": "^13.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jest": "^22.4.1",
+    "eslint-config-loopback": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^22.5.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react": "^7.13.0",
     "file-loader": "^3.0.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "jest": "^24.7.1",
+    "jest": "^24.8.0",
     "license-check": "1.1.5",
     "moment-mini": "2.22.1",
     "sass-loader": "^7.1.0",
-    "semver": "5.6.0",
+    "semver": "6.0.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1"
   },
-  "author": "",
-  "homepage": "",
-  "license": "MIT",
-  "repository": "",
+  "author": "Accord Project",
+  "homepage": "https://github.com/accordproject/cicero-ui",
+  "license": "Apache-2",
+  "repository": "https://github.com/accordproject/cicero-ui.git",
   "keywords": [
-    "react-component"
+    "react-component",
+    "cicero",
+    "ui"
   ],
   "jest": {
     "setupFiles": [
       "./src/utilities/test/jestEnzyme"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss|sass|styl)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   }
 }

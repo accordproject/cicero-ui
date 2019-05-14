@@ -1,8 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
-<MarkdownEditor
-  markdown="# Supply Agreement
+<div>
+  <MarkdownEditor
+    lockText={true}
+    markdown="# Supply Agreement
   This is a supply agreement between Party A and Party B.
   
   # Payment
