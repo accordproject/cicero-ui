@@ -15,7 +15,7 @@ const StyledIcon = styled(Icon)`
 /**
  * A plugin for a clause embedded in a contract
  */
-function ClausePlugin(getTemplateFromUrl) {
+function ClausePlugin(loadTemplateObject) {
   const plugin = 'Clause';
   const tags = ['clause'];
   const markdownTags = ['clause'];
@@ -113,21 +113,11 @@ function ClausePlugin(getTemplateFromUrl) {
     // REVIEW - this doesn't belong here. We should be pulling the templates
     // from the redux store??
     const nodeAttributes = node.data.get('attributes');
-    const loadedTemplate = node.data.get('template');
     const src = nodeAttributes.get('src');
 
-    if (!loadedTemplate && src) {
-      console.log(`Loading template: ${src}`);
-      getTemplateFromUrl(src.toString())
-        .then((template) => {
-          const newData = node.data.asMutable();
-          newData.set('template', template);
-          editor.command(SetNodeData, node, newData);
-          console.log(`Template loaded: ${template.getIdentifier()}`);
-        })
-        .catch((err) => {
-          console.log(`Failed to load template: ${err}`);
-        });
+    if (src) {
+      console.log(`handing over responsibility of loading: ${src}`);
+      loadTemplateObject(src.toString());
     }
 
     return (<ClauseComponent {...props}>{children}</ClauseComponent>);
