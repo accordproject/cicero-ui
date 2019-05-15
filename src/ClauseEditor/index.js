@@ -12,12 +12,18 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
-import { Icon, Message, Segment } from 'semantic-ui-react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { MarkdownEditor } from '@accordproject/markdown-editor';
-import { Template, Clause } from '@accordproject/cicero-core';
+import { Clause } from '@accordproject/cicero-core';
+import ParseResult from '../ParseResult';
+
 import './ClauseEditor.css';
+
+/**
+ * We don't extend the editor with any custom plugins
+ */
+const plugins = [];
 
 /**
  * Clause Editor React component. The component displays the text of the
@@ -27,26 +33,10 @@ import './ClauseEditor.css';
  */
 function ClauseEditor(props) {
   /**
-   * A flag that indicates we are currenty loading the template for this clause
+   * We cache the previous parse input so that we
+   * only call parse when it changes.
    */
-  const [loadingTemplate, setLoadingTemplate] = useState(false);
-
-  /**
-   * The loaded template associated with this Clause. This defaults
-   * to the template that was passed in props. If no template is specified
-   * in props then the template is loaded from the props.templateUrl.
-   */
-  const [template, setTemplate] = useState(props.template);
-
-  /**
-   * The error loading the template
-   */
-  const [error, setError] = useState(null);
-
-  /**
-   * The contents of the editor
-   */
-  const [editorText, setEditorText] = useState(props.markdown);
+  const [prevParse, setPrevParse] = useState(null);
 
   /**
    * The result of parsing
@@ -54,104 +44,41 @@ function ClauseEditor(props) {
   const [parseResult, setParseResult] = useState(null);
 
   /**
-   * The text to parse
+   * Called when the underlying MarkdownEditor changes
    */
-  const [parseText, setParseText] = useState(null);
-
-  /**
-   * Sets the editorText when the template changes, or the props.clauseData.
-   */
-  useEffect(() => {
-    if (template) {
-      if (props.clauseData) {
-        // @ts-ignore
-        const ciceroClause = new Clause(template);
-        ciceroClause.setData(props.clauseData);
-        const text = ciceroClause.generateText(/* { wrapVariables: true } */);
-        setEditorText(text);
-      } else {
-        setEditorText(template.getMetadata().getSample());
-      }
-    }
-  }, [props.clauseData, template]);
-
-  /**
-   * Loads the template set in props.templateUrl if
-   * props.template is not set
-   */
-  useEffect(() => {
-    if (!loadingTemplate && !template && !error) {
-      setLoadingTemplate(true);
-      Template.fromUrl(props.templateUrl)
-        .then((template) => {
-          setTemplate(template);
-          console.log(`setTemplate: ${template.getIdentifier()}`);
-        })
-        .catch((err) => {
-          setError(err.message);
-        });
-    }
-  }, [error, loadingTemplate, props.templateUrl, template]);
-
-  /**
-   * Parses the contents of parseText using the loaded template
-   * and calls props.onParse with the results
-   */
-  useEffect(() => {
-    if (template && parseText) {
+  const onChange = useCallback((value, markdown) => {
+    const trimmed = markdown.trim();
+    if (props.template && trimmed !== prevParse) {
       try {
         // @ts-ignore
-        const ciceroClause = new Clause(template);
-        ciceroClause.parse(parseText);
+        const ciceroClause = new Clause(props.template);
+        ciceroClause.parse(trimmed);
         const parseResult = ciceroClause.getData();
         setParseResult(parseResult);
+        console.log('setParseResult');
         props.onParse(parseResult);
       } catch (error) {
+        console.log('setParseResult - error');
         setParseResult(error);
         props.onParse(error);
       }
+
+      setPrevParse(trimmed);
     }
-  }, [parseText, props, template]);
-
-  let message = null;
-
-  if (parseResult) {
-    if (parseResult.toString().startsWith('Error')) {
-      message = <Message negative attached='bottom'>
-    <Icon name='warning sign'/>
-    {parseResult.toString()}
-  </Message>;
-    } else {
-      message = <Message positive attached='bottom'>
-    <Icon name='check square'/>
-    {JSON.stringify(parseResult, null, 2)}
-  </Message>;
-    }
-  }
-
-  if (!parseResult) {
-    message = <Message positive attached='bottom'>
-    <Icon name='circle notched' loading />
-    Loading...
-  </Message>;
-  }
-
-  const plugins = [];
+    props.onChange(value, markdown);
+  }, [prevParse, props]);
 
   return (
-    <div>
-      <MarkdownEditor
-        markdownMode={false}
-        markdown={editorText}
-        lockText={props.lockText}
-        plugins={plugins}
-        onChange={(value, markdown) => {
-          setParseText(markdown.trim());
-          props.onChange(value, markdown);
-        }}
-      />
-      {message}
-    </div>
+      <div>
+        <MarkdownEditor
+          markdownMode={false}
+          markdown={props.markdown}
+          lockText={props.lockText}
+          plugins={plugins}
+          onChange={onChange}
+        />
+        <ParseResult parseResult={parseResult}/>
+      </div>
   );
 }
 
