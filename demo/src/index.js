@@ -29,7 +29,7 @@ function Demo(props) {
   return (
     <div>
       <TemplateLoadingClauseEditor
-        lockText={false}
+        lockText={true}
         markdown={initialMarkdown}
         templateUrl={templateUrl}
         onChange={onChange}

@@ -86,13 +86,35 @@ function ClauseEditor(props) {
  * The property types for this component
  */
 ClauseEditor.propTypes = {
-  clauseData: PropTypes.object,
+
+  /**
+   * Initial contents of the editor (clause text)
+   */
   markdown: PropTypes.string.isRequired,
+
+  /**
+   * Callback when parsing is completed
+   */
   onParse: PropTypes.func.isRequired,
+
+  /**
+   * Callback when contents of the editor changes
+   */
   onChange: PropTypes.func.isRequired,
+
+  /**
+   * When true only the variables in the template are editable
+   */
   lockText: PropTypes.bool.isRequired,
-  templateUrl: PropTypes.string,
-  template: PropTypes.object,
+
+  /**
+   * The Cicero template for the clause
+   */
+  template: PropTypes.object.isRequired,
+
+  /**
+   * An array of plugins that can extend the underlying markdown editor
+   */
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
