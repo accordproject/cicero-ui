@@ -2,8 +2,18 @@
 
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <div>
-  <MarkdownEditor
-    onChange={[Function]}
-  />
+  <ClauseEditor />
+  <Message
+    attached="bottom"
+    positive={true}
+  >
+    <Icon
+      as="i"
+      loading={true}
+      name="circle notched"
+    />
+    Loading 
+    ...
+  </Message>
 </div>
 `;
