@@ -3,7 +3,12 @@
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <div>
   <MarkdownEditor
+    markdownMode={false}
     onChange={[Function]}
+    plugins={Array []}
+  />
+  <ParseResult
+    parseResult={null}
   />
 </div>
 `;
