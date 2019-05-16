@@ -90,8 +90,10 @@ function TemplateLoadingClauseEditor(props) {
       template={template}
       onChange={props.onChange}
       onParse={props.onParse}
+      showEditButton={props.showEditButton}
+      showParse={props.showParse}
       />
-      {message}
+      { props.showMessage ? message : null }
     </div>
   );
 }
@@ -106,6 +108,17 @@ TemplateLoadingClauseEditor.propTypes = {
   lockText: PropTypes.bool.isRequired,
   templateUrl: PropTypes.string,
   template: PropTypes.object,
+  showEditButton: PropTypes.bool,
+  showParse: PropTypes.bool,
+  showMessage: PropTypes.bool
 };
+/**
+ * The default property values for this component
+ */
+TemplateLoadingClauseEditor.defaultProps = {
+  showEditButton: true,
+  showParse: true,
+  showMessage: true,
+}
 
 export default TemplateLoadingClauseEditor;
