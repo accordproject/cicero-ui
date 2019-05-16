@@ -18,7 +18,7 @@ import { MarkdownEditor } from '@accordproject/markdown-editor';
 import { Template, Clause } from '@accordproject/cicero-core';
 import BadParse from '../SlateCommands/BadParse';
 import GoodParse from '../SlateCommands/GoodParse';
-import './ClauseEditor.css';
+// import './ClauseEditor.css';
 
 /**
  * Clause Editor React component. The component displays the text of the

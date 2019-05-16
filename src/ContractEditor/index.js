@@ -19,7 +19,7 @@ import List from '@accordproject/markdown-editor/dist/plugins/list';
 import ClausePlugin from './plugins/clausePlugin';
 
 /**
- * A rich text contract editor
+ * Adds the current markdown to local storage
  */
 function storeLocal(editor) {
   localStorage.setItem('markdown-editor', editor.getMarkdown());
@@ -56,7 +56,11 @@ const ContractEditor = props => (
   <MarkdownEditor
     markdown={props.markdown || contractProps.markdown}
     onChange={props.onChange || contractProps.onChange}
-    plugins={props.plugins.concat([List(), ClausePlugin(props.loadTemplateObject)])}
+    plugins={
+      props.plugins
+        ? props.plugins.concat([List(), ClausePlugin(props.loadTemplateObject, props.parseClause)])
+        : [List(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+    }
     lockText={true}
   />
 );
@@ -66,8 +70,8 @@ const ContractEditor = props => (
  */
 ContractEditor.propTypes = {
   markdown: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  lockText: PropTypes.bool.isRequired,
+  onChange: PropTypes.func,
+  lockText: PropTypes.bool,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
@@ -81,6 +85,7 @@ ContractEditor.propTypes = {
     schema: PropTypes.object.isRequired,
   })),
   loadTemplateObject: PropTypes.func.isRequired,
+  parseClause: PropTypes.func.isRequired,
 };
 
 export default ContractEditor;

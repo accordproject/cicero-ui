@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Template, Clause } from '@accordproject/cicero-core';
+import { Clause } from '@accordproject/cicero-core';
 import BadParse from '../../SlateCommands/BadParse';
 import GoodParse from '../../SlateCommands/GoodParse';
 import SetNodeData from '../../SlateCommands/SetNodeData';
@@ -15,7 +15,7 @@ const StyledIcon = styled(Icon)`
 /**
  * A plugin for a clause embedded in a contract
  */
-function ClausePlugin(loadTemplateObject) {
+function ClausePlugin(loadTemplateObject, parseClause) {
   const plugin = 'Clause';
   const tags = ['clause'];
   const markdownTags = ['clause'];
@@ -57,26 +57,13 @@ function ClausePlugin(loadTemplateObject) {
     if (!clauseNode) {
       return next();
     }
+    console.log('cl n', clauseNode.data);
 
-    const template = clauseNode.data.get('template');
-
-    if (template) {
-      console.log(`Found template on node: ${template.getIdentifier()}`);
-      try {
-        const ciceroClause = new Clause(template);
-        ciceroClause.parse(textNode.text.trim());
-        const parseResult = ciceroClause.getData();
-        console.log(parseResult);
-        editor.command(GoodParse, clauseNode, parseResult);
-      } catch (error) {
-        console.log(error);
-        editor.command(BadParse, clauseNode, error);
-      }
-    } else {
-      console.log('Template not found on node.');
-    }
-
-
+    const nodeAttributes = clauseNode.data.get('attributes');
+    const src = { nodeAttributes };
+    parseClause(src, textNode.text.trim())
+      .then(parseResult => console.log(parseResult))
+      .catch(error => console.log(error));
     return next();
   }
 
@@ -100,6 +87,7 @@ function ClausePlugin(loadTemplateObject) {
      * @param {Function} next
      */
   function renderNode(props, editor, next) {
+    console.log('in hereee');
     // `next` in the arguments after `editor`
     renderNode.propTypes = {
       node: PropTypes.any,
@@ -108,10 +96,7 @@ function ClausePlugin(loadTemplateObject) {
     };
 
     const { node, children } = props;
-    // `attributes` in the arguments after `node`
 
-    // REVIEW - this doesn't belong here. We should be pulling the templates
-    // from the redux store??
     const nodeAttributes = node.data.get('attributes');
     const src = nodeAttributes.get('src');
 
