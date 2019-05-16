@@ -8,6 +8,7 @@ exports[`<ClauseEditor /> on initialization renders page correctly 1`] = `
     markdownMode={false}
     onChange={[Function]}
     plugins={Array []}
+    showEditButton={true}
   />
   <ParseResult
     parseResult={null}
