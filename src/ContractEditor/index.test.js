@@ -4,10 +4,18 @@ import toJson from 'enzyme-to-json';
 
 import ContractEditor from './index';
 
+const props = {
+  markdown: '',
+  onParse: () => 1,
+  onChange: () => 1,
+  lockText: true,
+  template: {},
+};
+
 describe('<ContractEditor />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const component = shallow(<ContractEditor />);
+      const component = shallow(<ContractEditor {...props} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });
