@@ -7,7 +7,7 @@ import ErrorLogger from './index';
 describe('<ErrorLogger />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const component = shallow(<ErrorLogger />);
+      const component = shallow(<ErrorLogger errors={[]} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });

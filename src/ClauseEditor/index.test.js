@@ -2,12 +2,20 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import ContractEditor from './index';
+import ClauseEditor from './index';
 
-describe('<ContractEditor />', () => {
+const props = {
+  markdown: '',
+  onParse: () => 1,
+  onChange: () => 1,
+  lockText: true,
+  template: {},
+};
+
+describe('<ClauseEditor />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const component = shallow(<ContractEditor />);
+      const component = shallow(<ClauseEditor {...props} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });

@@ -48,7 +48,7 @@ class TemplateActions extends React.Component {
     return (
         <ActionsContainer>
         <div>
-          <AddToContractBtn onClick={() => this.props.addToCont(this.props.uriKey)} >
+          <AddToContractBtn className="adToContractButton" onClick={() => this.props.addToCont(this.props.uriKey)} >
             <Icon name="plus" />
             Add to contract
           </AddToContractBtn>
