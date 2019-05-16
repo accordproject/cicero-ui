@@ -2,18 +2,22 @@
 
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <div>
-  <ClauseEditor />
+  <ClauseEditor
+    lockText={true}
+    markdown=""
+    onChange={[Function]}
+    onParse={[Function]}
+    template={Object {}}
+  />
   <Message
     attached="bottom"
     positive={true}
   >
     <Icon
       as="i"
-      loading={true}
-      name="circle notched"
+      name="check square"
     />
-    Loading 
-    ...
+    Loaded 
   </Message>
 </div>
 `;
