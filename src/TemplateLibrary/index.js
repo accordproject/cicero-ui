@@ -113,6 +113,7 @@ class TemplateLibraryComponent extends React.PureComponent {
             && <UploadImport
               onClick={this.props.import}
               href="javascript:void(0);"
+              className="importButton"
               >
               Import from VS Code
             </UploadImport>}
@@ -120,6 +121,7 @@ class TemplateLibraryComponent extends React.PureComponent {
             && <UploadImport
               onClick={this.props.upload}
               href="javascript:void(0);"
+              className="uploadButton"
               >
               Upload CTA file
             </UploadImport>}
@@ -133,6 +135,7 @@ class TemplateLibraryComponent extends React.PureComponent {
               icon="plus"
               id="addClauseBtn"
               onClick={this.props.addTemp}
+              className="addTemplateButton"
             />
           </Functionality>
           <TemplateCards>
@@ -143,6 +146,7 @@ class TemplateLibraryComponent extends React.PureComponent {
                 addToCont={this.props.addToCont}
                 template={t}
                 handleViewTemplate={this.handleViewTemplate}
+                className="templateCard"
               />
             ))
           }
