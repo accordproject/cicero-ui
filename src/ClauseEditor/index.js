@@ -76,8 +76,9 @@ function ClauseEditor(props) {
           lockText={props.lockText}
           plugins={plugins}
           onChange={onChange}
+          showEditButton={props.showEditButton}
         />
-        <ParseResult parseResult={parseResult}/>
+        { props.showParse ? <ParseResult parseResult={parseResult} /> : null }
       </div>
   );
 }
@@ -108,10 +109,20 @@ ClauseEditor.propTypes = {
   lockText: PropTypes.bool.isRequired,
 
   /**
-   * The Cicero template for the clause
+   * The Cicero template for the clause (Optional)
    */
-  template: PropTypes.object.isRequired,
+  template: PropTypes.object,
 
+  /**
+   * If true then show the edit button.
+   */
+  showEditButton: PropTypes.bool,
+
+  /**
+   * If true then show the parse result.
+   */
+  showParse: PropTypes.bool,
+  
   /**
    * An array of plugins that can extend the underlying markdown editor
    */
@@ -128,5 +139,12 @@ ClauseEditor.propTypes = {
     schema: PropTypes.object.isRequired,
   })),
 };
+/**
+ * The default property values for this component
+ */
+ClauseEditor.defaultProps = {
+  showEditButton: true,
+  showParse: true,
+}
 
 export default ClauseEditor;
