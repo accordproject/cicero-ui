@@ -112,6 +112,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
         },
       ]
     }
+    showEditButton={true}
   />
 </div>
 `;
