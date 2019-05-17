@@ -75,7 +75,7 @@ ContractEditor.propTypes = {
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
-    renderNode: PropTypes.func.isRequired,
+    renderBlock: PropTypes.func.isRequired,
     toMarkdown: PropTypes.func.isRequired,
     fromMarkdown: PropTypes.func.isRequired,
     fromHTML: PropTypes.func.isRequired,

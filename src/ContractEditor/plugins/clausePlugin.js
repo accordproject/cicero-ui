@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Clause } from '@accordproject/cicero-core';
-import BadParse from '../../SlateCommands/BadParse';
-import GoodParse from '../../SlateCommands/GoodParse';
-import SetNodeData from '../../SlateCommands/SetNodeData';
 import ClauseComponent from '../components/ClauseComponent';
 
 const StyledIcon = styled(Icon)`
@@ -54,16 +50,15 @@ function ClausePlugin(loadTemplateObject, parseClause) {
       clauseNode = editor.value.document.getParent(para.key);
     }
 
-    if (!clauseNode) {
+    if (!clauseNode || clauseNode.type !== 'clause') {
       return next();
     }
-    console.log('cl n', clauseNode.data);
 
     const nodeAttributes = clauseNode.data.get('attributes');
-    const src = { nodeAttributes };
+    const { src } = nodeAttributes;
     parseClause(src, textNode.text.trim())
-      .then(parseResult => console.log(parseResult))
-      .catch(error => console.log(error));
+      .then(parseResult => console.log(parseResult)) // add/remove annotation
+      .catch(error => console.log(error)); // add/remove annotation
     return next();
   }
 
@@ -86,10 +81,8 @@ function ClausePlugin(loadTemplateObject, parseClause) {
      * @param {Editor} editor
      * @param {Function} next
      */
-  function renderNode(props, editor, next) {
-    console.log('in hereee');
-    // `next` in the arguments after `editor`
-    renderNode.propTypes = {
+  function renderBlock(props, editor, next) {
+    renderBlock.propTypes = {
       node: PropTypes.any,
       attributes: PropTypes.any,
       children: PropTypes.any,
@@ -98,7 +91,7 @@ function ClausePlugin(loadTemplateObject, parseClause) {
     const { node, children } = props;
 
     const nodeAttributes = node.data.get('attributes');
-    const src = nodeAttributes.get('src');
+    const { src } = nodeAttributes;
 
     if (src) {
       console.log(`handing over responsibility of loading: ${src}`);
@@ -203,7 +196,7 @@ function ClausePlugin(loadTemplateObject, parseClause) {
     markdownTags,
     schema,
     onKeyDown,
-    renderNode,
+    renderBlock,
     toMarkdown,
     fromMarkdown,
     fromHTML,
