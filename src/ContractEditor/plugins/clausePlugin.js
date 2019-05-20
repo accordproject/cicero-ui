@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Template, Clause } from '@accordproject/cicero-core';
-import BadParse from '../../SlateCommands/BadParse';
-import GoodParse from '../../SlateCommands/GoodParse';
-import SetNodeData from '../../SlateCommands/SetNodeData';
 import ClauseComponent from '../components/ClauseComponent';
 
 const StyledIcon = styled(Icon)`
@@ -15,7 +11,7 @@ const StyledIcon = styled(Icon)`
 /**
  * A plugin for a clause embedded in a contract
  */
-function ClausePlugin() {
+function ClausePlugin(loadTemplateObject, parseClause) {
   const plugin = 'Clause';
   const tags = ['clause'];
   const markdownTags = ['clause'];
@@ -54,29 +50,16 @@ function ClausePlugin() {
       clauseNode = editor.value.document.getParent(para.key);
     }
 
-    if (!clauseNode) {
+    if (!clauseNode || clauseNode.type !== 'clause') {
       return next();
     }
 
-    const template = clauseNode.data.get('template');
+    const nodeAttributes = clauseNode.data.get('attributes');
+    const { src, clauseid } = nodeAttributes;
 
-    if (template) {
-      console.log(`Found template on node: ${template.getIdentifier()}`);
-      try {
-        const ciceroClause = new Clause(template);
-        ciceroClause.parse(textNode.text.trim());
-        const parseResult = ciceroClause.getData();
-        console.log(parseResult);
-        editor.command(GoodParse, clauseNode, parseResult);
-      } catch (error) {
-        console.log(error);
-        editor.command(BadParse, clauseNode, error);
-      }
-    } else {
-      console.log('Template not found on node.');
-    }
-
-
+    parseClause(src, textNode.text.trim(), clauseid)
+      .then(parseResult => console.log(parseResult)) // add/remove annotation
+      .catch(error => console.log(error)); // add/remove annotation
     return next();
   }
 
@@ -99,35 +82,21 @@ function ClausePlugin() {
      * @param {Editor} editor
      * @param {Function} next
      */
-  function renderNode(props, editor, next) {
-    // `next` in the arguments after `editor`
-    renderNode.propTypes = {
+  function renderBlock(props, editor, next) {
+    renderBlock.propTypes = {
       node: PropTypes.any,
       attributes: PropTypes.any,
       children: PropTypes.any,
     };
 
     const { node, children } = props;
-    // `attributes` in the arguments after `node`
 
-    // REVIEW - this doesn't belong here. We should be pulling the templates
-    // from the redux store??
     const nodeAttributes = node.data.get('attributes');
-    const loadedTemplate = node.data.get('template');
-    const src = nodeAttributes.get('src');
+    const { src } = nodeAttributes;
 
-    if (!loadedTemplate && src) {
-      console.log(`Loading template: ${src}`);
-      Template.fromUrl(src.toString())
-        .then((template) => {
-          const newData = node.data.asMutable();
-          newData.set('template', template);
-          editor.command(SetNodeData, node, newData);
-          console.log(`Template loaded: ${template.getIdentifier()}`);
-        })
-        .catch((err) => {
-          console.log(`Failed to load template: ${err}`);
-        });
+    if (src) {
+      console.log(`handing over responsibility of loading: ${src}`);
+      loadTemplateObject(src.toString());
     }
 
     return (<ClauseComponent {...props}>{children}</ClauseComponent>);
@@ -228,7 +197,7 @@ function ClausePlugin() {
     markdownTags,
     schema,
     onKeyDown,
-    renderNode,
+    renderBlock,
     toMarkdown,
     fromMarkdown,
     fromHTML,

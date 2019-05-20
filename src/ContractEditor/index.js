@@ -18,6 +18,9 @@ import { MarkdownEditor } from '@accordproject/markdown-editor';
 import List from '@accordproject/markdown-editor/dist/plugins/list';
 import ClausePlugin from './plugins/clausePlugin';
 
+/**
+ * Adds the current markdown to local storage
+ */
 function storeLocal(editor) {
   localStorage.setItem('markdown-editor', editor.getMarkdown());
 }
@@ -27,13 +30,13 @@ const defaultMarkdown = `# Supply Agreement
   
   # Payment
   
-  <clause src="https://templates.accordproject.org/archives/full-payment-upon-signature@0.7.1.cta">
+  <clause src="https://templates.accordproject.org/archives/full-payment-upon-signature@0.7.1.cta" clauseid="skjh2342dsa">
   Upon the signing of this Agreement, "Dan" shall pay the total purchase price to "Steve" in the amount of 0.01 USD.
   </clause>
   
   ## Late Delivery And Penalty
   
-  <clause src="https://templates.accordproject.org/archives/latedeliveryandpenalty@0.13.1.cta">
+  <clause src="https://templates.accordproject.org/archives/latedeliveryandpenalty@0.13.1.cta" clauseid="kgek32h4k3j2hkew">
   Late Delivery and Penalty. In case of delayed delivery except for Force Majeure cases, "Dan" (the Seller) shall pay to "Steve" (the Buyer) for every 2 days of delay penalty amounting to 10.5% of the total value of the Equipment whose delivery has been delayed. Any fractional part of a days is to be considered a full days. The total amount of penalty shall not however, exceed 55% of the total value of the Equipment involved in late delivery. If the delay is more than 15 days, the Buyer is entitled to terminate this Contract.
   </clause>
   
@@ -49,24 +52,30 @@ const contractProps = {
 /**
  * A rich text contract editor
  */
-const ContractAssembler = props => (<div><MarkdownEditor markdown={props.markdown}
-        onChange={props.onChange}
-        lockText={true}
-        plugins={props.plugins}/></div>);
-
-const ContractEditor = () => ContractAssembler(contractProps);
+const ContractEditor = props => (
+  <MarkdownEditor
+    markdown={props.markdown || contractProps.markdown}
+    onChange={props.onChange || contractProps.onChange}
+    plugins={
+      props.plugins
+        ? props.plugins.concat([List(), ClausePlugin(props.loadTemplateObject, props.parseClause)])
+        : [List(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+    }
+    lockText={false}
+  />
+);
 
 /**
  * The property types for this component
  */
-ContractAssembler.propTypes = {
+ContractEditor.propTypes = {
   markdown: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  lockText: PropTypes.bool.isRequired,
+  onChange: PropTypes.func,
+  lockText: PropTypes.bool,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
-    renderNode: PropTypes.func.isRequired,
+    renderBlock: PropTypes.func.isRequired,
     toMarkdown: PropTypes.func.isRequired,
     fromMarkdown: PropTypes.func.isRequired,
     fromHTML: PropTypes.func.isRequired,
@@ -75,6 +84,8 @@ ContractAssembler.propTypes = {
     markdownTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     schema: PropTypes.object.isRequired,
   })),
+  loadTemplateObject: PropTypes.func.isRequired,
+  parseClause: PropTypes.func.isRequired,
 };
 
 export default ContractEditor;
