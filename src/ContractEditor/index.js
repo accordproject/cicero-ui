@@ -21,8 +21,8 @@ import ClausePlugin from './plugins/clausePlugin';
 /**
  * Adds the current markdown to local storage
  */
-function storeLocal(editor) {
-  localStorage.setItem('markdown-editor', editor.getMarkdown());
+function storeLocal(value, markdown) {
+  localStorage.setItem('markdown-editor', markdown);
 }
 
 const defaultMarkdown = `# Supply Agreement
