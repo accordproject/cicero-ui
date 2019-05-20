@@ -55,8 +55,9 @@ function ClausePlugin(loadTemplateObject, parseClause) {
     }
 
     const nodeAttributes = clauseNode.data.get('attributes');
-    const { src } = nodeAttributes;
-    parseClause(src, textNode.text.trim())
+    const { src, clauseid } = nodeAttributes;
+
+    parseClause(src, textNode.text.trim(), clauseid)
       .then(parseResult => console.log(parseResult)) // add/remove annotation
       .catch(error => console.log(error)); // add/remove annotation
     return next();
