@@ -1,9 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
+exports[`<ClauseEditor /> on initialization renders page correctly 1`] = `
 <div>
   <MarkdownEditor
+    lockText={true}
+    markdown=""
+    markdownMode={false}
     onChange={[Function]}
+    plugins={Array []}
+    showEditButton={true}
+  />
+  <ParseResult
+    parseResult={null}
   />
 </div>
 `;

@@ -12,99 +12,74 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { MarkdownEditor } from '@accordproject/markdown-editor';
-import { Template, Clause } from '@accordproject/cicero-core';
-import BadParse from '../SlateCommands/BadParse';
-import GoodParse from '../SlateCommands/GoodParse';
+import { Clause } from '@accordproject/cicero-core';
+import ParseResult from '../ParseResult';
+
 import './ClauseEditor.css';
 
 /**
+ * We don't extend the editor with any custom plugins
+ */
+const plugins = [];
+
+/**
  * Clause Editor React component. The component displays the text of the
- * Clause in a MarkdownEditor and parses the text uses an associated template.
+ * Clause in a MarkdownEditor and parses the text using an associated template.
  * @param {*} props the props for the component. See the declared PropTypes
  * for details.
  */
 function ClauseEditor(props) {
   /**
-   * A reference to the Markdown Editor. We need this is the parsing effect
-   * to get the contents of the editor
+   * We cache the previous parse input so that we
+   * only call parse when it changes.
    */
-  const editorRef = useRef(null);
+  const [prevParse, setPrevParse] = useState(null);
 
   /**
-   * A flag that indicates we are currenty loading the template for this clause
+   * The result of parsing
    */
-  const [loadingTemplate, setLoadingTemplate] = useState(false);
+  const [parseResult, setParseResult] = useState(null);
 
   /**
-   * The loaded template associated with this Clause. This is set by the next effect.
+   * Called when the underlying MarkdownEditor changes
    */
-  const [template, setTemplate] = useState(null);
-
-  /**
-   * The error loading the template
-   */
-  const [error, setError] = useState(null);
-
-  /**
-   * The plain text contents of the editor
-   */
-  const [plainText, setPlainText] = useState('');
-
-  /**
-   * Loads the template set in props.templateUrl
-   */
-  useEffect(() => {
-    if (!loadingTemplate && !template && !error) {
-      setLoadingTemplate(true);
-      Template.fromUrl(props.templateUrl)
-        .then((template) => {
-          setTemplate(template);
-        })
-        .catch((err) => {
-          setError(err.message);
-        });
-    }
-  });
-
-  /**
-   * Parses the contents of the editor using the loaded template
-   */
-  useEffect(() => {
-    // if we haven't loaded the template yet, we skip parsing
-    const markdownEditor = editorRef.current;
-    const slateEditor = markdownEditor.editor.current;
-
-    if (markdownEditor && template && slateEditor) {
-      const block = slateEditor.value.document.getBlocks().get(0);
-
+  const onChange = useCallback((value, markdown) => {
+    const trimmed = markdown.trim();
+    if (props.template && trimmed !== prevParse) {
       try {
-        const ciceroClause = new Clause(template);
-        ciceroClause.parse(plainText);
+        // @ts-ignore
+        const ciceroClause = new Clause(props.template);
+        ciceroClause.parse(trimmed);
         const parseResult = ciceroClause.getData();
+        setParseResult(parseResult);
+        console.log('setParseResult');
         props.onParse(parseResult);
-        slateEditor.command(GoodParse, block, parseResult);
       } catch (error) {
+        console.log('setParseResult - error');
+        setParseResult(error);
         props.onParse(error);
-        slateEditor.command(BadParse, block, error);
       }
+
+      setPrevParse(trimmed);
     }
-  });
+    props.onChange(value, markdown);
+  }, [prevParse, props]);
 
   return (
-    <div>
-      <MarkdownEditor
-        ref={editorRef}
-        {...props}
-        onChange={(editor) => {
-          const text = editor.getPlainText().replace(/{{/g, '').replace(/}}/g, '');
-          setPlainText(text);
-          props.onChange(editor);
-        }}
-      />
-    </div>
+      <div>
+        <MarkdownEditor
+          markdownMode={false}
+          markdown={props.markdown}
+          lockText={props.lockText}
+          plugins={plugins}
+          onChange={onChange}
+          showEditButton={props.showEditButton}
+        />
+        { props.showParse ? <ParseResult parseResult={parseResult} /> : null }
+      </div>
   );
 }
 
@@ -112,10 +87,45 @@ function ClauseEditor(props) {
  * The property types for this component
  */
 ClauseEditor.propTypes = {
-  markdown: PropTypes.string,
+
+  /**
+   * Initial contents of the editor (clause text)
+   */
+  markdown: PropTypes.string.isRequired,
+
+  /**
+   * Callback when parsing is completed
+   */
   onParse: PropTypes.func.isRequired,
+
+  /**
+   * Callback when contents of the editor changes
+   */
+  onChange: PropTypes.func.isRequired,
+
+  /**
+   * When true only the variables in the template are editable
+   */
   lockText: PropTypes.bool.isRequired,
-  templateUrl: PropTypes.string.isRequired,
+
+  /**
+   * The Cicero template for the clause (Optional)
+   */
+  template: PropTypes.object,
+
+  /**
+   * If true then show the edit button.
+   */
+  showEditButton: PropTypes.bool,
+
+  /**
+   * If true then show the parse result.
+   */
+  showParse: PropTypes.bool,
+  
+  /**
+   * An array of plugins that can extend the underlying markdown editor
+   */
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
@@ -129,5 +139,12 @@ ClauseEditor.propTypes = {
     schema: PropTypes.object.isRequired,
   })),
 };
+/**
+ * The default property values for this component
+ */
+ClauseEditor.defaultProps = {
+  showEditButton: true,
+  showParse: true,
+}
 
 export default ClauseEditor;

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import ClauseEditor from './index';
+import TemplateLoadingClauseEditor from './index';
 
 const props = {
   markdown: '',
@@ -12,10 +12,10 @@ const props = {
   template: {},
 };
 
-describe('<ClauseEditor />', () => {
+describe('<TemplateLoadingClauseEditor />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const component = shallow(<ClauseEditor {...props} />);
+      const component = shallow(<TemplateLoadingClauseEditor {...props} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });

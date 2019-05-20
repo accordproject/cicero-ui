@@ -57,6 +57,7 @@ class TemplateCard extends React.Component {
               addToCont={this.props.addToCont}
               uriKey={template.uri}
               handleViewDetails={this.props.handleViewTemplate}
+              className="templateAction"
             />
         </CardContainer>
     );

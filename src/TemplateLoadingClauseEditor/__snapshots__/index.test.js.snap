@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TemplateLoadingClauseEditor /> on initialization renders page correctly 1`] = `
+<div>
+  <ClauseEditor
+    lockText={true}
+    markdown=""
+    onChange={[Function]}
+    onParse={[Function]}
+    showEditButton={true}
+    showParse={true}
+    template={Object {}}
+  />
+  <Message
+    attached="bottom"
+    positive={true}
+  >
+    <Icon
+      as="i"
+      name="check square"
+    />
+    Loaded 
+  </Message>
+</div>
+`;
