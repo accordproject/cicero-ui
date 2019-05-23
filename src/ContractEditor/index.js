@@ -18,13 +18,6 @@ import { MarkdownEditor } from '@accordproject/markdown-editor';
 import List from '@accordproject/markdown-editor/dist/plugins/list';
 import ClausePlugin from './plugins/clausePlugin';
 
-/**
- * Adds the current markdown to local storage
- */
-function storeLocal(value, markdown) {
-  localStorage.setItem('markdown-editor', markdown);
-}
-
 const defaultMarkdown = `# Supply Agreement
   This is a supply agreement between Party A and Party B.
   
@@ -43,14 +36,27 @@ const defaultMarkdown = `# Supply Agreement
   End.
   `;
 
+/**
+ * Adds the current markdown to local storage
+ */
+function storeLocal(value, markdown) {
+  localStorage.setItem('contract-editor', markdown);
+}
+
+/**
+ * Default contract props
+ */
 const contractProps = {
-  plugins: [List(), ClausePlugin()],
   markdown: defaultMarkdown,
   onChange: storeLocal,
+  plugins: []
 };
 
 /**
- * A rich text contract editor
+ * ContractEditor React component, which wraps a markdown-editor
+ * and assigns the ClausePlugin.
+ * 
+ * @param {*} props the properties for the component
  */
 const ContractEditor = props => (
   <MarkdownEditor
@@ -61,17 +67,41 @@ const ContractEditor = props => (
         ? props.plugins.concat([List(), ClausePlugin(props.loadTemplateObject, props.parseClause)])
         : [List(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
     }
-    lockText={false}
   />
 );
-
 /**
  * The property types for this component
  */
 ContractEditor.propTypes = {
+
+  /**
+   * Initial contents of the editor
+   */
   markdown: PropTypes.string,
+
+  /**
+   * Callback called when the contents of the editor changes
+   */
   onChange: PropTypes.func,
+
+  /**
+   * Whether to lock all non variable text
+   */
   lockText: PropTypes.bool,
+
+  /**
+   * A callback to load a template
+   */
+  loadTemplateObject: PropTypes.func.isRequired,
+
+  /**
+   * A callback to parse the contents of a clause
+   */
+  parseClause: PropTypes.func.isRequired,
+
+  /**
+   * An array of plugins into the underlying markdown-editor
+   */
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
@@ -84,8 +114,6 @@ ContractEditor.propTypes = {
     markdownTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     schema: PropTypes.object.isRequired,
   })),
-  loadTemplateObject: PropTypes.func.isRequired,
-  parseClause: PropTypes.func.isRequired,
 };
 
 export default ContractEditor;

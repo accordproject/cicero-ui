@@ -10,14 +10,13 @@ const props = {
   onChange: () => 1,
   lockText: true,
   template: {},
+  loadTemplateObject: () => 1,
+  parseClause: () => 1,
 };
 
 describe('<ContractEditor />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const props = {
-        plugins: [],
-      };
       const component = shallow(<ContractEditor {...props} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();

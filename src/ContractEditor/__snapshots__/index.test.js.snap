@@ -2,7 +2,6 @@
 
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <MarkdownEditor
-  lockText={false}
   markdown="# Supply Agreement
   This is a supply agreement between Party A and Party B.
   

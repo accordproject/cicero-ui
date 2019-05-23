@@ -122,7 +122,7 @@ ClauseEditor.propTypes = {
    * If true then show the parse result.
    */
   showParse: PropTypes.bool,
-  
+
   /**
    * An array of plugins that can extend the underlying markdown editor
    */
@@ -145,6 +145,6 @@ ClauseEditor.propTypes = {
 ClauseEditor.defaultProps = {
   showEditButton: true,
   showParse: true,
-}
+};
 
 export default ClauseEditor;
