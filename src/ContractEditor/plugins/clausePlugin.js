@@ -107,14 +107,14 @@ function ClausePlugin(loadTemplateObject, parseClause) {
      * @param {Node} value
      */
   function toMarkdown(parent, value) {
-    let markdown = `<clause ${value.data.get('attributeString')}>`;
+    let markdown = `\n\n<clause ${value.data.get('attributeString')}>`;
 
     value.nodes.forEach((li) => {
       const text = parent.recursive(li.nodes);
       markdown += text;
     });
 
-    markdown += '</clause>\n\n';
+    markdown += '</clause>';
     return markdown;
   }
 
