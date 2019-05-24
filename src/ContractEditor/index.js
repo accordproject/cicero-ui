@@ -16,7 +16,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MarkdownEditor } from '@accordproject/markdown-editor';
 import List from '@accordproject/markdown-editor/dist/plugins/list';
-import ClausePlugin from './plugins/clausePlugin';
+import ClausePlugin from '../plugins/ClausePlugin';
+import ClauseComponent from '../components/ClauseComponent';
 
 const defaultMarkdown = `# Supply Agreement
   This is a supply agreement between Party A and Party B.
@@ -55,7 +56,7 @@ const contractProps = {
 /**
  * ContractEditor React component, which wraps a markdown-editor
  * and assigns the ClausePlugin.
- * 
+ *
  * @param {*} props the properties for the component
  */
 const ContractEditor = props => (
@@ -64,8 +65,8 @@ const ContractEditor = props => (
     onChange={props.onChange || contractProps.onChange}
     plugins={
       props.plugins
-        ? props.plugins.concat([List(), ClausePlugin(props.loadTemplateObject, props.parseClause)])
-        : [List(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+        ? props.plugins.concat([List(), ClausePlugin(ClauseComponent, props.loadTemplateObject, props.parseClause)])
+        : [List(), ClausePlugin(ClauseComponent, props.loadTemplateObject, props.parseClause)]
     }
   />
 );

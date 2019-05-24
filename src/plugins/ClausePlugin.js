@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import ClauseComponent from '../components/ClauseComponent';
+import { Template, Clause } from '@accordproject/cicero-core';
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
@@ -10,11 +10,16 @@ const StyledIcon = styled(Icon)`
 
 /**
  * A plugin for a clause embedded in a contract
+ * @param {*} ClauseComponent - a react component used to render the clause
+ * @param {*} customLoadTemplate - a custom function used to load templates
+ * @param {*} customParseClause - a custom function used to parse clause text
  */
-function ClausePlugin(loadTemplateObject, parseClause) {
+function ClausePlugin(ClauseComponent, customLoadTemplate, customParseClause) {
   const plugin = 'Clause';
   const tags = ['clause'];
   const markdownTags = ['clause'];
+
+  const templates = {};
   const schema = {
     blocks: {
       Clause: {
@@ -28,6 +33,41 @@ function ClausePlugin(loadTemplateObject, parseClause) {
   };
 
   /**
+   * Called by the clause plugin into the contract editor
+   * when we need to load a template
+   */
+  async function loadTemplate(templateUri) {
+    let template = templates[templateUri];
+    if (!template) {
+      console.log(`Loading template: ${templateUri}`);
+      template = await Template.fromUrl(templateUri);
+      templates[templateUri] = template;
+    }
+  }
+
+  /**
+   * Called by the clause plugin into the contract editor
+   * when we need to parse a clause
+   */
+  function parseClause(templateUri, text, clauseId) {
+    try {
+      const template = templates[templateUri];
+      if (template) {
+        console.log(`parseClause: ${templateUri} with ${text}`);
+        const clause = new Clause(template);
+        clause.parse(text);
+        return Promise.resolve(clause.getData());
+      }
+      return Promise.resolve('Template not loaded.');
+    } catch (err) {
+      return Promise.resolve(err);
+    }
+  }
+
+  const loadTemplateCallback = customLoadTemplate || loadTemplate;
+  const parseClauseCallback = customParseClause || parseClause;
+
+  /**
      * @param {Event} event
      * @param {Editor} editor
      * @param {Function} next
@@ -37,8 +77,8 @@ function ClausePlugin(loadTemplateObject, parseClause) {
   }
 
   /**
- * Handles change to document.
- */
+  * Handles change to document.
+  */
   function onChange(editor, next) {
     console.log('onChange');
     let clauseNode = null;
@@ -57,17 +97,17 @@ function ClausePlugin(loadTemplateObject, parseClause) {
     const nodeAttributes = clauseNode.data.get('attributes');
     const { src, clauseid } = nodeAttributes;
 
-    parseClause(src, textNode.text.trim(), clauseid)
+    parseClauseCallback(src, textNode.text.trim(), clauseid)
       .then(parseResult => console.log(parseResult)) // add/remove annotation
       .catch(error => console.log(error)); // add/remove annotation
     return next();
   }
 
   /**
-     * @param {Event} event
-     * @param {Editor} editor
-     * @param {Function} next
-     */
+  * @param {Event} event
+  * @param {Editor} editor
+  * @param {Function} next
+  */
   function onKeyDown(event, editor, next) {
     switch (event.key) {
       case 'Enter':
@@ -78,10 +118,10 @@ function ClausePlugin(loadTemplateObject, parseClause) {
   }
 
   /**
-     * @param {Object} props
-     * @param {Editor} editor
-     * @param {Function} next
-     */
+  * @param {Object} props
+  * @param {Editor} editor
+  * @param {Function} next
+  */
   function renderBlock(props, editor, next) {
     renderBlock.propTypes = {
       node: PropTypes.any,
@@ -92,20 +132,20 @@ function ClausePlugin(loadTemplateObject, parseClause) {
     const { node, children } = props;
 
     const nodeAttributes = node.data.get('attributes');
-    const { src } = nodeAttributes;
+    const { src, clauseId } = nodeAttributes;
 
     if (src) {
       console.log(`handing over responsibility of loading: ${src}`);
-      loadTemplateObject(src.toString());
+      loadTemplateCallback(src.toString());
     }
 
-    return (<ClauseComponent {...props}>{children}</ClauseComponent>);
+    return (<ClauseComponent templateUri={src} clauseId={clauseId} {...props}>{children}</ClauseComponent>);
   }
 
   /**
-     * @param {ToMarkdown} parent
-     * @param {Node} value
-     */
+   * @param {ToMarkdown} parent
+   * @param {Node} value
+   */
   function toMarkdown(parent, value) {
     let markdown = `<clause ${value.data.get('attributeString')}>`;
 
@@ -119,8 +159,8 @@ function ClausePlugin(loadTemplateObject, parseClause) {
   }
 
   /**
- * Handles data from markdown.
- */
+  * Handles data from markdown.
+  */
   function fromMarkdown(stack, event, tag) {
     const block = {
       object: 'block',
@@ -150,8 +190,8 @@ function ClausePlugin(loadTemplateObject, parseClause) {
   }
 
   /**
- * Handles data from the HTML format.
- */
+  * Handles data from the HTML format.
+  */
   function fromHTML(editor, el, next) {
     return {
       object: 'block',
@@ -162,15 +202,8 @@ function ClausePlugin(loadTemplateObject, parseClause) {
   }
 
   /**
-   * When then button is clicked
-   *
-   * @param {Editor} editor
-   * @param {Event} event
-   */
-
-  /**
- * Handles a button click.
- */
+  * Handles a button click.
+  */
   function onClickButton(editor, event) {
     event.preventDefault();
     alert('Clause plugin button clicked!');
