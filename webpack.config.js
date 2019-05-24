@@ -1,5 +1,6 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
@@ -35,11 +36,26 @@ module.exports = {
         }],
       },
       {
-        test: /\.(sa|sc|c)ss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-        include: [
-          path.join(__dirname, 'src'),
-          /node_modules/,
+        test: /plugin\.css$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.styl$/,
+        exclude: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'stylus-loader',
         ],
       },
       {
@@ -53,6 +69,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
     new HtmlWebpackPlugin({
       template: 'demo/src/index.html',
       mountId: 'demo',
@@ -64,5 +81,11 @@ module.exports = {
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
+  },
+  resolve: {
+    alias: {
+      'styled-components': path.resolve(__dirname, 'node_modules', 'styled-components'),
+      react: path.resolve('./node_modules/react')
+    },
   },
 };
