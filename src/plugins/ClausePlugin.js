@@ -1,8 +1,12 @@
 import React from 'react';
+import { Point } from 'slate';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Template, Clause } from '@accordproject/cicero-core';
+import '../styles.css';
+// eslint-disable-next-line camelcase
+import murmurhash3_32_gc from './murmurhash3_gc';
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
@@ -77,6 +81,45 @@ function ClausePlugin(ClauseComponent, customLoadTemplate, customParseClause) {
   }
 
   /**
+   * Adds an annotation to the editor
+   *
+   * @param {*} editor
+   * @param {*} annotation
+   */
+  function addAnnotation(editor, annotation) {
+    editor.addAnnotation(annotation);
+  }
+
+  /**
+   * Remove the parse annotations from the editor
+   *
+   * @param {*} editor
+   */
+  function removeParseAnnotations(editor) {
+    const { annotations } = editor.value;
+
+    editor.withoutSaving(() => {
+      annotations.forEach((ann) => {
+        if (ann.type.startsWith('parse')) {
+          editor.removeAnnotation(ann);
+        }
+      });
+    });
+  }
+
+  /**
+   * Checks whether an annotation exists
+   *
+   * @param {*} editor
+   * @param {*} annotation
+   * @returns {boolean} true if the annotation already exists on the value
+   */
+  function annotationExists(editor, annotation) {
+    const { annotations } = editor.value;
+    return annotations.get(annotation.key);
+  }
+
+  /**
   * Handles change to document.
   */
   function onChange(editor, next) {
@@ -96,10 +139,38 @@ function ClausePlugin(ClauseComponent, customLoadTemplate, customParseClause) {
 
     const nodeAttributes = clauseNode.data.get('attributes');
     const { src, clauseid } = nodeAttributes;
+    const { selection } = editor.value;
 
-    parseClauseCallback(src, textNode.text.trim(), clauseid)
-      .then(parseResult => console.log(parseResult)) // add/remove annotation
-      .catch(error => console.log(error)); // add/remove annotation
+    const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode)
+      .normalize(editor.value.document);
+    const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode)
+      .normalize(editor.value.document);
+    const parseText = textNode.text.trim();
+    // @ts-ignore
+    const hash = murmurhash3_32_gc(`${parseText} at ${anchor.toJSON()} to ${focus.toJSON()}`, 0xdeadbeef);
+
+    const annotation = {
+      anchor,
+      focus,
+      key: `clauseParse-${hash}`
+    };
+
+    // we only re-parse and modify the value if the text has changed
+    if (!annotationExists(editor, annotation)) {
+      removeParseAnnotations(editor);
+      parseClauseCallback(src, parseText, clauseid)
+        .then((parseResult) => {
+          annotation.type = 'parseResult';
+          annotation.data = parseResult;
+          addAnnotation(editor, annotation);
+        })
+        .catch((error) => {
+          annotation.type = 'parseError';
+          annotation.data = { error };
+          addAnnotation(editor, annotation);
+        });
+    }
+
     return next();
   }
 
@@ -224,6 +295,24 @@ function ClausePlugin(ClauseComponent, customLoadTemplate, customParseClause) {
     />);
   }
 
+  /**
+   * Render Slate annotations.
+   */
+  function renderAnnotation(props, editor, next) {
+    const { children, annotation, attributes } = props;
+
+    switch (annotation.type) {
+      case 'parseError':
+        return (
+          <span {...attributes} className='parseError'>
+            {children}
+          </span>
+        );
+      default:
+        return next();
+    }
+  }
+
   return {
     plugin,
     tags,
@@ -236,6 +325,7 @@ function ClausePlugin(ClauseComponent, customLoadTemplate, customParseClause) {
     fromHTML,
     onChange,
     renderToolbar,
+    renderAnnotation
   };
 }
 
