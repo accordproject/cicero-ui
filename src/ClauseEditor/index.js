@@ -14,16 +14,11 @@
 
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { MarkdownEditor } from '@accordproject/markdown-editor';
-import { Clause } from '@accordproject/cicero-core';
+import { Template, Clause } from '@accordproject/cicero-core';
+import ContractEditor from '../ContractEditor';
 import ParseResult from '../ParseResult';
 
 import './ClauseEditor.css';
-
-/**
- * We don't extend the editor with any custom plugins
- */
-const plugins = [];
 
 /**
  * Clause Editor React component. The component displays the text of the
@@ -44,39 +39,45 @@ function ClauseEditor(props) {
   const [parseResult, setParseResult] = useState(null);
 
   /**
+   * The list of templates that have been loaded, indexed by URL
+   */
+  const [templates, setTemplates] = useState({});
+
+  /**
    * Called when the underlying MarkdownEditor changes
    */
   const onChange = useCallback((value, markdown) => {
-    const trimmed = markdown.trim();
-    if (props.template && trimmed !== prevParse) {
-      try {
-        // @ts-ignore
-        const ciceroClause = new Clause(props.template);
-        ciceroClause.parse(trimmed);
-        const parseResult = ciceroClause.getData();
-        setParseResult(parseResult);
-        console.log('setParseResult');
-        props.onParse(parseResult);
-      } catch (error) {
-        console.log('setParseResult - error');
-        setParseResult(error);
-        props.onParse(error);
-      }
+    // const trimmed = markdown.trim();
+    // if (props.template && trimmed !== prevParse) {
+    //   try {
+    //     // @ts-ignore
+    //     const ciceroClause = new Clause(props.template);
+    //     ciceroClause.parse(trimmed);
+    //     const parseResult = ciceroClause.getData();
+    //     setParseResult(parseResult);
+    //     console.log('setParseResult');
+    //     props.onParse(parseResult);
+    //   } catch (error) {
+    //     console.log('setParseResult - error');
+    //     setParseResult(error);
+    //     props.onParse(error);
+    //   }
 
-      setPrevParse(trimmed);
-    }
+    //   setPrevParse(trimmed);
+    // }
     props.onChange(value, markdown);
-  }, [prevParse, props]);
+  }, [props]);
 
   return (
       <div>
-        <MarkdownEditor
-          markdownMode={false}
+        <ContractEditor
           markdown={props.markdown}
           lockText={props.lockText}
-          plugins={plugins}
+          plugins={props.plugins}
           onChange={onChange}
           showEditButton={props.showEditButton}
+          parseClause={props.parseClause}
+          loadTemplateObject={props.loadTemplateObject}
         />
         { props.showParse ? <ParseResult parseResult={parseResult} /> : null }
       </div>
