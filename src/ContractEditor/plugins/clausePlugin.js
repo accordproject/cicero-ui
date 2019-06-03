@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import ClauseComponent from '../components/ClauseComponent';
+import ClauseComponent from '../../components/ClauseComponent';
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
