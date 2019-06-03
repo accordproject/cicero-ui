@@ -30,7 +30,23 @@ function storeLocal(value, markdown) {
  * Default contract props
  */
 const contractProps = {
-  value: null,
+  value: {
+    object: 'value',
+    document: {
+      object: 'document',
+      data: {},
+      nodes: [{
+        object: 'block',
+        type: 'paragraph',
+        data: {},
+        nodes: [{
+          object: 'text',
+          text: 'Welcome! Edit this text to get started.',
+          marks: []
+        }],
+      }]
+    }
+  },
   onChange: storeLocal,
   plugins: []
 };
@@ -57,6 +73,7 @@ const ContractEditor = (props) => {
     value={props.value || contractProps.value}
     onChange={props.onChange || contractProps.onChange}
     plugins={plugins}
+    lockText={props.lockText}
   /> : null
   );
 };

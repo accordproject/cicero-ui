@@ -71,7 +71,7 @@ function ClauseEditor(props) {
   return (
       <div>
         <ContractEditor
-          markdown={props.markdown}
+          value={props.value}
           lockText={props.lockText}
           plugins={props.plugins}
           onChange={onChange}
