@@ -5,7 +5,7 @@ import toJson from 'enzyme-to-json';
 import ClauseEditor from './index';
 
 const props = {
-  markdown: '',
+  value: null,
   onParse: () => 1,
   onChange: () => 1,
   lockText: true,

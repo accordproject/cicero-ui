@@ -2,13 +2,11 @@
 
 exports[`<ClauseEditor /> on initialization renders page correctly 1`] = `
 <div>
-  <MarkdownEditor
+  <ContractEditor
     lockText={true}
-    markdown=""
-    markdownMode={false}
     onChange={[Function]}
-    plugins={Array []}
     showEditButton={true}
+    value={null}
   />
   <ParseResult
     parseResult={null}

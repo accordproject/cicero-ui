@@ -12,30 +12,11 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { MarkdownEditor } from '@accordproject/markdown-editor';
+import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 import List from '@accordproject/markdown-editor/dist/plugins/list';
 import ClausePlugin from '../plugins/ClausePlugin';
-import ClauseComponent from '../components/ClauseComponent';
-
-const defaultMarkdown = `# Supply Agreement
-  This is a supply agreement between Party A and Party B.
-  
-  # Payment
-  
-  <clause src="https://templates.accordproject.org/archives/full-payment-upon-signature@0.7.1.cta" clauseid="skjh2342dsa">
-  Upon the signing of this Agreement, "Dan" shall pay the total purchase price to "Steve" in the amount of 0.01 USD.
-  </clause>
-  
-  ## Late Delivery And Penalty
-  
-  <clause src="https://templates.accordproject.org/archives/latedeliveryandpenalty@0.13.1.cta" clauseid="kgek32h4k3j2hkew">
-  Late Delivery and Penalty. In case of delayed delivery except for Force Majeure cases, "Dan" (the Seller) shall pay to "Steve" (the Buyer) for every 2 days of delay penalty amounting to 10.5% of the total value of the Equipment whose delivery has been delayed. Any fractional part of a days is to be considered a full days. The total amount of penalty shall not however, exceed 55% of the total value of the Equipment involved in late delivery. If the delay is more than 15 days, the Buyer is entitled to terminate this Contract.
-  </clause>
-  
-  End.
-  `;
 
 /**
  * Adds the current markdown to local storage
@@ -48,7 +29,23 @@ function storeLocal(value, markdown) {
  * Default contract props
  */
 const contractProps = {
-  markdown: defaultMarkdown,
+  value: {
+    object: 'value',
+    document: {
+      object: 'document',
+      data: {},
+      nodes: [{
+        object: 'block',
+        type: 'paragraph',
+        data: {},
+        nodes: [{
+          object: 'text',
+          text: 'Welcome! Edit this text to get started.',
+          marks: []
+        }],
+      }]
+    }
+  },
   onChange: storeLocal,
   plugins: []
 };
@@ -59,17 +56,26 @@ const contractProps = {
  *
  * @param {*} props the properties for the component
  */
-const ContractEditor = props => (
-  <MarkdownEditor
-    markdown={props.markdown || contractProps.markdown}
-    onChange={props.onChange || contractProps.onChange}
-    plugins={
+const ContractEditor = (props) => {
+  const [plugins, setplugins] = useState([]);
+  useEffect(() => {
+    setplugins(
       props.plugins
-        ? props.plugins.concat([List(), ClausePlugin(ClauseComponent, props.loadTemplateObject, props.parseClause)])
-        : [List(), ClausePlugin(ClauseComponent, props.loadTemplateObject, props.parseClause)]
-    }
-  />
-);
+        ? props.plugins.concat(
+          [List(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+        )
+        : [List(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+    );
+  }, [props.loadTemplateObject, props.parseClause, props.plugins]);
+  return (
+    plugins.length ? <SlateAsInputEditor
+    value={props.value || contractProps.value}
+    onChange={props.onChange || contractProps.onChange}
+    plugins={plugins}
+    lockText={props.lockText}
+  /> : null
+  );
+};
 /**
  * The property types for this component
  */
@@ -78,7 +84,7 @@ ContractEditor.propTypes = {
   /**
    * Initial contents of the editor
    */
-  markdown: PropTypes.string,
+  value: PropTypes.object,
 
   /**
    * Callback called when the contents of the editor changes

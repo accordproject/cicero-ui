@@ -7,6 +7,8 @@ import { Template, Clause } from '@accordproject/cicero-core';
 import '../styles.css';
 // eslint-disable-next-line camelcase
 import murmurhash3_32_gc from './murmurhash3_gc';
+import ClauseComponent from '../components/ClauseComponent';
+
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
@@ -18,7 +20,7 @@ const StyledIcon = styled(Icon)`
  * @param {*} customLoadTemplate - a custom function used to load templates
  * @param {*} customParseClause - a custom function used to parse clause text
  */
-function ClausePlugin(ClauseComponent, customLoadTemplate, customParseClause) {
+function ClausePlugin(customLoadTemplate, customParseClause) {
   const plugin = 'Clause';
   const tags = ['clause'];
   const markdownTags = ['clause'];
