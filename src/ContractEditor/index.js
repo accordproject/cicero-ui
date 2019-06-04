@@ -22,7 +22,6 @@ import ClausePlugin from '../plugins/ClausePlugin';
  * Adds the current markdown to local storage
  */
 function storeLocal(value, markdown) {
-  console.log('MARKDOWN', markdown);
   localStorage.setItem('contract-editor', markdown);
 }
 

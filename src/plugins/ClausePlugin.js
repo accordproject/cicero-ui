@@ -220,7 +220,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
    * @param {Node} value
    */
   function toMarkdown(parent, value) {
-    console.log('in clause TO md');
     let markdown = `\n\n<clause src=${value.data.get('attributes').src} id=${value.data.get('attributes').id}>`;
 
     value.nodes.forEach((li) => {
@@ -236,7 +235,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   * Handles data from markdown.
   */
   function fromMarkdown(stack, event, tag) {
-    console.log('in clause FROM md');
     const block = {
       object: 'block',
       type: 'clause',
