@@ -53,9 +53,14 @@ Your app is ready to be deployed!
 ## Structure of the Code Repository
 
 Top level repository (cicero-ui), with sub packages. The entire package is published as an independent npm module:
-- `TemplateLibrary` : Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
-- `ContractEditor` : This is a ReactJS component for a rich text contract editor. It is based on the [@accordproject/markdown-editor][markdown] component.
-
+- `ClauseEditor`: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
+- `ContractEditor`: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assings the Clause plugin.
+- `ErrorLogger`: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
+- `ParseResult`: 
+- `SlateCommands`: 
+- `TemplateLibrary`: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
+- `TemplateLoadingClauseEditor`: 
+- `Tile`: 
 
 ---
 
