@@ -182,6 +182,8 @@ After your pull request is merged, you can safely delete your branch and pull th
 
 Accord Project source code files are made available under the [Apache License, Version 2.0][apache].
 
+Accord Project documentation files are made available under the [Creative Commons Attribution 4.0 International License][creativecommons] (CC-BY-4.0).
+
 [coc]: https://github.com/accordproject/docs/blob/master/Accord%20Project%20Code%20of%20Conduct.pdf
 [stackoverflowcicero]: http://stackoverflow.com/questions/tagged/cicero
 [apciceroslack]: https://accord-project.slack.com/messages/CA08NAHQS
@@ -211,3 +213,4 @@ Accord Project source code files are made available under the [Apache License, V
 
 [dcohow]: https://github.com/probot/dco#how-it-works
 [apache]: https://github.com/accordproject/cicero-ui/blob/master/LICENSE
+[creativecommons]: http://creativecommons.org/licenses/by/4.0/
