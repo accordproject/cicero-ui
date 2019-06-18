@@ -9,12 +9,12 @@ import { Header, Segment } from 'semantic-ui-react';
  */
 function ClauseComponent(props) {
   const errorsComponent = props.errors
-    ? <Segment contenteditable={false} attached raised>{props.errors}</Segment>
+    ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
     : null;
 
   return (
     <div>
-    <Header contenteditable={false} color='grey' size='tiny' as='h2' attached='top'>
+    <Header contentEditable={false} color='grey' size='tiny' as='h2' attached='top'>
       {props.templateUri} : {props.clauseId}
     </Header>
     <Segment attached raised>{props.children}</Segment>
