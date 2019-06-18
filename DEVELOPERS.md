@@ -177,6 +177,8 @@ version-specific documentation by simply checking out a version of Cicero-UI and
 
 Accord Project source code files are made available under the [Apache License, Version 2.0][apache].
 
+Accord Project documentation files are made available under the [Creative Commons Attribution 4.0 International License][creativecommons] (CC-BY-4.0).
+
 [developers.setup]: DEVELOPERS.md#setup
 [developers.rules]: DEVELOPERS.md#rules
 [developers.commits]: DEVELOPERS.md#commits
@@ -197,3 +199,4 @@ Accord Project source code files are made available under the [Apache License, V
 [jsdoc]: http://usejsdoc.org/
 
 [apache]: https://github.com/accordproject/cicero-ui/blob/master/LICENSE
+[creativecommons]: http://creativecommons.org/licenses/by/4.0/
