@@ -17,7 +17,7 @@ machine:
 
 * [Git][git]: The [Github Guide to Installing Git][git-setup] is a good source of information.
 
-* [Version 10.16.0 'Dubnium' (LTS)][node]: We use Node to generate the documentation, run a
+* [Node.js v10.16.0 'Dubnium' (LTS)][node]: We use Node to generate the documentation, run a
   development web server, run tests, and generate distributable files. Depending on your system,
   you can install Node either from source or as a pre-packaged bundle.
 
@@ -53,7 +53,7 @@ npm install
 
 ### Keeping In Sync
 
-It is probably good practice to always keep your `origin/master` in sync with `upstream/master`. You don’t have to, but it makes your life easier. Do your work in branches of your fork, and periodically sync up your `master` with the `master` of `upstream` as follows. You should definitely do this before creating a pull request.
+It is good practice to always keep your `origin/master` in sync with `upstream/master`. You don’t have to, but it makes your life easier. Do your work in branches of your fork, and periodically sync up your `master` with the `master` of `upstream` as follows. You should definitely do this before creating a pull request.
 
 ```shell
     git fetch --all --prune
