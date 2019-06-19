@@ -65,7 +65,7 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 ---
 
 <a href="https://docs.accordproject.org/">
-	<img src="assets/APLogo.png" alt="Accord Project Logo" />
+	<img src="assets/APLogo.png" alt="Accord Project Logo" width="880" />
 </a>
 
 Accord Project is an open source, non-profit, initiative working to transform contract management and contract automation by digitizing contracts.
