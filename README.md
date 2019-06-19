@@ -119,7 +119,7 @@ Accord Project documentation files are made available under the [Creative Common
 
 [contribute]: https://github.com/accordproject/cicero-ui/blob/master/CONTRIBUTING.md
 [developer]: https://github.com/accordproject/cicero-ui/blob/master/DEVELOPERS.md
-[apblog]: (https://medium.com/@accordhq)
+[apblog]: https://medium.com/@accordhq
 
 [welcome]: https://docs.accordproject.org/docs/accordproject.html#what-is-accord-project
 [highlevel]: https://docs.accordproject.org/docs/spec-concepts.html
