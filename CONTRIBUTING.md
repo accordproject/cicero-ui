@@ -87,13 +87,13 @@ Before you submit your pull request consider the following guidelines:
 * Make your changes in a new git branch:
 
   ```text
-    git checkout -b name/issue-tracker/short-description master
+    git checkout -b name-issue-tracker-short-description master
   ```
 
   Name can be initials or GitHub username. An example of this could be:
 
   ```text
-    git checkout -b irmerk/issue75/readme-typos master
+    git checkout -b irmerk-issue75-readme-typos master
   ```
 
 * Create your patch commit, **including appropriate test cases**.
@@ -125,7 +125,7 @@ Before you submit your pull request consider the following guidelines:
 * Push your branch to GitHub:
 
   ```text
-    git push origin name/issue-tracker/short-description
+    git push origin name-issue-tracker-short-description
   ```
 
 * In GitHub, send a pull request to `cicero-ui:master` by following our [pull request conventions][developers.pullrequest]. This will trigger the check of the [Contributor License Agreement][contribute.cla] and the Travis integration.
@@ -133,14 +133,14 @@ Before you submit your pull request consider the following guidelines:
 * If we suggest changes, then:
   * Make the required updates.
   * Re-run the test suite to ensure tests are still passing.
-  * Commit your changes to your branch \(e.g. `name/issue-tracker/short-description`\).
+  * Commit your changes to your branch \(e.g. `name-issue-tracker-short-description`\).
   * Push the changes to your GitHub repository \(this will update your Pull Request\).
 
     You can also amend the initial commits and force push them to the branch.
 
     ```text
     git rebase master -i
-    git push origin name/issue-tracker/short-description -f
+    git push origin name-issue-tracker-short-description -f
     ```
 
     This is generally easier to follow, but seperate commits are useful if the Pull Request contains iterations that might be interesting to see side-by-side.
@@ -154,7 +154,7 @@ After your pull request is merged, you can safely delete your branch and pull th
 * Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
 
   ```text
-    git push origin --delete name/issue-tracker/short-description
+    git push origin --delete name-issue-tracker-short-description
   ```
 
 * Check out the master branch:
@@ -166,7 +166,7 @@ After your pull request is merged, you can safely delete your branch and pull th
 * Delete the local branch:
 
   ```text
-    git branch -D name/issue-tracker/short-description
+    git branch -D name-issue-tracker-short-description
   ```
 
 * Update your master with the latest upstream version:
