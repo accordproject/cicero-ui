@@ -92,7 +92,7 @@ ClauseEditor.propTypes = {
   /**
    * Initial contents of the editor (clause text)
    */
-  markdown: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired,
 
   /**
    * Callback when parsing is completed

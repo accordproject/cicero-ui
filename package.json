@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/cicero-ui",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "cicero-ui React component",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@accordproject/cicero-core": "^0.12.4",
-    "@accordproject/markdown-editor": "^0.4.13",
+    "@accordproject/markdown-editor": "^0.4.15",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
