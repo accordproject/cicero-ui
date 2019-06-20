@@ -12,10 +12,16 @@ import { Button, Card, Input } from 'semantic-ui-react';
 import TemplateCard from './TemplateCard';
 
 const TemplatesWrapper = styled.div`
+  font-family: 'IBM Plex Sans', sans-serif;
   position: relative;
   margin: 16px 16px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  max-width: 442px;
+  max-width: 355px;
+
+  display: grid;
+  grid-template-areas:  "header"
+                        "functionTemps";
+  grid-template-rows:    55px auto;
+  grid-template-columns: 100%;
 `;
 
 const Header = styled.div`
@@ -23,37 +29,51 @@ const Header = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
   font-size: 16px;
-  max-width: 442px;
+  margin: 10px 10px;
+  
+  display: grid;
+  grid-area: header;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "title imports";
 `;
 
-const UploadImport = styled.a`
+const UploadButton = styled.a`
   position: relative;
   font-weight: 300;
-  float: right;
-  margin: 0 16px 0 0;
+  text-align: right;
   text-decoration: underline;
   font-size: 14px;
   color: #76777D;
 `;
 
+const ImportButton = styled(UploadButton)`
+  margin-bottom: 5px;
+`;
+
+const HeaderImports = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Functionality = styled.div`
-  margin: 16px 0;
-  max-width: 430px;
   font-family: 'IBM Plex Sans', sans-serif;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SearchInput = styled(Input)`
-  margin: 0 20px 0 0;
-  width: 136px;
-  float: left;
+  margin: 5px auto !important;
+  width: 96% !important;
 `;
 
 const AddClauseBtn = styled(Button)`
-  max-width: 272px;
+  margin: 5px auto 0 !important;
+  width: 96% !important;
 `;
 
 const TemplateCards = styled(Card.Group)`
-  margin: 20px 0 0 0;
+  margin: 0 !important;
   width: 100%;
 `;
 
@@ -109,26 +129,29 @@ class TemplateLibraryComponent extends React.PureComponent {
         <TemplatesWrapper>
         <Header>
             Clause Templates
-            {this.props.import
-            && <UploadImport
-              onClick={this.props.import}
-              href="javascript:void(0);"
-              className="importButton"
-              >
-              Import from VS Code
-            </UploadImport>}
-            {this.props.upload
-            && <UploadImport
-              onClick={this.props.upload}
-              href="javascript:void(0);"
-              className="uploadButton"
-              >
-              Upload CTA file
-            </UploadImport>}
+            <HeaderImports>
+              {this.props.import
+              && <ImportButton
+                onClick={this.props.import}
+                href="javascript:void(0);"
+                className="importButton"
+                >
+                Import from VS Code
+              </ImportButton>}
+              {this.props.upload
+              && <UploadButton
+                onClick={this.props.upload}
+                href="javascript:void(0);"
+                className="uploadButton"
+                >
+                Upload CTA file
+              </UploadButton>}
+            </HeaderImports>
           </Header>
           <Functionality>
             <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
-            <AddClauseBtn
+            {this.props.addTemp
+            && <AddClauseBtn
               content="New Clause Template"
               color="blue"
               fluid
@@ -136,7 +159,7 @@ class TemplateLibraryComponent extends React.PureComponent {
               id="addClauseBtn"
               onClick={this.props.addTemp}
               className="addTemplateButton"
-            />
+            />}
           </Functionality>
           <TemplateCards>
             {
