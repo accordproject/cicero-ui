@@ -118,7 +118,6 @@ ContractEditor.propTypes = {
     fromHTML: PropTypes.func.isRequired,
     plugin: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    markdownTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     schema: PropTypes.object.isRequired,
   })),
 };

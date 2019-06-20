@@ -16,19 +16,22 @@ const StyledIcon = styled(Icon)`
 
 /**
  * A plugin for a clause embedded in a contract
- * @param {*} ClauseComponent - a react component used to render the clause
  * @param {*} customLoadTemplate - a custom function used to load templates
  * @param {*} customParseClause - a custom function used to parse clause text
  */
 function ClausePlugin(customLoadTemplate, customParseClause) {
-  const plugin = 'Clause';
-  const tags = ['clause'];
-  const markdownTags = ['clause'];
-
+  const name = 'clause';
+  const tags = [
+    {
+      html: 'clause',
+      slate: 'clause',
+      md: 'clause'
+    }
+  ];
   const templates = {};
   const schema = {
     blocks: {
-      Clause: {
+      clause: {
         nodes: [
           {
             match: [{ type: 'paragraph' }],
@@ -220,21 +223,23 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
    * @param {Node} value
    */
   function toMarkdown(parent, value) {
-    let markdown = `\n\n<clause src=${value.data.get('attributes').src} id=${value.data.get('attributes').id}>`;
+    console.log('toMarkdown', value);
+    let markdown = `\n\n\`\`\` <clause src=${value.data.get('attributes').src} id=${value.data.get('attributes').id}>\n`;
 
     value.nodes.forEach((li) => {
       const text = parent.recursive(li.nodes);
       markdown += text;
     });
 
-    markdown += '</clause>';
+    markdown += '\n```\n';
+    console.log(markdown);
     return markdown;
   }
 
   /**
   * Handles data from markdown.
   */
-  function fromMarkdown(stack, event, tag) {
+  function fromMarkdown(stack, event, tag, node) {
     const block = {
       object: 'block',
       type: 'clause',
@@ -254,7 +259,7 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     stack.push(para);
     stack.addTextLeaf({
       object: 'leaf',
-      text: tag.content ? tag.content : '',
+      text: tag.content ? tag.content : node.literal,
       marks: [],
     });
     stack.pop();
@@ -290,7 +295,7 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
    */
   function renderToolbar(editor) {
     return (<StyledIcon
-      key={plugin}
+      key={name}
       name='legal'
       aria-label='clause'
       onMouseDown={event => onClickButton(editor, event)}
@@ -316,9 +321,8 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   }
 
   return {
-    plugin,
+    name,
     tags,
-    markdownTags,
     schema,
     onKeyDown,
     renderBlock,
