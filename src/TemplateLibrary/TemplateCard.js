@@ -9,6 +9,7 @@ const CardContainer = styled(Card)`
   position: relative;
   text-align: left;
   min-height: 120px;
+  font-size: 14px !important;
   box-shadow: 0 1px 9px 0 rgba(0,0,0,0.1);
 `;
 
@@ -28,6 +29,7 @@ const Version = styled.span`
 const DescriptionContainer = styled(Card.Description)`
   max-width: 400px;
   margin: auto;
+  font-size: 0.9em;
 `;
 
 /**
