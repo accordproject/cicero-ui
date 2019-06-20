@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 
 /* Styling */
 import styled from 'styled-components';
-import { Button, Card, Input } from 'semantic-ui-react';
+import { Card, Input } from 'semantic-ui-react';
 
 /* Internal */
 import TemplateCard from './TemplateCard';
+import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
 const TemplatesWrapper = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
@@ -37,19 +38,6 @@ const Header = styled.div`
   grid-template-areas: "title imports";
 `;
 
-const UploadButton = styled.a`
-  position: relative;
-  font-weight: 300;
-  text-align: right;
-  text-decoration: underline;
-  font-size: 14px;
-  color: #76777D;
-`;
-
-const ImportButton = styled(UploadButton)`
-  margin-bottom: 5px;
-`;
-
 const HeaderImports = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,11 +52,6 @@ const Functionality = styled.div`
 
 const SearchInput = styled(Input)`
   margin: 5px auto !important;
-  width: 96% !important;
-`;
-
-const AddClauseBtn = styled(Button)`
-  margin: 5px auto 0 !important;
   width: 96% !important;
 `;
 
@@ -125,57 +108,33 @@ class TemplateLibraryComponent extends React.PureComponent {
   render() {
     const filtered = this.filterTemplates(this.props.templates);
     return (
-      <div>
-        <TemplatesWrapper>
+      <TemplatesWrapper>
         <Header>
-            Clause Templates
-            <HeaderImports>
-              {this.props.import
-              && <ImportButton
-                onClick={this.props.import}
-                href="javascript:void(0);"
-                className="importButton"
-                >
-                Import from VS Code
-              </ImportButton>}
-              {this.props.upload
-              && <UploadButton
-                onClick={this.props.upload}
-                href="javascript:void(0);"
-                className="uploadButton"
-                >
-                Upload CTA file
-              </UploadButton>}
-            </HeaderImports>
-          </Header>
-          <Functionality>
-            <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
-            {this.props.addTemp
-            && <AddClauseBtn
-              content="New Clause Template"
-              color="blue"
-              fluid
-              icon="plus"
-              id="addClauseBtn"
-              onClick={this.props.addTemp}
-              className="addTemplateButton"
-            />}
-          </Functionality>
-          <TemplateCards>
-            {
-            _.sortBy(filtered, ['name']).map(t => (
-              <TemplateCard
-                key={t.uri}
-                addToCont={this.props.addToCont}
-                template={t}
-                handleViewTemplate={this.handleViewTemplate}
-                className="templateCard"
-              />
-            ))
-          }
-          </TemplateCards>
-        </TemplatesWrapper>
-      </div>
+          Clause Templates
+          <HeaderImports>
+            {this.props.import
+            && <ImportComponent importInput={this.props.import} />}
+            {this.props.upload
+            && <UploadComponent uploadInput={this.props.upload} />}
+          </HeaderImports>
+        </Header>
+        <Functionality>
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
+          {this.props.addTemp
+          && <NewClauseComponent addTempInput={this.props.addTemp} />}
+        </Functionality>
+        <TemplateCards>
+          {_.sortBy(filtered, ['name']).map(t => (
+            <TemplateCard
+              key={t.uri}
+              addToCont={this.props.addToCont}
+              template={t}
+              handleViewTemplate={this.handleViewTemplate}
+              className="templateCard"
+            />
+          ))}
+        </TemplateCards>
+      </TemplatesWrapper>
     );
   }
 }
