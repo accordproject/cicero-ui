@@ -3,13 +3,34 @@ import {
   Header, Menu, Grid, Rail, Segment
 } from 'semantic-ui-react';
 
+import { PluginManager, List, FromMarkdown } from '@accordproject/markdown-editor';
+
 import { render } from 'react-dom';
-import { Template, Clause } from '@accordproject/cicero-core';
 import 'semantic-ui-css/semantic.min.css';
 import ClauseEditor from '../../src/ClauseEditor';
 import ContractEditor from '../../src/ContractEditor';
-import defaultContractValue from './defaultContractValue';
-import defaultClauseValue from './defaultClauseValue';
+import ClausePlugin from '../../src/plugins/ClausePlugin';
+
+const plugins = [List(), ClausePlugin(null, null)];
+const pluginManager = new PluginManager(plugins);
+const fromMarkdown = new FromMarkdown(pluginManager);
+
+const acceptanceOfDelivery = `\`\`\` <clause src="https://templates.accordproject.org/archives/acceptance-of-delivery@0.11.1.cta" id="123">
+Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
+
+Inspection and Notice. "Party B" will have 10 Business Days' to inspect and evaluate the "Widgets" on the delivery date before notifying "Party A" that it is either accepting or rejecting the "Widgets".
+
+Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widgets" must meet for the "Party A" to comply with its requirements and obligations under this agreement, detailed in "Attachment X", attached to this agreement.
+\`\`\`
+`;
+
+const defaultContractMarkdown = `# Heading One
+This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
+
+${acceptanceOfDelivery}
+
+Fin.
+`;
 
 /**
  * A demo component that uses ContractEditor and
@@ -22,14 +43,29 @@ function Demo() {
   const [activeItem, setActiveItem] = useState('clauseEditor');
 
   /**
-   * The list of templates that have been loaded, indexed by URL
+   * Currently clause value
    */
-  const [templates, setTemplates] = useState({});
+  const [clauseValue, setClauseValue] = useState(fromMarkdown.convert(acceptanceOfDelivery));
+
   /**
-   * Called when the data in either of the editors has been modified
+   * Currently contract value
    */
-  const onChange = useCallback((value, markdown) => {
-    // console.log('new markdown');
+  const [contractValue, setContractValue] = useState(fromMarkdown.convert(defaultContractMarkdown));
+
+  /**
+   * Called when the data in the clause editor has been modified
+   */
+  const onClauseChange = useCallback((value, markdown) => {
+    console.log('new markdown', markdown);
+    setClauseValue(value);
+  }, []);
+
+  /**
+   * Called when the data in the contract editor has been modified
+   */
+  const onContractChange = useCallback((value, markdown) => {
+    console.log(markdown);
+    setContractValue(value);
   }, []);
 
   /**
@@ -46,14 +82,14 @@ function Demo() {
   const demo = activeItem === 'clauseEditor'
     ? <ClauseEditor
   lockText={false}
-  value={defaultClauseValue}
-  onChange={onChange}
+  value={clauseValue}
+  onChange={onClauseChange}
   onParse={onParse}
   />
     : <ContractEditor
   lockText={false}
-  value={defaultContractValue}
-  onChange={onChange}
+  value={contractValue}
+  onChange={onContractChange}
   />;
 
   return (
