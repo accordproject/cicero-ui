@@ -40,20 +40,12 @@ const AddClauseBtn = styled(Button)`
 `;
 
 export const ImportComponent = props => (
-    <ImportButton
-        onClick={props.importInput}
-        href="javascript:void(0);"
-        className="importButton"
-    >
+    <ImportButton onClick={props.importInput} className="importButton">
         Import from VS Code
     </ImportButton>);
 
 export const UploadComponent = props => (
-    <UploadButton
-        onClick={props.uploadInput}
-        href="javascript:void(0);"
-        className="uploadButton"
-    >
+    <UploadButton onClick={props.uploadInput} className="uploadButton">
         Upload CTA file
     </UploadButton>);
 
