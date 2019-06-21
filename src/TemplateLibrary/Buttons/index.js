@@ -6,13 +6,28 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 
-const UploadButton = styled.a`
+const UploadButton = styled.button`
   position: relative;
   font-weight: 300;
   text-align: right;
-  text-decoration: underline;
+  text-decoration: none;
   font-size: 14px;
   color: #76777D;
+  border: 0;
+  cursor: pointer;
+  &:hover {
+    color: #0361DE;
+    text-decoration: underline;
+  }
+  &:focus {
+    outline: none;
+    color: #3089FF;
+    text-decoration: underline;
+  }
+  &:active {
+    color: #3089FF;
+    text-decoration: underline;
+  }
 `;
 
 const ImportButton = styled(UploadButton)`
