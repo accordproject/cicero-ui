@@ -6,16 +6,23 @@ import PropTypes from 'prop-types';
 
 /* Styling */
 import styled from 'styled-components';
-import { Button, Card, Input } from 'semantic-ui-react';
+import { Card, Input } from 'semantic-ui-react';
 
 /* Internal */
 import TemplateCard from './TemplateCard';
+import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
 const TemplatesWrapper = styled.div`
+  font-family: 'IBM Plex Sans', sans-serif;
   position: relative;
   margin: 16px 16px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  max-width: 442px;
+  max-width: 355px;
+
+  display: grid;
+  grid-template-areas:  "header"
+                        "functionTemps";
+  grid-template-rows:    55px auto;
+  grid-template-columns: 100%;
 `;
 
 const Header = styled.div`
@@ -23,37 +30,33 @@ const Header = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
   font-size: 16px;
-  max-width: 442px;
+  margin: 10px 10px;
+  
+  display: grid;
+  grid-area: header;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "title imports";
 `;
 
-const UploadImport = styled.a`
-  position: relative;
-  font-weight: 300;
-  float: right;
-  margin: 0 16px 0 0;
-  text-decoration: underline;
-  font-size: 14px;
-  color: #76777D;
+const HeaderImports = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Functionality = styled.div`
-  margin: 16px 0;
-  max-width: 430px;
   font-family: 'IBM Plex Sans', sans-serif;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SearchInput = styled(Input)`
-  margin: 0 20px 0 0;
-  width: 136px;
-  float: left;
-`;
-
-const AddClauseBtn = styled(Button)`
-  max-width: 272px;
+  margin: 5px auto !important;
+  width: 96% !important;
 `;
 
 const TemplateCards = styled(Card.Group)`
-  margin: 20px 0 0 0;
+  margin: 0 !important;
   width: 100%;
 `;
 
@@ -105,54 +108,33 @@ class TemplateLibraryComponent extends React.PureComponent {
   render() {
     const filtered = this.filterTemplates(this.props.templates);
     return (
-      <div>
-        <TemplatesWrapper>
+      <TemplatesWrapper>
         <Header>
-            Clause Templates
+          Clause Templates
+          <HeaderImports>
             {this.props.import
-            && <UploadImport
-              onClick={this.props.import}
-              href="javascript:void(0);"
-              className="importButton"
-              >
-              Import from VS Code
-            </UploadImport>}
+            && <ImportComponent importInput={this.props.import} />}
             {this.props.upload
-            && <UploadImport
-              onClick={this.props.upload}
-              href="javascript:void(0);"
-              className="uploadButton"
-              >
-              Upload CTA file
-            </UploadImport>}
-          </Header>
-          <Functionality>
-            <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
-            <AddClauseBtn
-              content="New Clause Template"
-              color="blue"
-              fluid
-              icon="plus"
-              id="addClauseBtn"
-              onClick={this.props.addTemp}
-              className="addTemplateButton"
+            && <UploadComponent uploadInput={this.props.upload} />}
+          </HeaderImports>
+        </Header>
+        <Functionality>
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
+          {this.props.addTemp
+          && <NewClauseComponent addTempInput={this.props.addTemp} />}
+        </Functionality>
+        <TemplateCards>
+          {_.sortBy(filtered, ['name']).map(t => (
+            <TemplateCard
+              key={t.uri}
+              addToCont={this.props.addToCont}
+              template={t}
+              handleViewTemplate={this.handleViewTemplate}
+              className="templateCard"
             />
-          </Functionality>
-          <TemplateCards>
-            {
-            _.sortBy(filtered, ['name']).map(t => (
-              <TemplateCard
-                key={t.uri}
-                addToCont={this.props.addToCont}
-                template={t}
-                handleViewTemplate={this.handleViewTemplate}
-                className="templateCard"
-              />
-            ))
-          }
-          </TemplateCards>
-        </TemplatesWrapper>
-      </div>
+          ))}
+        </TemplateCards>
+      </TemplatesWrapper>
     );
   }
 }

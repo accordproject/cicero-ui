@@ -44,43 +44,46 @@ const templateArray = [
   },
 ];
 
+const mockUpload = jest.fn();
+const mockImport = jest.fn();
+const addNewTemplate = jest.fn();
+const mockAddToCont = jest.fn();
+
+const propInput = {
+  templates: templateArray,
+  upload: mockUpload,
+  import: mockImport,
+  addTemp: addNewTemplate,
+  addToCont: mockAddToCont,
+};
 
 describe('<TemplateLibrary />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const component = shallow(<TemplateLibrary templates={templateArray} />);
+      const component = shallow(<TemplateLibrary {...propInput} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });
   });
 
+  describe('renders conditional buttons', () => {
+    it('with functions passed in', () => {
+      const component = shallow(<TemplateLibrary {...propInput} />);
+      expect(component.find('UploadComponent')).toHaveLength(1);
+      expect(component.find('ImportComponent')).toHaveLength(1);
+      expect(component.find('NewClauseComponent')).toHaveLength(1);
+    });
+
+    it('without functions passed in', () => {
+      const component = shallow(<TemplateLibrary />);
+      expect(component.find('UploadComponent')).toHaveLength(0);
+      expect(component.find('ImportComponent')).toHaveLength(0);
+      expect(component.find('NewClauseComponent')).toHaveLength(0);
+    });
+  });
+
   describe('runs functions passed into it', () => {
-    it('upload function runs', () => {
-      const mockUpload = jest.fn();
-      const component = shallow(<TemplateLibrary upload={mockUpload} />);
-      expect(component.find('.uploadButton').prop('onClick')).toEqual(mockUpload);
-      component.find('.uploadButton').simulate('click');
-      expect(mockUpload).toHaveBeenCalled();
-    });
-
-    it('import function runs', () => {
-      const mockImport = jest.fn();
-      const component = shallow(<TemplateLibrary import={mockImport} />);
-      expect(component.find('.importButton').prop('onClick')).toEqual(mockImport);
-      component.find('.importButton').simulate('click');
-      expect(mockImport).toHaveBeenCalled();
-    });
-
-    it('add Template function runs', () => {
-      const addNewTemplate = jest.fn();
-      const component = shallow(<TemplateLibrary addTemp={addNewTemplate} />);
-      expect(component.find('.addTemplateButton').prop('onClick')).toEqual(addNewTemplate);
-      component.find('.addTemplateButton').simulate('click');
-      expect(addNewTemplate).toHaveBeenCalled();
-    });
-
     it('add To Contract function runs', () => {
-      const mockAddToCont = jest.fn();
       const component = shallow(
         <TemplateCard
           key={templateArray[0].uri}

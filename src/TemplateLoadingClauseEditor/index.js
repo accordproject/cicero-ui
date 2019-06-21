@@ -119,6 +119,6 @@ TemplateLoadingClauseEditor.defaultProps = {
   showEditButton: true,
   showParse: true,
   showMessage: true,
-}
+};
 
 export default TemplateLoadingClauseEditor;
