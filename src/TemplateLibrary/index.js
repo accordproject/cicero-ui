@@ -15,7 +15,6 @@ import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons'
 const TemplatesWrapper = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   position: relative;
-  margin: 16px 16px;
   max-width: 355px;
 
   display: grid;
