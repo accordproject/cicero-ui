@@ -14,8 +14,8 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { SlateAsInputEditor } from '@accordproject/markdown-editor';
-import List from '@accordproject/markdown-editor/dist/plugins/list';
+import { SlateAsInputEditor, List } from '@accordproject/markdown-editor';
+
 import ClausePlugin from '../plugins/ClausePlugin';
 
 /**
