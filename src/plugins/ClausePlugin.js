@@ -208,14 +208,14 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     const { node, children } = props;
 
     const nodeAttributes = node.data.get('attributes');
-    const { src, clauseId } = nodeAttributes;
+    const { src, clauseid } = nodeAttributes;
 
     if (src) {
       console.log(`handing over responsibility of loading: ${src}`);
       loadTemplateCallback(src.toString());
     }
 
-    return (<ClauseComponent templateUri={src} clauseId={clauseId} {...props}>{children}</ClauseComponent>);
+    return (<ClauseComponent templateUri={src} clauseId={clauseid} {...props}>{children}</ClauseComponent>);
   }
 
   /**
