@@ -78,6 +78,7 @@ class TemplateLibraryComponent extends React.PureComponent {
     import: PropTypes.func,
     addTemp: PropTypes.func,
     addToCont: PropTypes.func,
+    handleViewTemplate: PropTypes.func,
     templates: PropTypes.arrayOf(PropTypes.object),
   }
 
@@ -128,7 +129,7 @@ class TemplateLibraryComponent extends React.PureComponent {
               key={t.uri}
               addToCont={this.props.addToCont}
               template={t}
-              handleViewTemplate={this.handleViewTemplate}
+              handleViewTemplate={this.props.handleViewTemplate}
               className="templateCard"
             />
           ))}
