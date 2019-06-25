@@ -38,6 +38,9 @@ const Header = styled.div`
 `;
 
 const HeaderTitle = styled.p`
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
   text-align: left;
 `;
 
