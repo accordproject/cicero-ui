@@ -29,12 +29,16 @@ const Header = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
   font-size: 16px;
-  margin: 10px 10px;
+  margin: 0 0 10px 0;
   
   display: grid;
   grid-area: header;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "title imports";
+`;
+
+const HeaderTitle = styled.p`
+  text-align: left;
 `;
 
 const HeaderImports = styled.div`
@@ -50,8 +54,8 @@ const Functionality = styled.div`
 `;
 
 const SearchInput = styled(Input)`
-  margin: 5px auto !important;
-  width: 96% !important;
+  margin: 5px 0 !important;
+  width: 100% !important;
 `;
 
 const TemplateCards = styled(Card.Group)`
@@ -110,7 +114,7 @@ class TemplateLibraryComponent extends React.PureComponent {
     return (
       <TemplatesWrapper>
         <Header>
-          Clause Templates
+          <HeaderTitle>Clause Templates</HeaderTitle>
           <HeaderImports>
             {this.props.import
             && <ImportComponent importInput={this.props.import} />}

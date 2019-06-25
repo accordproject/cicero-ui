@@ -6,6 +6,7 @@ import { Card, Image } from 'semantic-ui-react';
 import TemplateActions from './TemplateActions';
 
 const CardContainer = styled(Card)`
+  margin: 10px 0 !important;
   position: relative;
   text-align: left;
   min-height: 120px;
