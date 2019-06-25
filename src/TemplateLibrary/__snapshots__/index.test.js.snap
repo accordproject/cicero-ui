@@ -3,7 +3,9 @@
 exports[`<TemplateLibrary /> on initialization renders page correctly 1`] = `
 <styled.div>
   <styled.div>
-    Clause Templates
+    <styled.p>
+      Clause Templates
+    </styled.p>
     <styled.div>
       <ImportComponent
         importInput={[MockFunction]}
