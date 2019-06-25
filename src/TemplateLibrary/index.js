@@ -29,7 +29,7 @@ const Header = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
   font-size: 16px;
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
   
   display: grid;
   grid-area: header;
