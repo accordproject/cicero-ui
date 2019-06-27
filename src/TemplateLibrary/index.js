@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 /* Styling */
 import styled from 'styled-components';
-import { Card, Input } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 
 /* Internal */
 import TemplateCard from './TemplateCard';
@@ -16,8 +16,8 @@ const TemplatesWrapper = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   position: relative;
   max-width: 355px;
+  height: inherit;
 
-  display: grid;
   grid-template-areas:  "header"
                         "functionTemps";
   grid-template-rows:    55px auto;
@@ -42,6 +42,7 @@ const HeaderTitle = styled.p`
   font-weight: 800;
   font-size: 16px;
   text-align: left;
+  color: ${props => props.HeaderTitleColor || null};
 `;
 
 const HeaderImports = styled.div`
@@ -54,16 +55,25 @@ const Functionality = styled.div`
   max-width: 430px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
+  grid-area: functionTemps;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  max-height: 106px;
 `;
 
 const SearchInput = styled(Input)`
   margin: 5px 0 !important;
   width: 100% !important;
+  background-color: #141F3C !im;
+  max-height: 53px;
 `;
 
-const TemplateCards = styled(Card.Group)`
+const TemplateCards = styled.div`
   margin: 0 !important;
   width: 100%;
+  height: calc(100% - 54px);
+  overflow-y: scroll !important;
 `;
 
 /**
@@ -81,6 +91,13 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   static propTypes = {
+    templateDescription: PropTypes.string,
+    templateTitle: PropTypes.string,
+    templateBackground: PropTypes.string,
+    actionBtnBorder: PropTypes.string,
+    actionBtnBkgrd: PropTypes.string,
+    actionBtnColor: PropTypes.string,
+    headerTitleColor: PropTypes.string,
     upload: PropTypes.func,
     import: PropTypes.func,
     addTemp: PropTypes.func,
@@ -117,7 +134,7 @@ class TemplateLibraryComponent extends React.PureComponent {
     return (
       <TemplatesWrapper>
         <Header>
-          <HeaderTitle>Clause Templates</HeaderTitle>
+          <HeaderTitle HeaderTitleColor={this.props.headerTitleColor}>Clause Templates</HeaderTitle>
           <HeaderImports>
             {this.props.import
             && <ImportComponent importInput={this.props.import} />}
@@ -138,6 +155,12 @@ class TemplateLibraryComponent extends React.PureComponent {
               template={t}
               handleViewTemplate={this.props.handleViewTemplate}
               className="templateCard"
+              actionBtnBkgrd={this.props.actionBtnBkgrd}
+              actionBtnColor={this.props.actionBtnColor}
+              actionBtnBorder={this.props.actionBtnBorder}
+              templateBackground={this.props.templateBackground}
+              templateTitle={this.props.templateTitle}
+              templateDescription={this.props.templateDescription}
             />
           ))}
         </TemplateCards>
