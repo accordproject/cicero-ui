@@ -7,7 +7,7 @@ import TemplateActions from './TemplateActions';
 
 const CardContainer = styled(Card)`
   margin: 10px 0 !important;
-  background-color: ${props => props.templateBackground || null} !important;
+  background-color: ${props => props.templatebackground || null} !important;
   position: relative;
   text-align: left;
   min-height: 120px;
@@ -42,7 +42,7 @@ const DescriptionContainer = styled(Card.Description)`
   max-width: 400px;
   margin: auto;
   font-size: 0.9em;
-  color: ${props => props.templateDescription || null} !important;
+  color: ${props => props.templatedescription || null} !important;
 `;
 
 /**
@@ -57,14 +57,14 @@ class TemplateCard extends React.Component {
   render() {
     const { template } = this.props;
     return (
-        <CardContainer fluid key={template.uri} templateBackground={this.props.templateBackground}>
+        <CardContainer fluid key={template.uri} templatebackground={this.props.templatebackground}>
             <Card.Content>
               <TemplateLogo src={template.icon} />
               <Title templateTitle={this.props.templateTitle}>
                 {template.name}
                 <Version>v {template.version}</Version>
               </Title>
-              <DescriptionContainer templateDescription={this.props.templateDescription}>
+              <DescriptionContainer templatedescription={this.props.templatedescription}>
                 {template.description}
               </DescriptionContainer>
             </Card.Content>
@@ -86,14 +86,14 @@ class TemplateCard extends React.Component {
  * The property types for this component
  */
 TemplateCard.propTypes = {
-  templateDescription: PropTypes.string,
+  templatedescription: PropTypes.string,
   template: PropTypes.object,
   addToCont: PropTypes.func,
   handleViewTemplate: PropTypes.func,
   actionBtnColor: PropTypes.string,
   actionBtnBkgrd: PropTypes.string,
   actionBtnBorder: PropTypes.string,
-  templateBackground: PropTypes.string,
+  templatebackground: PropTypes.string,
   templateTitle: PropTypes.string,
 };
 
