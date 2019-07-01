@@ -91,9 +91,9 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   static propTypes = {
-    templateDescription: PropTypes.string,
+    templatedescription: PropTypes.string,
     templateTitle: PropTypes.string,
-    templateBackground: PropTypes.string,
+    templatebackground: PropTypes.string,
     actionBtnBorder: PropTypes.string,
     actionBtnBkgrd: PropTypes.string,
     actionBtnColor: PropTypes.string,
@@ -158,9 +158,9 @@ class TemplateLibraryComponent extends React.PureComponent {
               actionBtnBkgrd={this.props.actionBtnBkgrd}
               actionBtnColor={this.props.actionBtnColor}
               actionBtnBorder={this.props.actionBtnBorder}
-              templateBackground={this.props.templateBackground}
+              templatebackground={this.props.templatebackground}
               templateTitle={this.props.templateTitle}
-              templateDescription={this.props.templateDescription}
+              templatedescription={this.props.templatedescription}
             />
           ))}
         </TemplateCards>
