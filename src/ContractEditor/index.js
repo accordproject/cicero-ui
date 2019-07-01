@@ -73,6 +73,7 @@ const ContractEditor = (props) => {
     onChange={props.onChange || contractProps.onChange}
     plugins={plugins}
     lockText={props.lockText}
+    editorProps={props.editorProps}
   /> : null
   );
 };
@@ -90,6 +91,11 @@ ContractEditor.propTypes = {
    * Callback called when the contents of the editor changes
    */
   onChange: PropTypes.func,
+
+  /**
+   * INSERT JSDOC
+   */
+  editorProps: PropTypes.object,
 
   /**
    * Whether to lock all non variable text
