@@ -42,7 +42,7 @@ const HeaderTitle = styled.p`
   font-weight: 800;
   font-size: 16px;
   text-align: left;
-  color: ${props => props.HeaderTitleColor || null};
+  color: ${props => props.color || null};
 `;
 
 const HeaderImports = styled.div`
@@ -91,13 +91,15 @@ class TemplateLibraryComponent extends React.PureComponent {
   }
 
   static propTypes = {
-    templatedescription: PropTypes.string,
-    templateTitle: PropTypes.string,
-    templatebackground: PropTypes.string,
-    actionBtnBorder: PropTypes.string,
-    actionBtnBkgrd: PropTypes.string,
-    actionBtnColor: PropTypes.string,
-    headerTitleColor: PropTypes.string,
+    libraryProps: PropTypes.shape({
+      ACTION_BUTTON: PropTypes.string,
+      ACTION_BUTTON_BG: PropTypes.string,
+      ACTION_BUTTON_BORDER: PropTypes.string,
+      HEADER_TITLE: PropTypes.string,
+      TEMPLATE_BACKGROUND: PropTypes.string,
+      TEMPLATE_DESCRIPTION: PropTypes.string,
+      TEMPLATE_TITLE: PropTypes.string,
+    }),
     upload: PropTypes.func,
     import: PropTypes.func,
     addTemp: PropTypes.func,
@@ -131,10 +133,11 @@ class TemplateLibraryComponent extends React.PureComponent {
    */
   render() {
     const filtered = this.filterTemplates(this.props.templates);
+    const { libraryProps } = this.props;
     return (
       <TemplatesWrapper>
         <Header>
-          <HeaderTitle HeaderTitleColor={this.props.headerTitleColor}>Clause Templates</HeaderTitle>
+          <HeaderTitle color={libraryProps.HEADER_TITLE}>Clause Templates</HeaderTitle>
           <HeaderImports>
             {this.props.import
             && <ImportComponent importInput={this.props.import} />}
@@ -155,12 +158,7 @@ class TemplateLibraryComponent extends React.PureComponent {
               template={t}
               handleViewTemplate={this.props.handleViewTemplate}
               className="templateCard"
-              actionBtnBkgrd={this.props.actionBtnBkgrd}
-              actionBtnColor={this.props.actionBtnColor}
-              actionBtnBorder={this.props.actionBtnBorder}
-              templatebackground={this.props.templatebackground}
-              templateTitle={this.props.templateTitle}
-              templatedescription={this.props.templatedescription}
+              libraryProps={libraryProps}
             />
           ))}
         </TemplateCards>

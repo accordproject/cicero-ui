@@ -7,7 +7,7 @@ import TemplateActions from './TemplateActions';
 
 const CardContainer = styled(Card)`
   margin: 10px 0 !important;
-  background-color: ${props => props.templatebackground || null} !important;
+  background-color: ${props => props.color || null} !important;
   position: relative;
   text-align: left;
   min-height: 120px;
@@ -17,8 +17,7 @@ const CardContainer = styled(Card)`
 
 const Title = styled.div`
   height: 16px;
-  color: ${props => props.templateTitle || null};
-  font-family: Graphik;
+  color: ${props => props.color || null};
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;
@@ -42,7 +41,7 @@ const DescriptionContainer = styled(Card.Description)`
   max-width: 400px;
   margin: auto;
   font-size: 0.9em;
-  color: ${props => props.templatedescription || null} !important;
+  color: ${props => props.color || null} !important;
 `;
 
 /**
@@ -55,23 +54,21 @@ class TemplateCard extends React.Component {
      * @return {*} the react component
   */
   render() {
-    const { template } = this.props;
+    const { libraryProps, template } = this.props;
     return (
-        <CardContainer fluid key={template.uri} templatebackground={this.props.templatebackground}>
+        <CardContainer fluid key={template.uri} color={libraryProps.TEMPLATE_BACKGROUND}>
             <Card.Content>
               <TemplateLogo src={template.icon} />
-              <Title templateTitle={this.props.templateTitle}>
+              <Title color={libraryProps.TEMPLATE_TITLE}>
                 {template.name}
                 <Version>v {template.version}</Version>
               </Title>
-              <DescriptionContainer templatedescription={this.props.templatedescription}>
+              <DescriptionContainer color={libraryProps.TEMPLATE_DESCRIPTION}>
                 {template.description}
               </DescriptionContainer>
             </Card.Content>
             <TemplateActions
-              actionBtnBkgrd={this.props.actionBtnBkgrd}
-              actionBtnColor={this.props.actionBtnColor}
-              actionBtnBorder={this.props.actionBtnBorder}
+              libraryProps={libraryProps}
               addToCont={this.props.addToCont}
               uriKey={template.uri}
               handleViewDetails={this.props.handleViewTemplate}
@@ -86,15 +83,18 @@ class TemplateCard extends React.Component {
  * The property types for this component
  */
 TemplateCard.propTypes = {
-  templatedescription: PropTypes.string,
   template: PropTypes.object,
   addToCont: PropTypes.func,
   handleViewTemplate: PropTypes.func,
-  actionBtnColor: PropTypes.string,
-  actionBtnBkgrd: PropTypes.string,
-  actionBtnBorder: PropTypes.string,
-  templatebackground: PropTypes.string,
-  templateTitle: PropTypes.string,
+  libraryProps: PropTypes.shape({
+    ACTION_BUTTON: PropTypes.string,
+    ACTION_BUTTON_BG: PropTypes.string,
+    ACTION_BUTTON_BORDER: PropTypes.string,
+    HEADER_TITLE: PropTypes.string,
+    TEMPLATE_BACKGROUND: PropTypes.string,
+    TEMPLATE_DESCRIPTION: PropTypes.string,
+    TEMPLATE_TITLE: PropTypes.string,
+  }),
 };
 
 export default TemplateCard;
