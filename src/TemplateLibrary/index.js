@@ -133,7 +133,8 @@ class TemplateLibraryComponent extends React.PureComponent {
    */
   render() {
     const filtered = this.filterTemplates(this.props.templates);
-    const { libraryProps } = this.props;
+    const libraryProps = this.props.libraryProps || Object.create(null);
+
     return (
       <TemplatesWrapper>
         <Header>
