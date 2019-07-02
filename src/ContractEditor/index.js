@@ -93,7 +93,7 @@ ContractEditor.propTypes = {
   onChange: PropTypes.func,
 
   /**
-   * INSERT JSDOC
+   * Styling props passed down through an object to Markdown Editor
    */
   editorProps: PropTypes.object,
 
