@@ -18,8 +18,10 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
-    "@accordproject/cicero-core": "^0.12.4",
-    "@accordproject/markdown-editor": "^0.4.20",
+    "@accordproject/cicero-core": "^0.13.0",
+    "@accordproject/markdown-editor": "^0.5.0",
+    "acorn": "5.1.2",
+    "doctrine": "3.0.0",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
@@ -47,6 +49,7 @@
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "braces": "2.3.2",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.0.0",
     "enzyme": "^3.10.0",
@@ -77,7 +80,7 @@
   },
   "author": "Accord Project",
   "homepage": "https://github.com/accordproject/cicero-ui",
-  "license": "Apache-2",
+  "license": "Apache-2.0",
   "repository": "https://github.com/accordproject/cicero-ui.git",
   "keywords": [
     "react-component",

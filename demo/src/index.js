@@ -15,7 +15,7 @@ const plugins = [List(), ClausePlugin(null, null)];
 const pluginManager = new PluginManager(plugins);
 const fromMarkdown = new FromMarkdown(pluginManager);
 
-const acceptanceOfDelivery = `\`\`\` <clause src="https://templates.accordproject.org/archives/acceptance-of-delivery@0.11.1.cta" id="123">
+const acceptanceOfDelivery = `\`\`\` <clause src="https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta" id="123">
 Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
 
 Inspection and Notice. "Party B" will have 10 Business Days' to inspect and evaluate the "Widgets" on the delivery date before notifying "Party A" that it is either accepting or rejecting the "Widgets".
