@@ -13,7 +13,7 @@ const UploadButton = styled.button`
   text-decoration: none;
   font-size: 14px;
   color: #76777D;
-  background-color: #fff;
+  background-color: inherit;
   border: 0;
   cursor: pointer;
   &:hover {
@@ -38,6 +38,7 @@ const ImportButton = styled(UploadButton)`
 const AddClauseBtn = styled(Button)`
   margin: 5px 0 0 !important;
   width: 100% !important;
+  max-height: 53px;
 `;
 
 export const ImportComponent = props => (

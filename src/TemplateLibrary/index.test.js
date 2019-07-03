@@ -57,10 +57,20 @@ const propInput = {
   addToCont: mockAddToCont,
 };
 
+const libraryProps = {
+  ACTION_BUTTON: 'red',
+  ACTION_BUTTON_BG: 'red',
+  ACTION_BUTTON_BORDER: 'red',
+  HEADER_TITLE: 'red',
+  TEMPLATE_BACKGROUND: 'red',
+  TEMPLATE_DESCRIPTION: 'red',
+  TEMPLATE_TITLE: 'red',
+};
+
 describe('<TemplateLibrary />', () => {
   describe('on initialization', () => {
     it('renders page correctly', () => {
-      const component = shallow(<TemplateLibrary {...propInput} />);
+      const component = shallow(<TemplateLibrary {...propInput} libraryProps={libraryProps} />);
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });
@@ -68,14 +78,14 @@ describe('<TemplateLibrary />', () => {
 
   describe('renders conditional buttons', () => {
     it('with functions passed in', () => {
-      const component = shallow(<TemplateLibrary {...propInput} />);
+      const component = shallow(<TemplateLibrary libraryProps={libraryProps} {...propInput} />);
       expect(component.find('UploadComponent')).toHaveLength(1);
       expect(component.find('ImportComponent')).toHaveLength(1);
       expect(component.find('NewClauseComponent')).toHaveLength(1);
     });
 
     it('without functions passed in', () => {
-      const component = shallow(<TemplateLibrary />);
+      const component = shallow(<TemplateLibrary libraryProps={libraryProps} />);
       expect(component.find('UploadComponent')).toHaveLength(0);
       expect(component.find('ImportComponent')).toHaveLength(0);
       expect(component.find('NewClauseComponent')).toHaveLength(0);
@@ -89,6 +99,7 @@ describe('<TemplateLibrary />', () => {
           key={templateArray[0].uri}
           template={templateArray[0]}
           addToCont={mockAddToCont}
+          libraryProps={libraryProps}
         />
       );
       expect(component.find('.templateAction').prop('addToCont')).toEqual(mockAddToCont);

@@ -79,50 +79,60 @@ function Demo() {
     setActiveItem(name);
   }, []);
 
+  const editorProps = {
+    BUTTON_BACKGROUND_INACTIVE: null,
+    BUTTON_BACKGROUND_ACTIVE: null,
+    BUTTON_SYMBOL_INACTIVE: null,
+    BUTTON_SYMBOL_ACTIVE: null,
+    DROPDOWN_COLOR: null,
+    TOOLBAR_BACKGROUND: null,
+    TOOLTIP_BACKGROUND: null,
+    TOOLTIP: null,
+    TOOLBAR_SHADOW: null,
+    WIDTH: '600px',
+  };
+
   const demo = activeItem === 'clauseEditor'
     ? <ClauseEditor
-  lockText={false}
-  value={clauseValue}
-  onChange={onClauseChange}
-  onParse={onParse}
-  />
+        lockText={false}
+        value={clauseValue}
+        onChange={onClauseChange}
+        onParse={onParse}
+      />
     : <ContractEditor
-  lockText={false}
-  value={contractValue}
-  onChange={onContractChange}
-  />;
+        lockText={false}
+        value={contractValue}
+        onChange={onContractChange}
+        editorProps={editorProps}
+      />;
 
   return (
     <div>
       <Grid centered columns={2}>
-    <Grid.Column>
-      <Segment>
-      {demo}
-        <Rail position='left'>
+        <Grid.Column>
           <Segment>
-          <Menu vertical>
-        <Menu.Item
-          name='clauseEditor'
-          active={activeItem === 'clauseEditor'}
-          onClick={handleItemClick}
-        >
-          <Header as='h4'>Clause Editor</Header>
-          <p>Edit a single clause.</p>
-        </Menu.Item>
-
-        <Menu.Item name='contractEditor' active={activeItem === 'contractEditor'} onClick={handleItemClick}>
-        <Header as='h4'>Contract Editor</Header>
-          <p>Adds multiple clauses to a rich-text contract.</p>
-        </Menu.Item>
-
-      </Menu>
+          {demo}
+          <Rail position='left'>
+            <Segment>
+              <Menu vertical>
+                <Menu.Item
+                  name='clauseEditor'
+                  active={activeItem === 'clauseEditor'}
+                  onClick={handleItemClick}
+                >
+                  <Header as='h4'>Clause Editor</Header>
+                  <p>Edit a single clause.</p>
+                </Menu.Item>
+                <Menu.Item name='contractEditor' active={activeItem === 'contractEditor'} onClick={handleItemClick}>
+                  <Header as='h4'>Contract Editor</Header>
+                  <p>Adds multiple clauses to a rich-text contract.</p>
+                </Menu.Item>
+              </Menu>
+            </Segment>
+          </Rail>
           </Segment>
-        </Rail>
-
-      </Segment>
-    </Grid.Column>
-  </Grid>
-
+        </Grid.Column>
+      </Grid>
     </div>
   );
 }
