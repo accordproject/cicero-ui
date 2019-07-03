@@ -65,7 +65,7 @@ const Functionality = styled.div`
 const SearchInput = styled(Input)`
   margin: 5px 0 !important;
   width: 100% !important;
-  background-color: #141F3C !im;
+  background-color: #141F3C !important;
   max-height: 53px;
 `;
 

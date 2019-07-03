@@ -7,7 +7,7 @@ import TemplateActions from './TemplateActions';
 
 const CardContainer = styled(Card)`
   margin: 10px 0 !important;
-  background-color: ${props => props.color || null} !important;
+  background-color: ${props => props.color || 'transparent'} !important;
   position: relative;
   text-align: left;
   min-height: 120px;
