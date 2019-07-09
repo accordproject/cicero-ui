@@ -18,10 +18,8 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
-    "@accordproject/cicero-core": "^0.13.0",
+    "@accordproject/cicero-core": "^0.13.2",
     "@accordproject/markdown-editor": "^0.5.4",
-    "acorn": "5.1.2",
-    "doctrine": "3.0.0",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
