@@ -1,34 +1,53 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-const ErrorsBar = styled.div`
+const ErrorDisplay = styled.div`
   width: 100%;
-  height: 400px;
-  padding: 10px;
+  max-height: 300px;
   background-color: #1E2D53;
   box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
 `;
 
 const ErrorsHeader = styled.div`
   width: 100%;
-  height: 35px;
-  padding: 0.5em;
-  background-color: #1E2D53;
+  height: 25px;
+  padding: 0.1em 0.1em 0.1em 1em;
+  background-color: ${props => (props.backgroundColor ? '#364C77' : '#1E2D53')};
   box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
+  
 
   border-top: 1px solid #50637F;
 
   // height: 20px;
   // width: 80px;
-  color: ${props => (props.errors ? '#c71a19' : '#19c6c7')};
+  color: ${props => (props.errors ? '#FF4242' : '#19C6C7')};
   transition: 0.5s;
   font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: bold;
   letter-spacing: -0.5px;
   line-height: 20px;
+
+  &:hover {
+    background-color: #364C77;
+    cursor: pointer;
+  }
+`;
+
+const ErrorSymbol = styled(Icon)`
+  vertical-align: middle;
+`;
+
+const ErrorBarArrow = styled.div`
+  float: right;
+  margin: 5px 15px;
+
+  border-top: ${props => (props.errorDisplay ? '7px solid #7B9AD1' : '0')};
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-bottom: ${props => (props.errorDisplay ? '0' : '7px solid #7B9AD1')};
 `;
 
 const buildMessage = (data, key) => {
@@ -49,68 +68,9 @@ const buildStartLocation = data => buildMessage(data, 'start');
 
 const buildEndLocation = data => buildMessage(data, 'end');
 
-const errorsExist = err => err.length > 0;
+const errorsExist = err => (err && err.length) > 1;
 
-const errorsLength = err => err.length || 'No';
-
-const modelError = {
-  component: 'composer-concerto',
-  name: 'ParseException',
-  fileLocation: {
-    start: {
-      offset: 559,
-      line: 15,
-      column: 1
-    },
-    end: {
-      offset: 559,
-      line: 15,
-      column: 1
-    },
-    fileName: './examples/volumediscount/model.cto'
-  },
-  shortMessage: 'Expected "namespace", comment, end of line, or whitespace but "n" found.',
-  fileName: './examples/volumediscount/model.cto',
-  message: 'This is one big long message with lots of information and maybe more information and then even more you better believe it oh boy so much information'
-};
-
-const parseError = {
-  component: 'ergo-compiler',
-  name: 'TypeException',
-  fileLocation: {
-    start: {
-      line: 21,
-      column: 54
-    },
-    end: {
-      line: 21,
-      column: 76
-    }
-  },
-  shortMessage: "This operator received unexpected arguments of type `Double'  and `Integer'.",
-  fileName: './examples/volumediscount/logic.ergo',
-  message: 'This is one big long message with lots of information and maybe more information and then even more you better believe it oh boy so much information'
-};
-
-const ergoError = {
-  component: 'ergo-compiler',
-  name: 'ParseException',
-  fileLocation: {
-    start: {
-      line: 17,
-      column: 0
-    },
-    end: {
-      line: 17,
-      column: 7
-    }
-  },
-  shortMessage: 'Parse error',
-  fileName: './examples/volumediscount/logic.ergo',
-  message: 'This is one big long message with lots of information and maybe more information and then even more you better believe it oh boy so much information'
-};
-
-const errrorExample = [modelError, parseError, ergoError];
+const errorsLength = err => (err && err.length - 1) || 'No';
 
 const extensionFinder = file => file.lastIndexOf('.');
 
@@ -134,17 +94,17 @@ const fileTypeConversion = (file) => {
 };
 
 const ErrorComponent = styled.div`
-  height: 50px;
   width: 100%;
   color: #F0F0F0;
   border-bottom: 1px solid #50637F;
-  padding: 15px 0;
+  padding: 10px 16px;
   
   display: grid;
+  grid-row-gap: 20px; 
   grid-template-areas: "errorArrow errorFile errorType errorMessage"
                        "errorFull errorFull errorFull errorFull";
   grid-template-columns: 0.25fr 1fr 1fr 8fr;
-  grid-template-rows: 1min-content 1auto;
+  grid-template-rows: min-content auto;
 `;
 
 const ErrRARorFile = styled.a`
@@ -194,29 +154,64 @@ const ArrowDiv = styled.div`
   // border-top: 10px solid #50637F;
 `;
 
-const spreadErrors = errArr => errArr.map(
+const spreadErrors = input => input.errrorExample.map(
   (err, key) => (
-      <ErrorComponent key={key}>
+      <ErrorComponent key={key} onClick={input.handleClickSpecError}>
         <ArrowDiv />
         <ErrRARorFile>{fileTypeConversion(err.fileName)}</ErrRARorFile>
         <ErrRARorType>{err.name}:</ErrRARorType>
         <ErrRARorMessage>{err.shortMessage}</ErrRARorMessage>
-        <ErrRARorFullMsg>{err.message}</ErrRARorFullMsg>
+        {input.specErrorVisible && <ErrRARorFullMsg>{err.message}</ErrRARorFullMsg>}
       </ErrorComponent>
   )
 );
 
+const arrLength = input => input.length && (input.length > 1);
+
 const ErrorLogger = (props) => {
-  console.log('props: ', props.errors);
+  const { errors } = props;
+  console.log('props: ', props);
+  console.log('Errors: ', errors.length);
+
+  // const buttonRef = useRef(null);
+
+  // const anyErrors = () => (!!props);
+
+  const [errorsVisible, setErrorsVisible] = useState(false);
+
+  const [specErrorVisible, setspecErrorVisible] = useState([]);
+
+  const handleClickErrorsBar = () => {
+    if (arrLength(errors)) { setErrorsVisible(!errorsVisible); }
+    // buttonRef.current.blur();
+  };
+
+  const handleClickSpecError = () => {
+    setspecErrorVisible(!specErrorVisible);
+    // buttonRef.current.blur();
+  };
+
+  const spreadErrorsProps = {
+    errrorExample: props.errors,
+    handleClickSpecError,
+    specErrorVisible
+  };
+
   return (
   <div>
-    <ErrorsBar>
-      {spreadErrors(errrorExample)}
-    </ErrorsBar>
-    <ErrorsHeader errors={errorsExist([errrorExample])}>
-      {errorsExist([errrorExample])
-        && <Icon name="exclamation triangle" />}
-      {errorsLength(errrorExample)} Errors
+    {errorsVisible && <ErrorDisplay>
+      {spreadErrors(spreadErrorsProps)}
+    </ErrorDisplay>}
+
+    <ErrorsHeader
+      backgroundColor={errorsVisible}
+      errors={errorsExist(errors)}
+      onClick={handleClickErrorsBar}
+    >
+      {errorsExist(errors)
+        && <ErrorSymbol name="exclamation triangle" size="small" />}
+      {errorsLength(errors)} Errors
+      <ErrorBarArrow errorDisplay={errorsVisible} />
     </ErrorsHeader>
   </div>
   );
