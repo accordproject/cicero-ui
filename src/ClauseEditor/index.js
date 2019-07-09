@@ -95,19 +95,24 @@ ClauseEditor.propTypes = {
   value: PropTypes.object.isRequired,
 
   /**
-   * Callback when parsing is completed
-   */
-  onParse: PropTypes.func.isRequired,
-
-  /**
    * Callback when contents of the editor changes
    */
   onChange: PropTypes.func.isRequired,
 
   /**
+   * A callback to load a template
+   */
+  loadTemplateObject: PropTypes.func,
+
+  /**
    * When true only the variables in the template are editable
    */
   lockText: PropTypes.bool.isRequired,
+
+  /**
+   * A callback to parse the contents of a clause
+   */
+  parseClause: PropTypes.func,
 
   /**
    * The Cicero template for the clause (Optional)
