@@ -105,12 +105,12 @@ ContractEditor.propTypes = {
   /**
    * A callback to load a template
    */
-  loadTemplateObject: PropTypes.func.isRequired,
+  loadTemplateObject: PropTypes.func,
 
   /**
    * A callback to parse the contents of a clause
    */
-  parseClause: PropTypes.func.isRequired,
+  parseClause: PropTypes.func,
 
   /**
    * An array of plugins into the underlying markdown-editor
