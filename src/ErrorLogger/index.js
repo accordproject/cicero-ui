@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
@@ -50,27 +51,40 @@ const ErrorBarArrow = styled.div`
   border-bottom: ${props => (props.errorDisplay ? '0' : '7px solid #7B9AD1')};
 `;
 
-const buildMessage = (data, key) => {
-  let result = 'Unknown';
-  if (data.fileLocation) {
-    result = '';
-    if (data.fileLocation[key].line) {
-      result += `Line: ${data.fileLocation[key].line}`;
-    }
-    if (data.fileLocation[key].column) {
-      result += ` Col: ${data.fileLocation[key].column}`;
-    }
-  }
-  return result;
-};
+// const buildMessage = (data, key) => {
+//   let result = 'Unknown';
+//   if (data.fileLocation) {
+//     result = '';
+//     if (data.fileLocation[key].line) {
+//       result += `Line: ${data.fileLocation[key].line}`;
+//     }
+//     if (data.fileLocation[key].column) {
+//       result += ` Col: ${data.fileLocation[key].column}`;
+//     }
+//   }
+//   return result;
+// };
 
-const buildStartLocation = data => buildMessage(data, 'start');
+const pathToLength = input => R.path(['length'], input);
 
-const buildEndLocation = data => buildMessage(data, 'end');
+const errorsLengthasdf = err => err || 'No';
 
-const errorsExist = err => (err && err.length) > 1;
+const isGreaterThanZero = input => R.gt(input, 0);
 
-const errorsLength = err => (err && err.length - 1) || 'No';
+const errorArraysLength = props => R.toPairs(props).map(eachError => eachError[1].length);
+
+const reduceLength = arrayOfLengths => R.reduce(R.add, 0, arrayOfLengths);
+
+const errorNumber = R.pipe(errorArraysLength, reduceLength, errorsLengthasdf);
+
+const anyErrorsExist = R.pipe(errorArraysLength, reduceLength, isGreaterThanZero);
+
+// const buildStartLocation = data => buildMessage(data, 'start');
+
+// const buildEndLocation = data => buildMessage(data, 'end');
+
+// const arrLength = input => input.length && (input.length > 1);
+const arrLength = arr => pathToLength(arr) > 1;
 
 const extensionFinder = file => file.lastIndexOf('.');
 
@@ -166,12 +180,14 @@ const spreadErrors = input => input.errrorExample.map(
   )
 );
 
-const arrLength = input => input.length && (input.length > 1);
+// const arrLength = input => input.length && (input.length > 1);
+// const arrLength = input => R.path(['length'], input) > 1;
 
 const ErrorLogger = (props) => {
   const { errors } = props;
-  console.log('props: ', props);
-  console.log('Errors: ', errors.length);
+
+  console.log('Errors in Cicero-UI: ', errors);
+  console.log('Something: ', errorNumber(props.errors));
 
   // const buttonRef = useRef(null);
 
@@ -205,12 +221,12 @@ const ErrorLogger = (props) => {
 
     <ErrorsHeader
       backgroundColor={errorsVisible}
-      errors={errorsExist(errors)}
+      errors={anyErrorsExist(errors)}
       onClick={handleClickErrorsBar}
     >
-      {errorsExist(errors)
+      {anyErrorsExist(errors)
         && <ErrorSymbol name="exclamation triangle" size="small" />}
-      {errorsLength(errors)} Errors
+      {errorNumber(errors)} Errors
       <ErrorBarArrow errorDisplay={errorsVisible} />
     </ErrorsHeader>
   </div>
