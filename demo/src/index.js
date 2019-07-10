@@ -10,8 +10,9 @@ import 'semantic-ui-css/semantic.min.css';
 import ClauseEditor from '../../src/ClauseEditor';
 import ContractEditor from '../../src/ContractEditor';
 import ClausePlugin from '../../src/plugins/ClausePlugin';
+import VariablePlugin from '../../src/plugins/VariablePlugin';
 
-const plugins = [List(), ClausePlugin(null, null)];
+const plugins = [List(), VariablePlugin(), ClausePlugin(null, null)];
 const pluginManager = new PluginManager(plugins);
 const fromMarkdown = new FromMarkdown(pluginManager);
 
@@ -26,6 +27,12 @@ Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widge
 
 const defaultContractMarkdown = `# Heading One
 This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
+
+Variable <variable id="firstName" value="Dan"/> in a paragraph.
+
+<variable id="lastName" value="Selman"/>
+
+^^^ standalone variable
 
 ${acceptanceOfDelivery}
 
@@ -56,7 +63,7 @@ function Demo() {
    * Called when the data in the clause editor has been modified
    */
   const onClauseChange = useCallback((value, markdown) => {
-    console.log('new markdown', markdown);
+    // console.log('new markdown', markdown);
     setClauseValue(value);
   }, []);
 
@@ -64,7 +71,7 @@ function Demo() {
    * Called when the data in the contract editor has been modified
    */
   const onContractChange = useCallback((value, markdown) => {
-    console.log(markdown);
+    // console.log(JSON.stringify(value.toJSON(), null, 4));
     setContractValue(value);
   }, []);
 
@@ -98,9 +105,10 @@ function Demo() {
         value={clauseValue}
         onChange={onClauseChange}
         onParse={onParse}
+        editorProps={editorProps}
       />
     : <ContractEditor
-        lockText={false}
+        lockText={true}
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}

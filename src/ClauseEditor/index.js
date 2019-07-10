@@ -78,6 +78,7 @@ function ClauseEditor(props) {
           showEditButton={props.showEditButton}
           parseClause={props.parseClause}
           loadTemplateObject={props.loadTemplateObject}
+          editorProps={props.editorProps}
         />
         { props.showParse ? <ParseResult parseResult={parseResult} /> : null }
       </div>
@@ -108,6 +109,11 @@ ClauseEditor.propTypes = {
    * When true only the variables in the template are editable
    */
   lockText: PropTypes.bool.isRequired,
+
+  /**
+   * Styling props passed down through an object to Markdown Editor
+   */
+  editorProps: PropTypes.object,
 
   /**
    * The Cicero template for the clause (Optional)

@@ -128,7 +128,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   * Handles change to document.
   */
   function onChange(editor, next) {
-    console.log('onChange');
     let clauseNode = null;
     let textNode = null;
     const textNodes = editor.value.texts;
@@ -199,23 +198,23 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   * @param {Function} next
   */
   function renderBlock(props, editor, next) {
-    renderBlock.propTypes = {
-      node: PropTypes.any,
-      attributes: PropTypes.any,
-      children: PropTypes.any,
-    };
+    const { node, attributes, children } = props;
 
-    const { node, children } = props;
+    switch (node.type) {
+      case 'clause': {
+        const nodeAttributes = node.data.get('attributes');
+        const { src, clauseid } = nodeAttributes;
 
-    const nodeAttributes = node.data.get('attributes');
-    const { src, clauseid } = nodeAttributes;
+        if (src) {
+          console.log(`handing over responsibility of loading: ${src}`);
+          loadTemplateCallback(src.toString());
+        }
 
-    if (src) {
-      console.log(`handing over responsibility of loading: ${src}`);
-      loadTemplateCallback(src.toString());
+        return (<ClauseComponent templateUri={src} clauseId={clauseid} {...props}>{children}</ClauseComponent>);
+      }
+      default:
+        return next();
     }
-
-    return (<ClauseComponent templateUri={src} clauseId={clauseid} {...props}>{children}</ClauseComponent>);
   }
 
   /**
@@ -223,7 +222,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
    * @param {Node} value
    */
   function toMarkdown(parent, value) {
-    console.log('toMarkdown', value);
     let markdown = `\n\n\`\`\` <clause src=${value.data.get('attributes').src} id=${value.data.get('attributes').id}>\n`;
 
     value.nodes.forEach((li) => {
@@ -232,7 +230,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     });
 
     markdown += '\n```\n';
-    console.log(markdown);
     return markdown;
   }
 

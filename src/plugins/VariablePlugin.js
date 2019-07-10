@@ -1,76 +1,75 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /**
  * A plugin for a variable
  */
 function VariablePlugin() {
-  const plugin = 'Variable';
-  const tags = ['variable'];
-  const markdownTags = ['variable'];
-  const schema = {
-    inlines: {
-      variable: {
-        nodes: [
-          {
-            match: [{ type: 'text' }],
-          },
-        ],
+  const name = 'variable';
+
+  const tags = [
+    {
+      html: 'variable',
+      slate: 'variable',
+      md: 'variable'
+    }
+  ];
+
+  /**
+   * Augment the base schema with the variable type
+   * @param {*} schema
+   */
+  const augmentSchema = ((schema) => {
+    const additions = {
+      inlines: {
+        variable: {
+          nodes: [{
+            match: { object: 'text' }
+          }]
+        },
       },
-    },
-  };
+    };
+
+    const newSchema = JSON.parse(JSON.stringify(schema));
+    newSchema.inlines = { ...newSchema.inlines, ...additions.inlines };
+    newSchema.document.nodes[0].match.push({ type: tags[0].slate });
+    newSchema.blocks.paragraph.nodes[0].match.push({ type: tags[0].slate });
+    return newSchema;
+  });
 
   /**
-     * @param {Event} event
-     * @param {Editor} editor
-     * @param {Function} next
-     */
-  function onEnter(event, editor, next) {
-    return next();
-  }
+   * Only allows words that don't have marks to be edited
+   *
+   * @param {Value} value - the Slate value
+   */
+  const isEditable = ((value, code) => {
+    const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
+    const { anchor } = value.selection;
+    console.log(anchor.toJSON());
 
-  /**
- * Handles change to document.
- */
-  function onChange(editor, next) {
-    console.log('onChange - VariablePlugin');
-    let variableNode = null;
-    const variables = editor.value.inlines.some(inline => inline.type === 'variable');
-    console.log('variables', variables);
-    if (variables.size === 1) {
-      variableNode = variables.get(0);
+    if (code === 'backspace') {
+      if (inVariable) {
+        // if we hit backspace and are at the zeroth
+        // position of a variable prevent deleting the char
+        // that precedes the variable
+        return anchor.offset > 0;
+      }
+
+      // if we hit backspace and are outside of a variable
+      // allow deleting the last char of the variable
+      // IFF the variable has more than 1 char
+      const prev = value.document.getPreviousSibling(anchor.path);
+      return prev && anchor.offset === 0 && prev.type === 'variable' && prev.getFirstText().text.length > 1;
     }
 
-    if (!variableNode) {
-      return next();
+    if (code === 'input') {
+      // if are outside of a variable allowing
+      // extending the variable
+      const prev = value.document.getPreviousSibling(anchor.path);
+      return prev && anchor.offset === 0 && prev.type === 'variable';
     }
 
-    console.log(variableNode);
-    const { name } = variableNode.data;
-
-    if (name) {
-      console.log(`Found variable on node: ${name}`);
-    } else {
-      console.log('Variable name not found on node.');
-    }
-
-
-    return next();
-  }
-
-  /**
-     * @param {Event} event
-     * @param {Editor} editor
-     * @param {Function} next
-     */
-  function onKeyDown(event, editor, next) {
-    switch (event.key) {
-      case 'Enter':
-        return onEnter(event, editor, next);
-      default:
-        return next();
-    }
-  }
+    return inVariable;
+  });
 
   /**
    * Render a Slate inline.
@@ -86,12 +85,11 @@ function VariablePlugin() {
     switch (node.type) {
       case 'variable': {
         const { data } = node;
-        const name = data.get('name');
-        return (
-          <a {...attributes} href={name}>
+        const value = data.get('value');
+        // @ts-ignore
+        return <span {...attributes} className='variable'>
             {children}
-          </a>
-        );
+          </span>;
       }
 
       default: {
@@ -105,37 +103,42 @@ function VariablePlugin() {
      * @param {Node} value
      */
   function toMarkdown(parent, value) {
-    let markdown = `<variable ${value.data.get('attributeString')}>`;
-
-    value.nodes.forEach((li) => {
-      const text = parent.recursive(li.nodes);
-      markdown += text;
-    });
-
-    markdown += '</variable>\n\n';
-    return markdown;
+    return `<variable ${value.data.get('attributeString')}/>\n\n`;
   }
 
   /**
  * Handles data from markdown.
  */
-  function fromMarkdown(stack, event, tag) {
-    const block = {
+  function fromMarkdown(stack, event, tag, node) {
+    const parent = stack.peek();
+
+    // variables can only occur inside paragraphs
+    if (!parent.type || parent.type !== 'paragraph') {
+      const para = {
+        object: 'block',
+        type: 'paragraph',
+        data: {},
+        nodes: [],
+      };
+      stack.push(para);
+    }
+
+    const inline = {
       object: 'inline',
       type: 'variable',
       data: Object.assign(tag),
-      nodes: [],
+      nodes: [{
+        object: 'text',
+        text: `${tag.attributes.value}`,
+      }]
     };
 
-    stack.push(block);
+    stack.append(inline);
 
-    stack.addTextLeaf({
-      object: 'leaf',
-      text: tag.content ? tag.content : '',
-      marks: [],
-    });
-    stack.pop();
-    console.log(stack);
+    if (!parent.type || parent.type !== 'paragraph') {
+      stack.pop();
+    }
+
     return true;
   }
 
@@ -144,7 +147,7 @@ function VariablePlugin() {
  */
   function fromHTML(editor, el, next) {
     return {
-      object: 'inline',
+      object: 'block',
       type: 'variable',
       data: {},
       nodes: next(el.childNodes),
@@ -152,16 +155,14 @@ function VariablePlugin() {
   }
 
   return {
-    plugin,
+    name,
     tags,
-    markdownTags,
-    schema,
-    onKeyDown,
+    augmentSchema,
+    isEditable,
     renderInline,
     toMarkdown,
     fromMarkdown,
     fromHTML,
-    onChange,
   };
 }
 
