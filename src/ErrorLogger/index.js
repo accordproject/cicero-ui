@@ -65,9 +65,7 @@ const ErrorBarArrow = styled.div`
 //   return result;
 // };
 
-const pathToLength = input => R.path(['length'], input);
-
-const errorsLengthasdf = err => err || 'No';
+const errorNumberOrNo = err => err || 'No';
 
 const isGreaterThanZero = input => R.gt(input, 0);
 
@@ -75,37 +73,13 @@ const errorArraysLength = props => R.toPairs(props).map(eachError => eachError[1
 
 const reduceLength = arrayOfLengths => R.reduce(R.add, 0, arrayOfLengths);
 
-const errorNumber = R.pipe(errorArraysLength, reduceLength, errorsLengthasdf);
+const errorNumber = R.pipe(errorArraysLength, reduceLength, errorNumberOrNo);
 
 const anyErrorsExist = R.pipe(errorArraysLength, reduceLength, isGreaterThanZero);
 
 // const buildStartLocation = data => buildMessage(data, 'start');
 
 // const buildEndLocation = data => buildMessage(data, 'end');
-
-// const arrLength = input => input.length && (input.length > 1);
-const arrLength = arr => pathToLength(arr) > 1;
-
-const extensionFinder = file => file.lastIndexOf('.');
-
-const fileTypeFinder = file => file.substring(extensionFinder(file));
-
-const fileTypeConversion = (file) => {
-  switch (fileTypeFinder(file)) {
-    case '.cto':
-      return 'Model';
-    case '.ergo':
-      return 'Ergo Logic';
-    case '.json':
-      return 'Metadata';
-    case '.tem':
-      return 'Grammar';
-    case '.txt':
-      return 'Sample';
-    default:
-      return 'Unknown';
-  }
-};
 
 const ErrorComponent = styled.div`
   width: 100%;
@@ -168,37 +142,17 @@ const ArrowDiv = styled.div`
   // border-top: 10px solid #50637F;
 `;
 
-const spreadErrors = input => input.errrorExample.map(
-  (err, key) => (
-      <ErrorComponent key={key} onClick={input.handleClickSpecError}>
-        <ArrowDiv />
-        <ErrRARorFile>{fileTypeConversion(err.fileName)}</ErrRARorFile>
-        <ErrRARorType>{err.name}:</ErrRARorType>
-        <ErrRARorMessage>{err.shortMessage}</ErrRARorMessage>
-        {input.specErrorVisible && <ErrRARorFullMsg>{err.message}</ErrRARorFullMsg>}
-      </ErrorComponent>
-  )
-);
-
-// const arrLength = input => input.length && (input.length > 1);
-// const arrLength = input => R.path(['length'], input) > 1;
-
 const ErrorLogger = (props) => {
   const { errors } = props;
 
   console.log('Errors in Cicero-UI: ', errors);
-  console.log('Something: ', errorNumber(props.errors));
-
   // const buttonRef = useRef(null);
 
-  // const anyErrors = () => (!!props);
-
   const [errorsVisible, setErrorsVisible] = useState(false);
-
-  const [specErrorVisible, setspecErrorVisible] = useState([]);
+  const [specErrorVisible, setspecErrorVisible] = useState(false);
 
   const handleClickErrorsBar = () => {
-    if (arrLength(errors)) { setErrorsVisible(!errorsVisible); }
+    if (anyErrorsExist(errors)) { setErrorsVisible(!errorsVisible); }
     // buttonRef.current.blur();
   };
 
@@ -207,16 +161,67 @@ const ErrorLogger = (props) => {
     // buttonRef.current.blur();
   };
 
-  const spreadErrorsProps = {
-    errrorExample: props.errors,
-    handleClickSpecError,
-    specErrorVisible
+  /*
+
+  errors: {
+    modelErrors: [
+      {
+        clauseTemplateId: '',
+        modelErrror: { name, shortMessage, type }
+      }
+    ],
+    parseErrors: [
+      {
+        clauseId: '',
+        parseError: { name, shortMessage, type }
+      }
+    ]
+  }
+
+  */
+
+  const typeSwitchCase = (input) => {
+    switch (input) {
+      case 'modelErrors':
+        return 'Model';
+      case 'parseErrors':
+        return 'Grammar';
+      default:
+        return 'Unknown';
+    }
+  };
+
+  const componentGenerator = (input, type) => input.map(
+    (err, key) => (
+        <ErrorComponent key={key} onClick={handleClickSpecError}>
+          <ArrowDiv />
+          <ErrRARorFile>{typeSwitchCase(err)}</ErrRARorFile>
+          <ErrRARorType>{err[type].name}:</ErrRARorType>
+          <ErrRARorMessage>{err[type].shortMessage}</ErrRARorMessage>
+          {specErrorVisible && <ErrRARorFullMsg>{err[type].message}</ErrRARorFullMsg>}
+        </ErrorComponent>
+    )
+  );
+
+  const modelOrParseSwitch = (input) => {
+    switch (input) {
+      case 'modelErrors':
+        return componentGenerator(input, 'modelError');
+      case 'parseErrors':
+        return componentGenerator(input, 'parseError');
+      default:
+        return null;
+    }
+  };
+
+  const iterateErrors = (errors) => {
+    errors.map(errorType => modelOrParseSwitch(errorType));
   };
 
   return (
   <div>
     {errorsVisible && <ErrorDisplay>
-      {spreadErrors(spreadErrorsProps)}
+      {iterateErrors(errors)}
     </ErrorDisplay>}
 
     <ErrorsHeader
