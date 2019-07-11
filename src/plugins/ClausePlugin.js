@@ -1,6 +1,5 @@
 import React from 'react';
 import { Point } from 'slate';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Template, Clause } from '@accordproject/cicero-core';
