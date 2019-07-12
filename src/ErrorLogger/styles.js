@@ -102,8 +102,6 @@ export const ErrorFullMessage = styled.div`
     font-family: "IBM Plex Sans";
     font-size: 13px;
     line-height: 13px;
-
-    // align-self: center;
 `;
 
 export const ArrowDiv = styled.div`

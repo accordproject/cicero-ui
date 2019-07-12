@@ -6,19 +6,16 @@ import * as styles from './styles';
 
 const ErrorLogger = (props) => {
   const { errors } = props;
-  // const buttonRef = useRef(null);
 
   const [errorsVisible, setErrorsVisible] = useState(false);
   const [specErrorVisible, setspecErrorVisible] = useState(false);
 
   const handleClickErrorsBar = () => {
     if (actions.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
-    // buttonRef.current.blur();
   };
 
   const handleClickSpecError = () => {
     setspecErrorVisible(!specErrorVisible);
-    // buttonRef.current.blur();
   };
 
   const headerProps = {
