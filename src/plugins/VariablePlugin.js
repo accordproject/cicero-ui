@@ -3,8 +3,9 @@ import React from 'react';
 /**
  * A plugin for a variable
  */
-function VariablePlugin() {
+function VariablePlugin(opts) {
   const name = 'variable';
+  const options = opts;
 
   const tags = [
     {
@@ -37,14 +38,14 @@ function VariablePlugin() {
   });
 
   /**
-   * Only allows words that don't have marks to be edited
+   * Allow variable inlines to be edited
    *
    * @param {Value} value - the Slate value
    */
   const isEditable = ((value, code) => {
     const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
     const { anchor } = value.selection;
-    console.log(anchor.toJSON());
+    console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
 
     if (code === 'backspace') {
       if (inVariable) {
@@ -61,14 +62,15 @@ function VariablePlugin() {
       return prev && anchor.offset === 0 && prev.type === 'variable' && prev.getFirstText().text.length > 1;
     }
 
-    if (code === 'input') {
+    if (!inVariable && code === 'input') {
       // if are outside of a variable allowing
       // extending the variable
       const prev = value.document.getPreviousSibling(anchor.path);
       return prev && anchor.offset === 0 && prev.type === 'variable';
     }
 
-    return inVariable;
+    // disallow enter within variables!
+    return code !== 'enter' && inVariable;
   });
 
   /**
@@ -84,8 +86,6 @@ function VariablePlugin() {
 
     switch (node.type) {
       case 'variable': {
-        const { data } = node;
-        const value = data.get('value');
         // @ts-ignore
         return <span {...attributes} className='variable'>
             {children}
@@ -103,7 +103,25 @@ function VariablePlugin() {
      * @param {Node} value
      */
   function toMarkdown(parent, value) {
-    return `<variable ${value.data.get('attributeString')}/>\n\n`;
+    let textValue = '';
+
+    if (value.nodes.size > 0 && value.nodes.get(0).text) {
+      textValue = value.nodes.get(0).text;
+    }
+
+    if (opts && opts.rawValue) {
+      return textValue;
+    }
+
+    const attributes = value.data.get('attributes');
+    let result = `<variable id="${attributes.id}" value="${encodeURI(textValue)}"`;
+
+    if (attributes.format) {
+      result += ` format="${encodeURI(attributes.format)}`;
+    }
+
+    result += '/>';
+    return result;
   }
 
   /**
@@ -129,7 +147,7 @@ function VariablePlugin() {
       data: Object.assign(tag),
       nodes: [{
         object: 'text',
-        text: `${tag.attributes.value}`,
+        text: `${decodeURI(tag.attributes.value)}`,
       }]
     };
 
