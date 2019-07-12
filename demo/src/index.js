@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Header, Menu, Grid, Rail, Segment
 } from 'semantic-ui-react';
@@ -12,32 +12,46 @@ import ContractEditor from '../../src/ContractEditor';
 import ClausePlugin from '../../src/plugins/ClausePlugin';
 import VariablePlugin from '../../src/plugins/VariablePlugin';
 
-const plugins = [List(), VariablePlugin(), ClausePlugin(null, null)];
+const clausePlugin = ClausePlugin(null, null);
+const plugins = [List(), VariablePlugin(), clausePlugin];
 const pluginManager = new PluginManager(plugins);
 const fromMarkdown = new FromMarkdown(pluginManager);
 
-const acceptanceOfDelivery = `\`\`\` <clause src="https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta" id="123">
-**Acceptance** of Delivery. <variable id="seller" value="Party A"/> will be deemed to have completed its delivery obligations if in <variable id="buyer" value="Party B"/>'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
+const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta';
+const clauseText = `Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
 
 Inspection and Notice. "Party B" will have 10 Business Days' to inspect and evaluate the "Widgets" on the delivery date before notifying "Party A" that it is either accepting or rejecting the "Widgets".
 
-Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widgets" must meet for the "Party A" to comply with its requirements and obligations under this agreement, detailed in "Attachment X", attached to this agreement.
+Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widgets" must meet for the "Party A" to comply with its requirements and obligations under this agreement, detailed in "Attachment X", attached to this agreement.`;
+
+const getClauseMarkdown = async () => {
+  const rewriteClauseText = await clausePlugin.rewriteClause(templateUri, clauseText);
+
+  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" id="123">
+${rewriteClauseText}
 \`\`\`
 `;
 
-const defaultContractMarkdown = `# Heading Two
-This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
+  return fromMarkdown.convert(acceptanceOfDeliveryClause);
+};
 
-Variable <variable id="firstName" value="Dan"/> in a paragraph.
+const getContractMarkdown = async () => {
+  const rewriteClauseText = await clausePlugin.rewriteClause(templateUri, clauseText);
 
-<variable id="lastName" value="Selman"/>
-
-^^^ standalone variable
-
-${acceptanceOfDelivery}
-
-Fin.
+  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" id="123">
+${rewriteClauseText}
+\`\`\`
 `;
+
+  const defaultContractMarkdown = `# Heading One
+  This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
+  
+  ${acceptanceOfDeliveryClause}
+  
+  Fin.
+  `;
+  return fromMarkdown.convert(defaultContractMarkdown);
+};
 
 /**
  * A demo component that uses ContractEditor and
@@ -52,18 +66,32 @@ function Demo() {
   /**
    * Currently clause value
    */
-  const [clauseValue, setClauseValue] = useState(fromMarkdown.convert(acceptanceOfDelivery));
+  const [clauseValue, setClauseValue] = useState(null);
 
   /**
    * Currently contract value
    */
-  const [contractValue, setContractValue] = useState(fromMarkdown.convert(defaultContractMarkdown));
+  const [contractValue, setContractValue] = useState(null);
+
+  /**
+   * Async rewrite of the markdown text to a slate value
+   */
+  useEffect(() => {
+    getClauseMarkdown().then(value => setClauseValue(value));
+  }, []);
+
+  /**
+   * Async rewrite of the markdown text to a slate value
+   */
+  useEffect(() => {
+    getContractMarkdown().then(value => setContractValue(value));
+  }, []);
 
   /**
    * Called when the data in the clause editor has been modified
    */
   const onClauseChange = useCallback((value, markdown) => {
-    // console.log('new markdown', markdown);
+    console.log(markdown);
     setClauseValue(value);
   }, []);
 

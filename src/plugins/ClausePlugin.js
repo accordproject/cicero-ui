@@ -1,15 +1,12 @@
 import React from 'react';
 import { Point } from 'slate';
-import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { PluginManager, List, FromMarkdown } from '@accordproject/markdown-editor';
 import { Template, Clause } from '@accordproject/cicero-core';
 import '../styles.css';
 // eslint-disable-next-line camelcase
 import murmurhash3_32_gc from './murmurhash3_gc';
 import ClauseComponent from '../components/ClauseComponent';
-import VariablePlugin from './VariablePlugin';
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
@@ -64,6 +61,28 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
       console.log(`Loading template: ${templateUri}`);
       template = await Template.fromUrl(templateUri);
       templates[templateUri] = template;
+    }
+
+    return template;
+  }
+
+  /**
+   * Rewrites the text of a clause to introduce variables
+   *
+   * @param {string} templateUri the URI of the template to load
+   * @param {string} clauseText the text of the clause (must be parseable)
+   */
+  async function rewriteClause(templateUri, clauseText) {
+    try {
+      const template = await loadTemplate(templateUri);
+      const clause = new Clause(template);
+      clause.parse(clauseText);
+      const variableText = clause.generateText({ wrapVariables: true });
+      console.log(variableText);
+      return Promise.resolve(variableText);
+    } catch (err) {
+      console.log(err);
+      return Promise.resolve(err);
     }
   }
 
@@ -330,7 +349,8 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     onChange,
     fromHTML,
     renderToolbar,
-    renderAnnotation
+    renderAnnotation,
+    rewriteClause
   };
 }
 

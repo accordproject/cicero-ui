@@ -85,8 +85,6 @@ function VariablePlugin() {
 
     switch (node.type) {
       case 'variable': {
-        const { data } = node;
-        const value = data.get('value');
         // @ts-ignore
         return <span {...attributes} className='variable'>
             {children}
@@ -104,7 +102,20 @@ function VariablePlugin() {
      * @param {Node} value
      */
   function toMarkdown(parent, value) {
-    return `<variable ${value.data.get('attributeString')}/>`;
+    let textValue = '';
+
+    if (value.nodes.size > 0 && value.nodes.get(0).text) {
+      textValue = value.nodes.get(0).text;
+    }
+    const attributes = value.data.get('attributes');
+    let result = `<variable id="${attributes.id}" value="${encodeURI(textValue)}"`;
+
+    if (attributes.format) {
+      result += ` format="${encodeURI(attributes.format)}`;
+    }
+
+    result += '/>';
+    return result;
   }
 
   /**
@@ -130,7 +141,7 @@ function VariablePlugin() {
       data: Object.assign(tag),
       nodes: [{
         object: 'text',
-        text: `${tag.attributes.value}`,
+        text: `${decodeURI(tag.attributes.value)}`,
       }]
     };
 
