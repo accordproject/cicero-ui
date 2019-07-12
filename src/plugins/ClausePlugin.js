@@ -3,12 +3,13 @@ import { Point } from 'slate';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { PluginManager, List, FromMarkdown } from '@accordproject/markdown-editor';
 import { Template, Clause } from '@accordproject/cicero-core';
 import '../styles.css';
 // eslint-disable-next-line camelcase
 import murmurhash3_32_gc from './murmurhash3_gc';
 import ClauseComponent from '../components/ClauseComponent';
-
+import VariablePlugin from './VariablePlugin';
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
@@ -29,17 +30,29 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     }
   ];
   const templates = {};
-  const schema = {
-    blocks: {
-      clause: {
-        nodes: [
-          {
-            match: [{ type: 'paragraph' }],
-          },
-        ],
+
+  /**
+   * Augment the base schema with the variable type
+   * @param {*} schema
+   */
+  const augmentSchema = ((schema) => {
+    const additions = {
+      blocks: {
+        clause: {
+          nodes: [
+            {
+              match: [{ type: 'paragraph' }],
+            },
+          ],
+        },
       },
-    },
-  };
+    };
+
+    const newSchema = JSON.parse(JSON.stringify(schema));
+    newSchema.blocks = { ...newSchema.blocks, ...additions.blocks };
+    newSchema.document.nodes[0].match.push({ type: tags[0].slate });
+    return newSchema;
+  });
 
   /**
    * Called by the clause plugin into the contract editor
@@ -75,15 +88,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
 
   const loadTemplateCallback = customLoadTemplate || loadTemplate;
   const parseClauseCallback = customParseClause || parseClause;
-
-  /**
-     * @param {Event} event
-     * @param {Editor} editor
-     * @param {Function} next
-     */
-  function onEnter(event, editor, next) {
-    return next();
-  }
 
   /**
    * Adds an annotation to the editor
@@ -123,6 +127,18 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     const { annotations } = editor.value;
     return annotations.get(annotation.key);
   }
+
+  /**
+   * Allow edits if we are outside of a Clause
+   *
+   * @param {Value} value - the Slate value
+   */
+  const isEditable = ((value, code) => {
+    const blocks = value.document.getDescendantsAtRange(value.selection);
+    const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
+    console.log('outside clause', !inClause);
+    return !inClause;
+  });
 
   /**
   * Handles change to document.
@@ -179,20 +195,6 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   }
 
   /**
-  * @param {Event} event
-  * @param {Editor} editor
-  * @param {Function} next
-  */
-  function onKeyDown(event, editor, next) {
-    switch (event.key) {
-      case 'Enter':
-        return onEnter(event, editor, next);
-      default:
-        return next();
-    }
-  }
-
-  /**
   * @param {Object} props
   * @param {Editor} editor
   * @param {Function} next
@@ -236,11 +238,11 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   /**
   * Handles data from markdown.
   */
-  function fromMarkdown(stack, event, tag, node) {
+  function fromMarkdown(stack, event, tag, node, parseNestedMarkdown) {
     const block = {
       object: 'block',
       type: 'clause',
-      data: Object.assign(tag),
+      data: tag,
       nodes: [],
     };
 
@@ -254,11 +256,11 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
     };
 
     stack.push(para);
-    stack.addTextLeaf({
-      object: 'leaf',
-      text: tag.content ? tag.content : node.literal,
-      marks: [],
-    });
+
+    // sub-parse of the contents of the clause node
+    const text = tag.content ? tag.content : node.literal;
+    const slateDoc = parseNestedMarkdown(text).toJSON();
+    slateDoc.document.nodes.forEach(node => stack.append(node));
     stack.pop();
     stack.pop();
     return true;
@@ -320,13 +322,13 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   return {
     name,
     tags,
-    schema,
-    onKeyDown,
+    augmentSchema,
     renderBlock,
     toMarkdown,
     fromMarkdown,
-    fromHTML,
+    isEditable,
     onChange,
+    fromHTML,
     renderToolbar,
     renderAnnotation
   };

@@ -37,14 +37,14 @@ function VariablePlugin() {
   });
 
   /**
-   * Only allows words that don't have marks to be edited
+   * Allow variable inlines to be edited
    *
    * @param {Value} value - the Slate value
    */
   const isEditable = ((value, code) => {
     const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
     const { anchor } = value.selection;
-    console.log(anchor.toJSON());
+    console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
 
     if (code === 'backspace') {
       if (inVariable) {
@@ -61,14 +61,15 @@ function VariablePlugin() {
       return prev && anchor.offset === 0 && prev.type === 'variable' && prev.getFirstText().text.length > 1;
     }
 
-    if (code === 'input') {
+    if (!inVariable && code === 'input') {
       // if are outside of a variable allowing
       // extending the variable
       const prev = value.document.getPreviousSibling(anchor.path);
       return prev && anchor.offset === 0 && prev.type === 'variable';
     }
 
-    return inVariable;
+    // disallow enter within variables!
+    return code !== 'enter' && inVariable;
   });
 
   /**
@@ -103,7 +104,7 @@ function VariablePlugin() {
      * @param {Node} value
      */
   function toMarkdown(parent, value) {
-    return `<variable ${value.data.get('attributeString')}/>\n\n`;
+    return `<variable ${value.data.get('attributeString')}/>`;
   }
 
   /**

@@ -17,7 +17,7 @@ const pluginManager = new PluginManager(plugins);
 const fromMarkdown = new FromMarkdown(pluginManager);
 
 const acceptanceOfDelivery = `\`\`\` <clause src="https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta" id="123">
-Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
+**Acceptance** of Delivery. <variable id="seller" value="Party A"/> will be deemed to have completed its delivery obligations if in <variable id="buyer" value="Party B"/>'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
 
 Inspection and Notice. "Party B" will have 10 Business Days' to inspect and evaluate the "Widgets" on the delivery date before notifying "Party A" that it is either accepting or rejecting the "Widgets".
 
@@ -25,7 +25,7 @@ Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widge
 \`\`\`
 `;
 
-const defaultContractMarkdown = `# Heading One
+const defaultContractMarkdown = `# Heading Two
 This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
 
 Variable <variable id="firstName" value="Dan"/> in a paragraph.
@@ -101,7 +101,7 @@ function Demo() {
 
   const demo = activeItem === 'clauseEditor'
     ? <ClauseEditor
-        lockText={false}
+        lockText={true}
         value={clauseValue}
         onChange={onClauseChange}
         onParse={onParse}
