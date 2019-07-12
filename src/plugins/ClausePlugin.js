@@ -3,10 +3,17 @@ import { Point } from 'slate';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Template, Clause } from '@accordproject/cicero-core';
+import { PluginManager, List, ToMarkdown } from '@accordproject/markdown-editor';
+
 import '../styles.css';
 // eslint-disable-next-line camelcase
 import murmurhash3_32_gc from './murmurhash3_gc';
 import ClauseComponent from '../components/ClauseComponent';
+import VariablePlugin from './VariablePlugin';
+
+const plugins = [List(), VariablePlugin({ rawValue: true })];
+const pluginManager = new PluginManager(plugins);
+const markdownGenerator = new ToMarkdown(pluginManager);
 
 const StyledIcon = styled(Icon)`
   color: #ffffff !important;
@@ -163,18 +170,17 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
   * Handles change to document.
   */
   function onChange(editor, next) {
-    let clauseNode = null;
-    let textNode = null;
-    const textNodes = editor.value.texts;
-    if (textNodes.size === 1) {
-      textNode = textNodes.get(0);
-      const para = editor.value.document.getParent(textNode.key);
-      clauseNode = editor.value.document.getParent(para.key);
-    }
+    const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
+    const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
 
-    if (!clauseNode || clauseNode.type !== 'clause') {
+    if (!clauseNode) {
+      console.log('onChange - outside clause');
       return next();
     }
+
+    console.log('onChange - inside clause', clauseNode.toJSON());
+
+    const parseText = markdownGenerator.recursive(clauseNode.nodes);
 
     const nodeAttributes = clauseNode.data.get('attributes');
     const { src, clauseid } = nodeAttributes;
@@ -184,7 +190,7 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
       .normalize(editor.value.document);
     const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode)
       .normalize(editor.value.document);
-    const parseText = textNode.text.trim();
+
     // @ts-ignore
     const hash = murmurhash3_32_gc(`${parseText} at ${anchor.toJSON()} to ${focus.toJSON()}`, 0xdeadbeef);
 
@@ -199,6 +205,7 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
       removeParseAnnotations(editor);
       parseClauseCallback(src, parseText, clauseid)
         .then((parseResult) => {
+          console.log(parseResult);
           annotation.type = 'parseResult';
           annotation.data = parseResult;
           addAnnotation(editor, annotation);

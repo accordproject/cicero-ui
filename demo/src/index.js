@@ -107,7 +107,7 @@ function Demo() {
    * Called when the data in the clause editor has been parsed
    */
   const onParse = useCallback((newParseResult) => {
-    // console.log('onParse');
+    // console.log('onParse', newParseResult);
   }, []);
 
   const handleItemClick = useCallback((e, { name }) => {

@@ -3,8 +3,9 @@ import React from 'react';
 /**
  * A plugin for a variable
  */
-function VariablePlugin() {
+function VariablePlugin(opts) {
   const name = 'variable';
+  const options = opts;
 
   const tags = [
     {
@@ -107,6 +108,11 @@ function VariablePlugin() {
     if (value.nodes.size > 0 && value.nodes.get(0).text) {
       textValue = value.nodes.get(0).text;
     }
+
+    if (opts && opts.rawValue) {
+      return textValue;
+    }
+
     const attributes = value.data.get('attributes');
     let result = `<variable id="${attributes.id}" value="${encodeURI(textValue)}"`;
 
