@@ -50,11 +50,11 @@ const ErrorLogger = (props) => {
   return (
     <div>
       {errorsVisible
-        && <styles.ErrorDisplay>
+        && <styles.ErrorDisplay id="ErrorComponentDisplay">
              {errorComponentGenerator(errors)}
            </styles.ErrorDisplay>}
 
-      <styles.ErrorsHeader {...headerProps} >
+      <styles.ErrorsHeader id="ErrorComponentHeader" {...headerProps} >
         {actions.gtZero(errors.length)
           && <styles.ErrorSymbol name="exclamation triangle" size="small" />}
         {actions.errorArrayLength(errors)} Errors
