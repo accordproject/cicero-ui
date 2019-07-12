@@ -1,14 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ErrorLogger /> on initialization renders page correctly 1`] = `
+exports[`<ErrorLogger /> on initialization renders page correctly with errors 1`] = `
 <div>
-  <styled.div>
+  <styled.div
+    backgroundColor={false}
+    errors={true}
+    id="ErrorComponentHeader"
+    onClick={[Function]}
+  >
+    <Styled(Icon)
+      name="exclamation triangle"
+      size="small"
+    />
+    1
+     Errors
     <styled.div
-      errors={false}
-    >
-      No
-       Errors
-    </styled.div>
+      errorDisplay={false}
+    />
+  </styled.div>
+</div>
+`;
+
+exports[`<ErrorLogger /> on initialization renders page correctly without errors 1`] = `
+<div>
+  <styled.div
+    backgroundColor={false}
+    errors={false}
+    id="ErrorComponentHeader"
+    onClick={[Function]}
+  >
+    No
+     Errors
+    <styled.div
+      errorDisplay={false}
+    />
   </styled.div>
 </div>
 `;
