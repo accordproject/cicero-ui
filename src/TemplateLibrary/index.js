@@ -58,21 +58,23 @@ const Functionality = styled.div`
   margin-bottom: 10px;
   grid-area: functionTemps;
   display: grid;
-  grid-template-rows: 1fr 1fr;
   max-height: 106px;
 `;
 
 const SearchInput = styled(Input)`
   margin: 5px 0 !important;
   width: 100% !important;
-  background-color: #141F3C !important;
   max-height: 53px;
+  border: 1px solid #B5BABE;
+  border-radius: 3px;
+  box-shadow: inset 0 0 4px 0 #ABABAB;
 `;
 
 const TemplateCards = styled.div`
   margin: 0 !important;
   width: 100%;
-  height: calc(100% - 54px);
+  height: ${props => props.tempsHeight || 'calc(100% - 54px)'};
+  display: inherit;
   overflow-y: scroll !important;
 `;
 
@@ -97,8 +99,10 @@ class TemplateLibraryComponent extends React.PureComponent {
       ACTION_BUTTON_BORDER: PropTypes.string,
       HEADER_TITLE: PropTypes.string,
       TEMPLATE_BACKGROUND: PropTypes.string,
+      TEMPLATE_BORDER: PropTypes.string,
       TEMPLATE_DESCRIPTION: PropTypes.string,
       TEMPLATE_TITLE: PropTypes.string,
+      TEMPLATES_HEIGHT: PropTypes.string,
     }),
     upload: PropTypes.func,
     import: PropTypes.func,
@@ -151,7 +155,7 @@ class TemplateLibraryComponent extends React.PureComponent {
           {this.props.addTemp
           && <NewClauseComponent addTempInput={this.props.addTemp} />}
         </Functionality>
-        <TemplateCards>
+        <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
           {_.sortBy(filtered, ['name']).map(t => (
             <TemplateCard
               key={t.uri}
