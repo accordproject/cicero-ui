@@ -16,6 +16,7 @@ const CardContainer = styled(Card)`
 `;
 
 const Title = styled.div`
+  display: inline;
   height: 16px;
   color: ${props => props.color || null};
   font-size: 16px;
