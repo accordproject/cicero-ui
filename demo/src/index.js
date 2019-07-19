@@ -27,7 +27,7 @@ Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widge
 const getClauseMarkdown = async () => {
   const rewriteClauseText = await clausePlugin.rewriteClause(templateUri, clauseText);
 
-  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" id="123">
+  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
 ${rewriteClauseText}
 \`\`\`
 `;
@@ -38,7 +38,7 @@ ${rewriteClauseText}
 const getContractMarkdown = async () => {
   const rewriteClauseText = await clausePlugin.rewriteClause(templateUri, clauseText);
 
-  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" id="123">
+  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
 ${rewriteClauseText}
 \`\`\`
 `;
