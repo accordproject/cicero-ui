@@ -7,8 +7,8 @@ import { Segment } from 'semantic-ui-react';
 import * as styles from './styles';
 
 /* Icons */
-import * as deleteIcon from '../../assets/icons/trash';
-import * as addIcon from '../../assets/icons/add';
+import * as deleteIcon from '../icons/trash';
+// import * as addIcon from '../../assets/icons/add';
 
 /* Actions */
 import titleGenerator from './actions';
@@ -20,12 +20,12 @@ const deleteIconProps = {
   viewBox: '0 0 12 15'
 };
 
-const addIconProps = {
-  'aria-label': addIcon.type,
-  width: '18px',
-  height: '18px',
-  viewBox: '0 0 18 18'
-};
+// const addIconProps = {
+//   'aria-label': addIcon.type,
+//   width: '18px',
+//   height: '18px',
+//   viewBox: '0 0 18 18'
+// };
 
 /**
  * Component to render a clause
@@ -46,7 +46,11 @@ function ClauseComponent(props) {
       <styles.ClauseHeader headerfont={clauseProps.HEADER_FONT} >
         {titleGenerator(props.templateUri)} — SMART CLAUSE
       </styles.ClauseHeader>
-      <styles.ClauseDelete {...deleteIconProps} clausedelete={clauseProps.CLAUSE_DELETE} >
+      <styles.ClauseDelete
+        {...deleteIconProps}
+        clausedelete={clauseProps.CLAUSE_DELETE}
+        onClick={clauseProps.CLAUSE_DELETE_FUNCTION}
+      >
         {deleteIcon.icon()}
       </ styles.ClauseDelete>
       <styles.ClauseBody bodyfont={clauseProps.BODY_FONT} >
@@ -67,6 +71,7 @@ ClauseComponent.propTypes = {
     CLAUSE_BACKGROUND: PropTypes.string,
     CLAUSE_BORDER: PropTypes.string,
     CLAUSE_DELETE: PropTypes.string,
+    CLAUSE_DELETE_FUNCTION: PropTypes.func,
     HEADER_FONT: PropTypes.string,
   }),
 };
