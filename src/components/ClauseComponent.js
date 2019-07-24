@@ -10,15 +10,17 @@ import './index.css';
 /* Icons */
 import * as deleteIcon from '../../assets/icons/trash';
 
-const ClauseWrapper = styled.div`
-  border: 1px solid #19C6C7;
-  border-radius: 3px;
-  background-color: #ECF0FA;
+/* Actions */
+import titleGenerator from './actions';
 
+const ClauseWrapper = styled.div`
+  border: 1px solid ${props => props.clauseborder || '#19C6C7'};
+  border-radius: 3px;
+  background-color: ${props => props.clausebg || '#ECF0FA'};
 
   display: grid;
   grid-template-columns: 1fr 20px 20px 20px 20px 1px;
-  grid-template-rows: 40px 1fr;
+  grid-template-rows: auto 1fr;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   grid-template-areas: "titleArea testIcon codeIcon editIcon deleteIcon endSpace"
@@ -29,7 +31,7 @@ const ClauseHeader = styled.div`
   margin: 12px 10px;
 
   color: #939EBA;
-  font-family: Graphik;
+  font-family: ${props => props.headerfont || 'Graphik'};
   font-size: 14px;
   font-weight: 600;
   line-height: 14px;
@@ -41,7 +43,7 @@ const ClauseBody = styled.div`
   margin: 10px 10px 15px;
 
   color: #141F3C;
-  font-family: Graphik;
+  font-family: ${props => props.bodyfont || 'Graphik'};
   font-size: 15px;
   line-height: 22px;
 
@@ -56,10 +58,9 @@ const ClauseDelete = styled.svg`
   place-self: center;
 
   &:hover {
-    fill: #19C6C7;
+    fill: ${props => props.clausedelete || '#19C6C7'};
   }
 `;
-
 
 const deleteIconProps = {
   'aria-label': deleteIcon.type,
@@ -68,38 +69,28 @@ const deleteIconProps = {
   viewBox: '0 0 12 15'
 };
 
-const titleStart = input => input.lastIndexOf('/');
-const titleEnd = input => input.indexOf('@');
-const titleReducer = input => input.slice((titleStart(input) + 1), titleEnd(input));
-const titleSpacer = input => input.replace(/-/g, ' ');
-const titleCaps = input => input.toUpperCase();
-
-const titleGenerator = (input) => {
-  const reducedTitle = titleReducer(input);
-  const spacedTitle = titleSpacer(reducedTitle);
-  const finalTitle = titleCaps(spacedTitle);
-
-  return finalTitle;
-};
-
 /**
  * Component to render a clause
  *
  * @param {*} props
  */
 function ClauseComponent(props) {
+  const clauseProps = props.clauseProps || Object.create(null);
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
     : null;
   return (
-    <ClauseWrapper>
-      <ClauseHeader>
+    <ClauseWrapper
+      clauseborder={clauseProps.CLAUSE_BORDER}
+      clausebg={clauseProps.CLAUSE_BACKGROUND}
+    >
+      <ClauseHeader headerfont={clauseProps.HEADER_FONT} >
         {titleGenerator(props.templateUri)} — SMART CLAUSE
       </ClauseHeader>
-      <ClauseDelete {...deleteIconProps} >
+      <ClauseDelete {...deleteIconProps} clausedelete={clauseProps.CLAUSE_DELETE} >
         {deleteIcon.icon()}
       </ ClauseDelete>
-      <ClauseBody>
+      <ClauseBody bodyfont={clauseProps.BODY_FONT} >
         {props.children}
       </ClauseBody>
     {errorsComponent}
@@ -112,6 +103,13 @@ ClauseComponent.propTypes = {
   templateUri: PropTypes.string.isRequired,
   clauseId: PropTypes.string,
   errors: PropTypes.object,
+  clauseProps: PropTypes.shape({
+    BODY_FONT: PropTypes.string,
+    CLAUSE_BACKGROUND: PropTypes.string,
+    CLAUSE_BORDER: PropTypes.string,
+    CLAUSE_DELETE: PropTypes.string,
+    HEADER_FONT: PropTypes.string,
+  }),
 };
 
 export default ClauseComponent;
