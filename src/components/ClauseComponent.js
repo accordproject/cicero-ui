@@ -8,6 +8,7 @@ import * as styles from './styles';
 
 /* Icons */
 import * as deleteIcon from '../../assets/icons/trash';
+import * as addIcon from '../../assets/icons/add';
 
 /* Actions */
 import titleGenerator from './actions';
@@ -17,6 +18,13 @@ const deleteIconProps = {
   width: '12px',
   height: '15px',
   viewBox: '0 0 12 15'
+};
+
+const addIconProps = {
+  'aria-label': addIcon.type,
+  width: '18px',
+  height: '18px',
+  viewBox: '0 0 18 18'
 };
 
 /**

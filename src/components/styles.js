@@ -49,3 +49,15 @@ export const ClauseDelete = styled.svg`
     fill: ${props => props.clausedelete || '#19C6C7'};
   }
 `;
+
+export const ClauseAdd = styled.svg`
+  fill: #46608E;
+  cursor: pointer;
+
+  grid-area: editIcon;
+  place-self: center;
+
+  &:hover {
+    fill: #FFFFFF;
+  }
+`;
