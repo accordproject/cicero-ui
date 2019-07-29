@@ -34,9 +34,12 @@ const deleteIconProps = {
  */
 function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
+
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
     : null;
+
+  console.log('props: ', props);
 
   return (
     <styles.ClauseWrapper
@@ -49,7 +52,7 @@ function ClauseComponent(props) {
       <styles.ClauseDelete
         {...deleteIconProps}
         clausedelete={clauseProps.CLAUSE_DELETE}
-        onClick={clauseProps.CLAUSE_DELETE_FUNCTION}
+        onClick={clauseProps.CLAUSE_DELETE_FUNCTION(props.attributes['data-key'])}
       >
         {deleteIcon.icon()}
       </ styles.ClauseDelete>
@@ -64,8 +67,11 @@ function ClauseComponent(props) {
 ClauseComponent.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object).isRequired,
   templateUri: PropTypes.string.isRequired,
-  clauseId: PropTypes.string,
+  attributes: PropTypes.PropTypes.shape({
+    'data-key': PropTypes.string,
+  }),
   errors: PropTypes.object,
+  removeFromContract: PropTypes.func,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
