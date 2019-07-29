@@ -24,7 +24,7 @@ const StyledIcon = styled(Icon)`
  * @param {*} customLoadTemplate - a custom function used to load templates
  * @param {*} customParseClause - a custom function used to parse clause text
  */
-function ClausePlugin(customLoadTemplate, customParseClause) {
+function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
   const name = 'clause';
   const tags = [
     {
@@ -238,7 +238,15 @@ function ClausePlugin(customLoadTemplate, customParseClause) {
           loadTemplateCallback(src.toString());
         }
 
-        return (<ClauseComponent templateUri={src} clauseId={clauseid} {...props}>{children}</ClauseComponent>);
+        return (
+          <ClauseComponent
+            clauseProps={clauseProps}
+            templateUri={src}
+            clauseId={clauseid}
+            {...props}>
+              {children}
+          </ClauseComponent>
+        );
       }
       default:
         return next();
