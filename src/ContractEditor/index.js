@@ -63,11 +63,11 @@ const ContractEditor = (props) => {
     setPlugins(
       props.plugins
         ? props.plugins.concat(
-          [List(), VariablePlugin(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+          [List(), VariablePlugin(), ClausePlugin(props.loadTemplateObject, props.parseClause, props.clauseProps)]
         )
-        : [List(), VariablePlugin(), ClausePlugin(props.loadTemplateObject, props.parseClause)]
+        : [List(), VariablePlugin(), ClausePlugin(props.loadTemplateObject, props.parseClause, props.clauseProps)]
     );
-  }, [props.loadTemplateObject, props.parseClause, props.plugins]);
+  }, [props.clauseProps, props.loadTemplateObject, props.parseClause, props.plugins]);
   return (
     plugins.length ? <SlateAsInputEditor
     value={props.value || contractProps.value}
@@ -107,6 +107,11 @@ ContractEditor.propTypes = {
    * A callback to load a template
    */
   loadTemplateObject: PropTypes.func,
+
+  /**
+   * FILL IN
+   */
+  clauseProps: PropTypes.object,
 
   /**
    * A callback to parse the contents of a clause
