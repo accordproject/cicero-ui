@@ -20,13 +20,6 @@ const deleteIconProps = {
   viewBox: '0 0 12 15'
 };
 
-// const addIconProps = {
-//   'aria-label': addIcon.type,
-//   width: '18px',
-//   height: '18px',
-//   viewBox: '0 0 18 18'
-// };
-
 /**
  * Component to render a clause
  *
@@ -38,8 +31,6 @@ function ClauseComponent(props) {
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
     : null;
-
-  console.log('props: ', props);
 
   return (
     <styles.ClauseWrapper
