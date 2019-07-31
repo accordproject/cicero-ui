@@ -52,7 +52,7 @@ function ClauseComponent(props) {
       <styles.ClauseDelete
         {...deleteIconProps}
         clausedelete={clauseProps.CLAUSE_DELETE}
-        onClick={clauseProps.CLAUSE_DELETE_FUNCTION(props.attributes['data-key'])}
+        onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
       >
         {deleteIcon.icon()}
       </ styles.ClauseDelete>
