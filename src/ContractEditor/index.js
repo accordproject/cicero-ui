@@ -109,9 +109,16 @@ ContractEditor.propTypes = {
   loadTemplateObject: PropTypes.func,
 
   /**
-   * FILL IN
+   * Styling props passed down in an object which contains a deletion function
    */
-  clauseProps: PropTypes.object,
+  clauseProps: PropTypes.shape({
+    BODY_FONT: PropTypes.string,
+    CLAUSE_BACKGROUND: PropTypes.string,
+    CLAUSE_BORDER: PropTypes.string,
+    CLAUSE_DELETE: PropTypes.string,
+    CLAUSE_DELETE_FUNCTION: PropTypes.func,
+    HEADER_FONT: PropTypes.string,
+  }),
 
   /**
    * A callback to parse the contents of a clause
