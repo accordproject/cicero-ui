@@ -8,7 +8,6 @@ import * as styles from './styles';
 
 /* Icons */
 import * as deleteIcon from '../icons/trash';
-// import * as addIcon from '../../assets/icons/add';
 
 /* Actions */
 import titleGenerator from './actions';
