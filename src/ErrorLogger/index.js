@@ -26,14 +26,20 @@ const ErrorLogger = (props) => {
 
   const errorComponentGenerator = errors => errors
     .map(soloError => <styles.ErrorComponent
-        key={actions.keySwitchCase(soloError)}
-        onClick={handleClickSpecError}>
+        key={actions.keySwitchCase(soloError)}>
 
-      <styles.ArrowDiv expanded={specErrorVisible} />
-      <styles.ErrorFile>{actions.typeSwitchCase(soloError)}</styles.ErrorFile>
-      <styles.ErrorType>{actions.overalltypeSwitchCase(soloError).name}:</styles.ErrorType>
+      <styles.ArrowDiv expanded={specErrorVisible} onClick={handleClickSpecError}/>
 
-      <styles.ErrorShortMessage>
+      <styles.ErrorFile
+        onClick={() => console.log('soloError: ', soloError.clauseId)}>
+        {actions.typeSwitchCase(soloError)}
+      </styles.ErrorFile>
+
+      <styles.ErrorType onClick={handleClickSpecError}>
+        {actions.overalltypeSwitchCase(soloError).name}:
+      </styles.ErrorType>
+
+      <styles.ErrorShortMessage onClick={handleClickSpecError}>
         {actions.truncateMessage(actions.overalltypeSwitchCase(soloError).shortMessage)}
       </styles.ErrorShortMessage>
 
