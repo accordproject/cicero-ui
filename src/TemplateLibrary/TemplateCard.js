@@ -7,7 +7,7 @@ import TemplateActions from './TemplateActions';
 
 const CardContainer = styled(Card)`
   margin: 10px 0 !important;
-  border: ${props => props.tempBorder || 'none'};
+  border: ${props => props.tempborder || 'none'};
   border-radius: 6px !important;
   background-color: ${props => props.color || 'transparent'} !important;
   text-align: left;
@@ -60,7 +60,7 @@ class TemplateCard extends React.Component {
         <CardContainer fluid
           key={template.uri}
           color={libraryProps.TEMPLATE_BACKGROUND}
-          tempBorder={libraryProps.TEMPLATE_BORDER}
+          tempborder={libraryProps.TEMPLATE_BORDER}
         >
             <Card.Content>
               <TemplateLogo src={template.icon} />
