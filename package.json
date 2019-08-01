@@ -18,7 +18,7 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
-    "@accordproject/cicero-core": "^0.13.5-20190801011735",
+    "@accordproject/cicero-core": "^0.13.4",
     "@accordproject/markdown-editor": "^0.5.10",
     "acorn": "5.1.2",
     "doctrine": "3.0.0",
