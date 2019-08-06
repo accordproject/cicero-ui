@@ -9,6 +9,15 @@ npm install @accordproject/cicero-ui
 ```
 import { ContractEditor } from '@accordproject/cicero-ui';
 
+const clausePropsObject = {
+- BODY_FONT (string),
+- CLAUSE_BACKGROUND (string),
+- CLAUSE_BORDER (string),
+- CLAUSE_DELETE (string),
+- CLAUSE_DELETE_FUNCTION (function),
+- HEADER_FONT (string),
+}
+
 const editorPropsObject = {
   BUTTON_BACKGROUND_INACTIVE (string),
   BUTTON_BACKGROUND_ACTIVE (string),
@@ -26,7 +35,11 @@ function storeLocal(editor) {
   localStorage.setItem('markdown-editor', editor.getMarkdown());
 }
 
-ReactDOM.render(<ContractEditor editorProps={editorPropsObject} onChange={storeLocal} />, document.getElementById('root'));
+ReactDOM.render(<ContractEditor 
+  clauseProps={clauseProps(props.removeFromContract)} 
+  editorProps={editorPropsObject} 
+  onChange={storeLocal} />,
+document.getElementById('root'));
 ```
 
 ### Props
