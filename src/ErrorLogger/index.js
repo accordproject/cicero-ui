@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as styles from './styles';
 
 const ErrorLogger = (props) => {
-  const { errors } = props;
+  const { errors, errorNav } = props;
 
   const [errorsVisible, setErrorsVisible] = useState(false);
   const [specErrorVisible, setspecErrorVisible] = useState(false);
@@ -29,9 +29,8 @@ const ErrorLogger = (props) => {
         key={actions.keySwitchCase(soloError)}>
 
       <styles.ArrowDiv expanded={specErrorVisible} onClick={handleClickSpecError}/>
-
       <styles.ErrorFile
-        onClick={() => console.log('soloError: ', soloError.clauseId)}>
+        onClick={() => errorNav(soloError)}>
         {actions.typeSwitchCase(soloError)}
       </styles.ErrorFile>
 
@@ -69,6 +68,7 @@ const ErrorLogger = (props) => {
 
 ErrorLogger.propTypes = {
   errors: PropTypes.array.isRequired,
+  errorNav: PropTypes.func,
 };
 
 export default ErrorLogger;
