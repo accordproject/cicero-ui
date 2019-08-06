@@ -2,11 +2,11 @@
 
 ### Usage
 
-```
+```shell
 npm install @accordproject/cicero-ui
 ```
 
-```
+```js
 import { TemplateLibrary } from '@accordproject/cicero-ui';
 
 const libraryPropsObject = {
@@ -44,7 +44,7 @@ const LibraryComponent = props => (
 
 This component is built to have the following dimensions:
 
-```
+```js
 height: 700px;
 width: 485px;
 ```

@@ -2,11 +2,11 @@
 
 ### Usage
 
-```
+```shell
 npm install @accordproject/cicero-ui
 ```
 
-```
+```js
 import { ContractEditor } from '@accordproject/cicero-ui';
 
 const clausePropsObject = {
