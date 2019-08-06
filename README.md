@@ -66,39 +66,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-## Styling
-
-You can style most of the components in this library:
-
-#### <a name="ContractEditor"></a> Contract Editor: `editorProps`
-
-You can style the toolbar of this components, as well as the width of the editor:
-
-An object may be passed down this component which will then be picked up by our `markdown-editor`, with the following possible css inputs as strings:
-- `BUTTON_BACKGROUND_INACTIVE`
-- `BUTTON_BACKGROUND_ACTIVE`
-- `BUTTON_SYMBOL_INACTIVE`
-- `BUTTON_SYMBOL_ACTIVE`
-- `DROPDOWN_COLOR`
-- `TOOLBAR_BACKGROUND`
-- `TOOLTIP_BACKGROUND`
-- `TOOLTIP`
-- `TOOLBAR_SHADOW`
-- `WIDTH`
-
-#### <a name="TemplateLibrary"></a> Template Library: `libraryProps`
-
-You can style the template card components, as well as the header:
-
-An object may be passed down this component with the following possible css inputs as strings:
-- `ACTION_BUTTON`
-- `ACTION_BUTTON_BG`
-- `ACTION_BUTTON_BORDER`
-- `HEADER_TITLE`
-- `TEMPLATE_BACKGROUND`
-- `TEMPLATE_DESCRIPTION`
-- `TEMPLATE_TITLE`
-
 ---
 
 ## <a name="Structure"></a> Structure of the Code Repository
