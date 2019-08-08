@@ -3,7 +3,6 @@
 exports[`<ErrorLogger /> on initialization renders page correctly with errors 1`] = `
 <div>
   <styled.div
-    backgroundColor={false}
     errors={true}
     id="ErrorComponentHeader"
     onClick={[Function]}
@@ -24,7 +23,6 @@ exports[`<ErrorLogger /> on initialization renders page correctly with errors 1`
 exports[`<ErrorLogger /> on initialization renders page correctly without errors 1`] = `
 <div>
   <styled.div
-    backgroundColor={false}
     errors={false}
     id="ErrorComponentHeader"
     onClick={[Function]}
