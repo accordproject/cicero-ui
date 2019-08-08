@@ -28,11 +28,20 @@ const ErrorLogger = (props) => {
     errors: A.errorsExist(errors),
     onClick: handleClickErrorsBar,
     headerBackground: errorsProps.ERRORS_HEADER_BACKGROUND,
+    headerBackgroundHover: errorsProps.ERRORS_HEADER_BACKGROUND_HOVER,
+    headerShadow: errorsProps.ERRORS_HEADER_SHADOW,
+    headerTop: errorsProps.ERRORS_HEADER_BORDER_TOP,
   };
 
   const displayProps = {
     id: 'ErrorComponentDisplay',
     errorDisplay: errorsVisible,
+    displayBackground: errorsProps.ERRORS_DISPLAY_BACKGROUND,
+    displayShadow: errorsProps.ERRORS_DISPLAY_SHADOW,
+  };
+
+  const componentProps = {
+    borderBottom: errorsProps.ERROR_BORDER_BOTTOM,
   };
 
   const fileProps = {
@@ -71,7 +80,7 @@ const ErrorLogger = (props) => {
   };
 
   const errorComponentGenerator = errors => errors
-    .map(soloError => <S.ErrorComponent
+    .map(soloError => <S.ErrorComponent {...componentProps}
       key={A.keySwitchCase(soloError)}>
 
       <S.ArrowDiv {...errorArrowProps} />
@@ -115,13 +124,19 @@ ErrorLogger.propTypes = {
   errorNav: PropTypes.func,
   errorsProps: PropTypes.shape({
     ERRORS_HEADER_BACKGROUND: PropTypes.string,
+    ERRORS_HEADER_BACKGROUND_HOVER: PropTypes.string,
     ERRORS_HEADER_EXPAND_ARROW: PropTypes.string,
+    ERRORS_HEADER_BORDER_TOP: PropTypes.string,
+    ERRORS_HEADER_SHADOW: PropTypes.string,
+    ERRORS_DISPLAY_BACKGROUND: PropTypes.string,
+    ERRORS_DISPLAY_SHADOW: PropTypes.string,
+    ERROR_BORDER_BOTTOM: PropTypes.string,
     ERROR_EXPAND_ARROW: PropTypes.string,
-    ERROR_FULL_MESSAGE: PropTypes.string,
-    ERROR_SHORT_MESSAGE: PropTypes.string,
     ERROR_FILE: PropTypes.string,
     ERROR_FILE_HOVER: PropTypes.string,
     ERROR_TYPE: PropTypes.string,
+    ERROR_FULL_MESSAGE: PropTypes.string,
+    ERROR_SHORT_MESSAGE: PropTypes.string,
   }),
 };
 
