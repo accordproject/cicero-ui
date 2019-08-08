@@ -33,11 +33,16 @@ const LibraryComponent = props => (
 
 ### Props
 
+#### Expected to be Provided
+
 - `templates` : An `array` which contains template objects with the following keys: `uir`, `name`, `version`, `description`.
 - `upload` : A `function` which calls for upload functionality within the app this component is embedded in.
 - `import` : A `function` which calls for import functionality within the app this component is embedded in.
 - `addTemp` : A `function` which adds a new blank template to the array of templates in the Redux store of the app this component is embedded in.
 - `addToCont` : A `function` which calls for adding the selected template to the Redux store in the app this component is embedded in. This will result in another component having use of its data.
+
+#### Require Provision
+
 - `libraryProps` : An optional `object`, see below.
 
 ### Specifications

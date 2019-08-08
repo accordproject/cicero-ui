@@ -44,15 +44,18 @@ ReactDOM.render(<ContractEditor
 
 ### Props
 
+#### Expected to be Provided
+
 - `value` : An `object` which is the initial contents of the editor.
 - `onChange` : A callback `function` called when the contents of the editor change.
 - `lockText` : A `boolean` to lock all non variable text.
 - `loadTemplateObject` : A callback `function` to load a template.
 - `parseClause` : A callback `function` to parse the contents of a clause.
-- `templates` : An `array` which contains template objects with the following keys: `uir`, `name`, `version`, `description`.
+
+#### Require Provision
+
 - `editorProps` : An optional `object` for the contract editor styling passed down through an object to Markdown Editor, see below.
 - `clauseProps` : An `object` for the clauses in the editor which contains a deletion function, see below.
-
 
 ### Specifications
 
