@@ -6,6 +6,7 @@ import * as styles from './styles';
 
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
+  const errorsProps = props.errorsProps || Object.create(null);
 
   const [errorsVisible, setErrorsVisible] = useState(false);
   const [specErrorVisible, setspecErrorVisible] = useState(false);
@@ -69,6 +70,16 @@ const ErrorLogger = (props) => {
 ErrorLogger.propTypes = {
   errors: PropTypes.array.isRequired,
   errorNav: PropTypes.func,
+  errorsProps: PropTypes.shape({
+    ERRORS_HEADER_BACKGROUND: PropTypes.string,
+    ERRORS_HEADER_EXPAND_ARROW: PropTypes.string,
+    ERROR_EXPAND_ARROW: PropTypes.string,
+    ERROR_FULL_MESSAGE: PropTypes.string,
+    ERROR_SHORT_MESSAGE: PropTypes.string,
+    ERROR_FILE: PropTypes.string,
+    ERROR_FILE_HOVER: PropTypes.string,
+    ERROR_TYPE: PropTypes.string,
+  }),
 };
 
 export default ErrorLogger;
