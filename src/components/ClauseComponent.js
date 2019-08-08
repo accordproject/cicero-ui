@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 
 /* Styling */
-import * as styles from './styles';
+import * as S from './styles';
 
 /* Icons */
 import * as deleteIcon from '../icons/trash';
@@ -32,25 +32,25 @@ function ClauseComponent(props) {
     : null;
 
   return (
-    <styles.ClauseWrapper
+    <S.ClauseWrapper
       clauseborder={clauseProps.CLAUSE_BORDER}
       clausebg={clauseProps.CLAUSE_BACKGROUND}
     >
-      <styles.ClauseHeader headerfont={clauseProps.HEADER_FONT} >
+      <S.ClauseHeader headerfont={clauseProps.HEADER_FONT} >
         {titleGenerator(props.templateUri)} — SMART CLAUSE
-      </styles.ClauseHeader>
-      <styles.ClauseDelete
+      </S.ClauseHeader>
+      <S.ClauseDelete
         {...deleteIconProps}
         clausedelete={clauseProps.CLAUSE_DELETE}
         onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
       >
         {deleteIcon.icon()}
-      </ styles.ClauseDelete>
-      <styles.ClauseBody bodyfont={clauseProps.BODY_FONT} >
+      </ S.ClauseDelete>
+      <S.ClauseBody bodyfont={clauseProps.BODY_FONT} >
         {props.children}
-      </styles.ClauseBody>
+      </S.ClauseBody>
     {errorsComponent}
-  </styles.ClauseWrapper>
+  </S.ClauseWrapper>
   );
 }
 

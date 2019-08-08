@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import * as actions from './actions';
-import * as styles from './styles';
+import * as A from './actions';
+import * as S from './styles';
 
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
@@ -12,7 +12,7 @@ const ErrorLogger = (props) => {
   const [specErrorVisible, setspecErrorVisible] = useState(false);
 
   const handleClickErrorsBar = () => {
-    if (actions.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
+    if (A.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
   };
 
   const handleClickSpecError = () => {
@@ -21,48 +21,48 @@ const ErrorLogger = (props) => {
 
   const headerProps = {
     backgroundColor: errorsVisible,
-    errors: actions.errorsExist(errors),
+    errors: A.errorsExist(errors),
     onClick: handleClickErrorsBar
   };
 
   const errorComponentGenerator = errors => errors
-    .map(soloError => <styles.ErrorComponent
-        key={actions.keySwitchCase(soloError)}>
+    .map(soloError => <S.ErrorComponent
+        key={A.keySwitchCase(soloError)}>
 
-      <styles.ArrowDiv expanded={specErrorVisible} onClick={handleClickSpecError}/>
-      <styles.ErrorFile
+      <S.ArrowDiv expanded={specErrorVisible} onClick={handleClickSpecError}/>
+      <S.ErrorFile
         onClick={() => errorNav(soloError)}>
-        {actions.typeSwitchCase(soloError)}
-      </styles.ErrorFile>
+        {A.typeSwitchCase(soloError)}
+      </S.ErrorFile>
 
-      <styles.ErrorType onClick={handleClickSpecError}>
-        {actions.overalltypeSwitchCase(soloError).name}:
-      </styles.ErrorType>
+      <S.ErrorType onClick={handleClickSpecError}>
+        {A.overalltypeSwitchCase(soloError).name}:
+      </S.ErrorType>
 
-      <styles.ErrorShortMessage onClick={handleClickSpecError}>
-        {actions.truncateMessage(actions.overalltypeSwitchCase(soloError).shortMessage)}
-      </styles.ErrorShortMessage>
+      <S.ErrorShortMessage onClick={handleClickSpecError}>
+        {A.truncateMessage(A.overalltypeSwitchCase(soloError).shortMessage)}
+      </S.ErrorShortMessage>
 
       {specErrorVisible
-        && <styles.ErrorFullMessage>
-            {actions.overalltypeSwitchCase(soloError).message}
-           </styles.ErrorFullMessage>}
+        && <S.ErrorFullMessage>
+            {A.overalltypeSwitchCase(soloError).message}
+           </S.ErrorFullMessage>}
 
-    </styles.ErrorComponent>);
+    </S.ErrorComponent>);
 
   return (
     <div>
       {errorsVisible
-        && <styles.ErrorDisplay id="ErrorComponentDisplay">
+        && <S.ErrorDisplay id="ErrorComponentDisplay">
              {errorComponentGenerator(errors)}
-           </styles.ErrorDisplay>}
+           </S.ErrorDisplay>}
 
-      <styles.ErrorsHeader id="ErrorComponentHeader" {...headerProps} >
-        {actions.gtZero(errors.length)
-          && <styles.ErrorSymbol name="exclamation triangle" size="small" />}
-        {actions.errorArrayLength(errors)} Errors
-        <styles.ErrorBarArrow errorDisplay={errorsVisible} />
-      </styles.ErrorsHeader>
+      <S.ErrorsHeader id="ErrorComponentHeader" {...headerProps} >
+        {A.gtZero(errors.length)
+          && <S.ErrorSymbol name="exclamation triangle" size="small" />}
+        {A.errorArrayLength(errors)} Errors
+        <S.ErrorBarArrow errorDisplay={errorsVisible} />
+      </S.ErrorsHeader>
     </div>
   );
 };
