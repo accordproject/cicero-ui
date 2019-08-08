@@ -25,7 +25,6 @@ const ErrorLogger = (props) => {
 
   const headerProps = {
     id: 'ErrorComponentHeader',
-    backgroundColor: errorsVisible,
     errors: A.errorsExist(errors),
     onClick: handleClickErrorsBar,
     headerBackground: errorsProps.ERRORS_HEADER_BACKGROUND,
@@ -34,7 +33,6 @@ const ErrorLogger = (props) => {
   const displayProps = {
     id: 'ErrorComponentDisplay',
     errorDisplay: errorsVisible,
-    headerBarArrow: errorsProps.ERRORS_HEADER_EXPAND_ARROW,
   };
 
   const fileProps = {
