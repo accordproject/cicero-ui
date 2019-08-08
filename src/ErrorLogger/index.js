@@ -1,7 +1,11 @@
+/* React */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+/* Styling */
 import * as A from './actions';
+
+/* Actions */
 import * as S from './styles';
 
 const ErrorLogger = (props) => {
@@ -20,48 +24,89 @@ const ErrorLogger = (props) => {
   };
 
   const headerProps = {
+    id: 'ErrorComponentHeader',
     backgroundColor: errorsVisible,
     errors: A.errorsExist(errors),
-    onClick: handleClickErrorsBar
+    onClick: handleClickErrorsBar,
+    headerBackground: errorsProps.ERRORS_HEADER_BACKGROUND,
+  };
+
+  const displayProps = {
+    id: 'ErrorComponentDisplay',
+    errorDisplay: errorsVisible,
+    headerBarArrow: errorsProps.ERRORS_HEADER_EXPAND_ARROW,
+  };
+
+  const fileProps = {
+    errorFile: errorsProps.ERROR_FILE,
+    errorFileHover: errorsProps.ERROR_FILE_HOVER,
+  };
+
+  const typeProps = {
+    onClick: handleClickSpecError,
+    errorType: errorsProps.ERROR_TYPE,
+  };
+
+  const shortMessageProps = {
+    onClick: handleClickSpecError,
+    shortMessage: errorsProps.ERROR_SHORT_MESSAGE,
+  };
+
+  const fullMessageProps = {
+    fullMessage: errorsProps.ERROR_FULL_MESSAGE,
+  };
+
+  const barArrowProps = {
+    errorDisplay: errorsVisible,
+    headerBarArrow: errorsProps.ERRORS_HEADER_EXPAND_ARROW,
+  };
+
+  const errorArrowProps = {
+    expanded: specErrorVisible,
+    onClick: handleClickSpecError,
+    errorArrow: errorsProps.ERROR_EXPAND_ARROW,
+  };
+
+  const symbolProps = {
+    name: 'exclamation triangle',
+    size: 'small'
   };
 
   const errorComponentGenerator = errors => errors
     .map(soloError => <S.ErrorComponent
-        key={A.keySwitchCase(soloError)}>
+      key={A.keySwitchCase(soloError)}>
 
-      <S.ArrowDiv expanded={specErrorVisible} onClick={handleClickSpecError}/>
-      <S.ErrorFile
-        onClick={() => errorNav(soloError)}>
+      <S.ArrowDiv {...errorArrowProps} />
+      <S.ErrorFile {...fileProps} onClick={() => errorNav(soloError)} >
         {A.typeSwitchCase(soloError)}
       </S.ErrorFile>
 
-      <S.ErrorType onClick={handleClickSpecError}>
+      <S.ErrorType {...typeProps} >
         {A.overalltypeSwitchCase(soloError).name}:
       </S.ErrorType>
 
-      <S.ErrorShortMessage onClick={handleClickSpecError}>
+      <S.ErrorShortMessage {...shortMessageProps} >
         {A.truncateMessage(A.overalltypeSwitchCase(soloError).shortMessage)}
       </S.ErrorShortMessage>
 
       {specErrorVisible
-        && <S.ErrorFullMessage>
+        && <S.ErrorFullMessage {...fullMessageProps} >
             {A.overalltypeSwitchCase(soloError).message}
-           </S.ErrorFullMessage>}
-
+          </S.ErrorFullMessage>}
     </S.ErrorComponent>);
 
   return (
     <div>
       {errorsVisible
-        && <S.ErrorDisplay id="ErrorComponentDisplay">
-             {errorComponentGenerator(errors)}
-           </S.ErrorDisplay>}
+        && <S.ErrorDisplay {...displayProps} >
+            {errorComponentGenerator(errors)}
+          </S.ErrorDisplay>}
 
-      <S.ErrorsHeader id="ErrorComponentHeader" {...headerProps} >
+      <S.ErrorsHeader {...headerProps} >
         {A.gtZero(errors.length)
-          && <S.ErrorSymbol name="exclamation triangle" size="small" />}
+          && <S.ErrorSymbol {...symbolProps} />}
         {A.errorArrayLength(errors)} Errors
-        <S.ErrorBarArrow errorDisplay={errorsVisible} />
+        <S.ErrorBarArrow {...barArrowProps} />
       </S.ErrorsHeader>
     </div>
   );
