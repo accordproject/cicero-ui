@@ -92,6 +92,7 @@ export const ErrorType = styled.div`
     font-size: 13px;
     line-height: 13px;
     align-self: center;
+    padding: 5px;
 `;
 
 export const ErrorShortMessage = styled.div`
@@ -101,6 +102,7 @@ export const ErrorShortMessage = styled.div`
     font-size: 13px;
     line-height: 13px;
     align-self: center;
+    padding: 5px;
 `;
 
 export const ErrorFullMessage = styled.div`
@@ -116,6 +118,7 @@ export const ArrowDiv = styled.div`
     place-self: center;
     width: 0; 
     height: 0; 
+    margin: 5px;
 
     border-top: ${props => (props.expanded
     ? (`10px solid ${props.errorArrow || '#50637F'}`) : '4px solid transparent')};
@@ -126,4 +129,8 @@ export const ArrowDiv = styled.div`
 
     border-left: ${props => (props.expanded
     ? '4px solid transparent' : (`10px solid ${props.errorArrow || '#50637F'}`))};
+
+    &:hover {
+        cursor: pointer;
+    }
 `;
