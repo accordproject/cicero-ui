@@ -1,6 +1,8 @@
+/* Styling */
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 
+/* Components */
 export const ErrorDisplay = styled.div`
     bottom: 25px;
     width: 100%;
@@ -17,7 +19,7 @@ export const ErrorsHeader = styled.div`
     transition: 1s;
     height: ${props => (props.errors ? '25px' : '0')};
     padding: 0.1em 0.1em 0.1em 1em;
-    background-color: ${props => (props.backgroundColor ? '#364C77' : '#1E2D53')};
+    background-color: ${props => props.headerBackground || '#364C77'};
     box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
     border-top: 1px solid #50637F;
 
@@ -65,7 +67,7 @@ export const ErrorComponent = styled.div`
 export const ErrorFile = styled.a`
     text-decoration: underline;
 
-    color: #FFFFFF;
+    color: ${props => props.errorFile || '#FFFFFF'};
     font-family: "IBM Plex Sans";
     font-size: 13px;
     line-height: 13px;
@@ -79,7 +81,7 @@ export const ErrorFile = styled.a`
 
 export const ErrorType = styled.div`
     grid-area: errorType;
-    color: #B9BCC4;
+    color: ${props => props.errorType || '#B9BCC4'};
     font-family: "IBM Plex Sans";
     font-size: 13px;
     line-height: 13px;
@@ -87,18 +89,17 @@ export const ErrorType = styled.div`
 `;
 
 export const ErrorShortMessage = styled.div`
-    color: #B9BCC4;
+    grid-area: errorMessage;
+    color: ${props => props.shortMessage || '#B9BCC4'};
     font-family: "IBM Plex Sans";
     font-size: 13px;
     line-height: 13px;
-    grid-area: errorMessage;
     align-self: center;
 `;
 
 export const ErrorFullMessage = styled.div`
     grid-area: errorFull;
-
-    color: #FFFFFF;
+    color: ${props => props.fullMessage || '#FFFFFF'};
     font-family: "IBM Plex Sans";
     font-size: 13px;
     line-height: 13px;
