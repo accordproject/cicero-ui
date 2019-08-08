@@ -8,8 +8,8 @@ export const ErrorDisplay = styled.div`
     width: 100%;
     position: fixed;
     max-height: 300px;
-    background-color: #1E2D53;
-    box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
+    background-color: ${props => props.displayBackground || '#1E2D53'};
+    box-shadow: ${props => props.displayShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
 `;
 
 export const ErrorsHeader = styled.div`
@@ -19,9 +19,9 @@ export const ErrorsHeader = styled.div`
     transition: 1s;
     height: ${props => (props.errors ? '25px' : '0')};
     padding: 0.1em 0.1em 0.1em 1em;
-    background-color: ${props => props.headerBackground || '#364C77'};
-    box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
-    border-top: 1px solid #50637F;
+    background-color: ${props => props.headerBackground || '#1E2D53'};
+    box-shadow: ${props => props.headerShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
+    border-top: ${props => props.headerTop || ' 1px solid #50637F'};
 
     color: ${props => (props.errors ? '#FF4242' : '#19C6C7')};
     font-family: "IBM Plex Sans";
@@ -31,7 +31,7 @@ export const ErrorsHeader = styled.div`
     line-height: 20px;
 
     &:hover {
-        background-color: #364C77;
+        background-color: ${props => props.headerBackgroundHover || '#364C77'};
         cursor: pointer;
     }
 `;
@@ -44,16 +44,21 @@ export const ErrorBarArrow = styled.div`
     float: right;
     margin: 5px 15px;
 
-    border-top: ${props => (props.errorDisplay ? '7px solid #7B9AD1' : '0')};
+    border-top: ${props => (props.errorDisplay
+    ? (`7px solid ${props.headerBarArrow || '#7B9AD1'}`) : '0')};
+
     border-right: 4px solid transparent;
+
     border-left: 4px solid transparent;
-    border-bottom: ${props => (props.errorDisplay ? '0' : '7px solid #7B9AD1')};
+
+    border-bottom: ${props => (props.errorDisplay
+    ? '0' : (`7px solid ${props.headerBarArrow || '#7B9AD1'}`))};
 `;
 
 export const ErrorComponent = styled.div`
     width: 100%;
     color: #F0F0F0;
-    border-bottom: 1px solid #50637F;
+    border-bottom: 1px solid ${props => props.borderBottom || '#50637F'};
     padding: 10px 16px;
 
     display: grid;
@@ -76,6 +81,7 @@ export const ErrorFile = styled.a`
     align-self: center;
     &:hover {
         cursor: pointer;
+        color: ${props => props.errorFileHover || '#0066CC'};
     }
 `;
 
