@@ -110,8 +110,14 @@ export const ArrowDiv = styled.div`
     place-self: center;
     width: 0; 
     height: 0; 
-    border-top: ${props => (props.expanded ? '10px solid #50637F' : '4px solid transparent')};
+
+    border-top: ${props => (props.expanded
+    ? (`10px solid ${props.errorArrow || '#50637F'}`) : '4px solid transparent')};
+
     border-right: ${props => (props.expanded ? '4px solid transparent' : '0')};
+
     border-bottom: ${props => (props.expanded ? '0' : '4px solid transparent')};
-    border-left: ${props => (props.expanded ? '4px solid transparent' : '10px solid #50637F')};
+
+    border-left: ${props => (props.expanded
+    ? '4px solid transparent' : (`10px solid ${props.errorArrow || '#50637F'}`))};
 `;
