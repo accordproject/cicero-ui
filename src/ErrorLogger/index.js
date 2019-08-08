@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as styles from './styles';
 
 const ErrorLogger = (props) => {
-  const { errors } = props;
+  const { errors, errorNav } = props;
 
   const [errorsVisible, setErrorsVisible] = useState(false);
   const [specErrorVisible, setspecErrorVisible] = useState(false);
@@ -26,14 +26,19 @@ const ErrorLogger = (props) => {
 
   const errorComponentGenerator = errors => errors
     .map(soloError => <styles.ErrorComponent
-        key={actions.keySwitchCase(soloError)}
-        onClick={handleClickSpecError}>
+        key={actions.keySwitchCase(soloError)}>
 
-      <styles.ArrowDiv expanded={specErrorVisible} />
-      <styles.ErrorFile>{actions.typeSwitchCase(soloError)}</styles.ErrorFile>
-      <styles.ErrorType>{actions.overalltypeSwitchCase(soloError).name}:</styles.ErrorType>
+      <styles.ArrowDiv expanded={specErrorVisible} onClick={handleClickSpecError}/>
+      <styles.ErrorFile
+        onClick={() => errorNav(soloError)}>
+        {actions.typeSwitchCase(soloError)}
+      </styles.ErrorFile>
 
-      <styles.ErrorShortMessage>
+      <styles.ErrorType onClick={handleClickSpecError}>
+        {actions.overalltypeSwitchCase(soloError).name}:
+      </styles.ErrorType>
+
+      <styles.ErrorShortMessage onClick={handleClickSpecError}>
         {actions.truncateMessage(actions.overalltypeSwitchCase(soloError).shortMessage)}
       </styles.ErrorShortMessage>
 
@@ -63,6 +68,7 @@ const ErrorLogger = (props) => {
 
 ErrorLogger.propTypes = {
   errors: PropTypes.array.isRequired,
+  errorNav: PropTypes.func,
 };
 
 export default ErrorLogger;

@@ -56,6 +56,7 @@ class TemplateCard extends React.Component {
   */
   render() {
     const { libraryProps, template } = this.props;
+    const displayName = template.displayName ? template.displayName : template.name;
     return (
         <CardContainer fluid
           key={template.uri}
@@ -65,7 +66,7 @@ class TemplateCard extends React.Component {
             <Card.Content>
               <TemplateLogo src={template.icon} />
               <Title color={libraryProps.TEMPLATE_TITLE}>
-                {template.name}
+                {displayName}
                 <Version>v {template.version}</Version>
               </Title>
               <DescriptionContainer color={libraryProps.TEMPLATE_DESCRIPTION}>
