@@ -4,17 +4,35 @@
 
 The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
 
-## Development Instructions - Build
+## Instructions
+This is a short reference guide, for a more full context, please refer to our [CONTRIBUTING guide][contributing] and information for [DEVELOPERS][developers].
 
-1. Fork project to your repository.
-2. Clone to your local machine with `git clone`
-3. `cd` into the directory.
-4. Run `npm install`.
-5. Transpile code for build with `npm run transpile`.
-6. Build a production state with `npm run build`.
-7. Ensure the `<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,500i,700" rel="stylesheet">` line is in the *.html file of Template Studio.
-8. Create a global link with `npm link`.
-9. Copy the <NAME> value from `package.json` for the link to Template Studio.
+For using individual components in an app, refer to the individual component's README.
+
+### Implementation
+
+Components ready for use:
+- [`ContractEditor`][contracteditor]
+- [`TemplateLibrary`][templatelibrary]
+
+
+Components still in development:
+- [`ClauseEditor`][clauseeditor]
+- [`ErrorLogger`][errorlogger]
+- [`ParseResult`][parseresult]
+- [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]
+
+### Development
+
+1. Fork project to your repository
+2. Clone to local machine with `git clone`
+3. `cd` into the directory
+4. Run `npm install`
+5. Ensure the `IBM Plex Sans` is imported with `<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,500i,700" rel="stylesheet">` is in the *.html file of your main app
+6. Build a production state with `npm run build`
+7. Transpile code for build with `npm run transpile`
+8. Create a global link with `npm link`
+9. In your main app directory, run `npm link @accordproject/cicero-ui`
 
 ---
 
@@ -48,52 +66,17 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-## Styling
-
-You can style most of the components in this library:
-
-#### Contract Editor: `editorProps`
-
-You can style the toolbar of this components, as well as the width of the editor:
-
-An object may be passed down this component which will then be picked up by our `markdown-editor`, with the following possible css inputs as strings:
-- `BUTTON_BACKGROUND_INACTIVE`
-- `BUTTON_BACKGROUND_ACTIVE`
-- `BUTTON_SYMBOL_INACTIVE`
-- `BUTTON_SYMBOL_ACTIVE`
-- `DROPDOWN_COLOR`
-- `TOOLBAR_BACKGROUND`
-- `TOOLTIP_BACKGROUND`
-- `TOOLTIP`
-- `TOOLBAR_SHADOW`
-- `WIDTH`
-
-#### Template Library: `libraryProps`
-
-You can style the template card components, as well as the header:
-
-An object may be passed down this component with the following possible css inputs as strings:
-- `ACTION_BUTTON`
-- `ACTION_BUTTON_BG`
-- `ACTION_BUTTON_BORDER`
-- `HEADER_TITLE`
-- `TEMPLATE_BACKGROUND`
-- `TEMPLATE_DESCRIPTION`
-- `TEMPLATE_TITLE`
-
 ---
 
-## Structure of the Code Repository
+## <a name="Structure"></a> Structure of the Code Repository
 
 Top level repository (cicero-ui), with sub packages. The entire package is published as an independent npm module:
-- `ClauseEditor`: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
-- `ContractEditor`: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assings the Clause plugin.
-- `ErrorLogger`: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
-- `ParseResult`: 
-- `SlateCommands`: 
-- `TemplateLibrary`: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
-- `TemplateLoadingClauseEditor`: 
-- `Tile`: 
+- [`ClauseEditor`][clauseeditor]: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
+- [`ContractEditor`][contracteditor]: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assings the Clause plugin.
+- [`ErrorLogger`][errorlogger]: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
+- [`ParseResult`][parseresult]: 
+- [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
+- [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
 
 ---
 
@@ -137,6 +120,13 @@ Accord Project source code files are made available under the [Apache License, V
 Accord Project documentation files are made available under the [Creative Commons Attribution 4.0 International License][creativecommons] (CC-BY-4.0).
 
 Copyright 2018-2019 Clause, Inc. All trademarks are the property of their respective owners. See [LF Projects Trademark Policy](https://lfprojects.org/policies/trademark-policy/).
+
+[contracteditor]: src/ContractEditor/README.md
+[templatelibrary]: src/TemplateLibrary/README.md
+[clauseeditor]: src/ClauseEditor/README.md
+[errorlogger]: src/ErrorLogger/README.md
+[parseresult]: src/ParseResult/README.md
+[templateloadingclauseeditor]: src/TemplateLoadingClauseEditor/README.md
 
 [cicero]: https://github.com/accordproject/cicero
 [markdown]: https://github.com/accordproject/markdown-editor
