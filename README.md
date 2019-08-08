@@ -13,12 +13,11 @@ For using individual components in an app, refer to the individual component's R
 
 Components ready for use:
 - [`ContractEditor`][contracteditor]
+- [`ErrorLogger`][errorlogger]
 - [`TemplateLibrary`][templatelibrary]
-
 
 Components still in development:
 - [`ClauseEditor`][clauseeditor]
-- [`ErrorLogger`][errorlogger]
 - [`ParseResult`][parseresult]
 - [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]
 
