@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-/* Styling */
+/* Actions */
 import * as A from './actions';
 
-/* Actions */
+/* Styling */
 import * as S from './styles';
 
 const ErrorComponent = (props) => {

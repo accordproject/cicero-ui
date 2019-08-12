@@ -9,7 +9,7 @@ import * as A from './actions';
 import * as S from './styles';
 
 /* Component */
-import ErrorComponent from './error';
+import ErrorComponent from './Error';
 
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
