@@ -6,3 +6,6 @@
 npm-debug.log*
 /lib
 /es
+/log
+
+.DS_Store
