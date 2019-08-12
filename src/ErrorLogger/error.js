@@ -8,43 +8,72 @@ import * as A from './actions';
 /* Actions */
 import * as S from './styles';
 
+const ErrorComponent = (props) => {
+  const { error, errorProps, errorNav } = props;
 
-const ErrorComponent = (soloError) => {
   const [specErrorVisible, setspecErrorVisible] = useState(false);
 
   const handleClickSpecError = () => {
     setspecErrorVisible(!specErrorVisible);
   };
 
+  const componentProps = {
+    borderBottom: errorProps.ERROR_BORDER_BOTTOM,
+  };
+
+  const fileProps = {
+    errorFile: errorProps.ERROR_FILE,
+    errorFileHover: errorProps.ERROR_FILE_HOVER,
+  };
+
+  const typeProps = {
+    onClick: handleClickSpecError,
+    errorType: errorProps.ERROR_TYPE,
+  };
+
+  const shortMessageProps = {
+    onClick: handleClickSpecError,
+    shortMessage: errorProps.ERROR_SHORT_MESSAGE,
+  };
+
+  const fullMessageProps = {
+    fullMessage: errorProps.ERROR_FULL_MESSAGE,
+  };
+
+  const errorArrowProps = {
+    expanded: specErrorVisible,
+    onClick: handleClickSpecError,
+    errorArrow: errorProps.ERROR_EXPAND_ARROW,
+  };
+
   return (
-    <S.ErrorComponent {...componentProps}
-      key={A.keySwitchCase(soloError)}>
+    <S.ErrorComponent {...componentProps}>
 
       <S.ArrowDiv {...errorArrowProps} />
-      <S.ErrorFile {...fileProps} onClick={() => errorNav(soloError)} >
-        {A.typeSwitchCase(soloError)}
+      <S.ErrorFile {...fileProps} onClick={() => errorNav(error)} >
+        {A.typeSwitchCase(error)}
       </S.ErrorFile>
 
       <S.ErrorType {...typeProps} >
-        {A.overalltypeSwitchCase(soloError).name}:
+        {A.overalltypeSwitchCase(error).name}:
       </S.ErrorType>
 
       <S.ErrorShortMessage {...shortMessageProps} >
-        {A.truncateMessage(A.overalltypeSwitchCase(soloError).shortMessage)}
+        {A.truncateMessage(A.overalltypeSwitchCase(error).shortMessage)}
       </S.ErrorShortMessage>
 
       {specErrorVisible
         && <S.ErrorFullMessage {...fullMessageProps} >
-            {A.overalltypeSwitchCase(soloError).message}
+            {A.overalltypeSwitchCase(error).message}
           </S.ErrorFullMessage>}
     </S.ErrorComponent>
   );
 };
 
 ErrorComponent.propTypes = {
-  errors: PropTypes.array.isRequired,
+  error: PropTypes.object.isRequired,
   errorNav: PropTypes.func,
-  errorsProps: PropTypes.shape({
+  errorProps: PropTypes.shape({
     ERRORS_HEADER_BACKGROUND: PropTypes.string,
     ERRORS_HEADER_BACKGROUND_HOVER: PropTypes.string,
     ERRORS_HEADER_EXPAND_ARROW: PropTypes.string,

@@ -8,19 +8,17 @@ import * as A from './actions';
 /* Actions */
 import * as S from './styles';
 
+/* Component */
+import ErrorComponent from './error';
+
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
   const errorsProps = props.errorsProps || Object.create(null);
 
   const [errorsVisible, setErrorsVisible] = useState(false);
-  const [specErrorVisible, setspecErrorVisible] = useState(false);
 
   const handleClickErrorsBar = () => {
     if (A.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
-  };
-
-  const handleClickSpecError = () => {
-    setspecErrorVisible(!specErrorVisible);
   };
 
   const headerProps = {
@@ -40,38 +38,9 @@ const ErrorLogger = (props) => {
     displayShadow: errorsProps.ERRORS_DISPLAY_SHADOW,
   };
 
-  const componentProps = {
-    borderBottom: errorsProps.ERROR_BORDER_BOTTOM,
-  };
-
-  const fileProps = {
-    errorFile: errorsProps.ERROR_FILE,
-    errorFileHover: errorsProps.ERROR_FILE_HOVER,
-  };
-
-  const typeProps = {
-    onClick: handleClickSpecError,
-    errorType: errorsProps.ERROR_TYPE,
-  };
-
-  const shortMessageProps = {
-    onClick: handleClickSpecError,
-    shortMessage: errorsProps.ERROR_SHORT_MESSAGE,
-  };
-
-  const fullMessageProps = {
-    fullMessage: errorsProps.ERROR_FULL_MESSAGE,
-  };
-
   const barArrowProps = {
     errorDisplay: errorsVisible,
     headerBarArrow: errorsProps.ERRORS_HEADER_EXPAND_ARROW,
-  };
-
-  const errorArrowProps = {
-    expanded: specErrorVisible,
-    onClick: handleClickSpecError,
-    errorArrow: errorsProps.ERROR_EXPAND_ARROW,
   };
 
   const symbolProps = {
@@ -80,27 +49,11 @@ const ErrorLogger = (props) => {
   };
 
   const errorComponentGenerator = errors => errors
-    .map(soloError => <S.ErrorComponent {...componentProps}
-      key={A.keySwitchCase(soloError)}>
-
-      <S.ArrowDiv {...errorArrowProps} />
-      <S.ErrorFile {...fileProps} onClick={() => errorNav(soloError)} >
-        {A.typeSwitchCase(soloError)}
-      </S.ErrorFile>
-
-      <S.ErrorType {...typeProps} >
-        {A.overalltypeSwitchCase(soloError).name}:
-      </S.ErrorType>
-
-      <S.ErrorShortMessage {...shortMessageProps} >
-        {A.truncateMessage(A.overalltypeSwitchCase(soloError).shortMessage)}
-      </S.ErrorShortMessage>
-
-      {specErrorVisible
-        && <S.ErrorFullMessage {...fullMessageProps} >
-            {A.overalltypeSwitchCase(soloError).message}
-          </S.ErrorFullMessage>}
-    </S.ErrorComponent>);
+    .map(soloError => <ErrorComponent
+      errorProps={errorsProps}
+      error={soloError}
+      errorNav={errorNav}
+      key={A.keySwitchCase(soloError)} />);
 
   return (
     <div>
