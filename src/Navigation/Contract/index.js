@@ -18,8 +18,9 @@ export const ContractHeaders = styled.div`
     grid-area: body;
 `;
 
-export const HeaderOne = styled.div`
-    margin: 2px 0;
+export const HeaderTemplate = styled.div`
+    margin-top: 2px;
+    margin-bottom: 2px;
     height: 24px;
     width: 185px;
     color: #B9BCC4;
@@ -27,28 +28,24 @@ export const HeaderOne = styled.div`
     font-size: 16px;
     letter-spacing: -0.5px;
     line-height: 24px;
+    &:hover {
+        cursor: pointer;
+        color: ${props => props.headerActive || '#19C6C7'};
+    }
 `;
 
-export const HeaderTwo = styled.div`
-    margin: 2px 0 2px 20px;
-    height: 24px;
-    width: 185px;
+export const HeaderOne = styled(HeaderTemplate)`
     color: #B9BCC4;
-    font-family: "IBM Plex Sans";
-    font-size: 16px;
-    letter-spacing: -0.5px;
-    line-height: 24px;
 `;
 
-export const HeaderThree = styled.div`
-    margin: 2px 0 2px 40px;
-    height: 24px;
-    width: 185px;
+export const HeaderTwo = styled(HeaderTemplate)`
+    margin-left: 20px;
     color: #B9BCC4;
-    font-family: "IBM Plex Sans";
-    font-size: 16px;
-    letter-spacing: -0.5px;
-    line-height: 24px;
+`;
+
+export const HeaderThree = styled(HeaderTemplate)`
+    margin-left: 40px;
+    color: #B9BCC4;
 `;
 const isHeadingOne = input => input === 'heading_one';
 const isHeadingTwo = input => input === 'heading_two';
@@ -73,6 +70,7 @@ const headerGenerator = headers => headers.map((header) => {
  */
 const ContractNavigation = (props) => {
   const variable2 = 2;
+  console.log('variable: ', variable2);
   return (
       <ContractHeaders>
           {headerGenerator(props.headers)}
