@@ -8,7 +8,7 @@ const truncateHeading = (heading, length) => ((heading.length > length)
 
 
 export const truncateHeader = ({ type, text }) => {
-  if (isClause(type)) return truncateHeading(text, 22);
+  if (isClause(type)) return truncateHeading(text, 20);
   if (isHeadingOne(type)) return truncateHeading(text, 22);
   if (isHeadingTwo(type)) return truncateHeading(text, 18);
   if (isHeadingThree(type)) return truncateHeading(text, 14);

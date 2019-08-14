@@ -57,12 +57,13 @@ const isHeadingTwo = input => input === 'heading_two';
 const isHeadingThree = input => input === 'heading_three';
 
 const headerGenerator = (props) => {
+  const { navigateHeader } = props;
   const headers = props.headers || [];
   //   console.log('headerGenerator: ', props);
   return headers.map((header) => {
     if (isClause(header.type)) {
       return (
-        <HeaderClause key={header.key} {...props.styleProps}>
+        <HeaderClause key={header.key} onClick={() => navigateHeader(header.key)} {...props.styleProps}>
             {ACT.truncateHeader(header)}
         </ HeaderClause>
       );
@@ -109,6 +110,7 @@ const ContractNavigation = (props) => {
 
 ContractNavigation.propTypes = {
   headers: PropTypes.array,
+  navigateHeader: PropTypes.func,
   styleProps: PropTypes.shape({
     headerColor: PropTypes.string,
     headerHover: PropTypes.string,
