@@ -6,6 +6,7 @@ import styled from 'styled-components';
 export const NavigationWrapper = styled.div`
     max-height: ${props => props.navMaxHeight || '80vh'};
     width: ${props => props.navWidth || '180px'};
+    background-color: ${props => props.backgroundColor || 'inherit'};
     overflow-y: inherit;
 
     display: grid;
@@ -29,7 +30,7 @@ export const Title = styled.a`
     font-weight: bold;
     font-family: ${props => props.headerFont || 'Graphik'};
     &:hover {
-        cursor: pointer;
+        cursor: ${props => (props.filesVisible ? 'pointer' : 'auto')};
         color: ${props => props.titleActive || '#19C6C7'};
     }
 `;
@@ -43,7 +44,7 @@ export const Navigation = styled(Title)`
 `;
 
 export const Files = styled(Title)`
-    display: grid;
+    display: ${props => (props.filesVisible ? 'grid' : 'none')};
     grid-area: files;
     color: ${props => (props.navState === 'FILES'
     ? (props.titleActive || '#19C6C7')
