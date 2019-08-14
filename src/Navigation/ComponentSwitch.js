@@ -15,13 +15,21 @@ import { NAVIGATION, FILES } from './constants';
  * @param {*} props
  */
 const NavigationComponent = (props) => {
-  const navigationProps = {
+  const navigationSwitchProps = {
+    headerFont: props.headerFont,
+    titleActive: props.titleActive,
+    titleInactive: props.titleInactive,
+    filesVisible: props.filesVisible,
     navState: props.navState,
+  };
+
+  const navigationProps = {
+    ...navigationSwitchProps,
     onClick: () => props.setNavState(NAVIGATION),
   };
 
   const fileProps = {
-    navState: props.navState,
+    ...navigationSwitchProps,
     onClick: () => props.setNavState(FILES),
   };
 
@@ -39,7 +47,11 @@ const NavigationComponent = (props) => {
 
 NavigationComponent.propTypes = {
   setNavState: PropTypes.func.isRequired,
-  navState: PropTypes.string.isRequired
+  navState: PropTypes.string.isRequired,
+  filesVisible: PropTypes.bool,
+  headerFont: PropTypes.string,
+  titleActive: PropTypes.string,
+  titleInactive: PropTypes.string,
 };
 
 export default NavigationComponent;
