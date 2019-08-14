@@ -29,16 +29,41 @@ const NavigationComponent = (props) => {
   const navigationWrapperProps = {
     navMaxHeight: navigationProps.NAVIGATION_MAX_HEIGHT,
     navWidth: navigationProps.NAVIGATION_WIDTH,
+    backgroundColor: navigationProps.NAVIGATION_BACKGROUND_COLOR,
   };
 
   const switchProps = {
     navState,
     setNavState,
+    filesVisible: navigationProps.NAVIGATE_SWITCH_FILES_VISIBLE,
+    headerFont: navigationProps.NAVIGATE_SWITCH_TITLE_FONT_FAMILY,
+    titleActive: navigationProps.NAVIGATE_SWITCH_TITLE_ACTIVE_COLOR,
+    titleInactive: navigationProps.NAVIGATE_SWITCH_TITLE_INACTIVE_COLOR,
+  };
+
+  const contractProps = {
+    headerColor: navigationProps.CONTRACT_NAVIGATION_HEADER_COLOR,
+    headerHover: navigationProps.CONTRACT_NAVIGATION_HEADER_HOVER_COLOR,
+    clauseColor: navigationProps.CONTRACT_NAVIGATION_CLAUSE_COLOR,
+    clauseHover: navigationProps.CONTRACT_NAVIGATION_CLAUSE_HOVER_COLOR,
+    clauseHeaderColor: navigationProps.CONTRACT_NAVIGATION_CLAUSE_HEADER_COLOR,
+    clauseHeaderHover: navigationProps.CONTRACT_NAVIGATION_CLAUSE_HEADER_HOVER_COLOR,
+  };
+
+  const filesProps = {
+    titleColor: navigationProps.CLAUSE_NAVIGATION_TITLE_COLOR,
+    titleHover: navigationProps.CLAUSE_NAVIGATION_TITLE_HOVER_COLOR,
+    arrowColor: navigationProps.CLAUSE_NAVIGATION_EXPANSION_ARROW_COLOR,
+    arrowHover: navigationProps.CLAUSE_NAVIGATION_EXPANSION_ARROW_HOVER_COLOR,
+    deleteColor: navigationProps.CLAUSE_NAVIGATION_FILE_DELETE_COLOR,
+    deleteHover: navigationProps.CLAUSE_NAVIGATION_FILE_DELETE_HOVER_COLOR,
+    addColor: navigationProps.CLAUSE_NAVIGATION_FILE_ADD_COLOR,
+    addHover: navigationProps.CLAUSE_NAVIGATION_FILE_ADD_HOVER_COLOR,
   };
 
   const navigationGenerator = (props) => {
-    if (navigationState()) return <ContractNavigation {...props} />;
-    if (filesState()) return <FilesNavigation {...props} />;
+    if (navigationState()) return <ContractNavigation {...props} styleProps={contractProps} />;
+    if (filesState()) return <FilesNavigation {...props} styleProps={filesProps} />;
     return 'Select Navigation or Files';
   };
 
@@ -57,9 +82,11 @@ NavigationComponent.propTypes = {
     NAVIGATE_SWITCH_TITLE_ACTIVE_COLOR: PropTypes.string,
     NAVIGATE_SWITCH_TITLE_INACTIVE_COLOR: PropTypes.string,
     NAVIGATE_SWITCH_TITLE_FONT_FAMILY: PropTypes.string,
+    NAVIGATE_SWITCH_FILES_VISIBLE: PropTypes.bool.isRequired,
 
     NAVIGATION_MAX_HEIGHT: PropTypes.string,
     NAVIGATION_WIDTH: PropTypes.string,
+    NAVIGATION_BACKGROUND_COLOR: PropTypes.string,
 
     CONTRACT_NAVIGATION_HEADER_COLOR: PropTypes.string,
     CONTRACT_NAVIGATION_HEADER_HOVER_COLOR: PropTypes.string,
