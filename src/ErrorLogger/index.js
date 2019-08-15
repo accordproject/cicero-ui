@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
-import * as A from './actions';
+import * as ACT from './actions';
 
 /* Actions */
-import * as S from './styles';
+import * as SC from './styles';
 
 /* Component */
 import ErrorComponent from './Error';
@@ -18,12 +18,12 @@ const ErrorLogger = (props) => {
   const [errorsVisible, setErrorsVisible] = useState(false);
 
   const handleClickErrorsBar = () => {
-    if (A.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
+    if (ACT.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
   };
 
   const headerProps = {
     id: 'ErrorComponentHeader',
-    errors: A.errorsExist(errors),
+    errors: ACT.errorsExist(errors),
     onClick: handleClickErrorsBar,
     headerBackground: errorsProps.ERRORS_HEADER_BACKGROUND,
     headerBackgroundHover: errorsProps.ERRORS_HEADER_BACKGROUND_HOVER,
@@ -53,21 +53,21 @@ const ErrorLogger = (props) => {
       errorProps={errorsProps}
       error={soloError}
       errorNav={errorNav}
-      key={A.keySwitchCase(soloError)} />);
+      key={ACT.keySwitchCase(soloError)} />);
 
   return (
     <div>
       {errorsVisible
-        && <S.ErrorDisplay {...displayProps} >
+        && <SC.ErrorDisplay {...displayProps} >
             {errorComponentGenerator(errors)}
-          </S.ErrorDisplay>}
+          </SC.ErrorDisplay>}
 
-      <S.ErrorsHeader {...headerProps} >
-        {A.gtZero(errors.length)
-          && <S.ErrorSymbol {...symbolProps} />}
-        {A.errorArrayLength(errors)} Errors
-        <S.ErrorBarArrow {...barArrowProps} />
-      </S.ErrorsHeader>
+      <SC.ErrorsHeader {...headerProps} >
+        {ACT.gtZero(errors.length)
+          && <SC.ErrorSymbol {...symbolProps} />}
+        {ACT.errorArrayLength(errors)} Errors
+        <SC.ErrorBarArrow {...barArrowProps} />
+      </SC.ErrorsHeader>
     </div>
   );
 };
