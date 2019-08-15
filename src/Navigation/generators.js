@@ -2,7 +2,7 @@
 import React from 'react';
 
 /* Actions */
-import * as ACT from './actions';
+import { truncateHeader } from './actions';
 
 /* Styling */
 import * as SC from './styles';
@@ -18,50 +18,49 @@ export const headerGenerator = (props) => {
 
   return headers.map((header) => {
     const { type, key } = header;
-    if (ACT.isClause(type)) {
-      return (
+    switch (type) {
+      case 'clause':
+        return (
           <SC.HeaderClause
               key={key}
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {ACT.truncateHeader(header)}
+              {truncateHeader(header)}
           </ SC.HeaderClause>
-      );
-    }
-    if (ACT.isHeadingOne(type)) {
-      return (
+        );
+      case 'heading_one':
+        return (
           <SC.HeaderOne
               key={key}
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {ACT.truncateHeader(header)}
+              {truncateHeader(header)}
           </ SC.HeaderOne>
-      );
-    }
-    if (ACT.isHeadingTwo(type)) {
-      return (
+        );
+      case 'heading_two':
+        return (
           <SC.HeaderTwo
               key={key}
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {ACT.truncateHeader(header)}
+              {truncateHeader(header)}
           </ SC.HeaderTwo>
-      );
-    }
-    if (ACT.isHeadingThree(type)) {
-      return (
+        );
+      case 'heading_three':
+        return (
           <SC.HeaderThree
               key={key}
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {ACT.truncateHeader(header)}
+              {truncateHeader(header)}
           </ SC.HeaderThree>
-      );
+        );
+      default:
+        return 'Error!';
     }
-    return 'Error!';
   });
 };
