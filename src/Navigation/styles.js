@@ -62,12 +62,35 @@ export const ContractHeaders = styled.div`
     grid-area: body;
 `;
 
-export const Header = styled.div`
+export const HeaderOne = styled.div`
+    margin-top: 2px;
+    margin-bottom: 2px;
     height: 24px;
     width: 185px;
-    color: #B9BCC4;
+    color: ${props => props.headerColor || '#B9BCC4'};
     font-family: "IBM Plex Sans";
     font-size: 16px;
     letter-spacing: -0.5px;
     line-height: 24px;
+    &:hover {
+        cursor: pointer;
+        color: ${props => props.headerHover || '#19C6C7'};
+    }
+`;
+
+export const HeaderTwo = styled(HeaderOne)`
+    margin-left: 20px;
+`;
+
+export const HeaderThree = styled(HeaderOne)`
+    margin-left: 40px;
+`;
+
+export const HeaderClause = styled(HeaderOne)`
+    color: ${props => props.clauseColor || '#FFFFFF'} !important;
+    font-weight: bold;
+
+    &:hover {
+        color: ${props => props.clauseHover || '#19C6C7'} !important;
+    }
 `;
