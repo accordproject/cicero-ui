@@ -57,7 +57,8 @@ const contractProps = {
  *
  * @param {*} props the properties for the component
  */
-const ContractEditor = (props) => {
+// eslint-disable-next-line react/display-name
+const ContractEditor = React.forwardRef((props, ref) => {
   const [plugins, setPlugins] = useState([]);
   useEffect(() => {
     setPlugins(
@@ -70,6 +71,7 @@ const ContractEditor = (props) => {
   }, [props.clauseProps, props.loadTemplateObject, props.parseClause, props.plugins]);
   return (
     plugins.length ? <SlateAsInputEditor
+    ref={ref}
     value={props.value || contractProps.value}
     onChange={props.onChange || contractProps.onChange}
     plugins={plugins}
@@ -77,7 +79,7 @@ const ContractEditor = (props) => {
     editorProps={props.editorProps}
   /> : null
   );
-};
+});
 /**
  * The property types for this component
  */
