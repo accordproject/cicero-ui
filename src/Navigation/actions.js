@@ -1,10 +1,11 @@
-const isClause = input => input === 'clause';
-const isHeadingOne = input => input === 'heading_one';
-const isHeadingTwo = input => input === 'heading_two';
-const isHeadingThree = input => input === 'heading_three';
+export const isClause = input => input === 'clause';
+export const isHeadingOne = input => input === 'heading_one';
+export const isHeadingTwo = input => input === 'heading_two';
+export const isHeadingThree = input => input === 'heading_three';
 
 const truncateHeading = (heading, length) => ((heading.length > length)
-  ? `${heading.substring(0, length)}...` : heading);
+  ? `${heading.substring(0, length)}...`
+  : heading);
 
 
 export const truncateHeader = ({ type, text }) => {
