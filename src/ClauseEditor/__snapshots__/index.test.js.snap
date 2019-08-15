@@ -2,7 +2,7 @@
 
 exports[`<ClauseEditor /> on initialization renders page correctly 1`] = `
 <div>
-  <ContractEditor
+  <ForwardRef
     lockText={true}
     onChange={[Function]}
     showEditButton={true}
