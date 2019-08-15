@@ -21,7 +21,7 @@ const deleteIconProps = {
 
 /**
  * Component to render a clause
- *
+ * This will have an id property of the clauseid
  * @param {*} props
  */
 function ClauseComponent(props) {
@@ -35,6 +35,7 @@ function ClauseComponent(props) {
     <S.ClauseWrapper
       clauseborder={clauseProps.CLAUSE_BORDER}
       clausebg={clauseProps.CLAUSE_BACKGROUND}
+      id={props.clauseId}
     >
       <S.ClauseHeader headerfont={clauseProps.HEADER_FONT} >
         {titleGenerator(props.templateUri)} — SMART CLAUSE
@@ -62,6 +63,7 @@ ClauseComponent.propTypes = {
   }),
   errors: PropTypes.object,
   removeFromContract: PropTypes.func,
+  clauseId: PropTypes.string,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
