@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /* Actions */
-import * as A from './actions';
+import * as ACT from './actions';
 
 /* Styling */
-import * as S from './styles';
+import * as SC from './styles';
 
 const ErrorComponent = (props) => {
   const { error, errorProps, errorNav } = props;
@@ -47,26 +47,26 @@ const ErrorComponent = (props) => {
   };
 
   return (
-    <S.ErrorComponent {...componentProps}>
+    <SC.ErrorComponent {...componentProps}>
 
-      <S.ArrowDiv {...errorArrowProps} />
-      <S.ErrorFile {...fileProps} onClick={() => errorNav(error)} >
-        {A.typeSwitchCase(error)}
-      </S.ErrorFile>
+      <SC.ArrowDiv {...errorArrowProps} />
+      <SC.ErrorFile {...fileProps} onClick={() => errorNav(error)} >
+        {ACT.typeSwitchCase(error)}
+      </SC.ErrorFile>
 
-      <S.ErrorType {...typeProps} >
-        {A.overalltypeSwitchCase(error).name}:
-      </S.ErrorType>
+      <SC.ErrorType {...typeProps} >
+        {ACT.overalltypeSwitchCase(error).name}:
+      </SC.ErrorType>
 
-      <S.ErrorShortMessage {...shortMessageProps} >
-        {A.truncateMessage(A.overalltypeSwitchCase(error).shortMessage)}
-      </S.ErrorShortMessage>
+      <SC.ErrorShortMessage {...shortMessageProps} >
+        {ACT.truncateMessage(ACT.overalltypeSwitchCase(error).shortMessage)}
+      </SC.ErrorShortMessage>
 
       {specErrorVisible
-        && <S.ErrorFullMessage {...fullMessageProps} >
-            {A.overalltypeSwitchCase(error).message}
-          </S.ErrorFullMessage>}
-    </S.ErrorComponent>
+        && <SC.ErrorFullMessage {...fullMessageProps} >
+            {ACT.overalltypeSwitchCase(error).message}
+          </SC.ErrorFullMessage>}
+    </SC.ErrorComponent>
   );
 };
 
