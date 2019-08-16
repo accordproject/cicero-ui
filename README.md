@@ -16,6 +16,10 @@ Components ready for use:
 - [`ErrorLogger`][errorlogger]
 - [`TemplateLibrary`][templatelibrary]
 
+Available Plugins:
+- `ClausePlugin`
+- `VariableePlugin`
+
 Components still in development:
 - [`ClauseEditor`][clauseeditor]
 - [`ParseResult`][parseresult]
@@ -76,6 +80,8 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 - [`ParseResult`][parseresult]: 
 - [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
 - [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
+- `ClausePlugin`: A custom Slate plugin for embedding a clause node within a document
+- `VariablePlugin`: A custom Slate plugin for using editable, highlighted variables within a clause
 
 ---
 
