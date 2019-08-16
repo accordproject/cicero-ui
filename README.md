@@ -14,6 +14,7 @@ For using individual components in an app, refer to the individual component's R
 Components ready for use:
 - [`ContractEditor`][contracteditor]
 - [`ErrorLogger`][errorlogger]
+- [`Navigation`][navigation]
 - [`TemplateLibrary`][templatelibrary]
 
 Available Plugins:
@@ -77,6 +78,7 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 - [`ClauseEditor`][clauseeditor]: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
 - [`ContractEditor`][contracteditor]: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assings the Clause plugin.
 - [`ErrorLogger`][errorlogger]: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
+- [`Navigation`][navigation]: Functional ReactJS component for displaying markdown headings and clause nodes associated with contracts.
 - [`ParseResult`][parseresult]: 
 - [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
 - [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
@@ -129,6 +131,7 @@ Copyright 2018-2019 Clause, Inc. All trademarks are the property of their respec
 [contracteditor]: src/ContractEditor/README.md
 [templatelibrary]: src/TemplateLibrary/README.md
 [clauseeditor]: src/ClauseEditor/README.md
+[navigation]: src/Navigation/README.md
 [errorlogger]: src/ErrorLogger/README.md
 [parseresult]: src/ParseResult/README.md
 [templateloadingclauseeditor]: src/TemplateLoadingClauseEditor/README.md
