@@ -29,6 +29,7 @@ const ErrorLogger = (props) => {
     headerBackgroundHover: errorsProps.ERRORS_HEADER_BACKGROUND_HOVER,
     headerShadow: errorsProps.ERRORS_HEADER_SHADOW,
     headerTop: errorsProps.ERRORS_HEADER_BORDER_TOP,
+    zIndexInput: errorsProps.ERRORS_DISPLAY_Z_INDEX,
   };
 
   const displayProps = {
