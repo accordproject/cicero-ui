@@ -19,6 +19,7 @@ const errorsPropsObject = {
     ERRORS_HEADER_SHADOW (string),
     ERRORS_DISPLAY_BACKGROUND (string),
     ERRORS_DISPLAY_SHADOW (string),
+    ERRORS_DISPLAY_Z_INDEX (string),
     ERROR_BORDER_BOTTOM (string),
     ERROR_EXPAND_ARROW (string),
     ERROR_FILE (string),
@@ -60,6 +61,7 @@ You can style the error component, as well as the individual errors. An object m
 - `ERRORS_HEADER_SHADOW`
 - `ERRORS_DISPLAY_BACKGROUND`
 - `ERRORS_DISPLAY_SHADOW`
+- `ERRORS_DISPLAY_Z_INDEX`
 - `ERROR_BORDER_BOTTOM`
 - `ERROR_EXPAND_ARROW`
 - `ERROR_FILE`
