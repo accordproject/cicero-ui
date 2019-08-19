@@ -13,12 +13,6 @@ export const NavigationWrapper = styled.div`
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 20px 1fr;
     grid-template-areas: "navigation files" "body body";
-
-
-    ::-webkit-scrollbar-track {
-        width: 0px;
-        background: transparent;
-    }
 `;
 
 /* Navigation Component Switch */
@@ -60,6 +54,10 @@ export const ContractHeaders = styled.div`
 
     display: grid;
     grid-area: body;
+
+    &::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
 `;
 
 export const HeaderOne = styled.div`
