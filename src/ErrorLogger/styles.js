@@ -10,6 +10,7 @@ export const ErrorDisplay = styled.div`
     max-height: 300px;
     background-color: ${props => props.displayBackground || '#1E2D53'};
     box-shadow: ${props => props.displayShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
+    z-index: ${props => props.zIndexInput || 'auto'};
 `;
 
 export const ErrorsHeader = styled.div`

@@ -36,6 +36,7 @@ const ErrorLogger = (props) => {
     errorDisplay: errorsVisible,
     displayBackground: errorsProps.ERRORS_DISPLAY_BACKGROUND,
     displayShadow: errorsProps.ERRORS_DISPLAY_SHADOW,
+    zIndexInput: errorsProps.ERRORS_DISPLAY_Z_INDEX,
   };
 
   const barArrowProps = {
@@ -83,6 +84,7 @@ ErrorLogger.propTypes = {
     ERRORS_HEADER_SHADOW: PropTypes.string,
     ERRORS_DISPLAY_BACKGROUND: PropTypes.string,
     ERRORS_DISPLAY_SHADOW: PropTypes.string,
+    ERRORS_DISPLAY_Z_INDEX: PropTypes.string,
     ERROR_BORDER_BOTTOM: PropTypes.string,
     ERROR_EXPAND_ARROW: PropTypes.string,
     ERROR_FILE: PropTypes.string,
