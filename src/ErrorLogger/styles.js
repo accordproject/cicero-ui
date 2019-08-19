@@ -14,6 +14,7 @@ export const ErrorDisplay = styled.div`
 `;
 
 export const ErrorsHeader = styled.div`
+    z-index: ${props => props.zIndexInput || 'auto'};
     width: 100%;
     position: fixed;
     bottom: ${props => (props.errors ? '0' : 'auto')};
