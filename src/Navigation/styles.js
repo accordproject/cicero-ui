@@ -54,7 +54,6 @@ export const ContractHeaders = styled.div`
     overflow-x: hidden;
     padding-top: 10px;
 
-    display: grid;
     grid-area: body;
 
     &::-webkit-scrollbar-track {
