@@ -27,6 +27,8 @@ const NavigationComponent = (props) => {
   const filesState = () => navState === FILES;
 
   const navigationWrapperProps = {
+    positionValue: navigationProps.NAVIGATION_POSITION,
+    topValue: navigationProps.NAVIGATION_TOP_VALUE,
     navMaxHeight: navigationProps.NAVIGATION_MAX_HEIGHT,
     navWidth: navigationProps.NAVIGATION_WIDTH,
     backgroundColor: navigationProps.NAVIGATION_BACKGROUND_COLOR,
@@ -84,6 +86,8 @@ NavigationComponent.propTypes = {
     NAVIGATE_SWITCH_TITLE_FONT_FAMILY: PropTypes.string,
     NAVIGATE_SWITCH_FILES_VISIBLE: PropTypes.bool.isRequired,
 
+    NAVIGATION_POSITION: PropTypes.string,
+    NAVIGATION_TOP_VALUE: PropTypes.string,
     NAVIGATION_MAX_HEIGHT: PropTypes.string,
     NAVIGATION_WIDTH: PropTypes.string,
     NAVIGATION_BACKGROUND_COLOR: PropTypes.string,

@@ -16,6 +16,8 @@ const navigationPropsInput = {
     NAVIGATE_SWITCH_TITLE_FONT_FAMILY (string),
     NAVIGATE_SWITCH_FILES_VISIBLE (boolean) (REQUIRED),
 
+    NAVIGATION_POSITION (string),
+    NAVIGATION_TOP_VALUE (string),
     NAVIGATION_MAX_HEIGHT (string),
     NAVIGATION_WIDTH (string),
     NAVIGATION_BACKGROUND_COLOR (string),
@@ -76,6 +78,8 @@ You can style the navigation component, as well as the individual headers. An ob
 - `NAVIGATE_SWITCH_TITLE_FONT_FAMILY`
 - `NAVIGATE_SWITCH_FILES_VISIBLE`
 
+- `NAVIGATION_POSITION`
+- `NAVIGATION_TOP_VALUE`
 - `NAVIGATION_MAX_HEIGHT`
 - `NAVIGATION_WIDTH`
 - `NAVIGATION_BACKGROUND_COLOR`

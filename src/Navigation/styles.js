@@ -4,6 +4,8 @@ import styled from 'styled-components';
 /* Overall Navigation Component */
 
 export const NavigationWrapper = styled.div`
+    position: ${props => props.positionValue || 'static'};
+    top: ${props => props.topValue || 'auto'};
     max-height: ${props => props.navMaxHeight || '80vh'};
     width: ${props => props.navWidth || '180px'};
     background-color: ${props => props.backgroundColor || 'inherit'};
