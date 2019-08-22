@@ -37,5 +37,7 @@ export const errorsExist = errors => gtZero(errors.length);
 
 export const errorArrayLength = errors => (errorsExist(errors) ? errors.length : 'No');
 
+export const isMultpleErrors = errors => ((errors.length > 1) ? 'Errors' : 'Error');
+
 export const truncateMessage = string => ((string.length > 200)
   ? `${string.substring(0, 200)}...` : string);
