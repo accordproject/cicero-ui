@@ -12,7 +12,8 @@ exports[`<ErrorLogger /> on initialization renders page correctly with errors 1`
       size="small"
     />
     1
-     Errors
+     
+    Error
     <styled.div
       errorDisplay={false}
     />
@@ -28,7 +29,8 @@ exports[`<ErrorLogger /> on initialization renders page correctly without errors
     onClick={[Function]}
   >
     No
-     Errors
+     
+    Error
     <styled.div
       errorDisplay={false}
     />
