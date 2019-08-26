@@ -1,5 +1,5 @@
 /* React */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 
@@ -26,6 +26,7 @@ const deleteIconProps = {
  */
 function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
+  const [hovering, setHovering] = useState(false);
 
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
@@ -33,15 +34,24 @@ function ClauseComponent(props) {
 
   return (
     <S.ClauseWrapper
-      clauseborder={clauseProps.CLAUSE_BORDER}
-      clausebg={clauseProps.CLAUSE_BACKGROUND}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
       id={props.clauseId}
     >
-      <S.ClauseHeader headerfont={clauseProps.HEADER_FONT} >
+      <S.ClauseBackground
+        clauseborder={clauseProps.CLAUSE_BORDER}
+        clausebg={clauseProps.CLAUSE_BACKGROUND}
+      />
+
+      <S.ClauseHeader
+        currentHover={hovering}
+        headerfont={clauseProps.HEADER_FONT}
+      >
         {titleGenerator(props.templateUri)} — SMART CLAUSE
       </S.ClauseHeader>
       <S.ClauseDelete
         {...deleteIconProps}
+        currentHover={hovering}
         clausedelete={clauseProps.CLAUSE_DELETE}
         onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
       >
