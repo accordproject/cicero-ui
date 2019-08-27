@@ -8,8 +8,14 @@ const titleGenerator = (input) => {
   const reducedTitle = titleReducer(input);
   const spacedTitle = titleSpacer(reducedTitle);
   const finalTitle = titleCaps(spacedTitle);
-
   return finalTitle;
 };
 
-export default titleGenerator;
+const headerGenorator = (templateTitle, inputTitle) => {
+  const title = titleGenerator(templateTitle);
+  const header = (title + inputTitle);
+  const truncatedTitle = ((header.length > 54) ? (`${header.slice(0, 54)}...`) : header);
+  return truncatedTitle;
+};
+
+export default headerGenorator;

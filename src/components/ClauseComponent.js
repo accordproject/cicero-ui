@@ -10,12 +10,12 @@ import * as S from './styles';
 import * as deleteIcon from '../icons/trash';
 
 /* Actions */
-import titleGenerator from './actions';
+import headerGenorator from './actions';
 
 const deleteIconProps = {
   'aria-label': deleteIcon.type,
-  width: '12px',
-  height: '15px',
+  width: '15px',
+  height: '19px',
   viewBox: '0 0 12 15'
 };
 
@@ -47,16 +47,19 @@ function ClauseComponent(props) {
         currentHover={hovering}
         headerfont={clauseProps.HEADER_FONT}
       >
-        {titleGenerator(props.templateUri)} — SMART CLAUSE
+        {headerGenorator(props.templateUri, clauseProps.HEADER_TITLE)}
       </S.ClauseHeader>
+      <S.DeleteWrapper
+        currentHover={hovering}
+      >
       <S.ClauseDelete
         {...deleteIconProps}
-        currentHover={hovering}
         clausedelete={clauseProps.CLAUSE_DELETE}
         onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
       >
         {deleteIcon.icon()}
       </ S.ClauseDelete>
+      </S.DeleteWrapper>
       <S.ClauseBody bodyfont={clauseProps.BODY_FONT} >
         {props.children}
       </S.ClauseBody>
@@ -81,6 +84,7 @@ ClauseComponent.propTypes = {
     CLAUSE_DELETE: PropTypes.string,
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
     HEADER_FONT: PropTypes.string,
+    HEADER_TITLE: PropTypes.string,
   }),
 };
 
