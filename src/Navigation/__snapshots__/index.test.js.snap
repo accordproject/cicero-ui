@@ -4,6 +4,7 @@ exports[`<ComponentSwitch /> on initialization renders component correctly showi
 <Fragment>
   <Styled(styled.a)
     filesVisible={true}
+    id="ContractNavigationSwitchComponent"
     navState="FILES"
     onClick={[Function]}
   >
@@ -11,6 +12,7 @@ exports[`<ComponentSwitch /> on initialization renders component correctly showi
   </Styled(styled.a)>
   <Styled(styled.a)
     filesVisible={true}
+    id="ContractFilesSwitchComponent"
     navState="FILES"
     onClick={[Function]}
   >
@@ -23,6 +25,7 @@ exports[`<ComponentSwitch /> on initialization renders component correctly showi
 <Fragment>
   <Styled(styled.a)
     filesVisible={false}
+    id="ContractNavigationSwitchComponent"
     navState="NAVIGATION"
     onClick={[Function]}
   >
@@ -30,6 +33,7 @@ exports[`<ComponentSwitch /> on initialization renders component correctly showi
   </Styled(styled.a)>
   <Styled(styled.a)
     filesVisible={false}
+    id="ContractFilesSwitchComponent"
     navState="NAVIGATION"
     onClick={[Function]}
   >
@@ -39,7 +43,9 @@ exports[`<ComponentSwitch /> on initialization renders component correctly showi
 `;
 
 exports[`<NavigationComponent /> on initialization renders component correctly hiding Files 1`] = `
-<styled.div>
+<styled.div
+  id="NavigationWrapperComponent"
+>
   <NavigationComponent
     filesVisible={false}
     navState="NAVIGATION"
@@ -47,6 +53,7 @@ exports[`<NavigationComponent /> on initialization renders component correctly h
   />
   <ContractNavigation
     headers={Array []}
+    id="ContractNavigationComponent"
     navigateHeader={[MockFunction]}
     navigationProps={
       Object {
@@ -68,7 +75,9 @@ exports[`<NavigationComponent /> on initialization renders component correctly h
 `;
 
 exports[`<NavigationComponent /> on initialization renders component correctly showing Files 1`] = `
-<styled.div>
+<styled.div
+  id="NavigationWrapperComponent"
+>
   <NavigationComponent
     filesVisible={true}
     navState="NAVIGATION"
@@ -76,6 +85,7 @@ exports[`<NavigationComponent /> on initialization renders component correctly s
   />
   <ContractNavigation
     headers={Array []}
+    id="ContractNavigationComponent"
     navigateHeader={[MockFunction]}
     navigationProps={
       Object {

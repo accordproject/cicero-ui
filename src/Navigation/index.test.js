@@ -35,6 +35,13 @@ describe('<NavigationComponent />', () => {
       const tree = toJson(component);
       expect(tree).toMatchSnapshot();
     });
+
+    it('renders without files initially', () => {
+      const component = shallow(<NavigationComponent {...propsFilesFalse} />);
+      expect(component.find('#NavigationWrapperComponent').exists()).toBeTruthy();
+      expect(component.find('#ContractNavigationComponent').exists()).toBeTruthy();
+      expect(component.find('#FilesNavigationComponent').exists()).toBe(false);
+    });
   });
 });
 
