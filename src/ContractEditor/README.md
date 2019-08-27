@@ -16,6 +16,7 @@ const clausePropsObject = {
     CLAUSE_DELETE (string),
     CLAUSE_DELETE_FUNCTION (function),
     HEADER_FONT (string),
+    HEADER_TITLE (string),
 }
 
 const editorPropsObject = {
@@ -80,3 +81,4 @@ You can style the Clause Components within the `ContractEditor`. An object may b
 - `CLAUSE_DELETE`
 - `CLAUSE_DELETE_FUNCTION`
 - `HEADER_FONT`
+- `HEADER_TITLE`
