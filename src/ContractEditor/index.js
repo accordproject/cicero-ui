@@ -120,6 +120,7 @@ ContractEditor.propTypes = {
     CLAUSE_DELETE: PropTypes.string,
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
     HEADER_FONT: PropTypes.string,
+    HEADER_TITLE: PropTypes.string,
   }),
 
   /**
