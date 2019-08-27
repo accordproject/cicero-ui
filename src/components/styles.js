@@ -20,12 +20,13 @@ export const ClauseBackground = styled.div`
 export const ClauseHeader = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
   font-family: ${props => props.headerfont || 'Graphik'};
-  grid-area: two / two / nine / nine;
+  grid-area: two / two / ten / ten;
   transition-duration: 0.5s;
-  background-color: #fff;
-  place-self: center;
-  margin: 12px 10px;
-  padding: 2px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%);
+  align-self: center;
+  justify-self: start;
+  margin: 12px 0;
+  padding: 3px;
   color: #939EBA;
   line-height: 14px;
   font-size: 14px;
@@ -35,18 +36,22 @@ export const ClauseHeader = styled.div`
 export const ClauseBody = styled.div`
   font-family: ${props => props.bodyfont || 'Graphik'};
   grid-area: sixteen / sixteen / twenty / twenty;
-  margin: 10px 10px 15px;
+  margin: 10px 0;
   color: #141F3C;
   font-size: 15px;
   line-height: 22px;
 `;
 
-export const ClauseDelete = styled.svg`
+export const DeleteWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
+  background: linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%);
   grid-area: six / six / thirteen / thirteen;
-  transition-duration: 0.5s;
-  background-color: #fff;
+  padding: 2px;
   place-self: center;
+  transition-duration: 0.5s;
+`;
+
+export const ClauseDelete = styled.svg`
   fill: #939EBA;
   cursor: pointer;
 
