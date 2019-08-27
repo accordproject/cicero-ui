@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ClauseComponent /> on initialization renders page correctly 1`] = `
+exports[`<ClauseComponent /> on initialization renders component correctly 1`] = `
 <styled.div
   id="721d1aa0999a5d278653e211ae2a64b75fdd8ca6fa1f34255533c942404c5c1f"
   onMouseEnter={[Function]}
