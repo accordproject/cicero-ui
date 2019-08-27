@@ -27,6 +27,7 @@ const NavigationComponent = (props) => {
   const filesState = () => navState === FILES;
 
   const navigationWrapperProps = {
+    id: 'NavigationWrapperComponent',
     positionValue: navigationProps.NAVIGATION_POSITION,
     topValue: navigationProps.NAVIGATION_TOP_VALUE,
     navMaxHeight: navigationProps.NAVIGATION_MAX_HEIGHT,
@@ -64,8 +65,14 @@ const NavigationComponent = (props) => {
   };
 
   const navigationGenerator = (props) => {
-    if (navigationState()) return <ContractNavigation {...props} styleProps={contractProps} />;
-    if (filesState()) return <FilesNavigation {...props} styleProps={filesProps} />;
+    if (navigationState()) {
+      return <ContractNavigation
+        id="ContractNavigationComponent" {...props} styleProps={contractProps} />;
+    }
+    if (filesState()) {
+      return <FilesNavigation
+        id="FilesNavigationComponent" {...props} styleProps={filesProps} />;
+    }
     return 'Select Navigation or Files';
   };
 

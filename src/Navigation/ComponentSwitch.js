@@ -24,11 +24,13 @@ const NavigationComponent = (props) => {
   };
 
   const navigationProps = {
+    id: 'ContractNavigationSwitchComponent',
     ...navigationSwitchProps,
     onClick: () => props.setNavState(NAVIGATION),
   };
 
   const fileProps = {
+    id: 'ContractFilesSwitchComponent',
     ...navigationSwitchProps,
     onClick: () => props.setNavState(FILES),
   };
