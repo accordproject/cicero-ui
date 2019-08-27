@@ -10,7 +10,7 @@ import * as S from './styles';
 import * as deleteIcon from '../icons/trash';
 
 /* Actions */
-import headerGenorator from './actions';
+import headerGenerator from './actions';
 
 const deleteIconProps = {
   'aria-label': deleteIcon.type,
@@ -47,7 +47,7 @@ function ClauseComponent(props) {
         currentHover={hovering}
         headerfont={clauseProps.HEADER_FONT}
       >
-        {headerGenorator(props.templateUri, clauseProps.HEADER_TITLE)}
+        {headerGenerator(props.templateUri, clauseProps.HEADER_TITLE)}
       </S.ClauseHeader>
       <S.DeleteWrapper
         currentHover={hovering}

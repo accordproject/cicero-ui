@@ -11,11 +11,11 @@ const titleGenerator = (input) => {
   return finalTitle;
 };
 
-const headerGenorator = (templateTitle, inputTitle) => {
+const headerGenerator = (templateTitle, inputTitle) => {
   const title = titleGenerator(templateTitle);
   const header = (title + inputTitle);
   const truncatedTitle = ((header.length > 54) ? (`${header.slice(0, 54)}...`) : header);
   return truncatedTitle;
 };
 
-export default headerGenorator;
+export default headerGenerator;
