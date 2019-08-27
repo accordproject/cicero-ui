@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ComponentSwitch /> on initialization renders component correctly showing Files 1`] = `
+<Fragment>
+  <Styled(styled.a)
+    filesVisible={true}
+    navState="FILES"
+    onClick={[Function]}
+  >
+    NAVIGATION
+  </Styled(styled.a)>
+  <Styled(styled.a)
+    filesVisible={true}
+    navState="FILES"
+    onClick={[Function]}
+  >
+    FILES
+  </Styled(styled.a)>
+</Fragment>
+`;
+
+exports[`<ComponentSwitch /> on initialization renders component correctly showing Navigation 1`] = `
+<Fragment>
+  <Styled(styled.a)
+    filesVisible={false}
+    navState="NAVIGATION"
+    onClick={[Function]}
+  >
+    NAVIGATION
+  </Styled(styled.a)>
+  <Styled(styled.a)
+    filesVisible={false}
+    navState="NAVIGATION"
+    onClick={[Function]}
+  >
+    FILES
+  </Styled(styled.a)>
+</Fragment>
+`;
+
+exports[`<NavigationComponent /> on initialization renders component correctly hiding Files 1`] = `
+<styled.div>
+  <NavigationComponent
+    filesVisible={false}
+    navState="NAVIGATION"
+    setNavState={[Function]}
+  />
+  <ContractNavigation
+    headers={Array []}
+    navigateHeader={[MockFunction]}
+    navigationProps={
+      Object {
+        "NAVIGATE_SWITCH_FILES_VISIBLE": false,
+      }
+    }
+    styleProps={
+      Object {
+        "clauseColor": undefined,
+        "clauseHeaderColor": undefined,
+        "clauseHeaderHover": undefined,
+        "clauseHover": undefined,
+        "headerColor": undefined,
+        "headerHover": undefined,
+      }
+    }
+  />
+</styled.div>
+`;
+
+exports[`<NavigationComponent /> on initialization renders component correctly showing Files 1`] = `
+<styled.div>
+  <NavigationComponent
+    filesVisible={true}
+    navState="NAVIGATION"
+    setNavState={[Function]}
+  />
+  <ContractNavigation
+    headers={Array []}
+    navigateHeader={[MockFunction]}
+    navigationProps={
+      Object {
+        "NAVIGATE_SWITCH_FILES_VISIBLE": true,
+      }
+    }
+    styleProps={
+      Object {
+        "clauseColor": undefined,
+        "clauseHeaderColor": undefined,
+        "clauseHeaderHover": undefined,
+        "clauseHover": undefined,
+        "headerColor": undefined,
+        "headerHover": undefined,
+      }
+    }
+  />
+</styled.div>
+`;
