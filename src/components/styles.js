@@ -38,7 +38,7 @@ export const ClauseBody = styled.div`
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 10px 0;
   color: #141F3C;
-  font-size: 15px;
+  font-size: 1em;
   line-height: 22px;
 `;
 
