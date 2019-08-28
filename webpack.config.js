@@ -5,6 +5,13 @@ const path = require('path');
 
 module.exports = {
   entry: './demo/src/index.js',
+  externals: {
+    'styled-components': {
+      commonjs: 'styled-components',
+      commonjs2: 'styled-components',
+      amd: 'styled-components',
+    },
+  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'demo/dist'),
