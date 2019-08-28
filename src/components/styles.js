@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import './index.css';
 
 export const ClauseWrapper = styled.div`
+  margin: 10px -10px;
   display: grid;
   grid-template-columns: 10px 375px 1fr 25px 25px 25px 10px;
   grid-template-rows: 11px 11px 1fr;
@@ -25,7 +26,7 @@ export const ClauseHeader = styled.div`
   background: linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%);
   align-self: center;
   justify-self: start;
-  margin: 12px 0;
+  margin: 6px 0;
   padding: 3px;
   color: #939EBA;
   line-height: 14px;
@@ -36,7 +37,7 @@ export const ClauseHeader = styled.div`
 export const ClauseBody = styled.div`
   font-family: ${props => props.bodyfont || 'Graphik'};
   grid-area: sixteen / sixteen / twenty / twenty;
-  margin: 10px 0;
+  margin: 2px 0 10px;
   color: #141F3C;
   font-size: 1em;
   line-height: 22px;
