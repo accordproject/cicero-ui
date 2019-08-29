@@ -353,6 +353,14 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
     }
   }
 
+  /**
+   * Find clause node by clauseId.
+   */
+  function findClauseNode(editor, clauseId) {
+    return editor.value.document.nodes.find(node => (node.type === 'clause')
+    && (node.data.get('attributes').clauseid === clauseId));
+  }
+
   return {
     name,
     tags,
@@ -365,7 +373,10 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
     fromHTML,
     renderToolbar,
     renderAnnotation,
-    rewriteClause
+    rewriteClause,
+    queries: {
+      findClauseNode
+    }
   };
 }
 
