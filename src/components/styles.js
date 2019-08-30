@@ -23,12 +23,12 @@ export const ClauseHeader = styled.div`
   font-family: ${props => props.headerfont || 'Graphik'};
   grid-area: two / two / ten / ten;
   transition-duration: 0.5s;
-  background: linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%);
+  background: ${props => props.headerbg || 'linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%)'};
   align-self: center;
   justify-self: start;
   margin: 6px 0;
   padding: 3px;
-  color: #939EBA;
+  color: ${props => props.headercolor || '#939EBA'};
   line-height: 14px;
   font-size: 14px;
   font-weight: 600;
@@ -45,7 +45,7 @@ export const ClauseBody = styled.div`
 
 export const DeleteWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  background: linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%);
+  background: ${props => props.deletebg || 'linear-gradient(180deg, #FFFFFF 0%, #ECF0FA 100%)'};
   grid-area: six / six / thirteen / thirteen;
   padding: 2px;
   place-self: center;
