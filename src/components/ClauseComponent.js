@@ -53,11 +53,11 @@ function ClauseComponent(props) {
       </S.ClauseHeader>
       <S.DeleteWrapper
         currentHover={hovering}
+        deletebg={clauseProps.CLAUSE_BACKGROUND}
       >
       <S.ClauseDelete
         {...deleteIconProps}
         clausedelete={clauseProps.CLAUSE_DELETE}
-        deletebg={clauseProps.CLAUSE_BACKGROUND}
         onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
       >
         {deleteIcon.icon()}
