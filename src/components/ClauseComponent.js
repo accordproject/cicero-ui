@@ -47,7 +47,7 @@ function ClauseComponent(props) {
         currentHover={hovering}
         headerfont={clauseProps.HEADER_FONT}
         headercolor={clauseProps.HEADER_COLOR}
-        headerbg={clauseProps.HEADER_GRADIENT_BACKGROUND}
+        headerbg={clauseProps.CLAUSE_BACKGROUND}
       >
         {headerGenerator(props.templateUri, clauseProps.HEADER_TITLE)}
       </S.ClauseHeader>
@@ -57,7 +57,7 @@ function ClauseComponent(props) {
       <S.ClauseDelete
         {...deleteIconProps}
         clausedelete={clauseProps.CLAUSE_DELETE}
-        deletebg={clauseProps.HEADER_GRADIENT_BACKGROUND}
+        deletebg={clauseProps.CLAUSE_BACKGROUND}
         onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
       >
         {deleteIcon.icon()}
@@ -88,7 +88,6 @@ ClauseComponent.propTypes = {
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
     HEADER_COLOR: PropTypes.string,
     HEADER_FONT: PropTypes.string,
-    HEADER_GRADIENT_BACKGROUND: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
   }),
 };
