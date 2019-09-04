@@ -75,26 +75,6 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
   }
 
   /**
-   * Rewrites the text of a clause to introduce variables
-   *
-   * @param {string} templateUri the URI of the template to load
-   * @param {string} clauseText the text of the clause (must be parseable)
-   */
-  async function rewriteClause(templateUri, clauseText) {
-    try {
-      const template = await loadTemplate(templateUri);
-      const clause = new Clause(template);
-      clause.parse(clauseText);
-      const variableText = clause.generateText({ wrapVariables: true });
-      console.log(variableText);
-      return Promise.resolve(variableText);
-    } catch (err) {
-      console.log(err);
-      return Promise.resolve(err);
-    }
-  }
-
-  /**
    * Called by the clause plugin into the contract editor
    * when we need to parse a clause
    */
@@ -115,6 +95,26 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
 
   const loadTemplateCallback = customLoadTemplate || loadTemplate;
   const parseClauseCallback = customParseClause || parseClause;
+
+  /**
+   * Rewrites the text of a clause to introduce variables
+   *
+   * @param {string} templateUri the URI of the template to load
+   * @param {string} clauseText the text of the clause (must be parseable)
+   */
+  async function rewriteClause(templateUri, clauseText) {
+    try {
+      const template = await loadTemplateCallback(templateUri);
+      const clause = new Clause(template);
+      clause.parse(clauseText);
+      const variableText = clause.generateText({ wrapVariables: true });
+      console.log(variableText);
+      return Promise.resolve(variableText);
+    } catch (err) {
+      console.log(err);
+      return Promise.resolve(err);
+    }
+  }
 
   /**
    * Adds an annotation to the editor
