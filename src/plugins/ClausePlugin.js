@@ -1,5 +1,6 @@
 import React from 'react';
 import { Point } from 'slate';
+import { getEventTransfer } from 'slate-react';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Template, Clause } from '@accordproject/cicero-core';
@@ -165,6 +166,57 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
     console.log('outside clause', !inClause);
     return !inClause;
   });
+
+  /**
+   * a utility function to generate a random node id for annotations
+   */
+  function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      // eslint-disable-next-line no-bitwise
+      const r = Math.random() * 16 | 0;
+      // eslint-disable-next-line no-bitwise, no-mixed-operators
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  /**
+  * Called on a paste
+  * @param {*} event
+  * @param {*} editor
+  * @param {*} next
+  * @return {*} the react component
+  */
+  const onPaste = (event, editor, next) => {
+    if (isEditable(editor.value, 'paste')) {
+      const transfer = getEventTransfer(event);
+
+      if (transfer.type === 'fragment') {
+        const mutableFragment = transfer.fragment.asMutable();
+        const mutableNodes = mutableFragment.nodes.asMutable();
+        const isHeadingClause = node => node.type === 'clause';
+        mutableNodes.map((node) => {
+          if (isHeadingClause(node)) {
+            const mutableNode = node.asMutable();
+            const mutableDataMap = mutableNode.data.asMutable();
+            const mutableAttributesMap = mutableDataMap.get('attributes');
+
+            mutableAttributesMap.clauseid = uuidv4(); // unique identifier for a clause instance
+
+            mutableDataMap.set('attributes', mutableAttributesMap);
+            mutableNode.data = mutableDataMap.asImmutable();
+            return mutableNode;
+          }
+          return node;
+        });
+        mutableFragment.nodes = mutableNodes.asImmutable();
+        transfer.fragment = mutableFragment.asImmutable();
+        editor.insertFragment(transfer.fragment);
+        return undefined;
+      }
+    }
+    return next();
+  };
 
   /**
   * Handles change to document.
@@ -370,6 +422,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
     fromMarkdown,
     isEditable,
     onChange,
+    onPaste,
     fromHTML,
     renderToolbar,
     renderAnnotation,
