@@ -64,11 +64,27 @@ const ContractEditor = React.forwardRef((props, ref) => {
     setPlugins(
       props.plugins
         ? props.plugins.concat(
-          [List(), VariablePlugin(), ClausePlugin(props.loadTemplateObject, props.parseClause, props.clauseProps)]
+          [List(), VariablePlugin(), ClausePlugin(
+            props.loadTemplateObject,
+            props.parseClause,
+            props.pasteToContract,
+            props.clauseProps
+          )]
         )
-        : [List(), VariablePlugin(), ClausePlugin(props.loadTemplateObject, props.parseClause, props.clauseProps)]
+        : [List(), VariablePlugin(), ClausePlugin(
+          props.loadTemplateObject,
+          props.parseClause,
+          props.pasteToContract,
+          props.clauseProps
+        )]
     );
-  }, [props.clauseProps, props.loadTemplateObject, props.parseClause, props.plugins]);
+  }, [
+    props.clauseProps,
+    props.loadTemplateObject,
+    props.parseClause,
+    props.pasteToContract,
+    props.plugins
+  ]);
   return (
     plugins.length ? <SlateAsInputEditor
     ref={ref}
@@ -109,6 +125,11 @@ ContractEditor.propTypes = {
    * A callback to load a template
    */
   loadTemplateObject: PropTypes.func,
+
+  /**
+   * A callback to load a template
+   */
+  pasteToContract: PropTypes.func,
 
   /**
    * Styling props passed down in an object which contains a deletion function
