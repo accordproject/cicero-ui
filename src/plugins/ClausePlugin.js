@@ -24,8 +24,9 @@ const StyledIcon = styled(Icon)`
  * A plugin for a clause embedded in a contract
  * @param {*} customLoadTemplate - a custom function used to load templates
  * @param {*} customParseClause - a custom function used to parse clause text
+ * @param {*} customPasteClause - a function FILL IN
  */
-function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
+function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, clauseProps) {
   const name = 'clause';
   const tags = [
     {
@@ -201,7 +202,13 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
             const mutableDataMap = mutableNode.data.asMutable();
             const mutableAttributesMap = mutableDataMap.get('attributes');
 
-            mutableAttributesMap.clauseid = uuidv4(); // unique identifier for a clause instance
+            const newIdGenerated = uuidv4();
+            const somethingHere = mutableAttributesMap.src;
+
+            mutableAttributesMap.clauseid = newIdGenerated;
+            // unique identifier for a clause instance
+            // src as in uri, fn(clauseid, src)
+            customPasteClause(newIdGenerated, somethingHere);
 
             mutableDataMap.set('attributes', mutableAttributesMap);
             mutableNode.data = mutableDataMap.asImmutable();
@@ -223,6 +230,9 @@ function ClausePlugin(customLoadTemplate, customParseClause, clauseProps) {
   */
   function onChange(editor, next) {
     const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
+    console.log('onChangeBlocks: ', blocks);
+
+    // TODO: So here is where we fail, we are not finding a node type of clause.
     const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
 
     if (!clauseNode) {

@@ -20,6 +20,7 @@ export const headerGenerator = (props) => {
     const { type, key } = header;
     switch (type) {
       case 'clause':
+        // console.log('got right dun here: ', header);
         return (
           <SC.HeaderClause
               key={key}
