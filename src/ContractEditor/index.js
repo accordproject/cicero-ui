@@ -96,44 +96,17 @@ const ContractEditor = React.forwardRef((props, ref) => {
   /> : null
   );
 });
+
 /**
  * The property types for this component
  */
 ContractEditor.propTypes = {
-
-  /**
-   * Initial contents of the editor
-   */
   value: PropTypes.object,
-
-  /**
-   * Callback called when the contents of the editor changes
-   */
   onChange: PropTypes.func,
-
-  /**
-   * Styling props passed down through an object to Markdown Editor
-   */
   editorProps: PropTypes.object,
-
-  /**
-   * Whether to lock all non variable text
-   */
   lockText: PropTypes.bool,
-
-  /**
-   * A callback to load a template
-   */
   loadTemplateObject: PropTypes.func,
-
-  /**
-   * A callback to load a template
-   */
   pasteToContract: PropTypes.func,
-
-  /**
-   * Styling props passed down in an object which contains a deletion function
-   */
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
@@ -143,15 +116,7 @@ ContractEditor.propTypes = {
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
   }),
-
-  /**
-   * A callback to parse the contents of a clause
-   */
   parseClause: PropTypes.func,
-
-  /**
-   * An array of plugins into the underlying markdown-editor
-   */
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
