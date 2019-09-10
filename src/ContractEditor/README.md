@@ -32,53 +32,100 @@ const editorPropsObject = {
     WIDTH (string),
 }
 
-function storeLocal(editor) {
-    localStorage.setItem('markdown-editor', editor.getMarkdown());
+const givenState = {
+    value: 'value information',
+    templateObjs: 'template information'
 }
 
-ReactDOM.render(<ContractEditor 
-    clauseProps={clauseProps(props.removeFromContract)}
+function parseClauseFunction() { /* ... */ }
+function loadTemplateObjectFunction() { /* ... */ }
+function pasteToContractFunction() { /* ... */ }
+function storeLocal(editor) {
+    localStorage.setItem('markdown-editor', editor.getMarkdown());
+    /* Or some other function */
+}
+
+ReactDOM.render(<ContractEditor
+    onChange={storeLocal}
     editorProps={editorPropsObject}
-    onChange={storeLocal} />,
+    clauseProps={clausePropsObject}
+    loadTemplateObject={loadTemplateObjectFunction}
+    pasteToContract={pasteToContractFunction}
+    parseClause={(uri, text, clauseId) =>
+        parseClauseFunction(givenState.templateObjs, uri, text, clauseId)}
+    value={givenState.value}
+    lockText={false}
+    />,
   document.getElementById('root'));
 ```
 
-### Props
 
-#### Expected to be Provided
+## Props
 
-- `value` : An `object` which is the initial contents of the editor.
-- `onChange` : A callback `function` called when the contents of the editor change.
-- `lockText` : A `boolean` to lock all non variable text.
-- `loadTemplateObject` : A callback `function` to load a template.
-- `parseClause` : A callback `function` to parse the contents of a clause.
+#### Expected Properties
 
-#### Require Provision
+### Values
 
-- `editorProps` : An optional `object` for the contract editor styling passed down through an object to Markdown Editor, see below.
-- `clauseProps` : An `object` for the clauses in the editor which contains a deletion function, see below.
+- `value`: An `object` which is the initial contents of the editor.
+- `lockText`: A `boolean` to lock all non variable text.
+
+### Functionality
+
+- `loadTemplateObject`: A callback `function` to load a template.
+- `onChange`: A callback `function` called when the contents of the editor change.
+- `parseClause`: A callback `function` to parse the contents of a clause.
+- `pasteToContract`: A callback `function` to load a clause template via copy/paste.
+
+- `plugins`:
+Array of plugins into the underlying `markdown-editor`:
+```js
+plugins = [
+    onEnter,       // (Function)
+    onKeyDown,     // (Function)
+    renderBlock,   // (Function: Required)
+    toMarkdown,    // (Function: Required)
+    fromMarkdown,  // (Function: Required)
+    fromHTML,      // (Function: Required)
+    plugin,        // (String: Required)
+    tags,          // (Array of Strings: Required)
+    schema,        // (Object: Required)
+]
+```
+
+#### Optional Styling
+
+- `editorProps`: An optional `object` for the contract editor styling passed down through an object to Markdown Editor, see below.
+- `clauseProps`: An `object` for the clauses in the editor which contains a deletion function, see below.
 
 ### Specifications
 
 `editorProps`:
 You can style the toolbar of this components, as well as the width of the editor. An object may be passed down this component which will then be picked up by our `markdown-editor`, with the following possible CSS inputs as strings:
-- `BUTTON_BACKGROUND_INACTIVE`
-- `BUTTON_BACKGROUND_ACTIVE`
-- `BUTTON_SYMBOL_INACTIVE`
-- `BUTTON_SYMBOL_ACTIVE`
-- `DROPDOWN_COLOR`
-- `TOOLBAR_BACKGROUND`
-- `TOOLTIP_BACKGROUND`
-- `TOOLTIP`
-- `TOOLBAR_SHADOW`
-- `WIDTH`
+```js
+editorProps = {
+    BUTTON_BACKGROUND_INACTIVE, // (String)
+    BUTTON_BACKGROUND_ACTIVE,   // (String)
+    BUTTON_SYMBOL_INACTIVE,     // (String)
+    BUTTON_SYMBOL_ACTIVE,       // (String)
+    DROPDOWN_COLOR,             // (String)
+    TOOLBAR_BACKGROUND,         // (String)
+    TOOLTIP_BACKGROUND,         // (String)
+    TOOLTIP,                    // (String)
+    TOOLBAR_SHADOW,             // (String)
+    WIDTH,                      // (String)
+}
+```
 
 `clauseProps`:
 You can style the Clause Components within the `ContractEditor`. An object may be passed down this component with the following possible CSS inputs as strings, as well as a deletion function:
-- `BODY_FONT`
-- `CLAUSE_BACKGROUND`
-- `CLAUSE_BORDER`
-- `CLAUSE_DELETE`
-- `CLAUSE_DELETE_FUNCTION`
-- `HEADER_FONT`
-- `HEADER_TITLE`
+```js
+clauseProps = {
+    BODY_FONT,               // (String)
+    CLAUSE_BACKGROUND,       // (String)
+    CLAUSE_BORDER,           // (String)
+    CLAUSE_DELETE,           // (String)
+    CLAUSE_DELETE_FUNCTION,  // (Function)
+    HEADER_FONT,             // (String)
+    HEADER_TITLE,            // (String)
+}
+```
