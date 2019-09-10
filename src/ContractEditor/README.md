@@ -62,14 +62,14 @@ ReactDOM.render(<ContractEditor
 
 ## Props
 
-#### Expected Properties
+### Expected Properties
 
-### Values
+#### Values
 
 - `value`: An `object` which is the initial contents of the editor.
 - `lockText`: A `boolean` to lock all non variable text.
 
-### Functionality
+#### Functionality
 
 - `loadTemplateObject`: A callback `function` to load a template.
 - `onChange`: A callback `function` called when the contents of the editor change.
@@ -92,12 +92,12 @@ plugins = [
 ]
 ```
 
-#### Optional Styling
+### Optional Styling
 
 - `editorProps`: An optional `object` for the contract editor styling passed down through an object to Markdown Editor, see below.
 - `clauseProps`: An `object` for the clauses in the editor which contains a deletion function, see below.
 
-### Specifications
+#### Specifications
 
 `editorProps`:
 You can style the toolbar of this components, as well as the width of the editor. An object may be passed down this component which will then be picked up by our `markdown-editor`, with the following possible CSS inputs as strings:
