@@ -182,6 +182,56 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   }
 
   /**
+   * a utility function to generate a random node id for annotations
+   */
+  function parsePastedClauses(editor, clausesArray) {
+    clausesArray.forEach((clauseNode) => {
+      const { selection } = editor.value;
+
+      const parseText = markdownGenerator.recursive(clauseNode.node.nodes);
+
+      const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode.node)
+        .normalize(editor.value.document);
+      const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode.node)
+        .normalize(editor.value.document);
+
+      // @ts-ignore
+      const hash = murmurhash3_32_gc(`${parseText} at ${anchor.toJSON()} to ${focus.toJSON()}`, 0xdeadbeef);
+
+      const annotation = {
+        anchor,
+        focus,
+        key: `clauseParse-${hash}`
+      };
+      // TODO:
+      // TODO:
+      // TODO:
+      // TODO: Need to rethink how this hash is generated now that we have clauseId
+      // TODO: This will be more stable (Line 237 get clauseId)
+      // TODO:
+      // TODO:
+      // TODO:
+
+      // we only re-parse and modify the value if the text has changed
+      if (!annotationExists(editor, annotation)) {
+        removeParseAnnotations(editor);
+        parseClauseCallback(clauseNode.src, parseText, clauseNode.clauseId)
+          .then((parseResult) => {
+            console.log(parseResult);
+            annotation.type = 'parseResult';
+            annotation.data = parseResult;
+            addAnnotation(editor, annotation);
+          })
+          .catch((error) => {
+            annotation.type = 'parseError';
+            annotation.data = { error };
+            addAnnotation(editor, annotation);
+          });
+      }
+    });
+  }
+
+  /**
   * Called on a paste
   * @param {*} event
   * @param {*} editor
@@ -191,6 +241,9 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   const onPaste = (event, editor, next) => {
     if (isEditable(editor.value, 'paste')) {
       const transfer = getEventTransfer(event);
+
+      // maybe keep track of all the things that jsut got pasted
+      const clausesToParse = [];
 
       if (transfer.type === 'fragment') {
         const mutableFragment = transfer.fragment.asMutable();
@@ -207,10 +260,12 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
 
             mutableAttributesMap.clauseid = generatedUUID;
 
-            customPasteClause(generatedUUID, clauseUriSrc);
+            customPasteClause(generatedUUID, clauseUriSrc, node.text);
 
             mutableDataMap.set('attributes', mutableAttributesMap);
             mutableNode.data = mutableDataMap.asImmutable();
+
+            clausesToParse.push({ node, clauseUriSrc, generatedUUID });
             return mutableNode;
           }
           return node;
@@ -218,6 +273,10 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
         mutableFragment.nodes = mutableNodes.asImmutable();
         transfer.fragment = mutableFragment.asImmutable();
         editor.insertFragment(transfer.fragment);
+        // on change is fired here, so then we can look into if there are new blocks
+
+        parsePastedClauses(editor, clausesToParse);
+
         return undefined;
       }
     }
