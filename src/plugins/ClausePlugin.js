@@ -132,12 +132,13 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
    *
    * @param {*} editor
    */
-  function removeParseAnnotations(editor) {
+  function removeParseAnnotations(editor, clauseId) {
     const { annotations } = editor.value;
 
     editor.withoutSaving(() => {
       annotations.forEach((ann) => {
-        if (ann.type.startsWith('parse')) {
+        const json = JSON.parse(ann.key);
+        if (json.clauseId === clauseId) {
           editor.removeAnnotation(ann);
         }
       });
@@ -182,51 +183,69 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   }
 
   /**
-   * a utility function to generate a random node id for annotations
+   * Utility function to return a parsed text and its annotation from a clause
+   */
+  function generateAnnotation(editor, clauseNode) {
+    const { selection } = editor.value;
+    const parseText = markdownGenerator.recursive(clauseNode.node.nodes);
+    const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode.node)
+      .normalize(editor.value.document);
+    const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode.node)
+      .normalize(editor.value.document);
+    // @ts-ignore
+    const hash = murmurhash3_32_gc(`${clauseNode.clauseId} ${parseText}`, 0xdeadbeef);
+    const annotationKey = JSON.stringify({ clauseId: clauseNode.clauseId, hash, });
+    const annotation = {
+      anchor,
+      focus,
+      key: annotationKey
+    };
+    return { annotation, parseText };
+  }
+
+  /**
+   * Utility function to replace parse annotations for clauses
+  */
+  function replaceAnnotations(inputObject) {
+    const {
+      editor,
+      annotation,
+      clauseid,
+      parseText,
+      src,
+    } = inputObject;
+
+    removeParseAnnotations(editor, clauseid);
+    parseClauseCallback(src, parseText, clauseid)
+      .then((parseResult) => {
+        console.log(parseResult);
+        annotation.type = 'parseResult';
+        annotation.data = parseResult;
+        addAnnotation(editor, annotation);
+      })
+      .catch((error) => {
+        annotation.type = 'parseError';
+        annotation.data = { error };
+        addAnnotation(editor, annotation);
+      });
+  }
+
+  /**
+   * Utility function to parse clauses within a paste value
    */
   function parsePastedClauses(editor, clausesArray) {
     clausesArray.forEach((clauseNode) => {
-      const { selection } = editor.value;
-
-      const parseText = markdownGenerator.recursive(clauseNode.node.nodes);
-
-      const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode.node)
-        .normalize(editor.value.document);
-      const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode.node)
-        .normalize(editor.value.document);
-
-      // @ts-ignore
-      const hash = murmurhash3_32_gc(`${parseText} at ${anchor.toJSON()} to ${focus.toJSON()}`, 0xdeadbeef);
-
-      const annotation = {
-        anchor,
-        focus,
-        key: `clauseParse-${hash}`
+      const { annotation, parseText } = generateAnnotation(editor, clauseNode);
+      const replaceAnnotationObject = {
+        editor,
+        annotation,
+        clauseid: clauseNode.clauseId,
+        parseText,
+        src: clauseNode.src,
       };
-      // TODO:
-      // TODO:
-      // TODO:
-      // TODO: Need to rethink how this hash is generated now that we have clauseId
-      // TODO: This will be more stable (Line 237 get clauseId)
-      // TODO:
-      // TODO:
-      // TODO:
-
       // we only re-parse and modify the value if the text has changed
       if (!annotationExists(editor, annotation)) {
-        removeParseAnnotations(editor);
-        parseClauseCallback(clauseNode.src, parseText, clauseNode.clauseId)
-          .then((parseResult) => {
-            console.log(parseResult);
-            annotation.type = 'parseResult';
-            annotation.data = parseResult;
-            addAnnotation(editor, annotation);
-          })
-          .catch((error) => {
-            annotation.type = 'parseError';
-            annotation.data = { error };
-            addAnnotation(editor, annotation);
-          });
+        replaceAnnotations(replaceAnnotationObject);
       }
     });
   }
@@ -265,7 +284,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
             mutableDataMap.set('attributes', mutableAttributesMap);
             mutableNode.data = mutableDataMap.asImmutable();
 
-            clausesToParse.push({ node, clauseUriSrc, generatedUUID });
+            clausesToParse.push({ node, src: clauseUriSrc, clauseId: generatedUUID });
             return mutableNode;
           }
           return node;
@@ -289,51 +308,27 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   function onChange(editor, next) {
     const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
     const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
-
     if (!clauseNode) {
       console.log('onChange - outside clause');
       return next();
     }
-
     console.log('onChange - inside clause', clauseNode.toJSON());
-
-    const parseText = markdownGenerator.recursive(clauseNode.nodes);
 
     const nodeAttributes = clauseNode.data.get('attributes');
     const { src, clauseid } = nodeAttributes;
-    const { selection } = editor.value;
-
-    const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode)
-      .normalize(editor.value.document);
-    const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode)
-      .normalize(editor.value.document);
-
-    // @ts-ignore
-    const hash = murmurhash3_32_gc(`${parseText} at ${anchor.toJSON()} to ${focus.toJSON()}`, 0xdeadbeef);
-
-    const annotation = {
-      anchor,
-      focus,
-      key: `clauseParse-${hash}`
+    const clauseNodeInput = { node: clauseNode, clauseId: clauseid };
+    const { annotation, parseText } = generateAnnotation(editor, clauseNodeInput);
+    const replaceAnnotationObject = {
+      editor,
+      annotation,
+      clauseid,
+      parseText,
+      src,
     };
-
     // we only re-parse and modify the value if the text has changed
     if (!annotationExists(editor, annotation)) {
-      removeParseAnnotations(editor);
-      parseClauseCallback(src, parseText, clauseid)
-        .then((parseResult) => {
-          console.log(parseResult);
-          annotation.type = 'parseResult';
-          annotation.data = parseResult;
-          addAnnotation(editor, annotation);
-        })
-        .catch((error) => {
-          annotation.type = 'parseError';
-          annotation.data = { error };
-          addAnnotation(editor, annotation);
-        });
+      replaceAnnotations(replaceAnnotationObject);
     }
-
     return next();
   }
 
