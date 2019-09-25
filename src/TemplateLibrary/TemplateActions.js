@@ -14,7 +14,7 @@ const TemplateBtn = styled.a`
   display: inline-block;
   color: ${props => props.color || '#484848'};
   font-family: "IBM Plex Sans";
-  font-size: 12px;
+  font-size: 0.75em;
   font-weight: bold;
 `;
 
@@ -30,7 +30,7 @@ const AddToContractBtn = styled(TemplateBtn)`
 const DetailsBtn = styled(TemplateBtn)`
   float: right;
   width: 40%;
-  font-size: 12px;
+  font-size: 0.75em;
   font-weight: 300;
   text-align: center;
 `;
