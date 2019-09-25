@@ -28,7 +28,7 @@ const Header = styled.div`
   position: relative;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 1em;
   margin-bottom: 10px;
   
   display: grid;
@@ -40,7 +40,7 @@ const Header = styled.div`
 const HeaderTitle = styled.p`
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 1em;
   text-align: left;
   color: ${props => props.color || null};
 `;

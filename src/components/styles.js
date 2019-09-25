@@ -30,7 +30,7 @@ export const ClauseHeader = styled.div`
   padding: 3px;
   color: ${props => props.headercolor || '#939EBA'};
   line-height: 14px;
-  font-size: 14px;
+  font-size: 0.87em;
   font-weight: 600;
 `;
 
