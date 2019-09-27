@@ -160,5 +160,5 @@ Copyright 2018-2019 Clause, Inc. All trademarks are the property of their respec
 [contributing]: https://github.com/accordproject/cicero-ui/blob/master/CONTRIBUTING.md
 [developers]: https://github.com/accordproject/cicero-ui/blob/master/DEVELOPERS.md
 
-[apache]: https://github.com/accordproject/template-studio-v2/blob/master/LICENSE
+[apache]: https://github.com/accordproject/cicero-ui/blob/master/LICENSE
 [creativecommons]: http://creativecommons.org/licenses/by/4.0/
