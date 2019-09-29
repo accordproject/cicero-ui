@@ -1,6 +1,8 @@
 # Cicero UI Library
 
-[![Build Status](https://travis-ci.org/accordproject/cicero-ui.svg?branch=master)](https://travis-ci.org/accordproject/cicero-ui) [![npm version](https://badge.fury.io/js/%40accordproject%2Fcicero-ui.svg)](https://badge.fury.io/js/%40accordproject%2Fcicero-ui)
+[![Build Status](https://travis-ci.org/accordproject/cicero-ui.svg?branch=master)](https://travis-ci.org/accordproject/cicero-ui) 
+[![downloads](https://img.shields.io/npm/dm/@accordproject/cicero-ui)](https://www.npmjs.com/package/@accordproject/cicero-ui)
+[![npm version](https://badge.fury.io/js/%40accordproject%2Fcicero-ui.svg)](https://badge.fury.io/js/%40accordproject%2Fcicero-ui)
 
 The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
 
