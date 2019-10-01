@@ -67,7 +67,7 @@ const ErrorLogger = (props) => {
       <SC.ErrorsHeader {...headerProps} >
         {ACT.gtZero(errors.length)
           && <SC.ErrorSymbol {...symbolProps} />}
-        {ACT.errorArrayLength(errors)} {ACT.isMultpleErrors(errors)}
+        {ACT.errorArrayLength(errors)} {ACT.isMultipleErrors(errors)}
         <SC.ErrorBarArrow {...barArrowProps} />
       </SC.ErrorsHeader>
     </div>
