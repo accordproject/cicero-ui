@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@accordproject/cicero-core": "^0.13.4",
-    "@accordproject/markdown-editor": "^0.5.15",
+    "@accordproject/markdown-editor": "^0.5.16",
     "acorn": "5.1.2",
     "doctrine": "3.0.0",
     "lodash": "^4.17.15",
