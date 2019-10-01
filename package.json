@@ -5,9 +5,11 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js --mode development --watch ",
+    "dev": "webpack-dev-server --mode development --config webpack.config.js",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
-    "build": "webpack --config webpack.config.js --mode production",
+    "build": "webpack --mode production --config webpack.config.prod.js",
+    "build:dev": "webpack --config webpack.config.js",
     "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore ./src",
     "test": "jest",
     "test:watch": "npm test -- --watch",
