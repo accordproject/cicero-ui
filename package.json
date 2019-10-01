@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/cicero-ui",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "cicero-ui React component",
   "main": "dist/index.js",
   "scripts": {
