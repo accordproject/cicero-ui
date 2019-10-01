@@ -325,9 +325,24 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
       parseText,
       src,
     };
+
     // we only re-parse and modify the value if the text has changed
     if (!annotationExists(editor, annotation)) {
       replaceAnnotations(replaceAnnotationObject);
+      removeParseAnnotations(editor, clauseid);
+
+      parseClauseCallback(src, parseText, clauseid)
+        .then((parseResult) => {
+          console.log(parseResult);
+          annotation.type = 'parseResult';
+          annotation.data = parseResult;
+          addAnnotation(editor, annotation);
+        })
+        .catch((error) => {
+          annotation.type = 'parseError';
+          annotation.data = { error };
+          addAnnotation(editor, annotation);
+        });
     }
     return next();
   }
