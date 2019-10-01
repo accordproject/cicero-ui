@@ -261,7 +261,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
     if (isEditable(editor.value, 'paste')) {
       const transfer = getEventTransfer(event);
 
-      // maybe keep track of all the things that jsut got pasted
+      // keep track of all the things that just got pasted
       const clausesToParse = [];
 
       if (transfer.type === 'fragment') {
