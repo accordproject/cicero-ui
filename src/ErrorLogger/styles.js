@@ -27,7 +27,7 @@ export const ErrorsHeader = styled.div`
 
     color: ${props => (props.errors ? '#FF4242' : '#19C6C7')};
     font-family: "IBM Plex Sans";
-    font-size: 16px;
+    font-size: 1em;
     font-weight: bold;
     letter-spacing: -0.5px;
     line-height: 20px;
@@ -76,7 +76,7 @@ export const ErrorFile = styled.a`
 
     color: ${props => props.errorFile || '#FFFFFF'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
 
     grid-area: errorFile;
@@ -91,7 +91,7 @@ export const ErrorType = styled.div`
     grid-area: errorType;
     color: ${props => props.errorType || '#B9BCC4'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
     align-self: center;
     padding: 5px;
@@ -101,7 +101,7 @@ export const ErrorShortMessage = styled.div`
     grid-area: errorMessage;
     color: ${props => props.shortMessage || '#B9BCC4'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
     align-self: center;
     padding: 5px;
@@ -111,7 +111,7 @@ export const ErrorFullMessage = styled.div`
     grid-area: errorFull;
     color: ${props => props.fullMessage || '#FFFFFF'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
 `;
 
