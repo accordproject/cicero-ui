@@ -3,7 +3,8 @@ import {
   Header, Menu, Grid, Rail, Segment
 } from 'semantic-ui-react';
 
-import { PluginManager, List, FromMarkdown } from '@accordproject/markdown-editor';
+// import { PluginManager } from '@accordproject/markdown-editor';
+import { SlateTransformer } from '@accordproject/markdown-slate';
 
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
@@ -12,10 +13,10 @@ import ContractEditor from '../../src/ContractEditor';
 import ClausePlugin from '../../src/plugins/ClausePlugin';
 import VariablePlugin from '../../src/plugins/VariablePlugin';
 
+const slateTransformer = new SlateTransformer();
 const clausePlugin = ClausePlugin(null, null);
-const plugins = [List(), VariablePlugin(), clausePlugin];
-const pluginManager = new PluginManager(plugins);
-const fromMarkdown = new FromMarkdown(pluginManager);
+const plugins = [VariablePlugin(), clausePlugin];
+// const pluginManager = new PluginManager(plugins);
 
 const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta';
 const clauseText = `Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
@@ -32,7 +33,12 @@ ${rewriteClauseText}
 \`\`\`
 `;
 
-  return fromMarkdown.convert(acceptanceOfDeliveryClause);
+  const something = slateTransformer.fromMarkdown(acceptanceOfDeliveryClause);
+  console.log('something: ', something.toJSON());
+  // console.log('something: ', slateTransformer.toMarkdown(something))
+
+  // return fromMarkdown.convert(acceptanceOfDeliveryClause);
+  return slateTransformer.fromMarkdown(acceptanceOfDeliveryClause);
 };
 
 const getContractMarkdown = async () => {
@@ -50,7 +56,7 @@ ${rewriteClauseText}
   
   Fin.
   `;
-  return fromMarkdown.convert(defaultContractMarkdown);
+  return slateTransformer.fromMarkdown(defaultContractMarkdown);
 };
 
 /**
@@ -90,15 +96,14 @@ function Demo() {
   /**
    * Called when the data in the clause editor has been modified
    */
-  const onClauseChange = useCallback((value, markdown) => {
-    console.log(markdown);
+  const onClauseChange = useCallback((value) => {
     setClauseValue(value);
   }, []);
 
   /**
    * Called when the data in the contract editor has been modified
    */
-  const onContractChange = useCallback((value, markdown) => {
+  const onContractChange = useCallback((value) => {
     // console.log(JSON.stringify(value.toJSON(), null, 4));
     setContractValue(value);
   }, []);

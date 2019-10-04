@@ -14,7 +14,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { SlateAsInputEditor, List } from '@accordproject/markdown-editor';
+import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
 import VariablePlugin from '../plugins/VariablePlugin';
@@ -64,14 +64,14 @@ const ContractEditor = React.forwardRef((props, ref) => {
     setPlugins(
       props.plugins
         ? props.plugins.concat(
-          [List(), VariablePlugin(), ClausePlugin(
+          [VariablePlugin(), ClausePlugin(
             props.loadTemplateObject,
             props.parseClause,
             props.pasteToContract,
             props.clauseProps
           )]
         )
-        : [List(), VariablePlugin(), ClausePlugin(
+        : [VariablePlugin(), ClausePlugin(
           props.loadTemplateObject,
           props.parseClause,
           props.pasteToContract,

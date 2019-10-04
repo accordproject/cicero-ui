@@ -43,6 +43,7 @@ function VariablePlugin(opts) {
    * @param {Value} value - the Slate value
    */
   const isEditable = ((value, code) => {
+    console.log('value inlines: ', value.inlines);
     const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
@@ -83,11 +84,23 @@ function VariablePlugin(opts) {
    */
   function renderInline(props, editor, next) {
     const { attributes, children, node } = props;
+    // console.log('nodeAtt: ', node);
+    const id = node.data.get('id');
+    const value = node.data.get('value');
+
+    const something = decodeURIComponent(value);
+
+    children.nodes = [{
+      object: 'text',
+      text: something,
+    }];
+
+    console.log('children: ', children);
 
     switch (node.type) {
       case 'variable': {
         // @ts-ignore
-        return <span {...attributes} className='variable'>
+        return <span id={id} {...attributes} className='variable'>
             {children}
           </span>;
       }
@@ -98,89 +111,12 @@ function VariablePlugin(opts) {
     }
   }
 
-  /**
-     * @param {ToMarkdown} parent
-     * @param {Node} value
-     */
-  function toMarkdown(parent, value) {
-    let textValue = '';
-
-    if (value.nodes.size > 0 && value.nodes.get(0).text) {
-      textValue = value.nodes.get(0).text;
-    }
-
-    if (opts && opts.rawValue) {
-      return textValue;
-    }
-
-    const attributes = value.data.get('attributes');
-    let result = `<variable id="${attributes.id}" value="${encodeURI(textValue)}"`;
-
-    if (attributes.format) {
-      result += ` format="${encodeURI(attributes.format)}`;
-    }
-
-    result += '/>';
-    return result;
-  }
-
-  /**
- * Handles data from markdown.
- */
-  function fromMarkdown(stack, event, tag, node) {
-    const parent = stack.peek();
-
-    // variables can only occur inside paragraphs
-    if (!parent.type || parent.type !== 'paragraph') {
-      const para = {
-        object: 'block',
-        type: 'paragraph',
-        data: {},
-        nodes: [],
-      };
-      stack.push(para);
-    }
-
-    const inline = {
-      object: 'inline',
-      type: 'variable',
-      data: Object.assign(tag),
-      nodes: [{
-        object: 'text',
-        text: `${decodeURI(tag.attributes.value)}`,
-      }]
-    };
-
-    stack.append(inline);
-
-    if (!parent.type || parent.type !== 'paragraph') {
-      stack.pop();
-    }
-
-    return true;
-  }
-
-  /**
- * Handles data from the HTML format.
- */
-  function fromHTML(editor, el, next) {
-    return {
-      object: 'block',
-      type: 'variable',
-      data: {},
-      nodes: next(el.childNodes),
-    };
-  }
-
   return {
     name,
     tags,
     augmentSchema,
     isEditable,
     renderInline,
-    toMarkdown,
-    fromMarkdown,
-    fromHTML,
   };
 }
 
