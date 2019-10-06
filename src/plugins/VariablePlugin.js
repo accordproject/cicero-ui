@@ -3,9 +3,8 @@ import React from 'react';
 /**
  * A plugin for a variable
  */
-function VariablePlugin(opts) {
+function VariablePlugin() {
   const name = 'variable';
-  const options = opts;
 
   const tags = [
     {
@@ -40,10 +39,10 @@ function VariablePlugin(opts) {
   /**
    * Allow variable inlines to be edited
    *
-   * @param {Value} value - the Slate value
+   * @param {*} value - the Slate value
+   * @param {string} code - the key code
    */
   const isEditable = ((value, code) => {
-    console.log('value inlines: ', value.inlines);
     const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
@@ -84,18 +83,7 @@ function VariablePlugin(opts) {
    */
   function renderInline(props, editor, next) {
     const { attributes, children, node } = props;
-    // console.log('nodeAtt: ', node);
     const id = node.data.get('id');
-    const value = node.data.get('value');
-
-    const something = decodeURIComponent(value);
-
-    children.nodes = [{
-      object: 'text',
-      text: something,
-    }];
-
-    console.log('children: ', children);
 
     switch (node.type) {
       case 'variable': {

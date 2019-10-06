@@ -20,10 +20,10 @@ import ClausePlugin from '../plugins/ClausePlugin';
 import VariablePlugin from '../plugins/VariablePlugin';
 
 /**
- * Adds the current markdown to local storage
+ * Adds the current value to local storage
  */
-function storeLocal(value, markdown) {
-  localStorage.setItem('contract-editor', markdown);
+function storeLocal(value) {
+  localStorage.setItem('contract-editor', value.toJSON());
 }
 
 /**
@@ -120,13 +120,8 @@ ContractEditor.propTypes = {
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
-    renderBlock: PropTypes.func.isRequired,
-    toMarkdown: PropTypes.func.isRequired,
-    fromMarkdown: PropTypes.func.isRequired,
-    fromHTML: PropTypes.func.isRequired,
-    plugin: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    schema: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    augmentSchema: PropTypes.func,
   })),
 };
 

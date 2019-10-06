@@ -1,24 +1,11 @@
 import React from 'react';
-import { Point } from 'slate';
 import { getEventTransfer } from 'slate-react';
-import { Icon } from 'semantic-ui-react';
-import styled from 'styled-components';
 import { Template, Clause } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
-// import { PluginManager, List } from '@accordproject/markdown-editor';
 
 import '../styles.css';
-// eslint-disable-next-line camelcase
-import murmurhash3_32_gc from './murmurhash3_gc';
 import ClauseComponent from '../components/ClauseComponent';
-// import VariablePlugin from './VariablePlugin';
 
-// const plugins = [List(), VariablePlugin({ rawValue: true })];
-// const pluginManager = new PluginManager(plugins);
-
-const StyledIcon = styled(Icon)`
-  color: #ffffff !important;
-`;
 
 /**
  * A plugin for a clause embedded in a contract
@@ -118,57 +105,16 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   }
 
   /**
-   * Adds an annotation to the editor
-   *
-   * @param {*} editor
-   * @param {*} annotation
-   */
-  function addAnnotation(editor, annotation) {
-    editor.addAnnotation(annotation);
-  }
-
-  /**
-   * Remove the parse annotations from the editor
-   *
-   * @param {*} editor
-   */
-  function removeParseAnnotations(editor, clauseId) {
-    const { annotations } = editor.value;
-
-    editor.withoutSaving(() => {
-      annotations.forEach((ann) => {
-        console.log('ANNOTATION: ', ann);
-        if (typeof ann.key === 'object') {
-          const json = JSON.parse(ann.key);
-          if (json.clauseId === clauseId) {
-            editor.removeAnnotation(ann);
-          }
-        }
-      });
-    });
-  }
-
-  /**
-   * Checks whether an annotation exists
-   *
-   * @param {*} editor
-   * @param {*} annotation
-   * @returns {boolean} true if the annotation already exists on the value
-   */
-  function annotationExists(editor, annotation) {
-    const { annotations } = editor.value;
-    return annotations.get(annotation.key);
-  }
-
-  /**
    * Allow edits if we are outside of a Clause
    *
    * @param {Value} value - the Slate value
    */
   const isEditable = ((value, code) => {
+    // const inClause = value.blocks.size > 0 && value.blocks.every(node => node.type === 'clause');
+
     const blocks = value.document.getDescendantsAtRange(value.selection);
     const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
-    console.log('outside clause', !inClause);
+    console.log('in clause', inClause);
     return !inClause;
   });
 
@@ -188,61 +134,25 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   /**
    * Utility function to return a parsed text and its annotation from a clause
    */
-  function generateAnnotationAndParseText(editor, clauseNode) {
-    const { selection } = editor.value;
-
+  function parse(editor, clauseNode) {
     // needs a slate value, not list of nodes
     // come back to this, clean up the API
+    console.log('parse', clauseNode);
     const value = {
       document: {
-        nodes: clauseNode.node.nodes
+        nodes: clauseNode.nodes
       }
     };
 
     const slateTransformer = new SlateTransformer();
     const parseText = slateTransformer.toMarkdown(value, { wrapVariables: false });
 
-
-    const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode.node)
-      .normalize(editor.value.document);
-    const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode.node)
-      .normalize(editor.value.document);
-    // @ts-ignore
-    const hash = murmurhash3_32_gc(`${clauseNode.clauseId} ${parseText}`, 0xdeadbeef);
-    const annotationKey = JSON.stringify({ clauseId: clauseNode.clauseId, hash, });
-    console.log('annotationKeyannotationKey ', annotationKey);
-    const annotation = {
-      anchor,
-      focus,
-      key: annotationKey
-    };
-    return { annotation, parseText };
-  }
-
-  /**
-   * Utility function to replace parse annotations for clauses
-  */
-  function replaceAnnotations(inputObject) {
-    const {
-      editor,
-      annotation,
-      clauseid,
-      parseText,
-      src,
-    } = inputObject;
-
-    removeParseAnnotations(editor, clauseid);
-    parseClauseCallback(src, parseText, clauseid)
+    parseClauseCallback(clauseNode.data.get('src'), parseText, clauseNode.data.get('id'))
       .then((parseResult) => {
         console.log(parseResult);
-        annotation.type = 'parseResult';
-        annotation.data = parseResult;
-        addAnnotation(editor, annotation);
       })
       .catch((error) => {
-        annotation.type = 'parseError';
-        annotation.data = { error };
-        addAnnotation(editor, annotation);
+        console.log(error);
       });
   }
 
@@ -251,18 +161,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
    */
   function parsePastedClauses(editor, clausesArray) {
     clausesArray.forEach((clauseNode) => {
-      const { annotation, parseText } = generateAnnotationAndParseText(editor, clauseNode);
-      const replaceAnnotationObject = {
-        editor,
-        annotation,
-        clauseid: clauseNode.clauseId,
-        parseText,
-        src: clauseNode.src,
-      };
-      // we only re-parse and modify the value if the text has changed
-      if (!annotationExists(editor, annotation)) {
-        replaceAnnotations(replaceAnnotationObject);
-      }
+      parse(editor, clauseNode);
     });
   }
 
@@ -322,67 +221,31 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   * Handles change to document.
   */
   function onChange(editor, next) {
-    console.log('editor.value.selection: ', editor.value.blocks);
     const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
     const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
     if (!clauseNode) {
-      console.log('onChange - outside clause');
       return next();
     }
     console.log('onChange - inside clause', clauseNode.toJSON());
 
-    const src = clauseNode.data.get('src');
-    const clauseid = clauseNode.data.get('clauseid');
-    console.log('srcsrcsrcsrcsrc', src);
-    console.log('clauseidclauseid', clauseid);
-    const clauseNodeInput = { node: clauseNode, clauseId: clauseid };
-    const { annotation, parseText } = generateAnnotationAndParseText(editor, clauseNodeInput);
-    const replaceAnnotationObject = {
-      editor,
-      annotation,
-      clauseid,
-      parseText,
-      src,
-    };
-
-    // we only re-parse and modify the value if the text has changed
-    if (!annotationExists(editor, annotation)) {
-      replaceAnnotations(replaceAnnotationObject);
-      removeParseAnnotations(editor, clauseid);
-
-      parseClauseCallback(src, parseText, clauseid)
-        .then((parseResult) => {
-          console.log(parseResult);
-          annotation.type = 'parseResult';
-          annotation.data = parseResult;
-          addAnnotation(editor, annotation);
-        })
-        .catch((error) => {
-          annotation.type = 'parseError';
-          annotation.data = { error };
-          addAnnotation(editor, annotation);
-        });
-    }
+    parse(editor, clauseNode);
     return next();
   }
 
   /**
   * @param {Object} props
-  * @param {Editor} editor
+  * @param {*} editor Slate Editor
   * @param {Function} next
   */
   function renderBlock(props, editor, next) {
-    const { node, attributes, children } = props;
+    const { node, children } = props;
 
     switch (node.type) {
       case 'clause': {
         const src = node.data.get('src');
         const clauseid = node.data.get('clauseid');
-        // const { src, clauseid } = nodeAttributes;
-        // console.log('clauseID here: ', clauseid);
 
         if (src) {
-          console.log(`handing over responsibility of loading: ${src}`);
           loadTemplateCallback(src.toString());
         }
 
@@ -396,47 +259,6 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
           </ClauseComponent>
         );
       }
-      default:
-        return next();
-    }
-  }
-
-  /**
-  * Handles a button click.
-  */
-  function onClickButton(editor, event) {
-    event.preventDefault();
-    alert('Clause plugin button clicked!');
-  }
-
-  /**
-   * Render a clause toolbar button.
-   *
-   * @param {Editor} editor
-   * @return {Element}
-   */
-  function renderToolbar(editor) {
-    return (<StyledIcon
-      key={name}
-      name='legal'
-      aria-label='clause'
-      onMouseDown={event => onClickButton(editor, event)}
-    />);
-  }
-
-  /**
-   * Render Slate annotations.
-   */
-  function renderAnnotation(props, editor, next) {
-    const { children, annotation, attributes } = props;
-
-    switch (annotation.type) {
-      case 'parseError':
-        return (
-          <span {...attributes} className='parseError'>
-            {children}
-          </span>
-        );
       default:
         return next();
     }
@@ -458,8 +280,6 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
     isEditable,
     onChange,
     onPaste,
-    renderToolbar,
-    renderAnnotation,
     rewriteClause,
     queries: {
       findClauseNode
