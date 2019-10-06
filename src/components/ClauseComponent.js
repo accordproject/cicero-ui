@@ -10,7 +10,7 @@ import * as S from './styles';
 import * as deleteIcon from '../icons/trash';
 
 /* Actions */
-import headerGenerator from './actions';
+import { titleGenerator, headerGenerator } from './actions';
 
 const deleteIconProps = {
   'aria-label': deleteIcon.type,
@@ -27,10 +27,14 @@ const deleteIconProps = {
 function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
   const [hovering, setHovering] = useState(false);
+  const [hoveringHeader, setHoveringHeader] = useState(false);
 
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
     : null;
+
+  const title = titleGenerator(props.templateUri);
+  const header = headerGenerator(props.templateUri, clauseProps.HEADER_TITLE);
 
   return (
     <S.ClauseWrapper
@@ -49,7 +53,19 @@ function ClauseComponent(props) {
         headercolor={clauseProps.HEADER_COLOR}
         headerbg={clauseProps.CLAUSE_BACKGROUND}
       >
-        {headerGenerator(props.templateUri, clauseProps.HEADER_TITLE)}
+        {(hoveringHeader && header.length > 54)
+          && <S.HeaderToolTipWrapper>
+            <S.HeaderToolTip>
+              {title}
+            </S.HeaderToolTip>
+          </S.HeaderToolTipWrapper>
+        }
+        <S.HeaderToolTipText
+          onMouseEnter={() => setHoveringHeader(true)}
+          onMouseLeave={() => setHoveringHeader(false)}
+        >
+          {header}
+        </S.HeaderToolTipText>
       </S.ClauseHeader>
       <S.DeleteWrapper
         currentHover={hovering}
