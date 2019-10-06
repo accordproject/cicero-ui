@@ -56,7 +56,7 @@ function ClauseComponent(props) {
         {(hoveringHeader && header.length > 54)
           && <S.HeaderToolTipWrapper>
             <S.HeaderToolTip>
-              {title}
+              {title + clauseProps.HEADER_TITLE}
             </S.HeaderToolTip>
           </S.HeaderToolTipWrapper>
         }
