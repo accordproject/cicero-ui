@@ -15,13 +15,6 @@ import ClauseComponent from '../components/ClauseComponent';
  */
 function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, clauseProps) {
   const name = 'clause';
-  const tags = [
-    {
-      html: 'clause',
-      slate: 'clause',
-      md: 'clause'
-    }
-  ];
   const templates = {};
 
   /**
@@ -43,7 +36,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
 
     const newSchema = JSON.parse(JSON.stringify(schema));
     newSchema.blocks = { ...newSchema.blocks, ...additions.blocks };
-    newSchema.document.nodes[0].match.push({ type: tags[0].slate });
+    newSchema.document.nodes[0].match.push({ type: 'clause' });
     return newSchema;
   });
 
@@ -274,7 +267,6 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
 
   return {
     name,
-    tags,
     augmentSchema,
     renderBlock,
     isEditable,
