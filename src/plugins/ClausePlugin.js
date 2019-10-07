@@ -125,7 +125,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   }
 
   /**
-   * Utility function to return a parsed text and its annotation from a clause
+   * Utility function to parse a clause
    */
   function parse(editor, clauseNode) {
     // needs a slate value, not list of nodes

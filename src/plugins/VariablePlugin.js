@@ -6,14 +6,6 @@ import React from 'react';
 function VariablePlugin() {
   const name = 'variable';
 
-  const tags = [
-    {
-      html: 'variable',
-      slate: 'variable',
-      md: 'variable'
-    }
-  ];
-
   /**
    * Augment the base schema with the variable type
    * @param {*} schema
@@ -31,8 +23,8 @@ function VariablePlugin() {
 
     const newSchema = JSON.parse(JSON.stringify(schema));
     newSchema.inlines = { ...newSchema.inlines, ...additions.inlines };
-    newSchema.document.nodes[0].match.push({ type: tags[0].slate });
-    newSchema.blocks.paragraph.nodes[0].match.push({ type: tags[0].slate });
+    newSchema.document.nodes[0].match.push({ type: 'variable' });
+    newSchema.blocks.paragraph.nodes[0].match.push({ type: 'variable' });
     return newSchema;
   });
 
@@ -101,7 +93,6 @@ function VariablePlugin() {
 
   return {
     name,
-    tags,
     augmentSchema,
     isEditable,
     renderInline,
