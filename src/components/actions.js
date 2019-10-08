@@ -13,7 +13,7 @@ const titleGenerator = (input) => {
 
 const headerGenerator = (templateTitle, inputTitle) => {
   const title = titleGenerator(templateTitle);
-  const header = (title + inputTitle);
+  const header = inputTitle ? (title + inputTitle) : title;
   const truncatedTitle = ((header.length > 54) ? (`${header.slice(0, 54)}...`) : header);
   return truncatedTitle;
 };
