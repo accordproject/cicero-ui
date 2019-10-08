@@ -76,7 +76,8 @@ const ContractEditor = React.forwardRef((props, ref) => {
       loadTemplateObject: props.loadTemplateObject,
       parseClause: props.parseClause,
       pasteToContract: props.pasteToContract,
-      clauseProps: props.clauseProps
+      clauseProps: props.clauseProps,
+      clauseMap: props.clauseMap
     }}
   /> : null
   );
@@ -92,6 +93,7 @@ ContractEditor.propTypes = {
   lockText: PropTypes.bool,
   loadTemplateObject: PropTypes.func,
   pasteToContract: PropTypes.func,
+  clauseMap: PropTypes.object,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
