@@ -10,7 +10,7 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   <styled.div
     currentHover={false}
   >
-    ACCEPTANCE OF DELIVERYundefined
+    ACCEPTANCE OF DELIVERY
   </styled.div>
   <styled.div
     currentHover={false}
