@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Grid, Segment } from 'semantic-ui-react';
+import {
+  Button, Grid, Header, Segment
+} from 'semantic-ui-react';
 
 // import { PluginManager } from '@accordproject/markdown-editor';
 import { SlateTransformer } from '@accordproject/markdown-slate';
@@ -84,7 +86,8 @@ function Demo() {
 
   return (
     <div>
-      <Button onClick={() => setlockTextState(!lockTextState)} >Click Here</Button>
+      <Button onClick={() => setlockTextState(!lockTextState)} >Toggle lockText</Button>
+      <Header size='medium'>lockText state: {lockTextState.toString()}</Header>
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment>
