@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Button, Grid, Segment } from 'semantic-ui-react';
 
 // import { PluginManager } from '@accordproject/markdown-editor';
 import { SlateTransformer } from '@accordproject/markdown-slate';
@@ -45,6 +45,7 @@ function Demo() {
    * Currently contract value
    */
   const [contractValue, setContractValue] = useState(null);
+  const [lockTextState, setlockTextState] = useState(true);
 
   /**
    * Async rewrite of the markdown text to a slate value
@@ -75,7 +76,7 @@ function Demo() {
   };
 
   const demo = <ContractEditor
-        lockText={true}
+        lockText={lockTextState}
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
@@ -83,6 +84,7 @@ function Demo() {
 
   return (
     <div>
+      <Button onClick={() => setlockTextState(!lockTextState)} >Click Here</Button>
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment>
