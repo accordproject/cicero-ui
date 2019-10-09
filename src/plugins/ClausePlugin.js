@@ -72,27 +72,6 @@ function ClausePlugin() {
   }
 
   /**
-   * Rewrites the text of a clause to introduce variables
-   *
-   * @param {string} templateUri the URI of the template to load
-   * @param {string} clauseText the text of the clause (must be parseable)
-   */
-  async function rewriteClause(editor, templateUri, clauseText) {
-    try {
-      const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject || loadTemplate;
-      const template = await loadTemplateCallback(templateUri);
-      const clause = new Clause(template);
-      clause.parse(clauseText);
-      const variableText = clause.generateText({ wrapVariables: true });
-      console.log(variableText);
-      return Promise.resolve(variableText);
-    } catch (err) {
-      console.log(err);
-      return Promise.resolve(err);
-    }
-  }
-
-  /**
    * Allow edits if we are outside of a Clause
    *
    * @param {Value} value - the Slate value
@@ -270,7 +249,6 @@ function ClausePlugin() {
     onChange,
     onPaste,
     queries: {
-      rewriteClause,
       findClauseNode
     }
   };
