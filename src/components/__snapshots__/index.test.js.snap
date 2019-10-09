@@ -14,7 +14,7 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
     >
-    ACCEPTANCE OF DELIVERY
+      ACCEPTANCE OF DELIVERY
     </styled.span>
   </styled.div>
   <styled.div
