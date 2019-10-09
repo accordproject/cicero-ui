@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import './index.css';
 
 export const ClauseWrapper = styled.div`
+  position: relative;
   margin: 10px -10px;
   display: grid;
   grid-template-columns: 10px 375px 1fr 25px 25px 25px 10px;
@@ -70,4 +71,28 @@ export const ClauseAdd = styled.svg`
   &:hover {
     fill: #FFFFFF;
   }
+`;
+
+
+export const HeaderToolTipWrapper = styled.div`
+  position: absolute;
+  top: -25px;
+`;
+
+export const HeaderToolTip = styled.div`
+  background-color: #141f3a;
+  border-radius: 3px;
+  padding: 5px;
+  :after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 5px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #141f3a transparent transparent transparent;
+  }
+`;
+
+export const HeaderToolTipText = styled.span`
 `;
