@@ -9,11 +9,8 @@ import ClauseComponent from '../components/ClauseComponent';
 
 /**
  * A plugin for a clause embedded in a contract
- * @param {*} customLoadTemplate - a custom function used to load templates
- * @param {*} customParseClause - a custom function used to parse clause text
- * @param {*} customPasteClause - a custom function used to paste a clause template
  */
-function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, clauseProps) {
+function ClausePlugin() {
   const name = 'clause';
   const templates = {};
 
@@ -74,29 +71,6 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
     }
   }
 
-  const loadTemplateCallback = customLoadTemplate || loadTemplate;
-  const parseClauseCallback = customParseClause || parseClause;
-
-  /**
-   * Rewrites the text of a clause to introduce variables
-   *
-   * @param {string} templateUri the URI of the template to load
-   * @param {string} clauseText the text of the clause (must be parseable)
-   */
-  async function rewriteClause(templateUri, clauseText) {
-    try {
-      const template = await loadTemplateCallback(templateUri);
-      const clause = new Clause(template);
-      clause.parse(clauseText);
-      const variableText = clause.generateText({ wrapVariables: true });
-      console.log(variableText);
-      return Promise.resolve(variableText);
-    } catch (err) {
-      console.log(err);
-      return Promise.resolve(err);
-    }
-  }
-
   /**
    * Allow edits if we are outside of a Clause
    *
@@ -130,7 +104,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   function parse(editor, clauseNode) {
     // needs a slate value, not list of nodes
     // come back to this, clean up the API
-    console.log('parse', clauseNode);
+    const parseClauseCallback = editor.props.clausePluginProps.parseClause || parseClause;
     const value = {
       document: {
         nodes: clauseNode.nodes
@@ -187,7 +161,7 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
 
             mutableAttributesMap.clauseid = generatedUUID;
 
-            customPasteClause(generatedUUID, clauseUriSrc, node.text);
+            editor.props.clausePluginProps.pasteToContract(generatedUUID, clauseUriSrc, node.text);
 
             mutableDataMap.set('attributes', mutableAttributesMap);
             mutableNode.data = mutableDataMap.asImmutable();
@@ -231,6 +205,8 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   * @param {Function} next
   */
   function renderBlock(props, editor, next) {
+    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject || loadTemplate;
+    const { clauseProps } = editor.props.clausePluginProps;
     const { node, children } = props;
 
     switch (node.type) {
@@ -272,7 +248,6 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
     isEditable,
     onChange,
     onPaste,
-    rewriteClause,
     queries: {
       findClauseNode
     }
