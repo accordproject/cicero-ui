@@ -12,17 +12,15 @@ import ContractEditor from '../../src/ContractEditor';
 const slateTransformer = new SlateTransformer();
 
 const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta';
-const clauseText = `Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
+const clauseText = `Acceptance of Delivery. <variable id="shipper" value="%22Party%20A%22"/> will be deemed to have completed its delivery obligations if in <variable id="receiver" value="%22Party%20B%22"/>'s opinion, the <variable id="deliverable" value="%22Widgets%22"/> satisfies the Acceptance Criteria, and <variable id="receiver" value="%22Party%20B%22"/> notifies <variable id="shipper" value="%22Party%20A%22"/> in writing that it is accepting the <variable id="deliverable" value="%22Widgets%22"/>.
 
-Inspection and Notice. "Party B" will have 10 Business Days' to inspect and evaluate the "Widgets" on the delivery date before notifying "Party A" that it is either accepting or rejecting the "Widgets".
+Inspection and Notice. <variable id="receiver" value="%22Party%20B%22"/> will have <variable id="businessDays" value="10"/> Business Days' to inspect and evaluate the <variable id="deliverable" value="%22Widgets%22"/> on the delivery date before notifying <variable id="shipper" value="%22Party%20A%22"/> that it is either accepting or rejecting the <variable id="deliverable" value="%22Widgets%22"/>.
 
-Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widgets" must meet for the "Party A" to comply with its requirements and obligations under this agreement, detailed in "Attachment X", attached to this agreement.`;
+Acceptance Criteria. The "Acceptance Criteria" are the specifications the <variable id="deliverable" value="%22Widgets%22"/> must meet for the <variable id="shipper" value="%22Party%20A%22"/> to comply with its requirements and obligations under this agreement, detailed in <variable id="attachment" value="%22Attachment%20X%22"/>, attached to this agreement.`;
 
-const getContractMarkdown = async (editor) => {
-  const rewriteClauseText = await editor.rewriteClause(templateUri, clauseText);
-
+const getContractMarkdown = async () => {
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-${rewriteClauseText}
+${clauseText}
 \`\`\`
 `;
 
@@ -45,13 +43,11 @@ function Demo() {
    */
   const [contractValue, setContractValue] = useState(null);
 
-  const editorRef = useRef(null);
-
   /**
    * Async rewrite of the markdown text to a slate value
    */
   useEffect(() => {
-    getContractMarkdown(editorRef.current).then(value => setContractValue(value));
+    getContractMarkdown().then(value => setContractValue(value));
   }, []);
 
   /**
@@ -75,7 +71,6 @@ function Demo() {
   };
 
   const demo = <ContractEditor
-        ref={editorRef}
         lockText={true}
         value={contractValue}
         onChange={onContractChange}
