@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/accordproject/cicero-ui.svg?branch=master)](https://travis-ci.org/accordproject/cicero-ui) 
 [![downloads](https://img.shields.io/npm/dm/@accordproject/cicero-ui)](https://www.npmjs.com/package/@accordproject/cicero-ui)
 [![npm version](https://badge.fury.io/js/%40accordproject%2Fcicero-ui.svg)](https://badge.fury.io/js/%40accordproject%2Fcicero-ui)
+[![join slack](https://img.shields.io/badge/Accord%20Project-Join%20Slack-blue)](https://accord-project-slack-signup.herokuapp.com/)
 
 The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
 
@@ -78,7 +79,7 @@ Your app is ready to be deployed!
 
 Top level repository (cicero-ui), with sub packages. The entire package is published as an independent npm module:
 - [`ClauseEditor`][clauseeditor]: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
-- [`ContractEditor`][contracteditor]: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assings the Clause plugin.
+- [`ContractEditor`][contracteditor]: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assigns the Clause plugin.
 - [`ErrorLogger`][errorlogger]: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
 - [`Navigation`][navigation]: Functional ReactJS component for displaying markdown headings and clause nodes associated with contracts.
 - [`ParseResult`][parseresult]: 
