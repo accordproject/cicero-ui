@@ -22,7 +22,7 @@
   "dependencies": {
     "@accordproject/cicero-core": "^0.13.4",
     "@accordproject/markdown-editor": "^0.6.1",
-    "@accordproject/markdown-slate": "^0.4.5",
+    "@accordproject/markdown-slate": "^0.4.7",
     "acorn": "5.1.2",
     "doctrine": "3.0.0",
     "lodash": "^4.17.15",
@@ -42,13 +42,13 @@
     "styled-components": ">= 4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/cli": "^7.6.3",
+    "@babel/core": "^7.6.3",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-modules-commonjs": "^7.4.4",
     "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
     "@clausehq/eslint-config": "^0.1.8",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
