@@ -45,7 +45,7 @@ git clone https://github.com/<github username>/cicero-ui.git
 cd cicero-ui
 
 # Add the main Cicero-UI repository as an upstream remote to your repository:
-git remote add upstream "https://github.com/acccordproject/cicero-ui.git"
+git remote add upstream "https://github.com/accordproject/cicero-ui.git"
 
 # Install node.js dependencies:
 npm install
