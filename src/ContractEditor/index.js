@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 

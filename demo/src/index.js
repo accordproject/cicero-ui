@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useState, useRef
+  useCallback, useEffect, useState
 } from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 
