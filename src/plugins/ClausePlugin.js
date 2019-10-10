@@ -114,7 +114,7 @@ function ClausePlugin() {
     const slateTransformer = new SlateTransformer();
     const parseText = slateTransformer.toMarkdown(value, { wrapVariables: false });
 
-    parseClauseCallback(clauseNode.data.get('src'), parseText, clauseNode.data.get('id'))
+    parseClauseCallback(clauseNode.data.get('src'), parseText, clauseNode.data.get('clauseid'))
       .then((parseResult) => {
         console.log(parseResult);
       })
