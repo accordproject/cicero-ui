@@ -1,3 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ContractEditor /> on initialization renders page correctly 1`] = `""`;
+exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
+<ForwardRef
+  clausePluginProps={
+    Object {
+      "clauseMap": undefined,
+      "clauseProps": undefined,
+      "loadTemplateObject": [Function],
+      "parseClause": [Function],
+      "pasteToContract": undefined,
+    }
+  }
+  lockText={true}
+  onChange={[Function]}
+  plugins={
+    Array [
+      Object {
+        "augmentSchema": [Function],
+        "isEditable": [Function],
+        "name": "variable",
+        "renderInline": [Function],
+      },
+      Object {
+        "augmentSchema": [Function],
+        "isEditable": [Function],
+        "name": "clause",
+        "onChange": [Function],
+        "onPaste": [Function],
+        "queries": Object {
+          "findClauseNode": [Function],
+        },
+        "renderBlock": [Function],
+      },
+    ]
+  }
+  value={
+    Object {
+      "document": Object {
+        "data": Object {},
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "nodes": Array [
+              Object {
+                "marks": Array [],
+                "object": "text",
+                "text": "Welcome! Edit this text to get started.",
+              },
+            ],
+            "object": "block",
+            "type": "paragraph",
+          },
+        ],
+        "object": "document",
+      },
+      "object": "value",
+    }
+  }
+/>
+`;

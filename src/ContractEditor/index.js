@@ -12,18 +12,18 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { SlateAsInputEditor, List } from '@accordproject/markdown-editor';
+import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
 import VariablePlugin from '../plugins/VariablePlugin';
 
 /**
- * Adds the current markdown to local storage
+ * Adds the current value to local storage
  */
-function storeLocal(value, markdown) {
-  localStorage.setItem('contract-editor', markdown);
+function storeLocal(value) {
+  localStorage.setItem('contract-editor', value.toJSON());
 }
 
 /**
@@ -59,32 +59,11 @@ const contractProps = {
  */
 // eslint-disable-next-line react/display-name
 const ContractEditor = React.forwardRef((props, ref) => {
-  const [plugins, setPlugins] = useState([]);
-  useEffect(() => {
-    setPlugins(
-      props.plugins
-        ? props.plugins.concat(
-          [List(), VariablePlugin(), ClausePlugin(
-            props.loadTemplateObject,
-            props.parseClause,
-            props.pasteToContract,
-            props.clauseProps
-          )]
-        )
-        : [List(), VariablePlugin(), ClausePlugin(
-          props.loadTemplateObject,
-          props.parseClause,
-          props.pasteToContract,
-          props.clauseProps
-        )]
-    );
-  }, [
-    props.clauseProps,
-    props.loadTemplateObject,
-    props.parseClause,
-    props.pasteToContract,
-    props.plugins
-  ]);
+  const plugins = React.useMemo(() => (props.plugins
+    ? props.plugins.concat(
+      [VariablePlugin(), ClausePlugin()]
+    )
+    : [VariablePlugin(), ClausePlugin()]), [props.plugins]);
   return (
     plugins.length ? <SlateAsInputEditor
     ref={ref}
@@ -93,6 +72,13 @@ const ContractEditor = React.forwardRef((props, ref) => {
     plugins={plugins}
     lockText={props.lockText}
     editorProps={props.editorProps}
+    clausePluginProps={{
+      loadTemplateObject: props.loadTemplateObject,
+      parseClause: props.parseClause,
+      pasteToContract: props.pasteToContract,
+      clauseProps: props.clauseProps,
+      clauseMap: props.clauseMap
+    }}
   /> : null
   );
 });
@@ -107,6 +93,7 @@ ContractEditor.propTypes = {
   lockText: PropTypes.bool,
   loadTemplateObject: PropTypes.func,
   pasteToContract: PropTypes.func,
+  clauseMap: PropTypes.object,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
@@ -120,13 +107,8 @@ ContractEditor.propTypes = {
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
-    renderBlock: PropTypes.func.isRequired,
-    toMarkdown: PropTypes.func.isRequired,
-    fromMarkdown: PropTypes.func.isRequired,
-    fromHTML: PropTypes.func.isRequired,
-    plugin: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    schema: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    augmentSchema: PropTypes.func,
   })),
 };
 
