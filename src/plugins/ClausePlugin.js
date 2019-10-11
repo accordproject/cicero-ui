@@ -238,7 +238,7 @@ function ClausePlugin() {
    */
   function findClauseNode(editor, clauseId) {
     return editor.value.document.nodes.find(node => (node.type === 'clause')
-    && (node.data.get('attributes').clauseid === clauseId));
+    && (node.data.get('clauseid') === clauseId));
   }
 
   return {
