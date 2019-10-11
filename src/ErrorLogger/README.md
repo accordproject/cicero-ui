@@ -38,7 +38,7 @@ const ErrorContainer = props => (
 
 #### Expected to be Provided
 
-- `errors` : An `array` which contains error objects.
+- `errors` : An `object` with unique key and error's data.
 
 #### Require Provision
 
