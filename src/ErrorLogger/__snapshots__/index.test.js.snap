@@ -2,28 +2,28 @@
 
 exports[`<ErrorLogger /> on initialization renders page correctly with errors 1`] = `
 <div>
-  <styled.div
+  <ErrorsHeader
     errors={true}
     id="ErrorComponentHeader"
     onClick={[Function]}
   >
-    <Styled(Icon)
+    <ErrorSymbol
       name="exclamation triangle"
       size="small"
     />
     1
      
     Error
-    <styled.div
+    <ErrorBarArrow
       errorDisplay={false}
     />
-  </styled.div>
+  </ErrorsHeader>
 </div>
 `;
 
 exports[`<ErrorLogger /> on initialization renders page correctly without errors 1`] = `
 <div>
-  <styled.div
+  <ErrorsHeader
     errors={false}
     id="ErrorComponentHeader"
     onClick={[Function]}
@@ -31,9 +31,9 @@ exports[`<ErrorLogger /> on initialization renders page correctly without errors
     No
      
     Error
-    <styled.div
+    <ErrorBarArrow
       errorDisplay={false}
     />
-  </styled.div>
+  </ErrorsHeader>
 </div>
 `;
