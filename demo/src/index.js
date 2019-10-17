@@ -11,6 +11,8 @@ import ClauseEditor from '../../src/ClauseEditor';
 import ContractEditor from '../../src/ContractEditor';
 import ClausePlugin from '../../src/plugins/ClausePlugin';
 import VariablePlugin from '../../src/plugins/VariablePlugin';
+import TemplateLibrary from '../../src/TemplateLibrary';
+
 
 const clausePlugin = ClausePlugin(null, null);
 const plugins = [List(), VariablePlugin(), clausePlugin];
@@ -151,6 +153,8 @@ function Demo() {
           <Rail position='left'>
             <Segment>
               <Menu vertical>
+                <TemplateLibrary/>
+                <h1>hihi</h1>
                 <Menu.Item
                   name='clauseEditor'
                   active={activeItem === 'clauseEditor'}

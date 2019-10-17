@@ -61,6 +61,26 @@ const Functionality = styled.div`
   max-height: 106px;
 `;
 
+const ArrowWrapper = styled.div`
+  position: absolute;
+  text-align: center;
+  z-index: 999;
+  cursor: pointer;
+  top: 2.5em;
+  left: -1em;
+  background-color: white;
+  border: solid;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  border-color: #62c6c8;
+  border-width: 0.1em;
+  &:hover {
+    background-color: #62c6c8;
+  }
+`;
+
 const SearchInput = styled(Input)`
   margin: 5px 0 !important;
   width: 100% !important;
@@ -151,6 +171,7 @@ class TemplateLibraryComponent extends React.PureComponent {
           </HeaderImports>
         </Header>
         <Functionality>
+          <ArrowWrapper>fdfs</ArrowWrapper>
           <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
           {this.props.addTemp
           && <NewClauseComponent addTempInput={this.props.addTemp} />}
