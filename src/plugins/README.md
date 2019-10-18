@@ -35,5 +35,5 @@ It returns an object like this:
 
 ```
 
-where augmentSchema, isEditable and renderInline are functions
+where augmentSchema, isEditable and renderInline are functions.
 
