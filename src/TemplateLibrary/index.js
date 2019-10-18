@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 /* React */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
@@ -83,44 +83,17 @@ const TemplateCards = styled.div`
  * and provide drag-and-drop functionality.
  */
 
-class TemplateLibraryComponent extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: '',
-    };
-    this.onQueryChange = this.onQueryChange.bind(this);
-  }
+const TemplateLibraryComponent = (props) => {
+  const [query, setQuery] = useState('');
 
-  static propTypes = {
-    libraryProps: PropTypes.shape({
-      ACTION_BUTTON: PropTypes.string,
-      ACTION_BUTTON_BG: PropTypes.string,
-      ACTION_BUTTON_BORDER: PropTypes.string,
-      HEADER_TITLE: PropTypes.string,
-      TEMPLATE_BACKGROUND: PropTypes.string,
-      TEMPLATE_BORDER: PropTypes.string,
-      TEMPLATE_DESCRIPTION: PropTypes.string,
-      TEMPLATE_TITLE: PropTypes.string,
-      TEMPLATES_HEIGHT: PropTypes.string,
-    }),
-    upload: PropTypes.func,
-    import: PropTypes.func,
-    addTemp: PropTypes.func,
-    addToCont: PropTypes.func,
-    handleViewTemplate: PropTypes.func,
-    templates: PropTypes.arrayOf(PropTypes.object),
-  }
-
-  onQueryChange(e, input) {
-    const query = input.value.toLowerCase().trim();
-    if (query !== this.state.query) {
-      this.setState({ query });
+  const onQueryChange = (e, input) => {
+    const inputQuery = input.value.toLowerCase().trim();
+    if (inputQuery !== query) {
+      setQuery(inputQuery);
     }
-  }
+  };
 
-  filterTemplates(templates) {
-    const { query } = this.state;
+  const filterTemplates = (templates) => {
     let filteredTemplates = templates;
     if (query.length) {
       const regex = new RegExp(query, 'i');
@@ -129,47 +102,65 @@ class TemplateLibraryComponent extends React.PureComponent {
       ));
     }
     return filteredTemplates;
-  }
+  };
 
   /**
    * Render this React component
    * @return {*} the react component
    */
-  render() {
-    const filtered = this.filterTemplates(this.props.templates);
-    const libraryProps = this.props.libraryProps || Object.create(null);
+  const filtered = filterTemplates(props.templates);
+  const libraryProps = props.libraryProps || Object.create(null);
 
-    return (
+  return (
       <TemplatesWrapper>
         <Header>
           <HeaderTitle color={libraryProps.HEADER_TITLE}>Clause Templates</HeaderTitle>
           <HeaderImports>
-            {this.props.import
-            && <ImportComponent importInput={this.props.import} />}
-            {this.props.upload
-            && <UploadComponent uploadInput={this.props.upload} />}
+            {props.import
+            && <ImportComponent importInput={props.import} />}
+            {props.upload
+            && <UploadComponent uploadInput={props.upload} />}
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
-          {this.props.addTemp
-          && <NewClauseComponent addTempInput={this.props.addTemp} />}
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} />
+          {props.addTemp
+          && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
         <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
           {_.sortBy(filtered, ['name']).map(t => (
             <TemplateCard
               key={t.uri}
-              addToCont={this.props.addToCont}
+              addToCont={props.addToCont}
               template={t}
-              handleViewTemplate={this.props.handleViewTemplate}
+              handleViewTemplate={props.handleViewTemplate}
               className="templateCard"
               libraryProps={libraryProps}
             />
           ))}
         </TemplateCards>
       </TemplatesWrapper>
-    );
-  }
-}
+  );
+};
+
+TemplateLibraryComponent.propTypes = {
+  libraryProps: PropTypes.shape({
+    ACTION_BUTTON: PropTypes.string,
+    ACTION_BUTTON_BG: PropTypes.string,
+    ACTION_BUTTON_BORDER: PropTypes.string,
+    HEADER_TITLE: PropTypes.string,
+    TEMPLATE_BACKGROUND: PropTypes.string,
+    TEMPLATE_BORDER: PropTypes.string,
+    TEMPLATE_DESCRIPTION: PropTypes.string,
+    TEMPLATE_TITLE: PropTypes.string,
+    TEMPLATES_HEIGHT: PropTypes.string,
+  }),
+  upload: PropTypes.func,
+  import: PropTypes.func,
+  addTemp: PropTypes.func,
+  addToCont: PropTypes.func,
+  handleViewTemplate: PropTypes.func,
+  templates: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default TemplateLibraryComponent;

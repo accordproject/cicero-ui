@@ -10,7 +10,6 @@ import * as SC from './styles';
 
 const ErrorComponent = (props) => {
   const { error, errorProps, errorNav } = props;
-
   const [specErrorVisible, setspecErrorVisible] = useState(false);
 
   const handleClickSpecError = () => {
