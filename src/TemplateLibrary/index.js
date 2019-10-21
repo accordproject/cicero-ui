@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { satisfies } from 'semver';
 
 /* React */
 import React, { useState } from 'react';
@@ -95,12 +96,20 @@ const TemplateLibraryComponent = (props) => {
 
   const filterTemplates = (templates) => {
     let filteredTemplates = templates;
+
     if (query.length) {
       const regex = new RegExp(query, 'i');
       filteredTemplates = _.filter(filteredTemplates, t => (
         t.name.match(regex) || t.uri.match(regex)
       ));
     }
+
+    if (props.semver && props.semver.length) {
+      filteredTemplates = filteredTemplates.filter(t => (
+        satisfies(t.version, props.semver)
+      ));
+    }
+
     return filteredTemplates;
   };
 

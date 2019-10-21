@@ -105,4 +105,16 @@ describe('<TemplateLibrary />', () => {
       expect(component.find('.templateAction').prop('addToCont')).toEqual(mockAddToCont);
     });
   });
+
+  describe('version filtering', () => {
+    it('filters based on semver', () => {
+      const component = shallow(<TemplateLibrary libraryProps={libraryProps} {...propInput} semver=">= 0.12.0" />);
+      expect(component.find('TemplateCard')).toHaveLength(1);
+    });
+
+    it('displays everything with no semver', () => {
+      const component = shallow(<TemplateLibrary libraryProps={libraryProps} {...propInput} />);
+      expect(component.find('TemplateCard')).toHaveLength(templateArray.length);
+    });
+  });
 });
