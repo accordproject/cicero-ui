@@ -39,6 +39,13 @@ const AddClauseBtn = styled(Button)`
   margin: 5px 0 0 !important;
   width: 100% !important;
   max-height: 53px;
+  border: 1px solid #00c5c5;
+  background-color: #00c5c5 !important;
+  color: #081141 !important;
+  border-radius: 30px !important;
+  &:hover {
+    background-color: #fff !important
+  }
 `;
 
 export const ImportComponent = props => (
