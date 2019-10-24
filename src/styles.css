@@ -9,3 +9,18 @@
 button.ui.button {
     opacity: 1 !important;
 }
+
+div.ui.input i {
+    color: #ffffff;
+    opacity: 1 !important;
+}
+
+div.ui.input input {
+    background-color: #141f3c;
+    border-radius: 3px;
+}
+
+div.ui.input input:focus {
+    background-color: #141f3c;
+    border: 1px solid #fefeff00;
+}
