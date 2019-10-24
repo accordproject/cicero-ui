@@ -5,3 +5,7 @@
 .variable {
     background-color: #ffeeba;
 }
+
+button.ui.button {
+    opacity: 1 !important;
+}
