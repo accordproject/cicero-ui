@@ -15,12 +15,21 @@ div.ui.input i {
     opacity: 1 !important;
 }
 
-div.ui.input input {
+div.ui.input input, div.ui.input input::placeholder {
     background-color: #141f3c;
     border-radius: 3px;
+    color: #ffff;
+    opacity: 1 !important;
+    caret-color: #ffff !important;
 }
 
 div.ui.input input:focus {
     background-color: #141f3c;
     border: 1px solid #fefeff00;
+    color: #ffff;
+    opacity: 1 !important;
+}
+
+div.ui.input input::selection {
+    color: #ffff !important;
 }
