@@ -1,8 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-
+import { Scrollbars } from 'react-custom-scrollbars';
 import ErrorLogger from './index';
+import ErrorComponent from './Error';
 
 const parseError1 = {
   'b28f32b2-57d9-41e1-b871-03c9faa75b6e': {
@@ -51,6 +52,16 @@ describe('<ErrorLogger />', () => {
       component.find('#ErrorComponentHeader').simulate('click');
 
       expect(component.find('#ErrorComponentDisplay').exists()).toBeTruthy();
+    });
+
+    it('with errors existing with scroll', () => {
+      const component = shallow(<ErrorLogger errors={parseError1} />);
+      expect(component.find('#ErrorComponentHeader').exists()).toBeTruthy();
+
+      component.find('#ErrorComponentHeader').simulate('click');
+
+      expect(component.find('#ErrorComponentDisplay').exists()).toBeTruthy();
+      expect(component.find('#ErrorComponentDisplay').find(Scrollbars).find(ErrorComponent).exists()).toBeTruthy();
     });
 
     it('without errors existing', () => {

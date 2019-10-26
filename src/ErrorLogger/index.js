@@ -1,6 +1,7 @@
 /* React */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 /* Styling */
 import * as ACT from './actions';
@@ -62,9 +63,11 @@ const ErrorLogger = (props) => {
     <div>
       {errorsVisible
         && <SC.ErrorDisplay {...displayProps} >
+          <Scrollbars autoHeight>
             {errorComponentGenerator(errors)}
-          </SC.ErrorDisplay>}
-
+          </Scrollbars>
+        </SC.ErrorDisplay>
+    }
       <SC.ErrorsHeader {...headerProps} >
         {ACT.gtZero(errorLength)
           && <SC.ErrorSymbol {...symbolProps} />}
