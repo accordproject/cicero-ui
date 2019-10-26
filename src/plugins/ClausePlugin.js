@@ -2,6 +2,7 @@ import React from 'react';
 import { getEventTransfer } from 'slate-react';
 import { Template, Clause } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
+import _ from 'lodash';
 
 import '../styles.css';
 import ClauseComponent from '../components/ClauseComponent';
@@ -124,6 +125,11 @@ function ClausePlugin() {
   }
 
   /**
+   * Debounced parse to only be called after 1 second
+   */
+  const debouncedParse = _.debounce(parse, 1000, { maxWait: 10000 });
+
+  /**
    * Utility function to parse clauses within a paste value
    */
   function parsePastedClauses(editor, clausesArray) {
@@ -193,9 +199,8 @@ function ClausePlugin() {
     if (!clauseNode) {
       return next();
     }
-    console.log('onChange - inside clause', clauseNode.toJSON());
 
-    parse(editor, clauseNode);
+    debouncedParse(editor, clauseNode);
     return next();
   }
 
