@@ -2,7 +2,7 @@
 
 ### Usage
 
-```
+```shell
 npm install @accordproject/cicero-ui
 ```
 
