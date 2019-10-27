@@ -21,8 +21,8 @@ Components ready for use:
 - [`TemplateLibrary`][templatelibrary]
 
 Available Plugins:
-- `ClausePlugin`
-- `VariableePlugin`
+- [`ClausePlugin`][clauseplugin]
+- [`VariablePlugin`][variableplugin]
 
 Components still in development:
 - [`ClauseEditor`][clauseeditor]
@@ -147,7 +147,7 @@ Accord Project is an open source, non-profit, initiative working to transform co
     <td headers></td>
     <td headers> <a href="https://github.com/accordproject/cicero/tree/master/packages/cicero-server">cicero-server</a></td>
     <td headers> <a href="https://badge.fury.io/js/%40accordproject%2Fcicero-server"><img src="https://badge.fury.io/js/%40accordproject%2Fcicero-server.svg" alt="npm version"></a></td>
-    <td headers>Wraps the Cicero Engine and exposes it as a RESTful service<td>
+    <td headers>Wraps the Cicero Engine and exposes it as a RESTful service</td>
     </tr>
     <tr>
     <td headers></td>
@@ -355,6 +355,8 @@ Copyright 2018-2019 Clause, Inc. All trademarks are the property of their respec
 [errorlogger]: src/ErrorLogger/README.md
 [parseresult]: src/ParseResult/README.md
 [templateloadingclauseeditor]: src/TemplateLoadingClauseEditor/README.md
+[clauseplugin]: src/plugins/README.md#clauseplugin
+[variableplugin]: src/plugins/README.md#variableplugin
 
 [cicero]: https://github.com/accordproject/cicero
 [markdown]: https://github.com/accordproject/markdown-editor
