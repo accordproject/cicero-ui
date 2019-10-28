@@ -29,7 +29,7 @@ export const ClauseHeader = styled.div`
   justify-self: start;
   margin: 6px 0;
   padding: 3px;
-  color: ${props => props.headercolor || '#939EBA'};
+  color: ${props => props.headercolor || '#505D7E'};
   line-height: 14px;
   font-size: 0.87em;
   font-weight: 600;
@@ -54,7 +54,7 @@ export const DeleteWrapper = styled.div`
 `;
 
 export const ClauseDelete = styled.svg`
-  fill: #939EBA;
+  fill: #505D7E;
   cursor: pointer;
 
   &:hover {

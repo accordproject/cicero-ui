@@ -12,7 +12,7 @@ const UploadButton = styled.button`
   text-align: right;
   text-decoration: none;
   font-size: 0.87em;
-  color: #76777D;
+  color: #86878D;
   background-color: inherit;
   border: 0;
   cursor: pointer;

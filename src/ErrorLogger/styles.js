@@ -27,7 +27,7 @@ export const ErrorsHeader = styled.div`
     box-shadow: ${props => props.headerShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
     border-top: ${props => props.headerTop || ' 1px solid #50637F'};
 
-    color: ${props => (props.errors ? '#FF4242' : '#19C6C7')};
+    color: ${props => (props.errors ? '#FFA8A8' : '#19C6C7')};
     font-family: "IBM Plex Sans";
     font-size: 1em;
     font-weight: bold;
