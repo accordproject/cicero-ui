@@ -63,8 +63,8 @@ const ErrorLogger = (props) => {
       {errorsVisible
         && <SC.ErrorDisplay {...displayProps} >
             {errorComponentGenerator(errors)}
-          </SC.ErrorDisplay>}
-
+        </SC.ErrorDisplay>
+    }
       <SC.ErrorsHeader {...headerProps} >
         {ACT.gtZero(errorLength)
           && <SC.ErrorSymbol {...symbolProps} />}
