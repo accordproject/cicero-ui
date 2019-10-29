@@ -5,7 +5,7 @@ import { Icon } from 'semantic-ui-react';
 
 const ActionsContainer = styled.div`
   padding: 0 !important;
-  background-color: ${props => props.ACTION_BUTTON_BORDER || '#F9F9F9'} !important;
+  background-color: ${props => props.ACTION_BUTTON || '#F9F9F9'} !important;
   max-height: 30px;
 `;
 
