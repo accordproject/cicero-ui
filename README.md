@@ -32,7 +32,7 @@ Components still in development:
 ### Development
 
 1. Fork project to your repository
-2. Clone to local machine with `git clone`
+2. Clone to the local machine with `git clone`
 3. `cd` into the directory
 4. Run `npm install`
 5. Ensure the `IBM Plex Sans` is imported with `<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,500i,700" rel="stylesheet">` is in the *.html file of your main app
@@ -59,7 +59,7 @@ You will also see any lint errors in the console.
 #### `npm run test`
 
 Launches JEST over the repository.
-Current snapshot tests requires `npm test -- -u` in order to update when all changes are final.
+Current snapshot tests require `npm test -- -u` to update when all changes are final.
 
 #### `npm run lint`
 
@@ -141,7 +141,7 @@ Accord Project is an open source, non-profit, initiative working to transform co
     <td headers></td>
     <td headers> <a href="https://github.com/accordproject/cicero/tree/master/packages/cicero-engine">cicero-engine</a></td>
     <td headers> <a href="https://badge.fury.io/js/%40accordproject%2Fcicero-engine"><img src="https://badge.fury.io/js/%40accordproject%2Fcicero-engine.svg" alt="npm version"></a></td>
-    <td headers>Node.js VM based implementation of Accord Protcol Template Specification execution</td>
+    <td headers>Node.js VM based implementation of Accord Protocol Template Specification execution</td>
     </tr>
     <tr>
     <td headers></td>
