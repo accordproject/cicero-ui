@@ -1,5 +1,17 @@
 ## Cicero-UI
 
+```js
+
+import { ClausePlugin, VariablePlugin } from '@accordproject/cicero-ui';
+
+const plugins = React.useMemo(() => (props.plugins
+    ? props.plugins.concat(
+      [VariablePlugin(), ClausePlugin()]
+    )
+    : [VariablePlugin(), ClausePlugin()]), [props.plugins]);
+
+```
+
 ## VariablePlugin
 
 ### What it does?
@@ -15,12 +27,14 @@ npm install @accordproject/cicero-ui
 
 ```js
 import { VariablePlugin } from '@accordproject/cicero-ui';
+import { Editor } from 'slate-react'
 
-const plugins = React.useMemo(() => (props.plugins
-    ? props.plugins.concat(
-      [VariablePlugin(), ClausePlugin()]
-    )
-    : [VariablePlugin(), ClausePlugin()]), [props.plugins]);
+const plugins = [VariablePlugin()];
+
+<Editor
+  ...
+  plugins={plugins}
+/>
 
 ```
 
