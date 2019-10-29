@@ -5,14 +5,14 @@ import { Icon } from 'semantic-ui-react';
 
 const ActionsContainer = styled.div`
   padding: 0 !important;
-  background-color: ${props => props.color || '#F9F9F9'} !important;
+  background-color: ${props => props.colorBorder || '#F9F9F9'} !important;
   max-height: 30px;
 `;
 
 const TemplateBtn = styled.a`
   padding: 5px 10px;
   display: inline-block;
-  color: ${props => props.color || '#484848'};
+  color: ${props => props.colorButton || '#484848'};
   font-family: "IBM Plex Sans";
   font-size: 0.75em;
   font-weight: bold;
@@ -20,7 +20,7 @@ const TemplateBtn = styled.a`
 
 const AddToContractBtn = styled(TemplateBtn)`
   width: 60%;
-  border-right: 1px solid ${props => props.color || '#E1E5EB'}; 
+  border-right: 1px solid ${props => props.colorBorder || '#E1E5EB'}; 
   cursor: pointer;
   &:hover {
     color: #3087CB;
@@ -49,7 +49,7 @@ class TemplateActions extends React.Component {
     return (
         <ActionsContainer color={libraryProps.ACTION_BUTTON_BG}>
         <div>
-          <AddToContractBtn className="adToContractButton" color={libraryProps.ACTION_BUTTON_BORDER} onClick={() => this.props.addToCont(this.props.uriKey)} >
+          <AddToContractBtn className="adToContractButton" colorBorder={libraryProps.ACTION_BUTTON_BORDER} colorButton={libraryProps.ACTION_BUTTON} onClick={() => this.props.addToCont(this.props.uriKey)} >
             <Icon name="plus" />
             Add to contract
           </AddToContractBtn>
