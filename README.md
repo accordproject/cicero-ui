@@ -85,8 +85,8 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 - [`ParseResult`][parseresult]: 
 - [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
 - [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
-- `ClausePlugin`: A custom Slate plugin for embedding a clause node within a document
-- `VariablePlugin`: A custom Slate plugin for using editable, highlighted variables within a clause
+- [`ClausePlugin`][clauseplugin]: A custom Slate plugin for embedding a clause node within a document
+- [`VariablePlugin`][variableplugin]: A custom Slate plugin for using editable, highlighted variables within a clause
 
 ---
 
