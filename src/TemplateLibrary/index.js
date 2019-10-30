@@ -11,6 +11,8 @@ import { Input } from 'semantic-ui-react';
 /* Internal */
 import TemplateCard from './TemplateCard';
 import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
+import GreenArrow from '../../assets/img/greenArrow.svg';
+import WhiteArrow from '../../assets/img/whiteArrow.svg';
 
 const TemplatesWrapper = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
@@ -79,6 +81,13 @@ const ArrowWrapper = styled.div`
   &:hover {
     background-color: #62c6c8;
   }
+`;
+
+const CollapseImg = styled.img`
+  margin: auto;
+  display: flex;
+  height: 1em;
+  width: 1em;
 `;
 
 const SearchInput = styled(Input)`
@@ -171,7 +180,11 @@ class TemplateLibraryComponent extends React.PureComponent {
           </HeaderImports>
         </Header>
         <Functionality>
-          <ArrowWrapper>fdfs</ArrowWrapper>
+          <ArrowWrapper>
+            <CollapseImg 
+            src={GreenArrow}
+            onClick={() => console.log('place handler')}/>
+            </ArrowWrapper>
           <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
           {this.props.addTemp
           && <NewClauseComponent addTempInput={this.props.addTemp} />}
