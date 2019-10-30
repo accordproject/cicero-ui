@@ -8,10 +8,13 @@ export const ErrorDisplay = styled.div`
     width: 100%;
     position: fixed;
     max-height: 300px;
+    overflow-y: scroll;
     background-color: ${props => props.displayBackground || '#1E2D53'};
     box-shadow: ${props => props.displayShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
     z-index: ${props => props.zIndexInput || 'auto'};
 `;
+
+ErrorDisplay.displayName = 'ErrorDisplay';
 
 export const ErrorsHeader = styled.div`
     z-index: ${props => props.zIndexInput || 'auto'};
@@ -38,9 +41,13 @@ export const ErrorsHeader = styled.div`
     }
 `;
 
+ErrorsHeader.displayName = 'ErrorsHeader';
+
 export const ErrorSymbol = styled(Icon)`
     vertical-align: middle;
 `;
+
+ErrorSymbol.displayName = 'ErrorSymbol';
 
 export const ErrorBarArrow = styled.div`
     float: right;
@@ -57,6 +64,8 @@ export const ErrorBarArrow = styled.div`
     ? '0' : (`7px solid ${props.headerBarArrow || '#7B9AD1'}`))};
 `;
 
+ErrorBarArrow.displayName = 'ErrorBarArrow';
+
 export const ErrorComponent = styled.div`
     width: 100%;
     color: #F0F0F0;
@@ -64,12 +73,14 @@ export const ErrorComponent = styled.div`
     padding: 10px 16px;
 
     display: grid;
-    grid-row-gap: 20px; 
+    grid-row-gap: 20px;
     grid-template-areas: "errorArrow errorFile errorType errorMessage"
                         "errorFull errorFull errorFull errorFull";
     grid-template-columns: 0.25fr 1fr 1fr 8fr;
     grid-template-rows: min-content auto;
 `;
+
+ErrorComponent.displayName = 'ErrorComponent';
 
 export const ErrorFile = styled.a`
     text-decoration: underline;
@@ -87,6 +98,8 @@ export const ErrorFile = styled.a`
     }
 `;
 
+ErrorFile.displayName = 'ErrorFile';
+
 export const ErrorType = styled.div`
     grid-area: errorType;
     color: ${props => props.errorType || '#B9BCC4'};
@@ -96,6 +109,8 @@ export const ErrorType = styled.div`
     align-self: center;
     padding: 5px;
 `;
+
+ErrorType.displayName = 'ErrorType';
 
 export const ErrorShortMessage = styled.div`
     grid-area: errorMessage;
@@ -107,6 +122,8 @@ export const ErrorShortMessage = styled.div`
     padding: 5px;
 `;
 
+ErrorShortMessage.displayName = 'ErrorShortMessage';
+
 export const ErrorFullMessage = styled.div`
     grid-area: errorFull;
     color: ${props => props.fullMessage || '#FFFFFF'};
@@ -115,11 +132,13 @@ export const ErrorFullMessage = styled.div`
     line-height: 13px;
 `;
 
+ErrorFullMessage.displayName = 'ErrorFullMessage';
+
 export const ArrowDiv = styled.div`
     grid-area: errorArrow;
     place-self: center;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     margin: 5px;
 
     border-top: ${props => (props.expanded
@@ -136,3 +155,5 @@ export const ArrowDiv = styled.div`
         cursor: pointer;
     }
 `;
+
+ArrowDiv.displayName = 'ArrowDiv';

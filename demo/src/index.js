@@ -1,47 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState
+} from 'react';
 import {
-  Header, Menu, Grid, Rail, Segment
+  Button, Grid, Header, Segment
 } from 'semantic-ui-react';
 
-import { PluginManager, List, FromMarkdown } from '@accordproject/markdown-editor';
+import { SlateTransformer } from '@accordproject/markdown-slate';
 
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
-import ClauseEditor from '../../src/ClauseEditor';
 import ContractEditor from '../../src/ContractEditor';
-import ClausePlugin from '../../src/plugins/ClausePlugin';
-import VariablePlugin from '../../src/plugins/VariablePlugin';
-import TemplateLibrary from '../../src/TemplateLibrary';
 
-
-const clausePlugin = ClausePlugin(null, null);
-const plugins = [List(), VariablePlugin(), clausePlugin];
-const pluginManager = new PluginManager(plugins);
-const fromMarkdown = new FromMarkdown(pluginManager);
+const slateTransformer = new SlateTransformer();
 
 const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta';
-const clauseText = `Acceptance of Delivery. "Party A" will be deemed to have completed its delivery obligations if in "Party B"'s opinion, the "Widgets" satisfies the Acceptance Criteria, and "Party B" notifies "Party A" in writing that it is accepting the "Widgets".
+const clauseText = `Acceptance of Delivery. <variable id="shipper" value="%22Party%20A%22"/> will be deemed to have completed its delivery obligations if in <variable id="receiver" value="%22Party%20B%22"/>'s opinion, the <variable id="deliverable" value="%22Widgets%22"/> satisfies the Acceptance Criteria, and <variable id="receiver" value="%22Party%20B%22"/> notifies <variable id="shipper" value="%22Party%20A%22"/> in writing that it is accepting the <variable id="deliverable" value="%22Widgets%22"/>.
 
-Inspection and Notice. "Party B" will have 10 Business Days' to inspect and evaluate the "Widgets" on the delivery date before notifying "Party A" that it is either accepting or rejecting the "Widgets".
+Inspection and Notice. <variable id="receiver" value="%22Party%20B%22"/> will have <variable id="businessDays" value="10"/> Business Days' to inspect and evaluate the <variable id="deliverable" value="%22Widgets%22"/> on the delivery date before notifying <variable id="shipper" value="%22Party%20A%22"/> that it is either accepting or rejecting the <variable id="deliverable" value="%22Widgets%22"/>.
 
-Acceptance Criteria. The "Acceptance Criteria" are the specifications the "Widgets" must meet for the "Party A" to comply with its requirements and obligations under this agreement, detailed in "Attachment X", attached to this agreement.`;
-
-const getClauseMarkdown = async () => {
-  const rewriteClauseText = await clausePlugin.rewriteClause(templateUri, clauseText);
-
-  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-${rewriteClauseText}
-\`\`\`
-`;
-
-  return fromMarkdown.convert(acceptanceOfDeliveryClause);
-};
+Acceptance Criteria. The "Acceptance Criteria" are the specifications the <variable id="deliverable" value="%22Widgets%22"/> must meet for the <variable id="shipper" value="%22Party%20A%22"/> to comply with its requirements and obligations under this agreement, detailed in <variable id="attachment" value="%22Attachment%20X%22"/>, attached to this agreement.`;
 
 const getContractMarkdown = async () => {
-  const rewriteClauseText = await clausePlugin.rewriteClause(templateUri, clauseText);
-
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-${rewriteClauseText}
+${clauseText}
 \`\`\`
 `;
 
@@ -52,35 +33,18 @@ ${rewriteClauseText}
   
   Fin.
   `;
-  return fromMarkdown.convert(defaultContractMarkdown);
+  return slateTransformer.fromMarkdown(defaultContractMarkdown);
 };
 
 /**
- * A demo component that uses ContractEditor and
- * TemplateLoadingClauseEditor
+ * A demo component that uses ContractEditor
  */
 function Demo() {
-  /**
-   * Which demo is currently selected
-   */
-  const [activeItem, setActiveItem] = useState('clauseEditor');
-
-  /**
-   * Currently clause value
-   */
-  const [clauseValue, setClauseValue] = useState(null);
-
   /**
    * Currently contract value
    */
   const [contractValue, setContractValue] = useState(null);
-
-  /**
-   * Async rewrite of the markdown text to a slate value
-   */
-  useEffect(() => {
-    getClauseMarkdown().then(value => setClauseValue(value));
-  }, []);
+  const [lockTextState, setlockTextState] = useState(true);
 
   /**
    * Async rewrite of the markdown text to a slate value
@@ -90,30 +54,10 @@ function Demo() {
   }, []);
 
   /**
-   * Called when the data in the clause editor has been modified
-   */
-  const onClauseChange = useCallback((value, markdown) => {
-    console.log(markdown);
-    setClauseValue(value);
-  }, []);
-
-  /**
    * Called when the data in the contract editor has been modified
    */
-  const onContractChange = useCallback((value, markdown) => {
-    // console.log(JSON.stringify(value.toJSON(), null, 4));
+  const onContractChange = useCallback((value) => {
     setContractValue(value);
-  }, []);
-
-  /**
-   * Called when the data in the clause editor has been parsed
-   */
-  const onParse = useCallback((newParseResult) => {
-    // console.log('onParse', newParseResult);
-  }, []);
-
-  const handleItemClick = useCallback((e, { name }) => {
-    setActiveItem(name);
   }, []);
 
   const editorProps = {
@@ -129,16 +73,8 @@ function Demo() {
     WIDTH: '600px',
   };
 
-  const demo = activeItem === 'clauseEditor'
-    ? <ClauseEditor
-        lockText={true}
-        value={clauseValue}
-        onChange={onClauseChange}
-        onParse={onParse}
-        editorProps={editorProps}
-      />
-    : <ContractEditor
-        lockText={true}
+  const demo = <ContractEditor
+        lockText={lockTextState}
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
@@ -146,29 +82,12 @@ function Demo() {
 
   return (
     <div>
+      <Button onClick={() => setlockTextState(!lockTextState)} >Toggle lockText</Button>
+      <Header size='medium'>lockText state: {lockTextState.toString()}</Header>
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment>
           {demo}
-          <Rail position='left'>
-            <Segment>
-              <Menu vertical>
-                <TemplateLibrary/>
-                <Menu.Item
-                  name='clauseEditor'
-                  active={activeItem === 'clauseEditor'}
-                  onClick={handleItemClick}
-                >
-                  <Header as='h4'>Clause Editor</Header>
-                  <p>Edit a single clause.</p>
-                </Menu.Item>
-                <Menu.Item name='contractEditor' active={activeItem === 'contractEditor'} onClick={handleItemClick}>
-                  <Header as='h4'>Contract Editor</Header>
-                  <p>Adds multiple clauses to a rich-text contract.</p>
-                </Menu.Item>
-              </Menu>
-            </Segment>
-          </Rail>
           </Segment>
         </Grid.Column>
       </Grid>

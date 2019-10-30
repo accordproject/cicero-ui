@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import headerGenerator from './actions';
+import { headerGenerator } from './actions';
 import ClauseComponent from './ClauseComponent';
 
 const templateTitle = 'ap://acceptance-of-delivery@0.12.1#721d1aa0999a5d278653e211ae2a64b75fdd8ca6fa1f34255533c942404c5c1f';
