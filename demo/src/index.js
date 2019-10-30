@@ -154,7 +154,6 @@ function Demo() {
             <Segment>
               <Menu vertical>
                 <TemplateLibrary/>
-                <h1>hihi</h1>
                 <Menu.Item
                   name='clauseEditor'
                   active={activeItem === 'clauseEditor'}
