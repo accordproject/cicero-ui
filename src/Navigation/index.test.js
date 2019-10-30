@@ -109,4 +109,21 @@ describe('truncateHeader', () => {
     const resultHeadingThree = 'Welcome to Tem...';
     expect(truncateHeader(headingThree)).toEqual(resultHeadingThree);
   });
+
+  it('should return an error for an unknown type', () => {
+    const unknownType = {
+      type: 'unknown',
+      text: 'Welcome to Template Studio! Edit this text to get started.',
+    };
+    const resultUnknownType = 'Error!';
+    expect(truncateHeader(unknownType)).toEqual(resultUnknownType);
+  });
+
+  it('should not truncate heading three if it is less than 14 characters', () => {
+    const headingThree = {
+      type: 'heading_three',
+      text: 'Hello World!',
+    };
+    expect(truncateHeader(headingThree)).toEqual(headingThree.text);
+  });
 });

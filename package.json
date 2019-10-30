@@ -12,6 +12,7 @@
     "build:dev": "webpack --config webpack.config.js",
     "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore ./src",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "npm test -- --watch",
     "pkgcheck": "node ./scripts/pkgcheck.js",
     "pkgstamp": "node ./scripts/pkgstamp.js",
