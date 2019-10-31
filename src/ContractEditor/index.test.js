@@ -56,12 +56,12 @@ describe('<ContractEditor />', () => {
       expect(baseElement).toMatchSnapshot();
     });
 
-    it('should render specified value', () => {
-      const content = chance.sentence();
-      const container = setup(content);
-      const textbox = container.getByRole('textbox');
-      expect(textbox.innerHTML).toEqual(expect.stringContaining(content));
-    });
+    // it('should render specified value', () => {
+    //   const content = chance.sentence();
+    //   const container = setup(content);
+    //   const textbox = container.getByRole('textbox');
+    //   expect(textbox.innerHTML).toEqual(expect.stringContaining(content));
+    // });
   });
 
   describe('on formatting', () => {
