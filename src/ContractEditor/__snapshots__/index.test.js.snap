@@ -314,7 +314,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             class="sc-htpNat jqGvzC toolbar-4x3"
           />
           <svg
-            aria-label="bold"
+            aria-label="undo"
             class="sc-bwzfXH gcddOD toolbar-2x2"
             height="25px"
             viewBox="0 0 16 11"
@@ -342,7 +342,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             </g>
           </svg>
           <svg
-            aria-label="bold"
+            aria-label="redo"
             class="sc-bwzfXH gcddOD toolbar-2x3"
             height="25px"
             viewBox="0 0 16 11"
@@ -372,7 +372,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
         </div>
       </div>
       <div
-        class="sc-bxivhb difUcS"
+        class="sc-bxivhb cvODcG"
       >
         <div>
           <div
@@ -412,6 +412,58 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    class="ui popup transition visible"
+    style="left: 0px; position: absolute; top: 0px; opacity: 0; pointer-events: none; z-index: -1;"
+  >
+    <form
+      class="ui form"
+    >
+      <div
+        class="field"
+      >
+        <label>
+          Link Text
+        </label>
+        <div
+          class="ui input"
+        >
+          <input
+            name="text"
+            placeholder="Text"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        class="field"
+      >
+        <label>
+          Link URL
+        </label>
+        <div
+          class="ui input"
+        >
+          <input
+            name="url"
+            placeholder="http://example.com"
+            type="text"
+          />
+        </div>
+      </div>
+      <div
+        class="field"
+      >
+        <button
+          class="ui primary right floated button"
+          type="submit"
+        >
+          Apply
+        </button>
+      </div>
+    </form>
   </div>
 </body>
 `;
