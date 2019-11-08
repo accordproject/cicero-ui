@@ -97,7 +97,7 @@ describe('<ContractEditor />', () => {
       const fisrtSentence = chance.sentence();
       const secondSentence = chance.sentence();
       const container = setup(`> ${fisrtSentence}\n> ${secondSentence}`);
-      expect(document.querySelector('blockquote').textContent).toBe(fisrtSentence + secondSentence);
+      expect(document.querySelector('blockquote').textContent).toBe(`${fisrtSentence} ${secondSentence}`);
     });
   });
 });
