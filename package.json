@@ -22,22 +22,21 @@
   },
   "dependencies": {
     "@accordproject/cicero-core": "^0.13.4",
-    "@accordproject/markdown-editor": "^0.6.7",
-    "@accordproject/markdown-slate": "^0.7.3",
+    "@accordproject/markdown-editor": "^0.7.0",
+    "@accordproject/markdown-slate": "^0.7.6",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
     "ramda": "^0.26.1",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.2",
-    "slate": "^0.47.4",
-    "slate-react": "^0.22.8"
+    "semantic-ui-react": "^0.87.2"
   },
   "peerDependencies": {
-    "react": "16.x",
+    "react": ">= 16.6.0",
+    "react-dom": ">= 16.6.0",
+    "slate": "0.47.x",
+    "slate-react": "0.22.x",
     "styled-components": ">= 4"
   },
   "devDependencies": {
@@ -76,8 +75,12 @@
     "jest": "^24.8.0",
     "license-check": "1.1.5",
     "moment-mini": "2.22.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "sass-loader": "^7.1.0",
     "semver": "6.1.1",
+    "slate": "^0.47.8",
+    "slate-react": "^0.22.9",
     "style-loader": "^0.23.1",
     "styled-components": "^4.4.1",
     "url-loader": "^2.2.0",
