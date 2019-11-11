@@ -76,7 +76,7 @@ return <span id={id} {...attributes} className='variable'>
 
 ## ClausePlugin
 
-A custom Slate plugin for embedding a clause node within a document
+A custom Slate plugin for embedding a clause node within a document. View the `demo` directory for more of an example.
 
 ### Usage
 
@@ -109,7 +109,7 @@ const plugins = [ClausePlugin()];
     }}
 ```
 
-* `loadTemplateObject` : `Function` - Loads a template
-* `parseClause` : `Function` - Parse a clause
+* `loadTemplateObject` : `Function` (Required) - Loads a template
+* `parseClause` : `Function` (Required) - Parse a clause
 * `pasteToContract` : `Function` (Required) - Loads a template via copy/paste
 * `clauseProps`: (Required) - Props passed to the `ClauseComponent`
