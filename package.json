@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@accordproject/cicero-core": "^0.13.4",
-    "@accordproject/markdown-editor": "^0.7.1",
+    "@accordproject/markdown-editor": "^0.7.2",
     "@accordproject/markdown-slate": "^0.7.6",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
