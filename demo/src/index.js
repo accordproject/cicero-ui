@@ -5,11 +5,14 @@ import {
   Button, Grid, Header, Segment
 } from 'semantic-ui-react';
 
+import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import ContractEditor from '../../src/ContractEditor';
+
+const templates = {};
 
 const slateTransformer = new SlateTransformer();
 
@@ -37,6 +40,51 @@ ${clauseText}
 };
 
 /**
+ * Parses user inputted text for a template using Cicero
+ * @param {object} template The cicero template object.
+ * @param {string} text The user submitted text.
+ * @param {string} clauseId The uuid of the clause
+ * @returns {Promise} The result of the parse or an error.
+ */
+const parseClause = (template, text, clauseId) => {
+  try {
+    const ciceroClause = new Clause(template);
+    ciceroClause.parse(text);
+    const parseResult = ciceroClause.getData();
+    // Example code you could use to add this parse result to a redux store:
+    // store.dispatch(parseClauseSuccess(clauseId, parseResult));
+    return Promise.resolve(parseResult);
+  } catch (error) {
+    // Example code you could use to add this parse result to a redux store:
+    // store.dispatch(parseClauseError(clauseId, error));
+    return Promise.reject(error);
+  }
+};
+
+const fetchTemplateObj = async (action) => {
+  try {
+    const templateObj = await Template.fromUrl(action.uri);
+    return templateObj;
+  } catch (err) { return err; }
+};
+
+/**
+ * Called by the clause plugin into the contract editor
+ * when we need to load a template
+ * Note: This is used for example and is not actually used in the demo
+ */
+const loadTemplate = async (templateUri) => {
+  let template = templates[templateUri];
+  if (!template) {
+    console.log(`Loading template: ${templateUri}`);
+    template = await Template.fromUrl(templateUri);
+    templates[templateUri] = template;
+  }
+
+  return template;
+};
+
+/**
  * A demo component that uses ContractEditor
  */
 function Demo() {
@@ -45,12 +93,20 @@ function Demo() {
    */
   const [contractValue, setContractValue] = useState(null);
   const [lockTextState, setlockTextState] = useState(true);
+  const [templateObj, setTemplateObj] = useState(null);
 
   /**
    * Async rewrite of the markdown text to a slate value
    */
   useEffect(() => {
     getContractSlateVal().then(value => setContractValue(value));
+  }, []);
+
+  /**
+   * Async applying the given template object onto state for use parsing
+   */
+  useEffect(() => {
+    fetchTemplateObj(templateUri).then(value => setTemplateObj(value));
   }, []);
 
   /**
@@ -78,6 +134,8 @@ function Demo() {
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
+        parseClause={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
+        loadTemplateObject={loadTemplate}
       />;
 
   return (

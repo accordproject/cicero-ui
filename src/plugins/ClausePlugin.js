@@ -1,6 +1,5 @@
 import React from 'react';
 import { getEventTransfer } from 'slate-react';
-import { Template, Clause } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 import _ from 'lodash';
 
@@ -60,40 +59,6 @@ function ClausePlugin() {
   });
 
   /**
-   * Called by the clause plugin into the contract editor
-   * when we need to load a template
-   */
-  async function loadTemplate(templateUri) {
-    let template = templates[templateUri];
-    if (!template) {
-      console.log(`Loading template: ${templateUri}`);
-      template = await Template.fromUrl(templateUri);
-      templates[templateUri] = template;
-    }
-
-    return template;
-  }
-
-  /**
-   * Called by the clause plugin into the contract editor
-   * when we need to parse a clause
-   */
-  function parseClause(templateUri, text, clauseId) {
-    try {
-      const template = templates[templateUri];
-      if (template) {
-        console.log(`parseClause: ${templateUri} with ${text}`);
-        const clause = new Clause(template);
-        clause.parse(text);
-        return Promise.resolve(clause.getData());
-      }
-      return Promise.resolve('Template not loaded.');
-    } catch (err) {
-      return Promise.resolve(err);
-    }
-  }
-
-  /**
    * Allow edits if we are outside of a Clause
    *
    * @param {Value} value - the Slate value
@@ -126,7 +91,7 @@ function ClausePlugin() {
   function parse(editor, clauseNode) {
     // needs a slate value, not list of nodes
     // come back to this, clean up the API
-    const parseClauseCallback = editor.props.clausePluginProps.parseClause || parseClause;
+    const parseClauseCallback = editor.props.clausePluginProps.parseClause;
     const value = {
       document: {
         nodes: clauseNode.nodes
@@ -231,7 +196,7 @@ function ClausePlugin() {
   * @param {Function} next
   */
   function renderBlock(props, editor, next) {
-    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject || loadTemplate;
+    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject;
     const { clauseProps } = editor.props.clausePluginProps;
     const { node, children } = props;
 
