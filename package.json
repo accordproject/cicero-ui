@@ -21,8 +21,7 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
-    "@accordproject/cicero-core": "^0.13.4",
-    "@accordproject/markdown-editor": "^0.7.2",
+    "@accordproject/markdown-editor": "^0.7.1",
     "@accordproject/markdown-slate": "^0.7.6",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
@@ -40,6 +39,7 @@
     "styled-components": ">= 4"
   },
   "devDependencies": {
+    "@accordproject/cicero-core": "^0.13.4",
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
