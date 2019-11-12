@@ -12,7 +12,6 @@ import ClauseComponent from '../components/ClauseComponent';
  */
 function ClausePlugin() {
   const name = 'clause';
-  const templates = {};
 
   /**
    * Augment the base schema with the variable type

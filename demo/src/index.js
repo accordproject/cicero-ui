@@ -12,8 +12,6 @@ import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import ContractEditor from '../../src/ContractEditor';
 
-const templates = {};
-
 const slateTransformer = new SlateTransformer();
 
 const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta';
@@ -61,27 +59,11 @@ const parseClause = (template, text, clauseId) => {
   }
 };
 
-const fetchTemplateObj = async (action) => {
+const fetchTemplateObj = async (uri) => {
   try {
-    const templateObj = await Template.fromUrl(action.uri);
+    const templateObj = await Template.fromUrl(uri);
     return templateObj;
   } catch (err) { return err; }
-};
-
-/**
- * Called by the clause plugin into the contract editor
- * when we need to load a template
- * Note: This is used for example and is not actually used in the demo
- */
-const loadTemplate = async (templateUri) => {
-  let template = templates[templateUri];
-  if (!template) {
-    console.log(`Loading template: ${templateUri}`);
-    template = await Template.fromUrl(templateUri);
-    templates[templateUri] = template;
-  }
-
-  return template;
 };
 
 /**
@@ -135,7 +117,7 @@ function Demo() {
         onChange={onContractChange}
         editorProps={editorProps}
         parseClause={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
-        loadTemplateObject={loadTemplate}
+        loadTemplateObject={fetchTemplateObj}
       />;
 
   return (
