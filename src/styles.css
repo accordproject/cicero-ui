@@ -6,6 +6,10 @@
     background-color: #ffeeba;
 }
 
+.computed {
+    background-color: #f1baff;
+}
+
 button.ui.button {
     opacity: 1 !important;
 }
