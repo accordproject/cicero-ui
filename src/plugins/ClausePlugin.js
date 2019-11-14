@@ -1,6 +1,5 @@
 import React from 'react';
 import { getEventTransfer } from 'slate-react';
-import { Template, Clause } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 import _ from 'lodash';
 
@@ -13,7 +12,6 @@ import ClauseComponent from '../components/ClauseComponent';
  */
 function ClausePlugin() {
   const name = 'clause';
-  const templates = {};
 
   /**
    * Augment the base schema with the variable type
@@ -25,7 +23,28 @@ function ClausePlugin() {
         clause: {
           nodes: [
             {
-              match: [{ type: 'paragraph' }],
+              match: [
+                { type: 'paragraph' },
+                { type: 'quote' },
+                { type: 'list' },
+                { type: 'link' },
+                { type: 'horizontal_rule' },
+                { type: 'heading_one' },
+                { type: 'heading_two' },
+                { type: 'heading_three' },
+                { type: 'heading_four' },
+                { type: 'heading_five' },
+                { type: 'heading_six' },
+                { type: 'block_quote' },
+                { type: 'code_block' },
+                { type: 'html_block' },
+                { type: 'html_inline' },
+                { type: 'softbreak' },
+                { type: 'linebreak' },
+                { type: 'ol_list' },
+                { type: 'ul_list' },
+                { type: 'image' },
+              ],
             },
           ],
         },
@@ -37,40 +56,6 @@ function ClausePlugin() {
     newSchema.document.nodes[0].match.push({ type: 'clause' });
     return newSchema;
   });
-
-  /**
-   * Called by the clause plugin into the contract editor
-   * when we need to load a template
-   */
-  async function loadTemplate(templateUri) {
-    let template = templates[templateUri];
-    if (!template) {
-      console.log(`Loading template: ${templateUri}`);
-      template = await Template.fromUrl(templateUri);
-      templates[templateUri] = template;
-    }
-
-    return template;
-  }
-
-  /**
-   * Called by the clause plugin into the contract editor
-   * when we need to parse a clause
-   */
-  function parseClause(templateUri, text, clauseId) {
-    try {
-      const template = templates[templateUri];
-      if (template) {
-        console.log(`parseClause: ${templateUri} with ${text}`);
-        const clause = new Clause(template);
-        clause.parse(text);
-        return Promise.resolve(clause.getData());
-      }
-      return Promise.resolve('Template not loaded.');
-    } catch (err) {
-      return Promise.resolve(err);
-    }
-  }
 
   /**
    * Allow edits if we are outside of a Clause
@@ -105,7 +90,7 @@ function ClausePlugin() {
   function parse(editor, clauseNode) {
     // needs a slate value, not list of nodes
     // come back to this, clean up the API
-    const parseClauseCallback = editor.props.clausePluginProps.parseClause || parseClause;
+    const parseClauseCallback = editor.props.clausePluginProps.parseClause;
     const value = {
       document: {
         nodes: clauseNode.nodes
@@ -210,7 +195,7 @@ function ClausePlugin() {
   * @param {Function} next
   */
   function renderBlock(props, editor, next) {
-    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject || loadTemplate;
+    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject;
     const { clauseProps } = editor.props.clausePluginProps;
     const { node, children } = props;
 

@@ -5,6 +5,7 @@ import {
   Button, Grid, Header, Segment
 } from 'semantic-ui-react';
 
+import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 
 import { render } from 'react-dom';
@@ -20,7 +21,7 @@ Inspection and Notice. <variable id="receiver" value="%22Party%20B%22"/> will ha
 
 Acceptance Criteria. The "Acceptance Criteria" are the specifications the <variable id="deliverable" value="%22Widgets%22"/> must meet for the <variable id="shipper" value="%22Party%20A%22"/> to comply with its requirements and obligations under this agreement, detailed in <variable id="attachment" value="%22Attachment%20X%22"/>, attached to this agreement.`;
 
-const getContractMarkdown = async () => {
+const getContractSlateVal = async () => {
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
 ${clauseText}
 \`\`\`
@@ -37,6 +38,35 @@ ${clauseText}
 };
 
 /**
+ * Parses user inputted text for a template using Cicero
+ * @param {object} template The cicero template object.
+ * @param {string} text The user submitted text.
+ * @param {string} clauseId The uuid of the clause
+ * @returns {Promise} The result of the parse or an error.
+ */
+const parseClause = (template, text, clauseId) => {
+  try {
+    const ciceroClause = new Clause(template);
+    ciceroClause.parse(text);
+    const parseResult = ciceroClause.getData();
+    // Example code you could use to add this parse result to a redux store:
+    // store.dispatch(parseClauseSuccess(clauseId, parseResult));
+    return Promise.resolve(parseResult);
+  } catch (error) {
+    // Example code you could use to add this parse result to a redux store:
+    // store.dispatch(parseClauseError(clauseId, error));
+    return Promise.reject(error);
+  }
+};
+
+const fetchTemplateObj = async (uri) => {
+  try {
+    const templateObj = await Template.fromUrl(uri);
+    return templateObj;
+  } catch (err) { return err; }
+};
+
+/**
  * A demo component that uses ContractEditor
  */
 function Demo() {
@@ -45,12 +75,20 @@ function Demo() {
    */
   const [contractValue, setContractValue] = useState(null);
   const [lockTextState, setlockTextState] = useState(true);
+  const [templateObj, setTemplateObj] = useState(null);
 
   /**
    * Async rewrite of the markdown text to a slate value
    */
   useEffect(() => {
-    getContractMarkdown().then(value => setContractValue(value));
+    getContractSlateVal().then(value => setContractValue(value));
+  }, []);
+
+  /**
+   * Async applying the given template object onto state for use parsing
+   */
+  useEffect(() => {
+    fetchTemplateObj(templateUri).then(value => setTemplateObj(value));
   }, []);
 
   /**
@@ -78,6 +116,8 @@ function Demo() {
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
+        parseClause={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
+        loadTemplateObject={fetchTemplateObj}
       />;
 
   return (

@@ -9,19 +9,17 @@ const CardContainer = styled(Card)`
   margin: 10px 0 !important;
   border: ${props => props.tempborder || 'none'};
   border-radius: 6px !important;
-  background-color: ${props => props.color || 'transparent'} !important;
+  background-color: ${props => props.color || '#fff'} !important;
   text-align: left;
   box-shadow: 0 1px 9px 0 rgba(0,0,0,0.1) !important;
 `;
 
 const Title = styled.div`
   display: inline;
-  height: 16px;
   color: ${props => props.color || null};
   font-size: medium;
   font-weight: 600;
   line-height: 16px;
-  margin-bottom: 5px;
 `;
 
 const TemplateLogo = styled(Image)`

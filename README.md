@@ -85,8 +85,8 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 - [`ParseResult`][parseresult]: 
 - [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
 - [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
-- `ClausePlugin`: A custom Slate plugin for embedding a clause node within a document
-- `VariablePlugin`: A custom Slate plugin for using editable, highlighted variables within a clause
+- [`ClausePlugin`][clauseplugin]: A custom Slate plugin for embedding a clause node within a document
+- [`VariablePlugin`][variableplugin]: A custom Slate plugin for using editable, highlighted variables within a clause
 
 ---
 
@@ -141,7 +141,7 @@ Accord Project is an open source, non-profit, initiative working to transform co
     <td headers></td>
     <td headers> <a href="https://github.com/accordproject/cicero/tree/master/packages/cicero-engine">cicero-engine</a></td>
     <td headers> <a href="https://badge.fury.io/js/%40accordproject%2Fcicero-engine"><img src="https://badge.fury.io/js/%40accordproject%2Fcicero-engine.svg" alt="npm version"></a></td>
-    <td headers>Node.js VM based implementation of Accord Protcol Template Specification execution</td>
+    <td headers>Node.js VM based implementation of Accord Protocol Template Specification execution</td>
     </tr>
     <tr>
     <td headers></td>

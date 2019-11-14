@@ -105,8 +105,8 @@ ContractEditor.propTypes = {
     WIDTH: PropTypes.string,
   }),
   lockText: PropTypes.bool,
-  loadTemplateObject: PropTypes.func,
-  pasteToContract: PropTypes.func,
+  loadTemplateObject: PropTypes.func.isRequired,
+  pasteToContract: PropTypes.func.isRequired,
   clauseMap: PropTypes.object,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
@@ -116,8 +116,8 @@ ContractEditor.propTypes = {
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
-  }),
-  parseClause: PropTypes.func,
+  }).isRequired,
+  parseClause: PropTypes.func.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
