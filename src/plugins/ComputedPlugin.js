@@ -35,7 +35,7 @@ function ComputedPlugin() {
    * @param {string} code - the key code
    */
   const isEditable = ((value, code) => {
-    const inComputed = value.inlines.size > 0 && value.inlines.every(node => node.type === 'computed');
+    const inComputed = value.inlines.size > 0 && value.inlines.some(node => node.type === 'computed');
     if (inComputed) {
       return false;
     }

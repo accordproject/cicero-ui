@@ -77,8 +77,8 @@ return <span id={id} {...attributes} className='variable'>
 
 ### What it does?
 
-A custom Slate plugin for using editable, highlighted variables within a clause.
-Using ComputedPlugin to add a variable and define schema for the addition of variable in the format defined by [slate.js](https://docs.slatejs.org/) as its used in the markdown-editor.
+A custom Slate plugin for using non-editable, highlighted computed fields within a clause.
+Use ComputedPlugin to add a computed field and define schema for the addition of a computed field in the format defined by [slate.js](https://docs.slatejs.org/) as its used in the markdown-editor.
 
 ### Usage
 
