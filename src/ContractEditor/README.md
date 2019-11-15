@@ -51,8 +51,7 @@ ReactDOM.render(<ContractEditor
     clauseProps={clausePropsObject}
     loadTemplateObject={loadTemplateObjectFunction}
     pasteToContract={pasteToContractFunction}
-    onClauseUpdated={(uri, text, clauseId) =>
-        parseClauseFunction(givenState.templateObjs, uri, text, clauseId)}
+    onClauseUpdated={parseClauseFunction}
     value={givenState.value}
     lockText={false}
     />,

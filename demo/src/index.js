@@ -39,32 +39,27 @@ ${clauseText}
 
 /**
  * Parses user inputted text for a template using Cicero
- * @param {object} template The cicero template object.
- * @param {string} text The user submitted text.
- * @param {string} clauseId The uuid of the clause
+ * @param {object} clauseNode The slate node of the clause.
  * @returns {Promise} The result of the parse or an error.
  */
-const parseClause = (template, text, clauseId) => {
+const parseClause = (template, clauseNode) => {
   try {
     const ciceroClause = new Clause(template);
+    const slateTransformer = new SlateTransformer();
+    const value = {
+      document: {
+        nodes: clauseNode.nodes
+      }
+    };
+    const text = slateTransformer.toMarkdown(value, { wrapVariables: false });
     ciceroClause.parse(text);
     const parseResult = ciceroClause.getData();
-    // Example code you could use to add this parse result to a redux store:
-    // store.dispatch(parseClauseSuccess(clauseId, parseResult));
-    return Promise.resolve(parseResult);
+    console.log(parseResult);
   } catch (error) {
-    // Example code you could use to add this parse result to a redux store:
-    // store.dispatch(parseClauseError(clauseId, error));
-    return Promise.reject(error);
+    console.log(error);
   }
 };
 
-const fetchTemplateObj = async (uri) => {
-  try {
-    const templateObj = await Template.fromUrl(uri);
-    return templateObj;
-  } catch (err) { return err; }
-};
 
 /**
  * A demo component that uses ContractEditor
@@ -75,7 +70,7 @@ function Demo() {
    */
   const [contractValue, setContractValue] = useState(null);
   const [lockTextState, setlockTextState] = useState(true);
-  const [templateObj, setTemplateObj] = useState(null);
+  const [templateObj, setTemplateObj] = useState({});
 
   /**
    * Async rewrite of the markdown text to a slate value
@@ -84,12 +79,15 @@ function Demo() {
     getContractSlateVal().then(value => setContractValue(value));
   }, []);
 
-  /**
-   * Async applying the given template object onto state for use parsing
-   */
-  useEffect(() => {
-    fetchTemplateObj(templateUri).then(value => setTemplateObj(value));
-  }, []);
+  const fetchTemplateObj = async (uri) => {
+    try {
+      const template = await Template.fromUrl(uri);
+      setTemplateObj({ ...templateObj, [uri]: template });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   /**
    * Called when the data in the contract editor has been modified
@@ -116,7 +114,7 @@ function Demo() {
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
-        onClauseUpdated={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
+        onClauseUpdated={(clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
         loadTemplateObject={fetchTemplateObj}
       />;
 

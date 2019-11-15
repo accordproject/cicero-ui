@@ -39,7 +39,6 @@ function ComputedPlugin() {
     if (inComputed) {
       return false;
     }
-    return true;
   });
 
   /**

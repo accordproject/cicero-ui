@@ -66,7 +66,6 @@ function ClausePlugin() {
 
     const blocks = value.document.getDescendantsAtRange(value.selection);
     const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
-    console.log('in clause', inClause);
     return !inClause;
   });
 
