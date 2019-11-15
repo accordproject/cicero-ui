@@ -18,18 +18,13 @@ function VariablePlugin() {
             match: { object: 'text' }
           }]
         },
-        computed: {
-          nodes: [{
-            match: { object: 'text' }
-          }]
-        },
       },
     };
 
     const newSchema = JSON.parse(JSON.stringify(schema));
     newSchema.inlines = { ...newSchema.inlines, ...additions.inlines };
-    newSchema.document.nodes[0].match.push({ type: 'variable' }, { type: 'computed' });
-    newSchema.blocks.paragraph.nodes[0].match.push({ type: 'variable' }, { type: 'computed' });
+    newSchema.document.nodes[0].match.push({ type: 'variable' });
+    newSchema.blocks.paragraph.nodes[0].match.push({ type: 'variable' });
     return newSchema;
   });
 
@@ -41,14 +36,9 @@ function VariablePlugin() {
    */
   const isEditable = ((value, code) => {
     const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
-    const inComputed = value.inlines.size > 0 && value.inlines.every(node => node.type === 'computed');
 
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
-
-    if (inComputed) {
-      return false;
-    }
 
     if (code === 'backspace') {
       if (inVariable) {
@@ -92,12 +82,6 @@ function VariablePlugin() {
       case 'variable': {
         // @ts-ignore
         return <span id={id} {...attributes} className='variable'>
-            {children}
-          </span>;
-      }
-      case 'computed': {
-        // @ts-ignore
-        return <span id={id} {...attributes} className='computed'>
             {children}
           </span>;
       }
