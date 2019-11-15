@@ -2,13 +2,13 @@
 
 ```js
 
-import { ClausePlugin, VariablePlugin } from '@accordproject/cicero-ui';
+import { ClausePlugin, VariablePlugin, ComputedPlugin } from '@accordproject/cicero-ui';
 
 const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
-      [VariablePlugin(), ClausePlugin()]
+      [VariablePlugin(), ClausePlugin(), ComputedPlugin()]
     )
-    : [VariablePlugin(), ClausePlugin()]), [props.plugins]);
+    : [VariablePlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
 
 ```
 
@@ -68,6 +68,67 @@ renderInline function renders a variable inline to the text in the editor by ret
 
 ```js
 return <span id={id} {...attributes} className='variable'>
+            {children}
+          </span>;
+
+```
+
+## ComputedPlugin
+
+### What it does?
+
+A custom Slate plugin for using editable, highlighted variables within a clause.
+Using ComputedPlugin to add a variable and define schema for the addition of variable in the format defined by [slate.js](https://docs.slatejs.org/) as its used in the markdown-editor.
+
+### Usage
+
+```shell
+npm install @accordproject/cicero-ui
+```
+
+```js
+import { ComputedPlugin } from '@accordproject/cicero-ui';
+import { Editor } from 'slate-react'
+
+const plugins = [ComputedPlugin()];
+
+<Editor
+  ...
+  plugins={plugins}
+/>
+
+```
+
+### What it returns?
+
+It returns an object like this:
+
+```js
+{
+    name,
+    augmentSchema,
+    isEditable,
+    renderInline,
+}
+
+```
+
+where augmentSchema, isEditable and renderInline are functions.
+
+### augmentSchema function
+
+augmentSchema function returns a new schema for the addition of computed in the markdown editor in the format suggested by [slate.js](https://docs.slatejs.org/).
+
+### isEditable function
+
+isEditable function returns a boolean on checking whether the computed field in the markdown editor is editable or not.
+
+### renderInline function
+
+renderInline function renders a computed inline to the text in the editor by returning a span tag with the props.
+
+```js
+return <span id={id} {...attributes} className='computed'>
             {children}
           </span>;
 
