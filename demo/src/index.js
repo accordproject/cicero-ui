@@ -116,7 +116,7 @@ function Demo() {
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
-        parseClause={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
+        onClauseUpdated={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
         loadTemplateObject={fetchTemplateObj}
       />;
 

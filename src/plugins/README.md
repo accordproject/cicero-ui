@@ -102,7 +102,7 @@ const plugins = [ClausePlugin()];
 ```js
     clausePluginProps={{
       loadTemplateObject: props.loadTemplateObject,
-      parseClause: props.parseClause,
+      onClauseUpdated: props.parseClause,
       pasteToContract: props.pasteToContract,
       clauseProps: props.clauseProps,
       clauseMap: props.clauseMap
@@ -110,6 +110,6 @@ const plugins = [ClausePlugin()];
 ```
 
 * `loadTemplateObject` : `Function` (Required) - Loads a template
-* `parseClause` : `Function` (Required) - Parse a clause
+* `onClauseUpdated` : `Function` (Required) - Called when the text of a clause changes
 * `pasteToContract` : `Function` (Required) - Loads a template via copy/paste
 * `clauseProps`: (Required) - Props passed to the `ClauseComponent`

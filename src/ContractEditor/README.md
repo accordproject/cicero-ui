@@ -51,7 +51,7 @@ ReactDOM.render(<ContractEditor
     clauseProps={clausePropsObject}
     loadTemplateObject={loadTemplateObjectFunction}
     pasteToContract={pasteToContractFunction}
-    parseClause={(uri, text, clauseId) =>
+    onClauseUpdated={(uri, text, clauseId) =>
         parseClauseFunction(givenState.templateObjs, uri, text, clauseId)}
     value={givenState.value}
     lockText={false}
@@ -73,7 +73,7 @@ ReactDOM.render(<ContractEditor
 
 - `loadTemplateObject`: A callback `function` to load a template.
 - `onChange`: A callback `function` called when the contents of the editor change.
-- `parseClause`: A callback `function` to parse the contents of a clause.
+- `onClauseUpdated`: A callback `function` called when text inside of a clause is changed.
 - `pasteToContract`: A callback `function` to load a clause template via copy/paste.
 
 - `plugins`:

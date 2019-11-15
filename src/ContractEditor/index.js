@@ -74,7 +74,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
     editorProps={props.editorProps}
     clausePluginProps={{
       loadTemplateObject: props.loadTemplateObject,
-      parseClause: props.parseClause,
+      onClauseUpdated: props.onClauseUpdated,
       pasteToContract: props.pasteToContract,
       clauseProps: props.clauseProps,
       clauseMap: props.clauseMap
@@ -117,7 +117,7 @@ ContractEditor.propTypes = {
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
   }).isRequired,
-  parseClause: PropTypes.func.isRequired,
+  onClauseUpdated: PropTypes.func.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
