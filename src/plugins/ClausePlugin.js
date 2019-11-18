@@ -1,6 +1,5 @@
 import React from 'react';
 import { getEventTransfer } from 'slate-react';
-import { SlateTransformer } from '@accordproject/markdown-slate';
 import _ from 'lodash';
 
 import '../styles.css';
@@ -67,7 +66,6 @@ function ClausePlugin() {
 
     const blocks = value.document.getDescendantsAtRange(value.selection);
     const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
-    console.log('in clause', inClause);
     return !inClause;
   });
 
@@ -85,41 +83,23 @@ function ClausePlugin() {
   }
 
   /**
-   * Utility function to parse a clause
+   * Function called when a clause is updated
    */
-  function parse(editor, clauseNode) {
-    // needs a slate value, not list of nodes
-    // come back to this, clean up the API
-    const parseClauseCallback = editor.props.clausePluginProps.parseClause;
-    const value = {
-      document: {
-        nodes: clauseNode.nodes
-      }
-    };
-
-    const slateTransformer = new SlateTransformer();
-    const parseText = slateTransformer.toMarkdown(value, { wrapVariables: false });
-
-    parseClauseCallback(clauseNode.data.get('src'), parseText, clauseNode.data.get('clauseid'))
-      .then((parseResult) => {
-        console.log(parseResult);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  function onClauseUpdated(editor, clauseNode) {
+    editor.props.clausePluginProps.onClauseUpdated(clauseNode);
   }
 
   /**
-   * Debounced parse to only be called after 1 second
+   * Debounced onClauseUpdated to only be called after 1 second
    */
-  const debouncedParse = _.debounce(parse, 1000, { maxWait: 10000 });
+  const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
 
   /**
    * Utility function to parse clauses within a paste value
    */
   function parsePastedClauses(editor, clausesArray) {
     clausesArray.forEach((clauseNode) => {
-      parse(editor, clauseNode);
+      onClauseUpdated(editor, clauseNode);
     });
   }
 
@@ -185,7 +165,7 @@ function ClausePlugin() {
       return next();
     }
 
-    debouncedParse(editor, clauseNode);
+    debouncedOnClauseUpdated(editor, clauseNode);
     return next();
   }
 

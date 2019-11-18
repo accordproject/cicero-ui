@@ -23,6 +23,7 @@ Components ready for use:
 Available Plugins:
 - [`ClausePlugin`][clauseplugin]
 - [`VariablePlugin`][variableplugin]
+- [`ComputedPlugin`][computedplugin]
 
 Components still in development:
 - [`ClauseEditor`][clauseeditor]
@@ -87,6 +88,7 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 - [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
 - [`ClausePlugin`][clauseplugin]: A custom Slate plugin for embedding a clause node within a document
 - [`VariablePlugin`][variableplugin]: A custom Slate plugin for using editable, highlighted variables within a clause
+- [`ComputedPlugin`][computedplugin]: A custom Slate plugin for using non-editable, highlighted computed fields within a clause
 
 ---
 
@@ -357,6 +359,7 @@ Copyright 2018-2019 Clause, Inc. All trademarks are the property of their respec
 [templateloadingclauseeditor]: src/TemplateLoadingClauseEditor/README.md
 [clauseplugin]: src/plugins/README.md#clauseplugin
 [variableplugin]: src/plugins/README.md#variableplugin
+[computedplugin]: src/plugins/README.md#computedplugin
 
 [cicero]: https://github.com/accordproject/cicero
 [markdown]: https://github.com/accordproject/markdown-editor
