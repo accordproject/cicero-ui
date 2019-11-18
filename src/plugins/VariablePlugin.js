@@ -1,4 +1,5 @@
 import React from 'react';
+import inVariableHelper from '../utilities/inVariable';
 
 /**
  * A plugin for a variable
@@ -35,7 +36,7 @@ function VariablePlugin() {
    * @param {string} code - the key code
    */
   const isEditable = ((value, code) => {
-    const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
+    const inVariable = inVariableHelper(value.document.getDescendantsAtRange(value.selection));
 
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
