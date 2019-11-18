@@ -14,12 +14,30 @@ import ContractEditor from '../../src/ContractEditor';
 
 const slateTransformer = new SlateTransformer();
 
-const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.12.0.cta';
-const clauseText = `Acceptance of Delivery. <variable id="shipper" value="%22Party%20A%22"/> will be deemed to have completed its delivery obligations if in <variable id="receiver" value="%22Party%20B%22"/>'s opinion, the <variable id="deliverable" value="%22Widgets%22"/> satisfies the Acceptance Criteria, and <variable id="receiver" value="%22Party%20B%22"/> notifies <variable id="shipper" value="%22Party%20A%22"/> in writing that it is accepting the <variable id="deliverable" value="%22Widgets%22"/>.
+const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.13.0.cta';
+const clauseText = `Acceptance of Delivery.
+----
 
-Inspection and Notice. <variable id="receiver" value="%22Party%20B%22"/> will have <variable id="businessDays" value="10"/> Business Days' to inspect and evaluate the <variable id="deliverable" value="%22Widgets%22"/> on the delivery date before notifying <variable id="shipper" value="%22Party%20A%22"/> that it is either accepting or rejecting the <variable id="deliverable" value="%22Widgets%22"/>.
+<variable id="shipper" value="%22Party%20A%22"/> will be deemed to have completed its delivery obligations
+if in <variable id="receiver" value="%22Party%20B%22"/>'s opinion, the <variable id="deliverable" value="%22Widgets%22"/> satisfies the
+Acceptance Criteria, and <variable id="receiver" value="%22Party%20B%22"/> notifies <variable id="shipper" value="%22Party%20A%22"/> in writing
+that it is accepting the <variable id="deliverable" value="%22Widgets%22"/>.
 
-Acceptance Criteria. The "Acceptance Criteria" are the specifications the <variable id="deliverable" value="%22Widgets%22"/> must meet for the <variable id="shipper" value="%22Party%20A%22"/> to comply with its requirements and obligations under this agreement, detailed in <variable id="attachment" value="%22Attachment%20X%22"/>, attached to this agreement.`;
+Inspection and Notice.
+----
+
+<variable id="receiver" value="%22Party%20B%22"/> will have <variable id="businessDays" value="10"/> Business Days to inspect and
+evaluate the <variable id="deliverable" value="%22Widgets%22"/> on the delivery date before notifying
+<variable id="shipper" value="%22Party%20A%22"/> that it is either accepting or rejecting the
+<variable id="deliverable" value="%22Widgets%22"/>.
+
+Acceptance Criteria.
+----
+
+The "Acceptance Criteria" are the specifications the <variable id="deliverable" value="%22Widgets%22"/>
+must meet for the <variable id="shipper" value="%22Party%20A%22"/> to comply with its requirements and
+obligations under this agreement, detailed in <variable id="attachment" value="%22Attachment%20X%22"/>, attached
+to this agreement.`;
 
 const getContractSlateVal = async () => {
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
@@ -39,32 +57,27 @@ ${clauseText}
 
 /**
  * Parses user inputted text for a template using Cicero
- * @param {object} template The cicero template object.
- * @param {string} text The user submitted text.
- * @param {string} clauseId The uuid of the clause
+ * @param {object} clauseNode The slate node of the clause.
  * @returns {Promise} The result of the parse or an error.
  */
-const parseClause = (template, text, clauseId) => {
+const parseClause = (template, clauseNode) => {
   try {
     const ciceroClause = new Clause(template);
+    const slateTransformer = new SlateTransformer();
+    const value = {
+      document: {
+        nodes: clauseNode.nodes
+      }
+    };
+    const text = slateTransformer.toMarkdown(value, { wrapVariables: false });
     ciceroClause.parse(text);
     const parseResult = ciceroClause.getData();
-    // Example code you could use to add this parse result to a redux store:
-    // store.dispatch(parseClauseSuccess(clauseId, parseResult));
-    return Promise.resolve(parseResult);
+    console.log(parseResult);
   } catch (error) {
-    // Example code you could use to add this parse result to a redux store:
-    // store.dispatch(parseClauseError(clauseId, error));
-    return Promise.reject(error);
+    console.log(error);
   }
 };
 
-const fetchTemplateObj = async (uri) => {
-  try {
-    const templateObj = await Template.fromUrl(uri);
-    return templateObj;
-  } catch (err) { return err; }
-};
 
 /**
  * A demo component that uses ContractEditor
@@ -75,7 +88,7 @@ function Demo() {
    */
   const [contractValue, setContractValue] = useState(null);
   const [lockTextState, setlockTextState] = useState(true);
-  const [templateObj, setTemplateObj] = useState(null);
+  const [templateObj, setTemplateObj] = useState({});
 
   /**
    * Async rewrite of the markdown text to a slate value
@@ -84,12 +97,15 @@ function Demo() {
     getContractSlateVal().then(value => setContractValue(value));
   }, []);
 
-  /**
-   * Async applying the given template object onto state for use parsing
-   */
-  useEffect(() => {
-    fetchTemplateObj(templateUri).then(value => setTemplateObj(value));
-  }, []);
+  const fetchTemplateObj = async (uri) => {
+    try {
+      const template = await Template.fromUrl(uri);
+      setTemplateObj({ ...templateObj, [uri]: template });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   /**
    * Called when the data in the contract editor has been modified
@@ -116,7 +132,7 @@ function Demo() {
         value={contractValue}
         onChange={onContractChange}
         editorProps={editorProps}
-        parseClause={(uri, text, clauseId) => parseClause(templateObj, text, clauseId)}
+        onClauseUpdated={(clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
         loadTemplateObject={fetchTemplateObj}
       />;
 

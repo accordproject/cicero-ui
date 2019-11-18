@@ -18,6 +18,7 @@ import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
 import VariablePlugin from '../plugins/VariablePlugin';
+import ComputedPlugin from '../plugins/ComputedPlugin';
 
 /**
  * Adds the current value to local storage
@@ -61,9 +62,9 @@ const contractProps = {
 const ContractEditor = React.forwardRef((props, ref) => {
   const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
-      [VariablePlugin(), ClausePlugin()]
+      [VariablePlugin(), ClausePlugin(), ComputedPlugin()]
     )
-    : [VariablePlugin(), ClausePlugin()]), [props.plugins]);
+    : [VariablePlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
   return (
     plugins.length ? <SlateAsInputEditor
     ref={ref}
@@ -74,7 +75,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
     editorProps={props.editorProps}
     clausePluginProps={{
       loadTemplateObject: props.loadTemplateObject,
-      parseClause: props.parseClause,
+      onClauseUpdated: props.onClauseUpdated,
       pasteToContract: props.pasteToContract,
       clauseProps: props.clauseProps,
       clauseMap: props.clauseMap
@@ -117,7 +118,7 @@ ContractEditor.propTypes = {
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
   }).isRequired,
-  parseClause: PropTypes.func.isRequired,
+  onClauseUpdated: PropTypes.func.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,

@@ -13,7 +13,7 @@ const props = {
   lockText: true,
   template: {},
   loadTemplateObject: () => 1,
-  parseClause: () => 1,
+  onClauseUpdated: () => 1,
   editorProps: {
     BUTTON_BACKGROUND_INACTIVE: null,
     BUTTON_BACKGROUND_ACTIVE: null,

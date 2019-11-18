@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/cicero-ui",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "cicero-ui React component",
   "main": "dist/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "styled-components": ">= 4"
   },
   "devDependencies": {
-    "@accordproject/cicero-core": "^0.13.4",
+    "@accordproject/cicero-core": "^0.20.3",
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
