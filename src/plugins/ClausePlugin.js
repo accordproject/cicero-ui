@@ -119,25 +119,20 @@ function ClausePlugin() {
 
       if (transfer.type === 'fragment') {
         const mutableFragment = transfer.fragment.asMutable();
-        const mutableNodes = mutableFragment.nodes.asMutable();
+        let mutableNodes = mutableFragment.nodes.asMutable();
         const isHeadingClause = node => node.type === 'clause';
-        mutableNodes.map((node) => {
+        mutableNodes = mutableNodes.map((node) => {
           if (isHeadingClause(node)) {
             const mutableNode = node.asMutable();
             const mutableDataMap = mutableNode.data.asMutable();
-            const mutableAttributesMap = mutableDataMap.get('attributes');
-
+            const clauseUriSrc = mutableDataMap.get('src');
             const generatedUUID = uuidv4();
-            const clauseUriSrc = mutableAttributesMap.src;
 
-            mutableAttributesMap.clauseid = generatedUUID;
-
+            mutableDataMap.set('clauseid', generatedUUID);
             editor.props.clausePluginProps.pasteToContract(generatedUUID, clauseUriSrc, node.text);
 
-            mutableDataMap.set('attributes', mutableAttributesMap);
             mutableNode.data = mutableDataMap.asImmutable();
-
-            clausesToParse.push({ node, src: clauseUriSrc, clauseId: generatedUUID });
+            clausesToParse.push(node);
             return mutableNode;
           }
           return node;
