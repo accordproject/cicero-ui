@@ -60,6 +60,12 @@ function VariablePlugin() {
       // if are outside of a variable allowing
       // extending the variable
       const prev = value.document.getPreviousSibling(anchor.path);
+      console.log('extending var...', prev && anchor.offset === 0 && prev.type === 'variable');
+      console.log('value.selection', value.selection);
+      console.log('anchor', anchor);
+      value.selection.moveToEndOfNode(prev);
+      console.log('value.selection 2', value.selection);
+      console.log('anchor 2', anchor);
       return prev && anchor.offset === 0 && prev.type === 'variable';
     }
 
