@@ -123,16 +123,18 @@ function ClausePlugin() {
         const isHeadingClause = node => node.type === 'clause';
         mutableNodes = mutableNodes.map((node) => {
           if (isHeadingClause(node)) {
-            const mutableNode = node.asMutable();
-            const mutableDataMap = mutableNode.data.asMutable();
-            const clauseUriSrc = mutableDataMap.get('src');
-            const generatedUUID = uuidv4();
-
-            mutableDataMap.set('clauseid', generatedUUID);
-            editor.props.clausePluginProps.pasteToContract(generatedUUID, clauseUriSrc, node.text);
-
-            mutableNode.data = mutableDataMap.asImmutable();
-            clausesToParse.push(node);
+            const mutableNode = node.withMutations((n) => {
+              const clauseUriSrc = n.data.get('src');
+              const generatedUUID = uuidv4();
+              const newData = n.data.withMutations((d) => {
+                d.set('clauseid', generatedUUID);
+              });
+              n.set('data', newData);
+              editor.props.clausePluginProps.pasteToContract(
+                generatedUUID, clauseUriSrc, node.text
+              );
+              clausesToParse.push(n);
+            });
             return mutableNode;
           }
           return node;
