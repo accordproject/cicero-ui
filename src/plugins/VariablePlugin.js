@@ -38,6 +38,11 @@ function VariablePlugin() {
   const isEditable = ((value, code) => {
     const inVariable = inVariableHelper(value.document.getDescendantsAtRange(value.selection));
 
+    // const prevNode = value.document.getPreviousNode(anchor.path)
+    // console.log('previous node', prevNode)
+
+    // value.selection.moveToStartOfNode(prev);
+
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
 
@@ -63,10 +68,20 @@ function VariablePlugin() {
       console.log('extending var...', prev && anchor.offset === 0 && prev.type === 'variable');
       console.log('value.selection', value.selection);
       console.log('anchor', anchor);
-      value.selection.moveToEndOfNode(prev);
-      console.log('value.selection 2', value.selection);
-      console.log('anchor 2', anchor);
-      return prev && anchor.offset === 0 && prev.type === 'variable';
+      console.log('PREVVVV', prev);
+      // const prevNode = value.document.getPreviousNode(anchor.path)
+      // console.log('previous node', prevNode)
+
+      const extendingVar = prev && anchor.offset === 0 && prev.type === 'variable';
+      if (extendingVar) {
+        console.log('IN HERE');
+        console.log('ispoint?? ', anchor.toJSON());
+        // anchor.unset();
+        // value.selection.moveToEndOfNode('prev');
+        // anchor.moveToEndOfNode(prev);
+        anchor.normalize('lalala');
+      }
+      return extendingVar;
     }
 
     // disallow enter within variables!
