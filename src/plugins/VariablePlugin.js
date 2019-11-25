@@ -35,13 +35,9 @@ function VariablePlugin() {
    * @param {*} value - the Slate value
    * @param {string} code - the key code
    */
-  const isEditable = ((value, code) => {
+  const isEditable = ((editor, code) => {
+    const { value } = editor;
     const inVariable = inVariableHelper(value.document.getDescendantsAtRange(value.selection));
-
-    // const prevNode = value.document.getPreviousNode(anchor.path)
-    // console.log('previous node', prevNode)
-
-    // value.selection.moveToStartOfNode(prev);
 
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
@@ -65,21 +61,10 @@ function VariablePlugin() {
       // if are outside of a variable allowing
       // extending the variable
       const prev = value.document.getPreviousSibling(anchor.path);
-      console.log('extending var...', prev && anchor.offset === 0 && prev.type === 'variable');
-      console.log('value.selection', value.selection);
-      console.log('anchor', anchor);
-      console.log('PREVVVV', prev);
-      // const prevNode = value.document.getPreviousNode(anchor.path)
-      // console.log('previous node', prevNode)
 
       const extendingVar = prev && anchor.offset === 0 && prev.type === 'variable';
       if (extendingVar) {
-        console.log('IN HERE');
-        console.log('anchor -- ', anchor.toJSON());
-        // anchor.unset();
-        // value.selection.moveToEndOfNode('prev');
-        // anchor.moveToEndOfNode(prev);
-        anchor.normalize('lalala');
+        editor.moveToEndOfNode(prev);
       }
       return extendingVar;
     }
