@@ -45,6 +45,7 @@ function ClauseComponent(props) {
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
         clausebg={clauseProps.CLAUSE_BACKGROUND}
+        contentEditable={false}
       />
 
       <S.ClauseHeader
@@ -52,6 +53,7 @@ function ClauseComponent(props) {
         headerfont={clauseProps.HEADER_FONT}
         headercolor={clauseProps.HEADER_COLOR}
         headerbg={clauseProps.CLAUSE_BACKGROUND}
+        contentEditable={false}
       >
         {(hoveringHeader && header.length > 54)
           && <S.HeaderToolTipWrapper>
