@@ -62,7 +62,6 @@ function ClausePlugin() {
    * @param {Value} value - the Slate value
    */
   const isEditable = ((editor, code) => {
-    // const inClause = value.blocks.size > 0 && value.blocks.every(node => node.type === 'clause');
     const { value } = editor;
     const blocks = value.document.getDescendantsAtRange(value.selection);
     const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
