@@ -75,7 +75,7 @@ function VariablePlugin() {
       const extendingVar = prev && anchor.offset === 0 && prev.type === 'variable';
       if (extendingVar) {
         console.log('IN HERE');
-        console.log('ispoint?? ', anchor.toJSON());
+        console.log('anchor -- ', anchor.toJSON());
         // anchor.unset();
         // value.selection.moveToEndOfNode('prev');
         // anchor.moveToEndOfNode(prev);
