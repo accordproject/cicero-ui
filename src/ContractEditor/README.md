@@ -15,8 +15,10 @@ const clausePropsObject = {
     CLAUSE_BORDER (string),
     CLAUSE_DELETE (string),
     CLAUSE_DELETE_FUNCTION (function),
+    COMPUTED_COLOR (string),
     HEADER_FONT (string),
     HEADER_TITLE (string),
+    VARIABLE_COLOR (string),
 }
 
 const editorPropsObject = {
@@ -124,7 +126,9 @@ clauseProps = {
     CLAUSE_BORDER,           // (String)
     CLAUSE_DELETE,           // (String)
     CLAUSE_DELETE_FUNCTION,  // (Function)
+    COMPUTED_COLOR,          // (String)
     HEADER_FONT,             // (String)
     HEADER_TITLE,            // (String)
+    VARIABLE_COLOR,          // (String)
 }
 ```
