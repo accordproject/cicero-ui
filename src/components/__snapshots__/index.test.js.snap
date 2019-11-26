@@ -6,8 +6,11 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <styled.div />
   <styled.div
+    contentEditable={false}
+  />
+  <styled.div
+    contentEditable={false}
     currentHover={false}
   >
     <styled.span

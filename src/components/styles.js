@@ -36,6 +36,12 @@ export const ClauseHeader = styled.div`
 `;
 
 export const ClauseBody = styled.div`
+  .variable {
+    color: ${props => props.variablecolor || '#009593'};
+  }
+  .computed {
+    color: ${props => props.computedcolor || '#f1baff'};
+  }
   font-family: ${props => props.bodyfont || 'Graphik'};
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;

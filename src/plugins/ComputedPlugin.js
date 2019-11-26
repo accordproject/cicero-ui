@@ -34,7 +34,8 @@ function ComputedPlugin() {
    * @param {*} value - the Slate value
    * @param {string} code - the key code
    */
-  const isEditable = ((value, code) => {
+  const isEditable = ((editor, code) => {
+    const { value } = editor;
     const inComputed = value.inlines.size > 0 && value.inlines.some(node => node.type === 'computed');
     if (inComputed) {
       return false;

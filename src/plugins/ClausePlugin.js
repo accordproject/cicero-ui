@@ -61,9 +61,8 @@ function ClausePlugin() {
    *
    * @param {Value} value - the Slate value
    */
-  const isEditable = ((value, code) => {
-    // const inClause = value.blocks.size > 0 && value.blocks.every(node => node.type === 'clause');
-
+  const isEditable = ((editor, code) => {
+    const { value } = editor;
     const blocks = value.document.getDescendantsAtRange(value.selection);
     const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
     return !inClause;
@@ -119,25 +118,22 @@ function ClausePlugin() {
 
       if (transfer.type === 'fragment') {
         const mutableFragment = transfer.fragment.asMutable();
-        const mutableNodes = mutableFragment.nodes.asMutable();
+        let mutableNodes = mutableFragment.nodes.asMutable();
         const isHeadingClause = node => node.type === 'clause';
-        mutableNodes.map((node) => {
+        mutableNodes = mutableNodes.map((node) => {
           if (isHeadingClause(node)) {
-            const mutableNode = node.asMutable();
-            const mutableDataMap = mutableNode.data.asMutable();
-            const mutableAttributesMap = mutableDataMap.get('attributes');
-
-            const generatedUUID = uuidv4();
-            const clauseUriSrc = mutableAttributesMap.src;
-
-            mutableAttributesMap.clauseid = generatedUUID;
-
-            editor.props.clausePluginProps.pasteToContract(generatedUUID, clauseUriSrc, node.text);
-
-            mutableDataMap.set('attributes', mutableAttributesMap);
-            mutableNode.data = mutableDataMap.asImmutable();
-
-            clausesToParse.push({ node, src: clauseUriSrc, clauseId: generatedUUID });
+            const mutableNode = node.withMutations((n) => {
+              const clauseUriSrc = n.data.get('src');
+              const generatedUUID = uuidv4();
+              const newData = n.data.withMutations((d) => {
+                d.set('clauseid', generatedUUID);
+              });
+              n.set('data', newData);
+              editor.props.clausePluginProps.pasteToContract(
+                generatedUUID, clauseUriSrc, node.text
+              );
+              clausesToParse.push(n);
+            });
             return mutableNode;
           }
           return node;

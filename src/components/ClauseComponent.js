@@ -45,6 +45,7 @@ function ClauseComponent(props) {
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
         clausebg={clauseProps.CLAUSE_BACKGROUND}
+        contentEditable={false}
       />
 
       <S.ClauseHeader
@@ -52,6 +53,7 @@ function ClauseComponent(props) {
         headerfont={clauseProps.HEADER_FONT}
         headercolor={clauseProps.HEADER_COLOR}
         headerbg={clauseProps.CLAUSE_BACKGROUND}
+        contentEditable={false}
       >
         {(hoveringHeader && header.length > 54)
           && <S.HeaderToolTipWrapper>
@@ -79,7 +81,11 @@ function ClauseComponent(props) {
         {deleteIcon.icon()}
       </ S.ClauseDelete>
       </S.DeleteWrapper>
-      <S.ClauseBody bodyfont={clauseProps.BODY_FONT} >
+      <S.ClauseBody
+        bodyfont={clauseProps.BODY_FONT}
+        variablecolor={clauseProps.VARIABLE_COLOR}
+        computedcolor={clauseProps.COMPUTED_COLOR}
+      >
         {props.children}
       </S.ClauseBody>
     {errorsComponent}
@@ -102,9 +108,11 @@ ClauseComponent.propTypes = {
     CLAUSE_BORDER: PropTypes.string,
     CLAUSE_DELETE: PropTypes.string,
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
+    COMPUTED_COLOR: PropTypes.string,
     HEADER_COLOR: PropTypes.string,
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
+    VARIABLE_COLOR: PropTypes.string,
   }),
 };
 
