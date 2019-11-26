@@ -35,7 +35,8 @@ function VariablePlugin() {
    * @param {*} value - the Slate value
    * @param {string} code - the key code
    */
-  const isEditable = ((value, code) => {
+  const isEditable = ((editor, code) => {
+    const { value } = editor;
     const inVariable = inVariableHelper(value.document.getDescendantsAtRange(value.selection));
 
     const { anchor } = value.selection;
@@ -60,7 +61,12 @@ function VariablePlugin() {
       // if are outside of a variable allowing
       // extending the variable
       const prev = value.document.getPreviousSibling(anchor.path);
-      return prev && anchor.offset === 0 && prev.type === 'variable';
+
+      const extendingVar = prev && anchor.offset === 0 && prev.type === 'variable';
+      if (extendingVar) {
+        editor.moveToEndOfNode(prev);
+      }
+      return extendingVar;
     }
 
     // disallow enter within variables!

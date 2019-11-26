@@ -450,12 +450,20 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             name="url"
             placeholder="http://example.com"
             type="text"
+            value=""
           />
         </div>
       </div>
       <div
         class="field"
       >
+        <button
+          class="ui secondary disabled left floated button"
+          disabled=""
+          tabindex="-1"
+        >
+          Remove
+        </button>
         <button
           class="ui primary right floated button"
           type="submit"
