@@ -5,3 +5,27 @@
 button.ui.button {
     opacity: 1 !important;
 }
+
+div.ui.input i {
+    color: #ffffff;
+    opacity: 1 !important;
+}
+
+div.ui.input input, div.ui.input input::placeholder {
+    background-color: transparent;
+    border-radius: 3px;
+    color: #ffff;
+    opacity: 1 !important;
+    caret-color: #ffff !important;
+}
+
+div.ui.input input:focus {
+    background-color: transparent;
+    border: 1px solid #fefeff00;
+    color: #ffff;
+    opacity: 1 !important;
+}
+
+div.ui.input input::selection {
+    color: #ffff !important;
+}
