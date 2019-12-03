@@ -13,7 +13,7 @@ import ErrorComponent from './Error';
 
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
-  const errorLength = Object.keys(errors).length;
+  const errorLength = Object.keys(errors).length ? Object.keys(errors).length : 0;
   const errorsProps = props.errorsProps || Object.create(null);
 
   const [errorsVisible, setErrorsVisible] = useState(false);
