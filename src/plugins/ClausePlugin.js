@@ -207,6 +207,82 @@ function ClausePlugin() {
     && (node.data.get('clauseid') === clauseId));
   }
 
+  /**
+   * Check if UI valid (depth first traversal)
+   * @param {object} params - recursion params
+   * @param {object} nodes - the Slate nodes
+   */
+  function _recursive(params, nodes) {
+
+    nodes.forEach((node, index) => {
+      const nodeType = node.type;
+      switch (node.object) {
+      case 'text':
+        break;
+      default: {
+        switch(nodeType) {
+        case 'conditional':
+          throw new Error('Conditional variable not supported');
+        case 'computed':
+          throw new Error('Computed variable not supported');
+        case 'html_block':
+          throw new Error('HTML block not supported');
+        case 'code_block':
+          throw new Error('Code block not supported');
+        case 'html_inline':
+          throw new Error('HTML inline not supported');
+        case 'image':
+          throw new Error('HTML inline not supported');
+        case 'ol_list':
+        case 'ul_list': {
+          if (node.data.kind === 'variable') {
+            throw new Error('List variable not supported');
+          } if (params.depth > 0) {
+            throw new Error('Nested list not supported');
+          } else {
+            // Increment depth before handling a list children
+            params.depth = params.depth + 1;
+          }
+        }
+        }
+      }
+      }
+
+      // process any children, attaching to first child if it exists
+      if(node.nodes) {
+        _recursive(params, node.nodes);
+      }
+      // Decrement depth when coming out of a list
+      if (nodeType === 'ol_list' || nodeType === 'ul_list') {
+        params.depth = params.depth - 1;
+      }
+    });
+  }
+
+  /**
+   * Check if UI valid
+   * @param {object} editor - Slate editor
+   * @param {object} clauseNode - the Slate node
+   * @return {boolean} is it valid
+   */
+  function isClauseSupported(editor, clauseNode) {
+    const params = { depth : 0 };
+    let nodes;
+    if (clauseNode.document) {
+      nodes = clauseNode.document.nodes;
+    } else {
+      nodes = [clauseNode];
+    }
+    try {
+      _recursive(params, nodes);
+      //console.log('Clause is supported');
+      return true;
+    } catch(err) {
+      //console.log('Clause is not supported: ' + err.message);
+      return false;
+    }
+  }
+ 
   return {
     name,
     augmentSchema,
@@ -215,7 +291,8 @@ function ClausePlugin() {
     onChange,
     onPaste,
     queries: {
-      findClauseNode
+      findClauseNode,
+      isClauseSupported
     }
   };
 }
