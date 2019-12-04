@@ -18,6 +18,7 @@ import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
 import VariablePlugin from '../plugins/VariablePlugin';
+import ConditionalPlugin from '../plugins/ConditionalPlugin';
 import ComputedPlugin from '../plugins/ComputedPlugin';
 
 /**
@@ -62,9 +63,9 @@ const contractProps = {
 const ContractEditor = React.forwardRef((props, ref) => {
   const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
-      [VariablePlugin(), ClausePlugin(), ComputedPlugin()]
+      [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
     )
-    : [VariablePlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
+    : [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
   return (
     plugins.length ? <SlateAsInputEditor
     ref={ref}

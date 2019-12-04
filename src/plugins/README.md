@@ -2,13 +2,13 @@
 
 ```js
 
-import { ClausePlugin, VariablePlugin, ComputedPlugin } from '@accordproject/cicero-ui';
+import { ClausePlugin, VariablePlugin, ConditionalPlugin, ComputedPlugin } from '@accordproject/cicero-ui';
 
 const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
-      [VariablePlugin(), ClausePlugin(), ComputedPlugin()]
+      [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
     )
-    : [VariablePlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
+    : [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
 
 ```
 

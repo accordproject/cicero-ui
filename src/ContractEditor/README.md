@@ -19,6 +19,7 @@ const clausePropsObject = {
     HEADER_FONT (string),
     HEADER_TITLE (string),
     VARIABLE_COLOR (string),
+    CONDITIONAL_COLOR (string),
 }
 
 const editorPropsObject = {
@@ -130,5 +131,6 @@ clauseProps = {
     HEADER_FONT,             // (String)
     HEADER_TITLE,            // (String)
     VARIABLE_COLOR,          // (String)
+    CONDITIONAL_COLOR,       // (String)
 }
 ```
