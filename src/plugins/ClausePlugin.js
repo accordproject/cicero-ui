@@ -232,7 +232,7 @@ function ClausePlugin() {
         case 'html_inline':
           throw new Error('HTML inline not supported');
         case 'image':
-          throw new Error('HTML inline not supported');
+          throw new Error('image not supported');
         case 'ol_list':
         case 'ul_list': {
           if (node.data.kind === 'variable') {
