@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Input } from 'semantic-ui-react';
 
 /* Internal */
-import TemplateCard from './TemplateCard';
+import TemplateCard from './Components/TemplateCard';
 import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
 const TemplatesWrapper = styled.div`
@@ -68,6 +68,13 @@ const SearchInput = styled(Input)`
   border: 1px solid #939EBA;
   border-radius: 3px;
   box-shadow: inset 0 0 4px 0 #ABABAB;
+  &&&,
+  &&& input,
+  &&& input::placeholder,
+  &&& input:focus,
+  &&& input::selection {
+    color: ${props => props.searchColor || '#FFFFFF'} !important;
+  }
 `;
 
 const TemplateCards = styled.div`
@@ -123,7 +130,7 @@ const TemplateLibraryComponent = (props) => {
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} />
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} searchColor={libraryProps.SEARCH_COLOR} />
           {props.addTemp
           && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
@@ -149,6 +156,7 @@ TemplateLibraryComponent.propTypes = {
     ACTION_BUTTON_BG: PropTypes.string,
     ACTION_BUTTON_BORDER: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
+    SEARCH_COLOR: PropTypes.string,
     TEMPLATE_BACKGROUND: PropTypes.string,
     TEMPLATE_BORDER: PropTypes.string,
     TEMPLATE_DESCRIPTION: PropTypes.string,

@@ -14,6 +14,7 @@ const libraryPropsObject = {
     ACTION_BUTTON_BG (string),
     ACTION_BUTTON_BORDER (string),
     HEADER_TITLE (string),
+    SEARCH_COLOR (string),
     TEMPLATE_BACKGROUND (string),
     TEMPLATE_DESCRIPTION (string),
     TEMPLATE_TITLE (string),
@@ -59,6 +60,7 @@ You can style the template card components, as well as the header. An object may
 - `ACTION_BUTTON_BG`
 - `ACTION_BUTTON_BORDER`
 - `HEADER_TITLE`
+- `SEARCH_COLOR`
 - `TEMPLATE_BACKGROUND`
 - `TEMPLATE_DESCRIPTION`
 - `TEMPLATE_TITLE`
