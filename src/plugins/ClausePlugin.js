@@ -232,7 +232,7 @@ function ClausePlugin() {
         case 'html_inline':
           throw new Error('HTML inline not supported');
         case 'image':
-          throw new Error('image not supported');
+          throw new Error('Image not supported');
         case 'ol_list':
         case 'ul_list': {
           if (node.data.kind === 'variable') {
@@ -273,14 +273,8 @@ function ClausePlugin() {
     } else {
       nodes = [clauseNode];
     }
-    try {
-      _recursive(params, nodes);
-      //console.log('Clause is supported');
-      return true;
-    } catch(err) {
-      //console.log('Clause is not supported: ' + err.message);
-      return false;
-    }
+    _recursive(params, nodes);
+    return true;
   }
  
   return {
