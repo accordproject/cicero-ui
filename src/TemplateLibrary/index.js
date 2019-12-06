@@ -105,7 +105,7 @@ const TemplateLibraryComponent = (props) => {
     if (query.length) {
       const regex = new RegExp(query, 'i');
       filteredTemplates = _.filter(filteredTemplates, t => (
-        t.name.match(regex) || t.uri.match(regex)
+        t.displayName.match(regex) || t.name.match(regex) || t.uri.match(regex)
       ));
     }
     return filteredTemplates;
