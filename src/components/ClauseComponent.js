@@ -84,6 +84,7 @@ function ClauseComponent(props) {
       <S.ClauseBody
         bodyfont={clauseProps.BODY_FONT}
         variablecolor={clauseProps.VARIABLE_COLOR}
+        conditionalcolor={clauseProps.CONDITIONAL_COLOR}
         computedcolor={clauseProps.COMPUTED_COLOR}
       >
         {props.children}
@@ -113,6 +114,7 @@ ClauseComponent.propTypes = {
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
     VARIABLE_COLOR: PropTypes.string,
+    CONDITIONAL_COLOR: PropTypes.string,
   }),
 };
 

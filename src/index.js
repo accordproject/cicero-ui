@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import TemplateLibrary from './TemplateLibrary';
 import Tile from './Tile';
 import VariablePlugin from './plugins/VariablePlugin';
+import ConditionalPlugin from './plugins/ConditionalPlugin';
 import ComputedPlugin from './plugins/ComputedPlugin';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -16,5 +17,6 @@ export {
   Navigation,
   TemplateLibrary,
   Tile,
-  VariablePlugin
+  VariablePlugin,
+  ConditionalPlugin
 };
