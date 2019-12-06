@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import TemplateCard from './TemplateCard';
-import TemplateLibrary from './index';
+import TemplateCard from '../Components/TemplateCard';
+import TemplateLibrary from '../index';
 
 const templateArray = [
   {
