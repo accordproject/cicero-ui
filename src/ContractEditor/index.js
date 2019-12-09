@@ -14,7 +14,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KeyUtils } from 'slate';
 import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
@@ -62,11 +61,6 @@ const contractProps = {
  */
 // eslint-disable-next-line react/display-name
 const ContractEditor = React.forwardRef((props, ref) => {
-  React.useEffect(() => {
-    const keygen = () => String(uuidv4()); // custom keys
-    KeyUtils.setGenerator(keygen);
-  }, []);
-
   const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
       [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
