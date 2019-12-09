@@ -14,6 +14,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { KeyUtils } from 'slate';
 import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
@@ -61,6 +62,11 @@ const contractProps = {
  */
 // eslint-disable-next-line react/display-name
 const ContractEditor = React.forwardRef((props, ref) => {
+  React.useEffect(() => {
+    const keygen = () => String(uuidv4()); // custom keys
+    KeyUtils.setGenerator(keygen);
+  }, []);
+
   const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
       [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
@@ -73,7 +79,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
     onChange={props.onChange || contractProps.onChange}
     plugins={plugins}
     lockText={props.lockText}
-    editorProps={props.editorProps}
+    editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
     clausePluginProps={{
       loadTemplateObject: props.loadTemplateObject,
       onClauseUpdated: props.onClauseUpdated,
@@ -120,6 +126,7 @@ ContractEditor.propTypes = {
     HEADER_TITLE: PropTypes.string,
   }).isRequired,
   onClauseUpdated: PropTypes.func.isRequired,
+  onUndoOrRedo: PropTypes.func,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
