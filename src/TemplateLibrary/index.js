@@ -74,6 +74,7 @@ const SearchInput = styled(Input)`
   &&& input:focus,
   &&& input::selection {
     color: ${props => props.searchColor || '#FFFFFF'} !important;
+    caret-color: ${props => props.searchColor || '#FFFFFF'} !important;
   }
 `;
 
