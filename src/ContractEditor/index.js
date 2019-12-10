@@ -73,7 +73,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
     onChange={props.onChange || contractProps.onChange}
     plugins={plugins}
     lockText={props.lockText}
-    editorProps={props.editorProps}
+    editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
     clausePluginProps={{
       loadTemplateObject: props.loadTemplateObject,
       onClauseUpdated: props.onClauseUpdated,
@@ -120,6 +120,7 @@ ContractEditor.propTypes = {
     HEADER_TITLE: PropTypes.string,
   }).isRequired,
   onClauseUpdated: PropTypes.func.isRequired,
+  onUndoOrRedo: PropTypes.func,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
