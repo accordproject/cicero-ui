@@ -1,26 +1,3 @@
 .parseError {
     background-color: #e98181;
 }
-
-button.ui.button {
-    opacity: 1 !important;
-}
-
-div.ui.input i {
-    opacity: 1 !important;
-}
-
-div.ui.input input, div.ui.input input::placeholder {
-    background-color: transparent;
-    border-radius: 3px;
-    opacity: 1 !important;
-}
-
-div.ui.input input:focus {
-    background-color: transparent;
-    border: 1px solid #fefeff00;
-    opacity: 1 !important;
-}
-
-div.ui.input input::selection {
-}
