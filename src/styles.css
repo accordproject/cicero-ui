@@ -14,7 +14,6 @@ div.ui.input input, div.ui.input input::placeholder {
     background-color: transparent;
     border-radius: 3px;
     opacity: 1 !important;
-    caret-color: #ffff !important;
 }
 
 div.ui.input input:focus {
