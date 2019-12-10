@@ -1,4 +1,5 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
@@ -83,6 +84,7 @@ module.exports = {
       title: 'YES',
     }),
     new CleanWebpackPlugin(),
+    new webpack.IgnorePlugin(/jsdom$/),
   ],
   node: {
     fs: 'empty',
