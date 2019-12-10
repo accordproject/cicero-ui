@@ -110,7 +110,7 @@ function ClausePlugin() {
   * @return {*} the react component
   */
   const onPaste = (event, editor, next) => {
-    if (isEditable(editor.value, 'paste')) {
+    if (isEditable(editor, 'paste')) {
       const transfer = getEventTransfer(event);
 
       // keep track of all the things that just got pasted
@@ -147,6 +147,7 @@ function ClausePlugin() {
 
         return undefined;
       }
+      return next();
     }
     return next();
   };
@@ -213,48 +214,47 @@ function ClausePlugin() {
    * @param {object} nodes - the Slate nodes
    */
   function _recursive(params, nodes) {
-
     nodes.forEach((node, index) => {
       const nodeType = node.type;
       switch (node.object) {
-      case 'text':
-        break;
-      default: {
-        switch(nodeType) {
-        case 'conditional':
-          throw new Error('Conditional variable not supported');
-        case 'computed':
-          throw new Error('Computed variable not supported');
-        case 'html_block':
-          throw new Error('HTML block not supported');
-        case 'code_block':
-          throw new Error('Code block not supported');
-        case 'html_inline':
-          throw new Error('HTML inline not supported');
-        case 'image':
-          throw new Error('Image not supported');
-        case 'ol_list':
-        case 'ul_list': {
-          if (node.data.kind === 'variable') {
-            throw new Error('List variable not supported');
-          } if (params.depth > 0) {
-            throw new Error('Nested list not supported');
-          } else {
-            // Increment depth before handling a list children
-            params.depth = params.depth + 1;
+        case 'text':
+          break;
+        default: {
+          switch (nodeType) {
+            case 'conditional':
+              throw new Error('Conditional variable not supported');
+            case 'computed':
+              throw new Error('Computed variable not supported');
+            case 'html_block':
+              throw new Error('HTML block not supported');
+            case 'code_block':
+              throw new Error('Code block not supported');
+            case 'html_inline':
+              throw new Error('HTML inline not supported');
+            case 'image':
+              throw new Error('Image not supported');
+            case 'ol_list':
+            case 'ul_list': {
+              if (node.data.kind === 'variable') {
+                throw new Error('List variable not supported');
+              } if (params.depth > 0) {
+                throw new Error('Nested list not supported');
+              } else {
+                // Increment depth before handling a list children
+                params.depth += 1;
+              }
+            }
           }
         }
-        }
-      }
       }
 
       // process any children, attaching to first child if it exists
-      if(node.nodes) {
+      if (node.nodes) {
         _recursive(params, node.nodes);
       }
       // Decrement depth when coming out of a list
       if (nodeType === 'ol_list' || nodeType === 'ul_list') {
-        params.depth = params.depth - 1;
+        params.depth -= 1;
       }
     });
   }
@@ -266,7 +266,7 @@ function ClausePlugin() {
    * @return {boolean} is it valid
    */
   function isClauseSupported(editor, clauseNode) {
-    const params = { depth : 0 };
+    const params = { depth: 0 };
     let nodes;
     if (clauseNode.document) {
       nodes = clauseNode.document.nodes;
@@ -276,7 +276,7 @@ function ClausePlugin() {
     _recursive(params, nodes);
     return true;
   }
- 
+
   return {
     name,
     augmentSchema,
