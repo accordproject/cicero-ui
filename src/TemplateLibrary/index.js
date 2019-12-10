@@ -75,6 +75,8 @@ const SearchInput = styled(Input)`
   &&& input::selection {
     color: ${props => props.searchColor || '#FFFFFF'} !important;
     caret-color: ${props => props.searchColor || '#FFFFFF'} !important;
+    background-color: transparent;
+    opacity: 1 !important;
   }
 `;
 
