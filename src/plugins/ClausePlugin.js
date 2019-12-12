@@ -109,12 +109,13 @@ function ClausePlugin() {
   * @param {*} next
   * @return {*} the react component
   */
-  const onPaste = (event, editor, next) => {
+  const onPaste = async (event, editor, next) => {
     if (isEditable(editor, 'paste')) {
       const transfer = getEventTransfer(event);
 
       // keep track of all the things that just got pasted
       const clausesToParse = [];
+      const clausesToPaste = [];
 
       if (transfer.type === 'fragment') {
         const mutableFragment = transfer.fragment.asMutable();
@@ -129,10 +130,8 @@ function ClausePlugin() {
                 d.set('clauseid', generatedUUID);
               });
               n.set('data', newData);
-              editor.props.clausePluginProps.pasteToContract(
-                generatedUUID, clauseUriSrc, node.text
-              );
               clausesToParse.push(n);
+              clausesToPaste.push({ id: generatedUUID, src: clauseUriSrc, text: node.text });
             });
             return mutableNode;
           }
@@ -140,7 +139,10 @@ function ClausePlugin() {
         });
         mutableFragment.nodes = mutableNodes.asImmutable();
         transfer.fragment = mutableFragment.asImmutable();
-        editor.insertFragment(transfer.fragment);
+
+        await editor.insertFragment(transfer.fragment);
+        clausesToPaste.forEach(clause => editor.props.clausePluginProps
+          .pasteToContract(clause.id, clause.src, clause.text));
         // on change is fired here, so then we can look into if there are new blocks
 
         parsePastedClauses(editor, clausesToParse);
