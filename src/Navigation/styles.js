@@ -22,7 +22,7 @@ export const NavigationWrapper = styled.div`
 export const Title = styled.a`
     place-self: center;
     color: #FFFFFF;
-    font-size: 0.87em;
+    font-size: 1em;
     font-weight: bold;
     font-family: ${props => props.headerFont || 'Graphik'};
     &:hover {
