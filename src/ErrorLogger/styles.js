@@ -22,6 +22,8 @@ export const ErrorsHeader = styled.div`
     position: fixed;
     transition: 1s;
     padding: 0.1em 0.1em 0.1em 1em;
+    bottom: 0;
+    height: 25px;
     display: ${props => (props.errors ? 'inline' : 'none')};
     background-color: ${props => props.headerBackground || '#1E2D53'};
     box-shadow: ${props => props.headerShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
