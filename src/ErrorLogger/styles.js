@@ -20,15 +20,14 @@ export const ErrorsHeader = styled.div`
     z-index: ${props => props.zIndexInput || 'auto'};
     width: 100%;
     position: fixed;
-    bottom: ${props => (props.errors ? '0' : 'auto')};
     transition: 1s;
-    height: ${props => (props.errors ? '25px' : '0')};
     padding: 0.1em 0.1em 0.1em 1em;
+    display: ${props => (props.errors ? 'inline' : 'none')};
     background-color: ${props => props.headerBackground || '#1E2D53'};
     box-shadow: ${props => props.headerShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
     border-top: ${props => props.headerTop || ' 1px solid #50637F'};
 
-    color: ${props => (props.errors ? '#FF4242' : '#19C6C7')};
+    color: #FF4242;
     font-family: "IBM Plex Sans";
     font-size: 1em;
     font-weight: bold;
