@@ -65,7 +65,6 @@ const SearchInput = styled(Input)`
   margin: 5px 0 !important;
   width: 100% !important;
   max-height: 40px;
-  border: 1px solid #939EBA;
   border-radius: 3px;
   box-shadow: inset 0 0 4px 0 #ABABAB;
   &&&,
