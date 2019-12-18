@@ -73,7 +73,7 @@ export const HeaderOne = styled.div`
     line-height: 24px;
     &:hover {
         cursor: pointer;
-        color: ${props => props.headerHover || '#19C6C7'};
+        text-decoration: underline;
     }
 `;
 
@@ -88,8 +88,4 @@ export const HeaderThree = styled(HeaderOne)`
 export const HeaderClause = styled(HeaderOne)`
     color: ${props => props.clauseColor || '#FFFFFF'} !important;
     font-weight: bold;
-
-    &:hover {
-        color: ${props => props.clauseHover || '#19C6C7'} !important;
-    }
 `;
