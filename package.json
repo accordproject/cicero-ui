@@ -21,7 +21,7 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
-    "@accordproject/markdown-editor": "^0.8.4",
+    "@accordproject/markdown-editor": "^0.8.5",
     "@accordproject/markdown-slate": "^0.9.4",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
