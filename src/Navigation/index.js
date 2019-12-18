@@ -46,11 +46,8 @@ const NavigationComponent = (props) => {
 
   const contractProps = {
     headerColor: navigationProps.CONTRACT_NAVIGATION_HEADER_COLOR,
-    headerHover: navigationProps.CONTRACT_NAVIGATION_HEADER_HOVER_COLOR,
     clauseColor: navigationProps.CONTRACT_NAVIGATION_CLAUSE_COLOR,
-    clauseHover: navigationProps.CONTRACT_NAVIGATION_CLAUSE_HOVER_COLOR,
     clauseHeaderColor: navigationProps.CONTRACT_NAVIGATION_CLAUSE_HEADER_COLOR,
-    clauseHeaderHover: navigationProps.CONTRACT_NAVIGATION_CLAUSE_HEADER_HOVER_COLOR,
   };
 
   const filesProps = {
@@ -100,11 +97,8 @@ NavigationComponent.propTypes = {
     NAVIGATION_BACKGROUND_COLOR: PropTypes.string,
 
     CONTRACT_NAVIGATION_HEADER_COLOR: PropTypes.string,
-    CONTRACT_NAVIGATION_HEADER_HOVER_COLOR: PropTypes.string,
     CONTRACT_NAVIGATION_CLAUSE_COLOR: PropTypes.string,
-    CONTRACT_NAVIGATION_CLAUSE_HOVER_COLOR: PropTypes.string,
     CONTRACT_NAVIGATION_CLAUSE_HEADER_COLOR: PropTypes.string,
-    CONTRACT_NAVIGATION_CLAUSE_HEADER_HOVER_COLOR: PropTypes.string,
 
     CLAUSE_NAVIGATION_TITLE_COLOR: PropTypes.string,
     CLAUSE_NAVIGATION_TITLE_HOVER_COLOR: PropTypes.string,
