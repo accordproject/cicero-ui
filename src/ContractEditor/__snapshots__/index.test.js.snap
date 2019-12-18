@@ -46,7 +46,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
               <div
                 class="item"
                 role="option"
-                style="font-size: 25px; line-height: 23px; font-weight: bold; color: rgb(18, 35, 48); font-family: serif;"
+                style="font-size: 25px; line-height: 23px; font-weight: bold; color: rgb(18, 35, 48);"
               >
                 <span
                   class="text"
@@ -57,7 +57,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
               <div
                 class="item"
                 role="option"
-                style="font-size: 20px; line-height: 20px; font-weight: bold; color: rgb(18, 35, 48); font-family: serif;"
+                style="font-size: 20px; line-height: 20px; font-weight: bold; color: rgb(18, 35, 48);"
               >
                 <span
                   class="text"
@@ -68,7 +68,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
               <div
                 class="item"
                 role="option"
-                style="font-size: 16px; line-height: 16px; font-weight: bold; color: rgb(18, 35, 48); font-family: serif;"
+                style="font-size: 16px; line-height: 16px; font-weight: bold; color: rgb(18, 35, 48);"
               >
                 <span
                   class="text"
@@ -372,7 +372,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
         </div>
       </div>
       <div
-        class="sc-bxivhb fquueO"
+        class="sc-bxivhb fAbwyP"
       >
         <div>
           <div
