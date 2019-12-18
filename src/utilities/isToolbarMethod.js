@@ -9,7 +9,7 @@ const toolbarMethods = {
   block_quote: true,
   ul_list: true,
   ol_list: true,
-  undefined: true,
+  hyperlink: true,
 };
 
 const isToolbarMethod = inputType => toolbarMethods[inputType] || false;
