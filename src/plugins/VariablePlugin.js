@@ -1,5 +1,6 @@
 import React from 'react';
 import inVariableHelper from '../utilities/inVariable';
+import isToolbarMethodHelper from '../utilities/isToolbarMethod';
 
 /**
  * A plugin for a variable
@@ -41,6 +42,10 @@ function VariablePlugin() {
 
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
+
+    if (inVariable && isToolbarMethodHelper(code)) {
+      return false;
+    }
 
     if (code === 'backspace') {
       if (inVariable) {
