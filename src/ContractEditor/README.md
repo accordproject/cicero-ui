@@ -70,6 +70,7 @@ ReactDOM.render(<ContractEditor
 
 - `value`: An `object` which is the initial contents of the editor.
 - `lockText`: A `boolean` to lock all non variable text.
+- `readOnly`: A `boolean` to lock all text and remove the formatting toolbar.
 
 #### Functionality
 
