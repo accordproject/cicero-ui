@@ -39,7 +39,7 @@
     "styled-components": ">= 4"
   },
   "devDependencies": {
-    "@accordproject/cicero-core": "0.20.5",
+    "@accordproject/cicero-core": "0.20.6",
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
