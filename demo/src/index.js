@@ -124,7 +124,7 @@ function Demo() {
     TOOLTIP_BACKGROUND: null,
     TOOLTIP: null,
     TOOLBAR_SHADOW: null,
-    WIDTH: '600px',
+    EDITOR_WIDTH: '600px',
   };
 
   const demo = <ContractEditor

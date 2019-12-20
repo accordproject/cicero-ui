@@ -28,12 +28,16 @@ const editorPropsObject = {
     BUTTON_SYMBOL_INACTIVE (string),
     BUTTON_SYMBOL_ACTIVE (string),
     DROPDOWN_COLOR (string),
-    HEIGHT (string),
+    EDITOR_BORDER (string),
+    EDITOR_BORDER_RADIUS (string),
+    EDITOR_HEIGHT (string),
+    EDITOR_MARGIN (string),
+    EDITOR_SHADOW (string),
+    EDITOR_WIDTH (string),
     TOOLBAR_BACKGROUND (string),
     TOOLTIP_BACKGROUND (string),
     TOOLTIP (string),
     TOOLBAR_SHADOW (string),
-    WIDTH (string),
 }
 
 const givenState = {
@@ -112,12 +116,16 @@ editorProps = {
     BUTTON_SYMBOL_INACTIVE,     // (String)
     BUTTON_SYMBOL_ACTIVE,       // (String)
     DROPDOWN_COLOR,             // (String)
-    HEIGHT,                     // (String)
+    EDITOR_BORDER,              // (String)
+    EDITOR_BORDER_RADIUS,       // (String)
+    EDITOR_HEIGHT,              // (String)
+    EDITOR_MARGIN,              // (String)
+    EDITOR_SHADOW,              // (String)
+    EDITOR_WIDTH,               // (String)
     TOOLBAR_BACKGROUND,         // (String)
     TOOLTIP_BACKGROUND,         // (String)
     TOOLTIP,                    // (String)
     TOOLBAR_SHADOW,             // (String)
-    WIDTH,                      // (String)
 }
 ```
 
