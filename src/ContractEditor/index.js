@@ -101,6 +101,7 @@ ContractEditor.propTypes = {
     EDITOR_BORDER: PropTypes.string,
     EDITOR_BORDER_RADIUS: PropTypes.string,
     EDITOR_SHADOW: PropTypes.string,
+    HEIGHT: PropTypes.string,
     TOOLBAR_BACKGROUND: PropTypes.string,
     TOOLTIP_BACKGROUND: PropTypes.string,
     TOOLTIP: PropTypes.string,

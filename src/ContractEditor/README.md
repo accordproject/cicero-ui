@@ -28,6 +28,7 @@ const editorPropsObject = {
     BUTTON_SYMBOL_INACTIVE (string),
     BUTTON_SYMBOL_ACTIVE (string),
     DROPDOWN_COLOR (string),
+    HEIGHT (string),
     TOOLBAR_BACKGROUND (string),
     TOOLTIP_BACKGROUND (string),
     TOOLTIP (string),
@@ -111,6 +112,7 @@ editorProps = {
     BUTTON_SYMBOL_INACTIVE,     // (String)
     BUTTON_SYMBOL_ACTIVE,       // (String)
     DROPDOWN_COLOR,             // (String)
+    HEIGHT,                     // (String)
     TOOLBAR_BACKGROUND,         // (String)
     TOOLTIP_BACKGROUND,         // (String)
     TOOLTIP,                    // (String)
