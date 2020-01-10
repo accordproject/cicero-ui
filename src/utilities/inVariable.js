@@ -1,14 +1,10 @@
-import _ from 'lodash';
+const inVariable = (value) => {
+  // check if the user has selected more than just a variable
+  if (value.selection.start.key !== value.selection.end.key) return false;
 
-const inVariable = (descendants) => {
-  if (descendants.size !== 4) return false;
-  const pattern = descendants.map(node => node.type).toArray();
-  if (
-    // pattern of nodes when in a variable is the following:
-    // clause, paragraph, variable, undefined (text node has no type)
-    _.isEqual(pattern, ['clause', 'paragraph', 'variable', undefined])
-    && descendants.get(descendants.size - 1).object === 'text' // check that node with undefined type is text node
-  ) return true;
+  const descendants = value.document.getDescendantsAtRange(value.selection);
+  // check that the selection contains exactly one variable node
+  if (descendants.filter(d => d.type === 'variable').size === 1) return true;
 
   return false;
 };
