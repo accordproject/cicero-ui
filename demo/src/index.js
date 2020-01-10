@@ -99,8 +99,10 @@ function Demo() {
 
   const fetchTemplateObj = async (uri) => {
     try {
-      const template = await Template.fromUrl(uri);
-      setTemplateObj({ ...templateObj, [uri]: template });
+      if (!templateObj[uri]) {
+        const template = await Template.fromUrl(uri);
+        setTemplateObj({ ...templateObj, [uri]: template });
+      }
     } catch (err) {
       console.log(err);
     }
