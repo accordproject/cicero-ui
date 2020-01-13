@@ -38,7 +38,7 @@ function VariablePlugin() {
    */
   const isEditable = ((editor, code) => {
     const { value } = editor;
-    const inVariable = inVariableHelper(value.document.getDescendantsAtRange(value.selection));
+    const inVariable = inVariableHelper(value);
 
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
