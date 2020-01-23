@@ -383,6 +383,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             data-gramm="false"
             data-key="7"
             data-slate-editor="true"
+            data-testid="editor"
             editorprops="[object Object]"
             role="textbox"
             spellcheck="true"

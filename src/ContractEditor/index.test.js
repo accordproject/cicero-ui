@@ -56,12 +56,12 @@ describe('<ContractEditor />', () => {
       expect(baseElement).toMatchSnapshot();
     });
 
-    // it('should render specified value', () => {
-    //   const content = chance.sentence();
-    //   const container = setup(content);
-    //   const textbox = container.getByRole('textbox');
-    //   expect(textbox.innerHTML).toEqual(expect.stringContaining(content));
-    // });
+    it('should render specified value', () => {
+      const content = chance.sentence();
+      const container = setup(content);
+      const editor = container.getByTestId('editor');
+      expect(editor.textContent).toEqual(content);
+    });
   });
 
   describe('on formatting', () => {
@@ -96,7 +96,7 @@ describe('<ContractEditor />', () => {
     it('should render blockquote properly', () => {
       const fisrtSentence = chance.sentence();
       const secondSentence = chance.sentence();
-      const container = setup(`> ${fisrtSentence}\n> ${secondSentence}`);
+      setup(`> ${fisrtSentence}\n> ${secondSentence}`);
       expect(document.querySelector('blockquote').textContent).toBe(`${fisrtSentence} ${secondSentence}`);
     });
   });
