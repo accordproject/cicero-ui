@@ -75,6 +75,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
     lockText={props.lockText}
     readOnly={props.readOnly}
     editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
+    data-testid='editor'
     clausePluginProps={{
       loadTemplateObject: props.loadTemplateObject,
       onClauseUpdated: props.onClauseUpdated,
