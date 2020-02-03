@@ -1,6 +1,5 @@
-const truncateHeading = (heading, length) => ((heading.length > length)
-  ? `${heading.substring(0, length)}...`
-  : heading);
+const truncateHeading = (heading, length) => ((heading && (heading.length > length))
+  ? `${heading.substring(0, length)}...` : heading || '');
 
 export const truncateHeader = ({ type, text }) => {
   switch (type) {

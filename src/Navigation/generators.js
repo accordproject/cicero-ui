@@ -18,6 +18,8 @@ export const headerGenerator = (props) => {
 
   return headers.map((header) => {
     const { type, key } = header;
+    const heading = truncateHeader(header);
+    if (!heading) return null;
     switch (type) {
       case 'clause':
         return (
