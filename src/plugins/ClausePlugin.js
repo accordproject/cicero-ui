@@ -288,6 +288,7 @@ function ClausePlugin() {
     onPaste,
     queries: {
       findClauseNode,
+      isOutsideOfClause: isEditable,
       isClauseSupported
     }
   };
