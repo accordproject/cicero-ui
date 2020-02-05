@@ -65,7 +65,7 @@ export const ClauseIcon = styled.svg`
 const IconWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
   background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.iconBg || '#ECF0FA'} 100%);
-  padding: 2px;
+  padding: 4px;
   place-self: center;
   transition-duration: 0.5s;
 `;
