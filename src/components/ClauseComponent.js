@@ -8,16 +8,11 @@ import * as S from './styles';
 
 /* Icons */
 import * as deleteIcon from '../icons/trash';
+import * as editIcon from '../icons/edit';
+import * as testIcon from '../icons/test';
 
 /* Actions */
 import { titleGenerator, headerGenerator } from './actions';
-
-const deleteIconProps = {
-  'aria-label': deleteIcon.type,
-  width: '15px',
-  height: '19px',
-  viewBox: '0 0 12 15'
-};
 
 /**
  * Component to render a clause
@@ -35,6 +30,38 @@ function ClauseComponent(props) {
 
   const title = titleGenerator(props.templateUri);
   const header = headerGenerator(props.templateUri, clauseProps.HEADER_TITLE);
+
+  const iconWrapperProps = {
+    currentHover: hovering,
+    iconBg: clauseProps.CLAUSE_BACKGROUND
+  };
+
+  const testIconProps = {
+    'aria-label': testIcon.type,
+    width: '16px',
+    height: '20px',
+    viewBox: '0 0 16 20',
+    clauseIconColor: clauseProps.CLAUSE_ICONS,
+    onClick: () => clauseProps.CLAUSE_TEST_FUNCTION(props)
+  };
+
+  const editIconProps = {
+    'aria-label': editIcon.type,
+    width: '19px',
+    height: '19px',
+    viewBox: '0 0 19 19',
+    clauseIconColor: clauseProps.CLAUSE_ICONS,
+    onClick: () => clauseProps.CLAUSE_EDIT_FUNCTION(props)
+  };
+
+  const deleteIconProps = {
+    'aria-label': deleteIcon.type,
+    width: '15px',
+    height: '19px',
+    viewBox: '0 0 12 15',
+    clauseIconColor: clauseProps.CLAUSE_ICONS,
+    onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
+  };
 
   return (
     <S.ClauseWrapper
@@ -69,17 +96,20 @@ function ClauseComponent(props) {
           {header}
         </S.HeaderToolTipText>
       </S.ClauseHeader>
-      <S.DeleteWrapper
-        currentHover={hovering}
-        deletebg={clauseProps.CLAUSE_BACKGROUND}
-      >
-      <S.ClauseDelete
-        {...deleteIconProps}
-        clausedelete={clauseProps.CLAUSE_DELETE}
-        onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
-      >
-        {deleteIcon.icon()}
-      </ S.ClauseDelete>
+      <S.TestWrapper {...iconWrapperProps}>
+        <S.ClauseIcon {...testIconProps}>
+          {testIcon.icon()}
+        </ S.ClauseIcon>
+      </S.TestWrapper>
+      <S.EditWrapper {...iconWrapperProps}>
+        <S.ClauseIcon {...editIconProps}>
+          {editIcon.icon()}
+        </ S.ClauseIcon>
+      </S.EditWrapper>
+      <S.DeleteWrapper {...iconWrapperProps}>
+        <S.ClauseIcon {...deleteIconProps}>
+          {deleteIcon.icon()}
+        </ S.ClauseIcon>
       </S.DeleteWrapper>
       <S.ClauseBody
         bodyfont={clauseProps.BODY_FONT}
@@ -107,8 +137,10 @@ ClauseComponent.propTypes = {
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
     CLAUSE_BORDER: PropTypes.string,
-    CLAUSE_DELETE: PropTypes.string,
+    CLAUSE_ICONS: PropTypes.string,
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
+    CLAUSE_EDIT_FUNCTION: PropTypes.func,
+    CLAUSE_TEST_FUNCTION: PropTypes.func,
     COMPUTED_COLOR: PropTypes.string,
     HEADER_COLOR: PropTypes.string,
     HEADER_FONT: PropTypes.string,
