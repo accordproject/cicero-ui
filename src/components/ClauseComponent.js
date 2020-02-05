@@ -9,7 +9,7 @@ import * as S from './styles';
 /* Icons */
 import * as deleteIcon from '../icons/trash';
 import * as editIcon from '../icons/edit';
-import * as testIcon from '../icons/test';
+import * as testIcon from '../icons/testIcon';
 
 /* Actions */
 import { titleGenerator, headerGenerator } from './actions';
