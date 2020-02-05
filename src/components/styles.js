@@ -53,22 +53,33 @@ export const ClauseBody = styled.div`
   line-height: 22px;
 `;
 
-export const DeleteWrapper = styled.div`
+export const ClauseIcon = styled.svg`
+  fill: #939EBA;
+  cursor: pointer;
+
+  &:hover {
+    fill: ${props => props.clauseIconColor || '#19C6C7'};
+  }
+`;
+
+const IconWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.deletebg || '#ECF0FA'} 100%);
-  grid-area: six / six / thirteen / thirteen;
+  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.iconBg || '#ECF0FA'} 100%);
   padding: 2px;
   place-self: center;
   transition-duration: 0.5s;
 `;
 
-export const ClauseDelete = styled.svg`
-  fill: #939EBA;
-  cursor: pointer;
+export const TestWrapper = styled(IconWrapper)`
+  grid-area: four / four / eleven / eleven;
+`;
 
-  &:hover {
-    fill: ${props => props.clausedelete || '#19C6C7'};
-  }
+export const EditWrapper = styled(IconWrapper)`
+  grid-area: five / five / twelve / twelve;
+`;
+
+export const DeleteWrapper = styled(IconWrapper)`
+  grid-area: six / six / thirteen / thirteen;
 `;
 
 export const ClauseAdd = styled.svg`
