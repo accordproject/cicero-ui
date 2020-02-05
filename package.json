@@ -25,7 +25,7 @@
     "@accordproject/markdown-slate": "^0.9.5",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "ramda": "^0.26.1",
     "semantic-ui-css": "^2.4.1",
