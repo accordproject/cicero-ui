@@ -13,8 +13,10 @@ const clausePropsObject = {
     BODY_FONT (string),
     CLAUSE_BACKGROUND (string),
     CLAUSE_BORDER (string),
-    CLAUSE_DELETE (string),
     CLAUSE_DELETE_FUNCTION (function),
+    CLAUSE_EDIT_FUNCTION (function),
+    CLAUSE_TEST_FUNCTION (function),
+    CLAUSE_ICONS (string),
     COMPUTED_COLOR (string),
     HEADER_FONT (string),
     HEADER_TITLE (string),
@@ -136,8 +138,10 @@ clauseProps = {
     BODY_FONT,               // (String)
     CLAUSE_BACKGROUND,       // (String)
     CLAUSE_BORDER,           // (String)
-    CLAUSE_DELETE,           // (String)
     CLAUSE_DELETE_FUNCTION,  // (Function)
+    CLAUSE_EDIT_FUNCTION,    // (Function)
+    CLAUSE_TEST_FUNCTION,    // (Function)
+    CLAUSE_ICONS,            // (String)
     COMPUTED_COLOR,          // (String)
     HEADER_FONT,             // (String)
     HEADER_TITLE,            // (String)
