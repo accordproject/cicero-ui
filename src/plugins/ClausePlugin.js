@@ -175,6 +175,7 @@ function ClausePlugin() {
   */
   function renderBlock(props, editor, next) {
     const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject;
+    const { readOnly } = editor.props;
     const { clauseProps } = editor.props.clausePluginProps;
     const { node, children } = props;
 
@@ -192,6 +193,7 @@ function ClausePlugin() {
             clauseProps={clauseProps}
             templateUri={src}
             clauseId={clauseid}
+            readOnly={readOnly}
             {...props}>
               {children}
           </ClauseComponent>
