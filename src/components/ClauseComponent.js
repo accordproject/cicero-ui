@@ -96,21 +96,25 @@ function ClauseComponent(props) {
           {header}
         </S.HeaderToolTipText>
       </S.ClauseHeader>
-      <S.TestWrapper {...iconWrapperProps}>
-        <S.ClauseIcon {...testIconProps}>
-          {testIcon.icon()}
-        </ S.ClauseIcon>
-      </S.TestWrapper>
-      <S.EditWrapper {...iconWrapperProps}>
-        <S.ClauseIcon {...editIconProps}>
-          {editIcon.icon()}
-        </ S.ClauseIcon>
-      </S.EditWrapper>
-      <S.DeleteWrapper {...iconWrapperProps}>
-        <S.ClauseIcon {...deleteIconProps}>
-          {deleteIcon.icon()}
-        </ S.ClauseIcon>
-      </S.DeleteWrapper>
+      { !props.readOnly
+        && <>
+          <S.TestWrapper {...iconWrapperProps}>
+            <S.ClauseIcon {...testIconProps}>
+              {testIcon.icon()}
+            </ S.ClauseIcon>
+          </S.TestWrapper>
+          <S.EditWrapper {...iconWrapperProps}>
+            <S.ClauseIcon {...editIconProps}>
+              {editIcon.icon()}
+            </ S.ClauseIcon>
+          </S.EditWrapper>
+          <S.DeleteWrapper {...iconWrapperProps}>
+            <S.ClauseIcon {...deleteIconProps}>
+              {deleteIcon.icon()}
+            </ S.ClauseIcon>
+          </S.DeleteWrapper>
+        </>
+      }
       <S.ClauseBody
         bodyfont={clauseProps.BODY_FONT}
         variablecolor={clauseProps.VARIABLE_COLOR}
@@ -131,6 +135,7 @@ ClauseComponent.propTypes = {
     'data-key': PropTypes.string,
   }),
   errors: PropTypes.object,
+  readOnly: PropTypes.bool,
   removeFromContract: PropTypes.func,
   clauseId: PropTypes.string,
   clauseProps: PropTypes.shape({
