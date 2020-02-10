@@ -58,8 +58,12 @@ function VariablePlugin() {
       // if we hit backspace and are outside of a variable
       // allow deleting the last char of the variable
       // IFF the variable has more than 1 char
+      // AND IFF the selection does not include anything outside the variable
       const prev = value.document.getPreviousSibling(anchor.path);
-      return prev && anchor.offset === 0 && prev.type === 'variable' && prev.getFirstText().text.length > 1;
+      return prev && anchor.offset === 0
+        && prev.type === 'variable'
+        && prev.getFirstText().text.length > 1
+        && value.selection.start.key === value.selection.end.key;
     }
 
     if (!inVariable && code === 'input') {
