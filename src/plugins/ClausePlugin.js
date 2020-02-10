@@ -177,6 +177,7 @@ function ClausePlugin() {
     const { readOnly } = editor.props;
     const { clauseProps } = editor.props.clausePluginProps;
     const { node, children } = props;
+    console.log('NODE: ', node);
 
     switch (node.type) {
       case 'clause': {
@@ -186,6 +187,12 @@ function ClausePlugin() {
         if (src) {
           loadTemplateCallback(src.toString());
         }
+        console.log('renderBlock children: ', children);
+        /*
+
+        children[1].props.node.nodes._tail[1] = inline, conditional variable
+
+        */
 
         return (
           <ClauseComponent

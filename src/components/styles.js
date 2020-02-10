@@ -40,7 +40,7 @@ export const ClauseBody = styled.div`
     color: ${props => props.variablecolor || '#009593'};
   }
   .conditional {
-    color: ${props => props.conditionalcolor || '#ff5733'};
+    color: ${props => props.conditionalcolor || '#B11A00'};
   }
   .computed {
     color: ${props => props.computedcolor || '#f1baff'};

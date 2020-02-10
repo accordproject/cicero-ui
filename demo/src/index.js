@@ -16,6 +16,18 @@ import ContractEditor from '../../src/ContractEditor';
 const slateTransformer = new SlateTransformer();
 
 const templateUri = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.13.0.cta';
+
+const forceText = `Late Delivery and Penalty.
+----
+
+In case of delayed delivery<if id="forceMajeure" value="%20except%20for%20Force%20Majeure%20cases%2C"/>
+<variable id="seller" value="%22Dan%22"/> (the Seller) shall pay to <variable id="buyer" value="%22Steve%22"/> (the Buyer) for every <variable id="penaltyDuration" value="2%20days"/>
+of delay penalty amounting to <variable id="penaltyPercentage" value="10.5"/>% of the total value of the Equipment
+whose delivery has been delayed. Any fractional part of a <variable id="fractionalPart" value="days"/> is to be
+considered a full <variable id="fractionalPart" value="days"/>. The total amount of penalty shall not however,
+exceed <variable id="capPercentage" value="55.0"/>% of the total value of the Equipment involved in late delivery.
+If the delay is more than <variable id="termination" value="15%20days"/>, the Buyer is entitled to terminate this Contract.`;
+
 const clauseText = `Acceptance of Delivery.
 ----
 
@@ -42,7 +54,7 @@ to this agreement.`;
 
 const getContractSlateVal = async () => {
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-${clauseText}
+${forceText}
 \`\`\`
 `;
 

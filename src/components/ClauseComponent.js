@@ -63,6 +63,8 @@ function ClauseComponent(props) {
     onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
   };
 
+  console.log('ClauseComponent props: ', props);
+
   return (
     <S.ClauseWrapper
       onMouseEnter={() => setHovering(true)}
