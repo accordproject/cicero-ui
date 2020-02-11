@@ -7,11 +7,14 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   onMouseLeave={[Function]}
 >
   <styled.div
+    clausebg="#ECF0FA"
+    clauseborder="#19C6C7"
     contentEditable={false}
   />
   <styled.div
     contentEditable={false}
     currentHover={false}
+    headerbg="#ECF0FA"
   >
     <styled.span
       onMouseEnter={[Function]}
@@ -22,6 +25,7 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   </styled.div>
   <Styled(styled.div)
     currentHover={false}
+    iconBg="#ECF0FA"
   >
     <styled.svg
       aria-label={[Function]}
@@ -50,6 +54,7 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   </Styled(styled.div)>
   <Styled(styled.div)
     currentHover={false}
+    iconBg="#ECF0FA"
   >
     <styled.svg
       aria-label={[Function]}
@@ -74,6 +79,7 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   </Styled(styled.div)>
   <Styled(styled.div)
     currentHover={false}
+    iconBg="#ECF0FA"
   >
     <styled.svg
       aria-label={[Function]}
