@@ -176,7 +176,7 @@ function ClausePlugin() {
   function renderBlock(props, editor, next) {
     const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject;
     const { readOnly } = editor.props;
-    const { clauseProps } = editor.props.clausePluginProps;
+    const { clauseProps, clauseErrors } = editor.props.clausePluginProps;
     const { node, children } = props;
 
     switch (node.type) {
@@ -194,6 +194,7 @@ function ClausePlugin() {
             templateUri={src}
             clauseId={clauseid}
             readOnly={readOnly}
+            clauseErrors={clauseErrors}
             {...props}>
               {children}
           </ClauseComponent>

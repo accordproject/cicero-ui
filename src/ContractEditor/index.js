@@ -81,6 +81,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
       onClauseUpdated: props.onClauseUpdated,
       pasteToContract: props.pasteToContract,
       clauseProps: props.clauseProps,
+      clauseErrors: props.clauseErrors,
       clauseMap: props.clauseMap
     }}
   /> : null
@@ -91,8 +92,19 @@ const ContractEditor = React.forwardRef((props, ref) => {
  * The property types for this component
  */
 ContractEditor.propTypes = {
-  value: PropTypes.object,
-  onChange: PropTypes.func,
+  clauseErrors: PropTypes.object,
+  clauseMap: PropTypes.object,
+  clauseProps: PropTypes.shape({
+    BODY_FONT: PropTypes.string,
+    CLAUSE_BACKGROUND: PropTypes.string,
+    CLAUSE_BORDER: PropTypes.string,
+    CLAUSE_ICONS: PropTypes.string,
+    CLAUSE_DELETE_FUNCTION: PropTypes.func,
+    CLAUSE_EDIT_FUNCTION: PropTypes.func,
+    CLAUSE_TEST_FUNCTION: PropTypes.func,
+    HEADER_FONT: PropTypes.string,
+    HEADER_TITLE: PropTypes.string,
+  }).isRequired,
   editorProps: PropTypes.shape({
     BUTTON_BACKGROUND_INACTIVE: PropTypes.string,
     BUTTON_BACKGROUND_ACTIVE: PropTypes.string,
@@ -110,30 +122,20 @@ ContractEditor.propTypes = {
     TOOLTIP: PropTypes.string,
     TOOLBAR_SHADOW: PropTypes.string,
   }),
-  lockText: PropTypes.bool,
-  readOnly: PropTypes.bool,
   loadTemplateObject: PropTypes.func.isRequired,
-  pasteToContract: PropTypes.func.isRequired,
-  clauseMap: PropTypes.object,
-  clauseProps: PropTypes.shape({
-    BODY_FONT: PropTypes.string,
-    CLAUSE_BACKGROUND: PropTypes.string,
-    CLAUSE_BORDER: PropTypes.string,
-    CLAUSE_ICONS: PropTypes.string,
-    CLAUSE_DELETE_FUNCTION: PropTypes.func,
-    CLAUSE_EDIT_FUNCTION: PropTypes.func,
-    CLAUSE_TEST_FUNCTION: PropTypes.func,
-    HEADER_FONT: PropTypes.string,
-    HEADER_TITLE: PropTypes.string,
-  }).isRequired,
+  lockText: PropTypes.bool,
+  onChange: PropTypes.func,
   onClauseUpdated: PropTypes.func.isRequired,
   onUndoOrRedo: PropTypes.func,
+  pasteToContract: PropTypes.func.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
     name: PropTypes.string.isRequired,
     augmentSchema: PropTypes.func,
   })),
+  readOnly: PropTypes.bool,
+  value: PropTypes.object,
 };
 
 export default ContractEditor;

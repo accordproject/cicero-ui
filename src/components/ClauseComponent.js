@@ -1,5 +1,5 @@
 /* React */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 
@@ -21,8 +21,19 @@ import { titleGenerator, headerGenerator } from './actions';
  */
 function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
+  const backgroundColor = clauseProps.CLAUSE_BACKGROUND || S.CLAUSE_BACKGROUND;
+  const borderColor = clauseProps.CLAUSE_BORDER || S.CLAUSE_BORDER;
+
   const [hovering, setHovering] = useState(false);
   const [hoveringHeader, setHoveringHeader] = useState(false);
+  const [clauseBG, setClauseBG] = useState(backgroundColor);
+  const [clauseBorder, setClauseBorder] = useState(borderColor);
+
+  useEffect(() => {
+    const isError = props.clauseErrors[props.clauseId];
+    setClauseBG(isError ? S.CLAUSE_ERROR_BACKGROUND : backgroundColor);
+    setClauseBorder(isError ? S.CLAUSE_ERROR_BORDER : borderColor);
+  }, [backgroundColor, borderColor, props.clauseErrors, props.clauseId]);
 
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
@@ -33,7 +44,7 @@ function ClauseComponent(props) {
 
   const iconWrapperProps = {
     currentHover: hovering,
-    iconBg: clauseProps.CLAUSE_BACKGROUND
+    iconBg: clauseBG
   };
 
   const testIconProps = {
@@ -70,8 +81,8 @@ function ClauseComponent(props) {
       id={props.clauseId}
     >
       <S.ClauseBackground
-        clauseborder={clauseProps.CLAUSE_BORDER}
-        clausebg={clauseProps.CLAUSE_BACKGROUND}
+        clauseborder={clauseBorder}
+        clausebg={clauseBG}
         contentEditable={false}
       />
 
@@ -79,7 +90,7 @@ function ClauseComponent(props) {
         currentHover={hovering}
         headerfont={clauseProps.HEADER_FONT}
         headercolor={clauseProps.HEADER_COLOR}
-        headerbg={clauseProps.CLAUSE_BACKGROUND}
+        headerbg={clauseBG}
         contentEditable={false}
       >
         {(hoveringHeader && header.length > 54)
@@ -129,14 +140,11 @@ function ClauseComponent(props) {
 }
 
 ClauseComponent.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
-  templateUri: PropTypes.string.isRequired,
   attributes: PropTypes.PropTypes.shape({
     'data-key': PropTypes.string,
   }),
-  errors: PropTypes.object,
-  readOnly: PropTypes.bool,
-  removeFromContract: PropTypes.func,
+  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  clauseErrors: PropTypes.object,
   clauseId: PropTypes.string,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
@@ -153,6 +161,10 @@ ClauseComponent.propTypes = {
     VARIABLE_COLOR: PropTypes.string,
     CONDITIONAL_COLOR: PropTypes.string,
   }),
+  errors: PropTypes.object,
+  readOnly: PropTypes.bool,
+  removeFromContract: PropTypes.func,
+  templateUri: PropTypes.string.isRequired,
 };
 
 export default ClauseComponent;
