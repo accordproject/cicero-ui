@@ -94,10 +94,11 @@ describe('<ContractEditor />', () => {
     });
 
     it('should render blockquote properly', () => {
-      const fisrtSentence = chance.sentence();
+      const first = chance.sentence();
       const secondSentence = chance.sentence();
-      setup(`> ${fisrtSentence}\n> ${secondSentence}`);
-      expect(document.querySelector('blockquote').textContent).toBe(`${fisrtSentence} ${secondSentence}`);
+      setup(`> ${first}\n> ${secondSentence}`);
+      expect(document.querySelector('blockquote').textContent).toMatch(first);
+      expect(document.querySelector('blockquote').textContent).toMatch(secondSentence);
     });
   });
 });
