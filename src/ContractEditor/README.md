@@ -58,12 +58,16 @@ function storeLocal(editor) {
 ReactDOM.render(<ContractEditor
     onChange={storeLocal}
     editorProps={editorPropsObject}
-    clauseProps={clausePropsObject}
-    loadTemplateObject={loadTemplateObjectFunction}
-    pasteToContract={pasteToContractFunction}
-    onClauseUpdated={parseClauseFunction}
     value={givenState.value}
     lockText={false}
+    clausePluginProps={{
+      loadTemplateObject: loadTemplateObjectFunction,
+      onClauseUpdated: parseClauseFunction,
+      pasteToContract: pasteToContractFunction,
+      clauseProps: clausePropsObject,
+      clauseErrors: clauseErrors,
+      clauseMap: clauseMap
+    }}
     />,
   document.getElementById('root'));
 ```
@@ -78,6 +82,9 @@ ReactDOM.render(<ContractEditor
 - `value`: An `object` which is the initial contents of the editor.
 - `lockText`: A `boolean` to lock all non variable text.
 - `readOnly`: A `boolean` to lock all text and remove the formatting toolbar.
+- `clausePluginProps`: An `object` which contains clause specific information.
+- `clauseErrors`: An `object` with the current parse errors.
+- `clauseMap`: An `object` with the current clauses and their information.
 
 #### Functionality
 
