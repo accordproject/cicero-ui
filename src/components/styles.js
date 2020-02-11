@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import './index.css';
 
+export const CLAUSE_BACKGROUND = '#ECF0FA';
+export const CLAUSE_BORDER = '#19C6C7';
+export const CLAUSE_ERROR_BACKGROUND = '#FEFAFA';
+export const CLAUSE_ERROR_BORDER = '#FF9595';
+
 export const ClauseWrapper = styled.div`
   position: relative;
   margin: 10px -10px;
@@ -13,8 +18,8 @@ export const ClauseWrapper = styled.div`
 `;
 
 export const ClauseBackground = styled.div`
-  background-color: ${props => props.clausebg || '#ECF0FA'};
-  border: 1px solid ${props => props.clauseborder || '#19C6C7'};
+  background-color: ${props => props.clausebg};
+  border: 1px solid ${props => props.clauseborder};
   border-radius: 3px;
   grid-area: eight / eight / twentyone / twentyone;
 `;
@@ -24,7 +29,7 @@ export const ClauseHeader = styled.div`
   font-family: ${props => props.headerfont || 'Graphik'};
   grid-area: two / two / ten / ten;
   transition-duration: 0.5s;
-  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.headerbg || '#ECF0FA'} 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.headerbg} 100%);
   align-self: center;
   justify-self: start;
   margin: 6px 0;
@@ -58,13 +63,13 @@ export const ClauseIcon = styled.svg`
   cursor: pointer;
 
   &:hover {
-    fill: ${props => props.clauseIconColor || '#19C6C7'};
+    fill: ${props => props.clauseIconColor || CLAUSE_BORDER};
   }
 `;
 
 const IconWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.iconBg || '#ECF0FA'} 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.iconBg} 100%);
   padding: 4px;
   place-self: center;
   transition-duration: 0.5s;
