@@ -24,7 +24,6 @@ function ClausePlugin() {
             {
               match: [
                 { type: 'paragraph' },
-                { type: 'quote' },
                 { type: 'list' },
                 { type: 'link' },
                 { type: 'horizontal_rule' },
