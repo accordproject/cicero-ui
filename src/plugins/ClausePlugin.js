@@ -84,6 +84,26 @@ function ClausePlugin() {
   /**
    * Function called when a clause is updated
    */
+  function shouldNodeComponentUpdate(prevProps, props, editor, next) {
+    if (props.node.type === 'clause') {
+      const newID = props.node.data.get('clauseid');
+      // console.log('node -- ', newID);
+      console.log('clauseErrors prevProps -- ', prevProps.editor.props.clausePluginProps.clauseErrors);
+      console.log('clauseErrors props -- ', props.editor.props.clausePluginProps.clauseErrors);
+      if (props.editor.props.clausePluginProps.clauseErrors[newID]
+        || prevProps.editor.props.clausePluginProps.clauseErrors[newID]) {
+        console.log('node component should updatee');
+        return true;
+      }
+    }
+
+    return next();
+  }
+
+
+  /**
+   * Function called when a clause is updated
+   */
   function onClauseUpdated(editor, clauseNode) {
     editor.props.clausePluginProps.onClauseUpdated(clauseNode);
   }
@@ -183,6 +203,7 @@ function ClausePlugin() {
       case 'clause': {
         const src = node.data.get('src');
         const clauseid = node.data.get('clauseid');
+        console.log('clauseErrors ~~~~~~', clauseErrors);
 
         if (src) {
           loadTemplateCallback(src.toString());
@@ -285,6 +306,7 @@ function ClausePlugin() {
   return {
     name,
     augmentSchema,
+    shouldNodeComponentUpdate,
     renderBlock,
     isEditable,
     onChange,

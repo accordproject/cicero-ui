@@ -73,8 +73,10 @@ const parseClause = (template, clauseNode) => {
     ciceroClause.parse(text);
     const parseResult = ciceroClause.getData();
     console.log(parseResult);
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 
