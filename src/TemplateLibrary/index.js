@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Input } from 'semantic-ui-react';
 
 /* Internal */
+import isQueryMatch from '../utilities/isQueryMatch';
 import TemplateCard from './Components/TemplateCard';
 import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
@@ -93,25 +94,22 @@ const TemplateCards = styled.div`
  */
 
 const TemplateLibraryComponent = (props) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState([]);
 
   const onQueryChange = (e, input) => {
-    const inputQuery = input.value.toLowerCase().trim();
+    const inputQuery = input.value.toLowerCase().trim().split(' ').filter(q => q.length);
     if (inputQuery !== query) {
       setQuery(inputQuery);
     }
   };
 
   const filterTemplates = (templates) => {
-    let filteredTemplates = templates;
+    let filtered = templates;
     if (query.length) {
-      const regex = new RegExp(query, 'i');
-      filteredTemplates = _.filter(filteredTemplates, (t) => {
-        if (!t.displayName) return (t.name.match(regex) || t.uri.match(regex));
-        return (t.displayName.match(regex) || t.name.match(regex) || t.uri.match(regex));
-      });
+      filtered = _.filter(filtered, t => isQueryMatch([t.name, t.displayName, t.uri], query));
     }
-    return filteredTemplates;
+
+    return filtered;
   };
 
   /**
