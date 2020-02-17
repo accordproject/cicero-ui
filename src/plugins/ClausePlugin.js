@@ -179,7 +179,12 @@ function ClausePlugin() {
   * Handles dragging clause element
   */
   function onDragStart(event, editor, next) {
+    console.log('event.target --- ', event.target);
+
     const path = editor.findPath(event.target);
+    const node = editor.value.document.getNode(path);
+    console.log('editor.value.fragment --- ', editor.value.fragment);
+    console.log('node --- ', node);
     const preventDrag = hasClauseAncestor(editor, path);
     if (preventDrag) {
       event.preventDefault();
@@ -192,12 +197,24 @@ function ClausePlugin() {
   * Handles dragging clause element
   */
   function onDragEnd(event, editor, next) {
+    console.log('on drag end');
     const path = editor.findPath(event.target);
     const preventDrag = hasClauseAncestor(editor, path);
     if (preventDrag) {
       event.preventDefault();
       return false;
     }
+    console.log('calling next...');
+    return next();
+  }
+
+  /**
+  * Handles dragging clause element
+  */
+  function onDragOver(event, editor, next) {
+    console.log('on drag over');
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
     return next();
   }
 
@@ -205,6 +222,17 @@ function ClausePlugin() {
   * Handles dropping a element
   */
   function onDrop(event, editor, next) {
+    console.log('in on drop');
+    const target = editor.findEventRange(event);
+    console.log('drop target - ', target);
+    const transfer = getEventTransfer(event);
+    const { type, node } = transfer;
+    console.log('drop transfer - ', transfer);
+    console.log('drop transfer node - ', node);
+    console.log('drop transfer type - ', type);
+
+    console.log('drop editor.value.selection - ', editor.value.selection);
+
     const path = editor.findPath(event.target);
     const preventDrop = hasClauseAncestor(editor, path);
     if (preventDrop) {
@@ -336,6 +364,7 @@ function ClausePlugin() {
     onChange,
     onDragStart,
     onDragEnd,
+    onDragOver,
     onDrop,
     onPaste,
     queries: {

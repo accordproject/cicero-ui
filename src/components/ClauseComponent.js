@@ -68,6 +68,7 @@ function ClauseComponent(props) {
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       id={props.clauseId}
+      draggable="true"
     >
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
