@@ -168,6 +168,54 @@ function ClausePlugin() {
   }
 
   /**
+  * Determines if path has an ancestor that is a clause
+  */
+  function hasClauseAncestor(editor, path) {
+    const ancestors = editor.value.document.getAncestors(path);
+    return ancestors.size > 0 && ancestors.some(node => node.type === 'clause');
+  }
+
+  /**
+  * Handles dragging clause element
+  */
+  function onDragStart(event, editor, next) {
+    const path = editor.findPath(event.target);
+    const preventDrag = hasClauseAncestor(editor, path);
+    if (preventDrag) {
+      event.preventDefault();
+      return false;
+    }
+    return next();
+  }
+
+  /**
+  * Handles dragging clause element
+  */
+  function onDragEnd(event, editor, next) {
+    const path = editor.findPath(event.target);
+    const preventDrag = hasClauseAncestor(editor, path);
+    if (preventDrag) {
+      event.preventDefault();
+      return false;
+    }
+    return next();
+  }
+
+  /**
+  * Handles dropping a element
+  */
+  function onDrop(event, editor, next) {
+    const path = editor.findPath(event.target);
+    const preventDrop = hasClauseAncestor(editor, path);
+    if (preventDrop) {
+      event.preventDefault();
+      return false;
+    }
+
+    return next();
+  }
+
+  /**
   * @param {Object} props
   * @param {*} editor Slate Editor
   * @param {Function} next
@@ -286,6 +334,9 @@ function ClausePlugin() {
     renderBlock,
     isEditable,
     onChange,
+    onDragStart,
+    onDragEnd,
+    onDrop,
     onPaste,
     queries: {
       findClauseNode,
