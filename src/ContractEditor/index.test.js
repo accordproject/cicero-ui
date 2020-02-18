@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 import { Chance } from 'chance';
+import { Value } from 'slate';
 import ContractEditor from './index';
 
 const slateTransformer = new SlateTransformer();
@@ -30,7 +31,7 @@ const props = {
 
 const setup = (content = null) => {
   const ref = React.createRef();
-  const value = content ? slateTransformer.fromMarkdown(content) : null;
+  const value = content ? Value.fromJSON(slateTransformer.fromMarkdown(content)) : null;
   return render(<ContractEditor {...props} value={value} ref={ref} />);
 };
 

@@ -7,6 +7,7 @@ import {
 
 import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
+import { Value } from 'slate';
 
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
@@ -52,7 +53,7 @@ ${clauseText}
   
   Fin.
   `;
-  return slateTransformer.fromMarkdown(defaultContractMarkdown);
+  return Value.fromJSON(slateTransformer.fromMarkdown(defaultContractMarkdown));
 };
 
 /**
@@ -62,11 +63,12 @@ ${clauseText}
  */
 const parseClause = (template, clauseNode) => {
   try {
+    const clauseNodeJson = clauseNode.toJSON();
     const ciceroClause = new Clause(template);
     const slateTransformer = new SlateTransformer();
     const value = {
       document: {
-        nodes: clauseNode.nodes
+        nodes: clauseNodeJson.nodes
       }
     };
     const text = slateTransformer.toMarkdown(value, { wrapVariables: false });
