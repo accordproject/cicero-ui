@@ -51,6 +51,10 @@ ${clauseText}
   
   ${acceptanceOfDeliveryClause}
   
+  1. This
+  1. is a
+  1. list
+  ![ap_logo](https://docs.accordproject.org/docs/assets/020/template.png "AP triangle")
   Fin.
   `;
   return Value.fromJSON(slateTransformer.fromMarkdown(defaultContractMarkdown));

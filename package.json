@@ -29,7 +29,8 @@
     "prop-types": "^15.7.2",
     "ramda": "^0.26.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.2"
+    "semantic-ui-react": "^0.87.2",
+    "slate-base64-serializer": "^0.2.112"
   },
   "peerDependencies": {
     "react": ">= 16.6.0",

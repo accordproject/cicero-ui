@@ -75,7 +75,6 @@ function ClauseComponent(props) {
         clausebg={clauseProps.CLAUSE_BACKGROUND}
         contentEditable={false}
       />
-
       <S.ClauseHeader
         currentHover={hovering}
         headerfont={clauseProps.HEADER_FONT}
@@ -123,6 +122,7 @@ function ClauseComponent(props) {
         computedcolor={clauseProps.COMPUTED_COLOR}
       >
         {props.children}
+        <h3>test</h3>
       </S.ClauseBody>
     {errorsComponent}
   </S.ClauseWrapper>

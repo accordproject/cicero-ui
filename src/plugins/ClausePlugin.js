@@ -1,5 +1,7 @@
 import React from 'react';
-import { getEventTransfer } from 'slate-react';
+import { getEventTransfer, setEventTransfer } from 'slate-react';
+import Base64 from 'slate-base64-serializer';
+import { Document } from 'slate';
 import _ from 'lodash';
 
 import '../styles.css';
@@ -179,6 +181,7 @@ function ClausePlugin() {
   * Handles dragging clause element
   */
   function onDragStart(event, editor, next) {
+    // event.preventDefault();
     console.log('event.target --- ', event.target);
 
     const path = editor.findPath(event.target);
@@ -190,6 +193,11 @@ function ClausePlugin() {
       event.preventDefault();
       return false;
     }
+    // const { fragment } = editor.value;
+    // const fragment = Document.create({ nodes: node.nodes });
+    // const encoded = Base64.serializeNode(editor.value.fragment);
+    // setEventTransfer(event, 'fragment', encoded);
+    // console.log('fragment in on drag start -- ', fragment);
     return next();
   }
 
@@ -197,6 +205,7 @@ function ClausePlugin() {
   * Handles dragging clause element
   */
   function onDragEnd(event, editor, next) {
+    event.preventDefault();
     console.log('on drag end');
     const path = editor.findPath(event.target);
     const preventDrag = hasClauseAncestor(editor, path);
@@ -226,10 +235,11 @@ function ClausePlugin() {
     const target = editor.findEventRange(event);
     console.log('drop target - ', target);
     const transfer = getEventTransfer(event);
-    const { type, node } = transfer;
+    const { type, node, fragment } = transfer;
     console.log('drop transfer - ', transfer);
     console.log('drop transfer node - ', node);
     console.log('drop transfer type - ', type);
+    console.log('drop transfer fragment - ', fragment);
 
     console.log('drop editor.value.selection - ', editor.value.selection);
 
@@ -262,7 +272,9 @@ function ClausePlugin() {
         if (src) {
           loadTemplateCallback(src.toString());
         }
+        console.log('props in clause --- ', props);
 
+        console.log('children in clause --- ', children);
         return (
           <ClauseComponent
             clauseProps={clauseProps}
