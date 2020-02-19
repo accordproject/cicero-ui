@@ -1,5 +1,6 @@
 /* React */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Inline } from 'slate';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 
@@ -15,6 +16,32 @@ import * as testIcon from '../icons/testIcon';
 import { titleGenerator, headerGenerator } from './actions';
 
 /**
+ * FFF
+ */
+// const ss = (node) => {
+
+//   const foundConditionalTrue = foundConditional
+//     ? foundConditional.data.get('whenTrue')
+//     : null;
+
+//   const foundConditionalFalse = foundConditional
+//     ? foundConditional.data.get('whenFalse')
+//     : null;
+
+
+//   let possibleConditional;
+//   if (node.type === 'conditional') {
+//     return node;
+//   }
+//   if (node.nodes) {
+//     node.nodes.forEach(
+//       (n) => { possibleConditional = ss(n) || possibleConditional; }
+//     );
+//   }
+//   return possibleConditional;
+// }
+
+/**
  * Component to render a clause
  * This will have an id property of the clauseid
  * @param {*} props
@@ -23,6 +50,7 @@ function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
   const [hovering, setHovering] = useState(false);
   const [hoveringHeader, setHoveringHeader] = useState(false);
+  // const [conditionals, setConditionals] = useState({});
 
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
@@ -35,6 +63,13 @@ function ClauseComponent(props) {
     currentHover: hovering,
     iconBg: clauseProps.CLAUSE_BACKGROUND
   };
+
+  /**
+   * FFF
+   */
+  // useEffect(() => {
+  //   setConditionals(findConditionals(props.clauseNode));
+  // }, [props.clauseNode]);
 
   const testIconProps = {
     'aria-label': testIcon.type,
@@ -63,7 +98,55 @@ function ClauseComponent(props) {
     onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
   };
 
-  console.log('ClauseComponent props: ', props);
+  const foundConditionalTrue = props.foundConditional
+    ? props.foundConditional.data.get('whenTrue')
+    : null;
+
+  const foundConditionalFalse = props.foundConditional
+    ? props.foundConditional.data.get('whenFalse')
+    : null;
+
+  const foundConditionalCurrentValue = props.foundConditional.text;
+
+  const foundConditionalObject = {
+    foundConditional: props.foundConditional,
+    foundConditionalCurrentValue,
+    foundConditionalTrue,
+    foundConditionalFalse
+  };
+  const foundConditionalsArray = [];
+
+  const toggleConditional = () => {
+    // const newTextValue = foundConditionalCurrentValue === foundConditionalTrue
+    //   ? foundConditionalFalse
+    //   : foundConditionalTrue;
+
+    const selectionNode = props.editor.value.selection.focus;
+
+    if (selectionNode.isInNode(props.foundConditional)) {
+      const newInlineJSON = {
+        object: 'inline',
+        type: 'conditional',
+        data: {
+          id: 'forceMajeure',
+          whenTrue: ' except for Force Majeure cases,',
+          whenFalse: ''
+        },
+        nodes: [
+          {
+            object: 'text',
+            text: (foundConditionalCurrentValue === foundConditionalTrue)
+              ? foundConditionalFalse
+              : foundConditionalTrue,
+            marks: []
+          }
+        ]
+      };
+      const newInlineSlate = Inline.fromJSON(newInlineJSON);
+
+      props.editor.replaceNodeByKey(props.foundConditional.key, newInlineSlate);
+    }
+  };
 
   return (
     <S.ClauseWrapper
@@ -122,6 +205,7 @@ function ClauseComponent(props) {
         variablecolor={clauseProps.VARIABLE_COLOR}
         conditionalcolor={clauseProps.CONDITIONAL_COLOR}
         computedcolor={clauseProps.COMPUTED_COLOR}
+        onClick={() => toggleConditional()}
       >
         {props.children}
       </S.ClauseBody>
@@ -155,6 +239,9 @@ ClauseComponent.propTypes = {
     VARIABLE_COLOR: PropTypes.string,
     CONDITIONAL_COLOR: PropTypes.string,
   }),
+  foundConditional: PropTypes.any,
+  clauseNode: PropTypes.any,
+  editor: PropTypes.any,
 };
 
 export default ClauseComponent;
