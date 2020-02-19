@@ -1,7 +1,7 @@
 import React from 'react';
 import { getEventTransfer, setEventTransfer } from 'slate-react';
 import Base64 from 'slate-base64-serializer';
-import { Document } from 'slate';
+import { Document, Point } from 'slate';
 import _ from 'lodash';
 
 import '../styles.css';
@@ -181,23 +181,19 @@ function ClausePlugin() {
   * Handles dragging clause element
   */
   function onDragStart(event, editor, next) {
-    // event.preventDefault();
-    console.log('event.target --- ', event.target);
-
+    const { value } = editor;
     const path = editor.findPath(event.target);
-    const node = editor.value.document.getNode(path);
-    console.log('editor.value.fragment --- ', editor.value.fragment);
-    console.log('node --- ', node);
     const preventDrag = hasClauseAncestor(editor, path);
     if (preventDrag) {
       event.preventDefault();
       return false;
     }
-    // const { fragment } = editor.value;
-    // const fragment = Document.create({ nodes: node.nodes });
-    // const encoded = Base64.serializeNode(editor.value.fragment);
-    // setEventTransfer(event, 'fragment', encoded);
-    // console.log('fragment in on drag start -- ', fragment);
+    const node = value.document.getDescendantsAtRange(value.selection).get(0);
+    if (node.type === 'clause') {
+      const fragment = Document.create({ nodes: [node] });
+      const encoded = Base64.serializeNode(fragment);
+      return setEventTransfer(event, 'fragment', encoded);
+    }
     return next();
   }
 
@@ -206,14 +202,11 @@ function ClausePlugin() {
   */
   function onDragEnd(event, editor, next) {
     event.preventDefault();
-    console.log('on drag end');
     const path = editor.findPath(event.target);
     const preventDrag = hasClauseAncestor(editor, path);
     if (preventDrag) {
-      event.preventDefault();
       return false;
     }
-    console.log('calling next...');
     return next();
   }
 
@@ -232,24 +225,12 @@ function ClausePlugin() {
   */
   function onDrop(event, editor, next) {
     console.log('in on drop');
-    const target = editor.findEventRange(event);
-    console.log('drop target - ', target);
-    const transfer = getEventTransfer(event);
-    const { type, node, fragment } = transfer;
-    console.log('drop transfer - ', transfer);
-    console.log('drop transfer node - ', node);
-    console.log('drop transfer type - ', type);
-    console.log('drop transfer fragment - ', fragment);
-
-    console.log('drop editor.value.selection - ', editor.value.selection);
-
     const path = editor.findPath(event.target);
     const preventDrop = hasClauseAncestor(editor, path);
     if (preventDrop) {
       event.preventDefault();
       return false;
     }
-
     return next();
   }
 
