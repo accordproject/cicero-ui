@@ -54,7 +54,6 @@ ${clauseText}
   1. This
   1. is a
   1. list
-  ![ap_logo](https://docs.accordproject.org/docs/assets/020/template.png "AP triangle")
   Fin.
   `;
   return Value.fromJSON(slateTransformer.fromMarkdown(defaultContractMarkdown));
@@ -119,6 +118,7 @@ function Demo() {
    * Called when the data in the contract editor has been modified
    */
   const onContractChange = useCallback((value) => {
+    // console.log(JSON.stringify(value.toJSON(), null, 2));
     setContractValue(value);
   }, []);
 

@@ -1,5 +1,7 @@
 import React from 'react';
-import { getEventTransfer, setEventTransfer } from 'slate-react';
+import {
+  getEventTransfer, setEventTransfer, findNode
+} from 'slate-react';
 import Base64 from 'slate-base64-serializer';
 import { Document, Point } from 'slate';
 import _ from 'lodash';
@@ -182,6 +184,7 @@ function ClausePlugin() {
   */
   function onDragStart(event, editor, next) {
     const { value } = editor;
+
     const path = editor.findPath(event.target);
     const preventDrag = hasClauseAncestor(editor, path);
     if (preventDrag) {
@@ -231,6 +234,52 @@ function ClausePlugin() {
       event.preventDefault();
       return false;
     }
+    const { value } = editor;
+    const { selection } = value;
+    console.log('selection -- ', selection);
+    // const { anchor, focus } = selection;
+    // const anchorPath = anchor.path;
+    // const focusPath = focus.path;
+    // console.log('nodes in selection?? -- ', value.document.getNodesAtRange(selection));
+    // editor.removeNodeByKey(value.document.getNodesAtRange(selection).get(0).key);
+
+    const target = editor.findEventRange(event);
+
+
+    editor.focus();
+
+    // COMPAT: React's onSelect event breaks after an onDrop event
+    // has fired in a node: https://github.com/facebook/react/issues/11379.
+    // Until this is fixed in React, we dispatch a mouseup event on that
+    // DOM node, since that will make it go back to normal.
+    // const el = editor.findDOMNode(target.focus.path);
+
+    // if (el) {
+    //   el.dispatchEvent(
+    //     new MouseEvent('mouseup', {
+    //       view: window,
+    //       bubbles: true,
+    //       cancelable: true,
+    //     })
+    //   );
+    // }
+
+    const draggedRange = selection;
+    console.log('draggedRange -- ', draggedRange);
+
+    editor.select(target);
+
+    editor.deleteAtRange(draggedRange);
+    // const { value } = editor;
+    // const { selection } = value;
+    // const target = editor.findEventRange(event);
+    // console.log('selection -- ', selection);
+    // const draggedRange = selection;
+
+    // editor.select(target);
+    // if (true) {
+    //   editor.deleteAtRange(draggedRange);
+    // }
     return next();
   }
 
