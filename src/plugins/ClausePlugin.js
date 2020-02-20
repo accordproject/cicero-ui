@@ -168,23 +168,6 @@ function ClausePlugin() {
   }
 
   /**
-   * Recursive search of Clause node to find conditional variable
-   * @param {object} node - the Slate Clause node
-   */
-  function findConditional(node) {
-    let possibleConditional;
-    if (node.type === 'conditional') {
-      return node;
-    }
-    if (node.nodes) {
-      node.nodes.forEach(
-        (n) => { possibleConditional = findConditional(n) || possibleConditional; }
-      );
-    }
-    return possibleConditional;
-  }
-
-  /**
   * @param {Object} props
   * @param {*} editor Slate Editor
   * @param {Function} next
@@ -203,25 +186,6 @@ function ClausePlugin() {
         if (src) {
           loadTemplateCallback(src.toString());
         }
-        const foundConditional = findConditional(node);
-
-        /**
-         * Order of operations:
-         * 1. Render Clause
-         * 2. useEffect scans the clauseNode nodes
-         *    a. Is this node.type 'conditional'?
-         *    b. If so, construct an object of the node, the true value, and the false value.
-         *    c. Push this object to an array
-         *    d. Update state with this array (conditionals)
-         * 3. On click of the body, run a function toggleConditional
-         *    a. Loop through the state (conditionals)
-         *    b. is selectedNode.isInNode(node[x])?
-         *    c. return the node object from state or null
-         *    d. if null, break
-         *    e. if object, create new inline and replaceNodeByKey
-         *
-         * Also: Look into CSS pseudo element?
-         */
 
         return (
           <ClauseComponent
@@ -229,7 +193,6 @@ function ClausePlugin() {
             templateUri={src}
             clauseId={clauseid}
             readOnly={readOnly}
-            foundConditional={foundConditional}
             clauseNode={node}
             {...props}>
               {children}
