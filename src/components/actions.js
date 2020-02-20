@@ -17,3 +17,23 @@ export const headerGenerator = (templateTitle, inputTitle) => {
   const truncatedTitle = ((header.length > 54) ? (`${header.slice(0, 54)}...`) : header);
   return truncatedTitle;
 };
+
+/**
+ * Collect all conditional variables and return them
+ * in an object indexed by their slate keys
+ *
+ * @param {Node} node the clause node being rendered
+ * @return {Object} object with slate key as keys and
+ *    the true and false values in an object as a value
+ */
+export const findConditionals = node => ({
+  ...(node.type === 'conditional' ? {
+    [node.key]: {
+      whenTrue: node.data.get('whenTrue'),
+      whenFalse: node.data.get('whenFalse')
+    }
+  } : {}),
+  ...(node.nodes || [])
+    .map(findConditionals)
+    .reduce((props, node) => ({ ...props, ...node }), {})
+});
