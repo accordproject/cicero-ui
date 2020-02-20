@@ -13,33 +13,11 @@ import * as editIcon from '../icons/edit';
 import * as testIcon from '../icons/testIcon';
 
 /* Actions */
-import { titleGenerator, headerGenerator } from './actions';
-
-/**
- * FFF
- */
-// const ss = (node) => {
-
-//   const foundConditionalTrue = foundConditional
-//     ? foundConditional.data.get('whenTrue')
-//     : null;
-
-//   const foundConditionalFalse = foundConditional
-//     ? foundConditional.data.get('whenFalse')
-//     : null;
-
-
-//   let possibleConditional;
-//   if (node.type === 'conditional') {
-//     return node;
-//   }
-//   if (node.nodes) {
-//     node.nodes.forEach(
-//       (n) => { possibleConditional = ss(n) || possibleConditional; }
-//     );
-//   }
-//   return possibleConditional;
-// }
+import {
+  findConditionals,
+  headerGenerator,
+  titleGenerator
+} from './actions';
 
 /**
  * Component to render a clause
@@ -50,7 +28,7 @@ function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
   const [hovering, setHovering] = useState(false);
   const [hoveringHeader, setHoveringHeader] = useState(false);
-  // const [conditionals, setConditionals] = useState({});
+  const [conditionals, setConditionals] = useState({});
 
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
@@ -64,12 +42,9 @@ function ClauseComponent(props) {
     iconBg: clauseProps.CLAUSE_BACKGROUND
   };
 
-  /**
-   * FFF
-   */
-  // useEffect(() => {
-  //   setConditionals(findConditionals(props.clauseNode));
-  // }, [props.clauseNode]);
+  useEffect(() => {
+    setConditionals(findConditionals(props.clauseNode));
+  }, [props.clauseNode]);
 
   const testIconProps = {
     'aria-label': testIcon.type,
@@ -98,53 +73,36 @@ function ClauseComponent(props) {
     onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
   };
 
-  const foundConditionalTrue = props.foundConditional
-    ? props.foundConditional.data.get('whenTrue')
-    : null;
-
-  const foundConditionalFalse = props.foundConditional
-    ? props.foundConditional.data.get('whenFalse')
-    : null;
-
-  const foundConditionalCurrentValue = props.foundConditional.text;
-
-  const foundConditionalObject = {
-    foundConditional: props.foundConditional,
-    foundConditionalCurrentValue,
-    foundConditionalTrue,
-    foundConditionalFalse
-  };
-  const foundConditionalsArray = [];
-
   const toggleConditional = () => {
-    // const newTextValue = foundConditionalCurrentValue === foundConditionalTrue
-    //   ? foundConditionalFalse
-    //   : foundConditionalTrue;
+    const selectionNodeKey = props.editor.value.selection.focus.key - 1;
+    const selectedConditional = conditionals[selectionNodeKey];
 
-    const selectionNode = props.editor.value.selection.focus;
+    if (selectedConditional) {
+      const selectionTextNode = props.editor.value.document
+        .getTextsAtRange(props.editor.value.selection)
+        .find(b => b.text);
 
-    if (selectionNode.isInNode(props.foundConditional)) {
       const newInlineJSON = {
         object: 'inline',
         type: 'conditional',
         data: {
           id: 'forceMajeure',
-          whenTrue: ' except for Force Majeure cases,',
-          whenFalse: ''
+          whenTrue: selectedConditional.whenTrue,
+          whenFalse: selectedConditional.whenFalse
         },
         nodes: [
           {
             object: 'text',
-            text: (foundConditionalCurrentValue === foundConditionalTrue)
-              ? foundConditionalFalse
-              : foundConditionalTrue,
+            text: selectionTextNode.text === selectedConditional.whenTrue
+              ? selectedConditional.whenFalse
+              : selectedConditional.whenTrue,
             marks: []
           }
         ]
       };
       const newInlineSlate = Inline.fromJSON(newInlineJSON);
 
-      props.editor.replaceNodeByKey(props.foundConditional.key, newInlineSlate);
+      props.editor.replaceNodeByKey(selectionNodeKey, newInlineSlate);
     }
   };
 
@@ -215,15 +173,12 @@ function ClauseComponent(props) {
 }
 
 ClauseComponent.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
-  templateUri: PropTypes.string.isRequired,
   attributes: PropTypes.PropTypes.shape({
     'data-key': PropTypes.string,
   }),
-  errors: PropTypes.object,
-  readOnly: PropTypes.bool,
-  removeFromContract: PropTypes.func,
+  children: PropTypes.arrayOf(PropTypes.object).isRequired,
   clauseId: PropTypes.string,
+  clauseNode: PropTypes.any,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
@@ -239,9 +194,11 @@ ClauseComponent.propTypes = {
     VARIABLE_COLOR: PropTypes.string,
     CONDITIONAL_COLOR: PropTypes.string,
   }),
-  foundConditional: PropTypes.any,
-  clauseNode: PropTypes.any,
   editor: PropTypes.any,
+  errors: PropTypes.object,
+  readOnly: PropTypes.bool,
+  removeFromContract: PropTypes.func,
+  templateUri: PropTypes.string.isRequired,
 };
 
 export default ClauseComponent;
