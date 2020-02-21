@@ -50,20 +50,20 @@ const ErrorComponent = (props) => {
 
       <SC.ArrowDiv {...errorArrowProps} />
       <SC.ErrorFile {...fileProps} onClick={() => errorNav(error)} >
-        {ACT.typeSwitchCase(error)}
+        {ACT.typeSwitchCase(error || {})}
       </SC.ErrorFile>
 
       <SC.ErrorType {...typeProps} >
-        {ACT.overalltypeSwitchCase(error).name}:
+        {ACT.overalltypeSwitchCase(error).name || 'Unknown Error'}:
       </SC.ErrorType>
 
       <SC.ErrorShortMessage {...shortMessageProps} >
-        {ACT.truncateMessage(ACT.overalltypeSwitchCase(error).shortMessage)}
+        {ACT.truncateMessage(ACT.overalltypeSwitchCase(error).shortMessage || 'Unknown Error')}
       </SC.ErrorShortMessage>
 
       {specErrorVisible
         && <SC.ErrorFullMessage {...fullMessageProps} >
-            {ACT.overalltypeSwitchCase(error).message}
+            {ACT.overalltypeSwitchCase(error).message || 'Unknown Error'}
           </SC.ErrorFullMessage>}
     </SC.ErrorComponent>
   );
