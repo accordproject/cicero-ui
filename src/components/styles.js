@@ -12,6 +12,14 @@ export const ClauseWrapper = styled.div`
                        "fifteen sixteen seventeen eighteen nineteen twenty twentyone";
 `;
 
+export const ClauseConditional = styled.div`
+  position: absolute;
+  border: 3px solid red;
+  height: 15px;
+  width: 15px;
+  z-index: 9999999;
+`;
+
 export const ClauseBackground = styled.div`
   background-color: ${props => props.clausebg || '#ECF0FA'};
   border: 1px solid ${props => props.clauseborder || '#19C6C7'};
