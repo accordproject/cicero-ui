@@ -14,7 +14,7 @@ import * as testIcon from '../icons/testIcon';
 
 /* Actions */
 import {
-  findConditionals,
+  // findConditionals,
   headerGenerator,
   titleGenerator
 } from './actions';
@@ -43,8 +43,32 @@ function ClauseComponent(props) {
   };
 
   useEffect(() => {
-    setConditionals(findConditionals(props.clauseNode));
-  }, [props.clauseNode]);
+    const findPosition = (key) => {
+      const pathToConditional = props.editor.value.document.getPath(key);
+      const elementDOM = props.editor.findDOMNode(pathToConditional);
+      const popupPosition = 'bottom left';
+      const something = {
+        popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
+        popupPosition,
+      };
+      return something;
+    };
+    const findConditionals = node => ({
+      ...(node.type === 'conditional' ? {
+        [node.key]: {
+          whenTrue: node.data.get('whenTrue'),
+          whenFalse: node.data.get('whenFalse'),
+          position: findPosition(node.key)
+        }
+      } : {}),
+      ...(node.nodes || [])
+        .map(findConditionals)
+        .reduce((props, node) => ({ ...props, ...node }), {})
+    });
+    const newState = findConditionals(props.clauseNode);
+    // props.editor.replaceNodeByKey(props.clauseNode.key, props.clauseNode);
+    setConditionals(newState);
+  }, [props.clauseNode, props.editor]);
 
   const testIconProps = {
     'aria-label': testIcon.type,
@@ -112,6 +136,12 @@ function ClauseComponent(props) {
       onMouseLeave={() => setHovering(false)}
       id={props.clauseId}
     >
+    {
+      Object.entries(conditionals).map(([key, value]) => (<S.ClauseConditional
+          key={key}
+          style={value.position.popupStyle}
+        />))
+    }
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
         clausebg={clauseProps.CLAUSE_BACKGROUND}
@@ -164,6 +194,7 @@ function ClauseComponent(props) {
         conditionalcolor={clauseProps.CONDITIONAL_COLOR}
         computedcolor={clauseProps.COMPUTED_COLOR}
         onClick={() => toggleConditional()}
+        {...props.attributes}
       >
         {props.children}
       </S.ClauseBody>
