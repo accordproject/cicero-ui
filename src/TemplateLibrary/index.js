@@ -71,12 +71,14 @@ const SearchInput = styled(Input)`
   &&&,
   &&& input,
   &&& input::placeholder,
-  &&& input:focus,
-  &&& input::selection {
+  &&& input:focus {
     color: ${props => props.searchColor || '#FFFFFF'} !important;
     caret-color: ${props => props.searchColor || '#FFFFFF'} !important;
     background-color: transparent;
     opacity: 1 !important;
+  },
+  &&& input::selection {
+    background-color: #cce2ff;
   }
 `;
 
