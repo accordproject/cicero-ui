@@ -98,6 +98,8 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
       </g>
     </styled.svg>
   </Styled(styled.div)>
-  <styled.div />
+  <styled.div
+    onClick={[Function]}
+  />
 </styled.div>
 `;
