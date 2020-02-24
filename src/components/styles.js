@@ -12,12 +12,8 @@ export const ClauseWrapper = styled.div`
                        "fifteen sixteen seventeen eighteen nineteen twenty twentyone";
 `;
 
-export const ClauseConditional = styled.div`
-  position: absolute;
-  border: 3px solid red;
-  height: 15px;
-  width: 15px;
-  z-index: 9999999;
+export const ClauseConditional = styled.svg`
+  visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
 `;
 
 export const ClauseBackground = styled.div`
@@ -29,7 +25,7 @@ export const ClauseBackground = styled.div`
 
 export const ClauseHeader = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  font-family: ${props => props.headerfont || 'Graphik'};
+  font-family: ${props => props.headerfont || 'serif'};
   grid-area: two / two / ten / ten;
   transition-duration: 0.5s;
   background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.headerbg || '#ECF0FA'} 100%);
@@ -53,7 +49,7 @@ export const ClauseBody = styled.div`
   .computed {
     color: ${props => props.computedcolor || '#f1baff'};
   }
-  font-family: ${props => props.bodyfont || 'Graphik'};
+  font-family: ${props => props.bodyfont || 'serif'};
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;
   color: #141F3C;
