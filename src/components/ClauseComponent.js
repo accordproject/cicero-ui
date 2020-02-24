@@ -14,7 +14,6 @@ import * as testIcon from '../icons/testIcon';
 
 /* Actions */
 import {
-  // findConditionals,
   headerGenerator,
   titleGenerator
 } from './actions';
@@ -45,6 +44,7 @@ function ClauseComponent(props) {
     iconBg: clauseProps.CLAUSE_BACKGROUND
   };
 
+  /* eslint react/no-find-dom-node: "off" */
   useEffect(() => {
     const findPosition = (key) => {
       const pathToConditional = props.editor.value.document.getPath(key);
