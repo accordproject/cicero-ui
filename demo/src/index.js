@@ -17,6 +17,8 @@ const slateTransformer = new SlateTransformer();
 
 const templateUri = 'https://templates.accordproject.org/archives/latedeliveryandpenalty@0.15.0.cta';
 
+const templateUri2 = 'https://templates.accordproject.org/archives/acceptanceanddelivery@0.13.0.cta';
+
 const clauseText = `Late Delivery and Penalty.
 ----
 
@@ -28,14 +30,47 @@ considered a full <variable id="fractionalPart" value="days"/>. The total amount
 exceed <variable id="capPercentage" value="55.0"/>% of the total value of the Equipment involved in late delivery.
 If the delay is more than <variable id="termination" value="15%20days"/>, the Buyer is entitled to terminate this <variable id="seller" value="%22Dan%22"/> Contract.`;
 
+const clauseText2 = `Acceptance of Delivery.
+----
+
+<variable id="shipper" value="%22Party%20A%22"/> will be deemed to have completed its delivery obligations
+if in <variable id="receiver" value="%22Party%20B%22"/>'s opinion, the <variable id="deliverable" value="%22Widgets%22"/> satisfies the
+Acceptance Criteria, and <variable id="receiver" value="%22Party%20B%22"/> notifies <variable id="shipper" value="%22Party%20A%22"/> in writing
+that it is accepting the <variable id="deliverable" value="%22Widgets%22"/>.
+
+Inspection and Notice.
+----
+
+<variable id="receiver" value="%22Party%20B%22"/> will have <variable id="businessDays" value="10"/> Business Days to inspect and
+evaluate the <variable id="deliverable" value="%22Widgets%22"/> on the delivery date before notifying
+<variable id="shipper" value="%22Party%20A%22"/> that it is either accepting or rejecting the
+<variable id="deliverable" value="%22Widgets%22"/>.
+
+Acceptance Criteria.
+----
+
+The "Acceptance Criteria" are the specifications the <variable id="deliverable" value="%22Widgets%22"/>
+must meet for the <variable id="shipper" value="%22Party%20A%22"/> to comply with its requirements and
+obligations under this agreement, detailed in <variable id="attachment" value="%22Attachment%20X%22"/>, attached
+to this agreement.`;
+
 const getContractSlateVal = async () => {
-  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
+  const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
 ${clauseText}
+\`\`\`
+`;
+
+  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri2}" clauseid="123">
+${clauseText2}
 \`\`\`
 `;
 
   const defaultContractMarkdown = `# Heading One
   This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
+  
+  ${lateDeliveryandPenaltyClause}
+
+  Paragraph in between
   
   ${acceptanceOfDeliveryClause}
   
