@@ -225,8 +225,6 @@ function ClausePlugin() {
           break;
         default: {
           switch (nodeType) {
-            case 'conditional':
-              throw new Error('Conditional variable not supported');
             case 'computed':
               throw new Error('Computed variable not supported');
             case 'html_block':
