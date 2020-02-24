@@ -19,6 +19,9 @@ import {
   titleGenerator
 } from './actions';
 
+/* Components */
+import ConditionalAddition from './ConditionalAddition';
+
 /**
  * Component to render a clause
  * This will have an id property of the clauseid
@@ -47,58 +50,33 @@ function ClauseComponent(props) {
       const pathToConditional = props.editor.value.document.getPath(key);
       const elementDOM = props.editor.findDOMNode(pathToConditional);
       const popupPosition = 'bottom left';
-      const something = {
+      const positionalStyle = {
         popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
         popupPosition,
       };
-      return something;
+      return positionalStyle;
     };
+
     const findConditionals = node => ({
       ...(node.type === 'conditional' ? {
         [node.key]: {
           whenTrue: node.data.get('whenTrue'),
           whenFalse: node.data.get('whenFalse'),
-          position: findPosition(node.key)
+          position: findPosition(node.key),
+          isFalse: node.text === '',
         }
       } : {}),
       ...(node.nodes || [])
         .map(findConditionals)
         .reduce((props, node) => ({ ...props, ...node }), {})
     });
+
     const newState = findConditionals(props.clauseNode);
-    // props.editor.replaceNodeByKey(props.clauseNode.key, props.clauseNode);
     setConditionals(newState);
   }, [props.clauseNode, props.editor]);
 
-  const testIconProps = {
-    'aria-label': testIcon.type,
-    width: '16px',
-    height: '20px',
-    viewBox: '0 0 16 20',
-    clauseIconColor: clauseProps.CLAUSE_ICONS,
-    onClick: () => clauseProps.CLAUSE_TEST_FUNCTION(props)
-  };
-
-  const editIconProps = {
-    'aria-label': editIcon.type,
-    width: '19px',
-    height: '19px',
-    viewBox: '0 0 19 19',
-    clauseIconColor: clauseProps.CLAUSE_ICONS,
-    onClick: () => clauseProps.CLAUSE_EDIT_FUNCTION(props)
-  };
-
-  const deleteIconProps = {
-    'aria-label': deleteIcon.type,
-    width: '15px',
-    height: '19px',
-    viewBox: '0 0 12 15',
-    clauseIconColor: clauseProps.CLAUSE_ICONS,
-    onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
-  };
-
-  const toggleConditional = () => {
-    const selectionNodeKey = props.editor.value.selection.focus.key - 1;
+  const toggleConditional = (key) => {
+    const selectionNodeKey = key || props.editor.value.selection.focus.key - 1;
     const selectedConditional = conditionals[selectionNodeKey];
 
     if (selectedConditional) {
@@ -130,6 +108,38 @@ function ClauseComponent(props) {
     }
   };
 
+  const testIconProps = {
+    'aria-label': testIcon.type,
+    width: '16px',
+    height: '20px',
+    viewBox: '0 0 16 20',
+    clauseIconColor: clauseProps.CLAUSE_ICONS,
+    onClick: () => clauseProps.CLAUSE_TEST_FUNCTION(props)
+  };
+
+  const editIconProps = {
+    'aria-label': editIcon.type,
+    width: '19px',
+    height: '19px',
+    viewBox: '0 0 19 19',
+    clauseIconColor: clauseProps.CLAUSE_ICONS,
+    onClick: () => clauseProps.CLAUSE_EDIT_FUNCTION(props)
+  };
+
+  const deleteIconProps = {
+    'aria-label': deleteIcon.type,
+    width: '15px',
+    height: '19px',
+    viewBox: '0 0 12 15',
+    clauseIconColor: clauseProps.CLAUSE_ICONS,
+    onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
+  };
+
+  const conditionalIconProps = {
+    currentHover: hovering,
+    toggleConditional,
+  };
+
   return (
     <S.ClauseWrapper
       onMouseEnter={() => setHovering(true)}
@@ -137,9 +147,14 @@ function ClauseComponent(props) {
       id={props.clauseId}
     >
     {
-      Object.entries(conditionals).map(([key, value]) => (<S.ClauseConditional
+      !props.readOnly
+      && Object.entries(conditionals).map(([key, value]) => (
+        value.isFalse
+        && <ConditionalAddition
           key={key}
-          style={value.position.popupStyle}
+          conditionalStyle={value.position.popupStyle}
+          slateKey={key}
+          {...conditionalIconProps}
         />))
     }
       <S.ClauseBackground

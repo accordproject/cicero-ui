@@ -5,3 +5,16 @@
 .conditional {
     cursor: pointer;
 }
+
+.conditionalIcon {
+    position: absolute;
+    transition-duration: 0.2s;
+    margin-left: -5px;
+    margin-top: -8px;
+    width: 18px;
+    height: 18px;
+}
+
+.conditionalIcon:hover {
+    cursor: pointer;
+}
