@@ -1,7 +1,6 @@
-## Cicero-UI
+# Cicero-UI
 
 ```js
-
 import { ClausePlugin, VariablePlugin, ConditionalPlugin, ComputedPlugin } from '@accordproject/cicero-ui';
 
 const plugins = React.useMemo(() => (props.plugins
@@ -9,7 +8,6 @@ const plugins = React.useMemo(() => (props.plugins
       [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
     )
     : [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
-
 ```
 
 ## VariablePlugin
@@ -67,10 +65,7 @@ isEditable function returns a boolean on checking whether the variable in the ma
 renderInline function renders a variable inline to the text in the editor by returning a span tag with the props.
 
 ```js
-return <span id={id} {...attributes} className='variable'>
-            {children}
-          </span>;
-
+return <span id={id} {...attributes} className='variable'>  {children}  </span>;
 ```
 
 ## ComputedPlugin
@@ -128,12 +123,8 @@ isEditable function returns a boolean on checking whether the computed field in 
 renderInline function renders a computed inline to the text in the editor by returning a span tag with the props.
 
 ```js
-return <span id={id} {...attributes} className='computed'>
-            {children}
-          </span>;
-
+return <span id={id} {...attributes} className='computed'>  {children}  </span>;
 ```
-
 
 ## ClausePlugin
 
@@ -174,3 +165,76 @@ const plugins = [ClausePlugin()];
 * `onClauseUpdated` : `Function` (Required) - Called when the text of a clause changes
 * `pasteToContract` : `Function` (Required) - Loads a template via copy/paste
 * `clauseProps`: (Required) - Props passed to the `ClauseComponent`
+
+### What it returns?
+
+```js
+{
+    name,
+    augmentSchema,
+    renderBlock,
+    isEditable,
+    onChange,
+    onPaste,
+    queries: {
+      findClauseNode,
+      isOutsideOfClause: isEditable,
+      isClauseSupported
+    }
+}
+```
+
+where augmentSchema, isEditable and renderInline are functions.
+
+## ConditionalPlugin
+
+### What it does?
+
+A plugin to support variables corresponding to conditional blocks in templates enabling text which depends on a value of a Boolean variable in the model.
+
+### Usage
+
+```shell
+npm install @accordproject/cicero-ui
+```
+
+```js
+import { ConditionalPlugin } from '@accordproject/cicero-ui';
+import { Editor } from 'slate-react'
+
+const plugins = [ConditionalPlugin()];
+
+<Editor
+  ...
+  plugins={plugins}
+/>
+```
+
+### What it returns
+
+```js
+{
+  name,
+  augmentSchema,
+  isEditable,
+  renderInline,
+}
+```
+
+where augmentSchema, isEditable and renderInline are functions.
+
+### augmentSchema function
+
+augmentSchema function returns a new schema for the addition of conditional type in the markdown editor in the format suggested by [slate.js](https://docs.slatejs.org/).
+
+### isEditable function
+
+isEditable function returns a boolean on checking whether the conditional field in the markdown editor is editable or not.
+
+### renderInline function
+
+renderInline function renders a conditional inline to the text in the editor by returning a span tag with the props.
+
+```js
+return <span id={id} {...attributes} className='computed'>  {children}  </span>;
+```
