@@ -184,7 +184,7 @@ const plugins = [ClausePlugin()];
 }
 ```
 
-where augmentSchema, isEditable and renderInline are functions.
+where augmentSchema, renderBlock, isEditable, onChange, onPaste, findClauseNode, isOutsideOfClause, and isClauseSupported are functions.
 
 ## ConditionalPlugin
 
