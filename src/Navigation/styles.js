@@ -24,7 +24,7 @@ export const Title = styled.a`
     color: #FFFFFF;
     font-size: 1em;
     font-weight: bold;
-    font-family: ${props => props.headerFont || 'Graphik'};
+    font-family: ${props => props.headerFont || 'serif'};
     &:hover {
         cursor: ${props => (props.filesVisible ? 'pointer' : 'auto')};
         color: ${props => props.titleActive || '#19C6C7'};
