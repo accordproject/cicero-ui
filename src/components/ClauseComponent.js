@@ -63,7 +63,7 @@ function ClauseComponent(props) {
           whenTrue: node.data.get('whenTrue'),
           whenFalse: node.data.get('whenFalse'),
           position: findPosition(node.key),
-          isFalse: node.text === '',
+          isFalse: node.text === node.data.get('whenFalse'),
         }
       } : {}),
       ...(node.nodes || [])
