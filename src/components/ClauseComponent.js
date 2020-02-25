@@ -149,7 +149,7 @@ function ClauseComponent(props) {
     {
       !props.readOnly
       && Object.entries(conditionals).map(([key, value]) => (
-        value.isFalse
+        value.isFalse && (value.whenFalse === '')
         && <ConditionalAddition
           key={key}
           conditionalStyle={value.position.popupStyle}
