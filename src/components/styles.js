@@ -33,7 +33,7 @@ export const ClauseHeader = styled.div`
   justify-self: start;
   margin: 6px 0;
   padding: 3px;
-  color: ${props => props.headercolor || '#939EBA'};
+  color: ${props => props.headercolor || '#696969'};
   line-height: 14px;
   font-size: 0.87em;
   font-weight: 600;
@@ -41,7 +41,7 @@ export const ClauseHeader = styled.div`
 
 export const ClauseBody = styled.div`
   .variable {
-    color: ${props => props.variablecolor || '#009593'};
+    color: ${props => props.variablecolor || '#1034a6'};
   }
   .conditional {
     color: ${props => props.conditionalcolor || '#B11A00'};
@@ -58,7 +58,7 @@ export const ClauseBody = styled.div`
 `;
 
 export const ClauseIcon = styled.svg`
-  fill: #939EBA;
+  fill: #696969;
   cursor: pointer;
 
   &:hover {
