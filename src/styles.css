@@ -10,6 +10,31 @@ a {
     cursor: pointer;
 }
 
+.conditionalTooltip {
+    opacity: 1 !important;
+    height: max-content;
+    width: max-content;
+    border: 1px solid #141F3C;
+    border-radius: 2px;
+    background-color: #141F3C;
+    transition-duration: 0.25s;
+    color: #FFFFFF;
+    padding: 1px 3px;
+    position: absolute;
+}
+
+.conditionalOverlay {
+    position: absolute;
+    background-color: #d4d8e1;
+    opacity: 0;
+    border-radius: 2px;
+}
+
+.conditionalOverlay:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 .conditionalIcon {
     position: absolute;
     transition-duration: 0.2s;

@@ -16,6 +16,36 @@ export const ClauseConditional = styled.svg`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
 `;
 
+export const ClauseConditionalOverlay = styled.div`
+  height: ${props => props.overlayHeight}px;
+  width: ${props => props.overlayLength}px;
+`;
+
+export const ClauseConditionalTooltip = styled.div`
+  visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
+  margin-top: -${props => props.tooltipHeight}px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: ${props => props.caretTop - 1}px;
+    left: ${props => props.caretLeft - 1}px;
+    border-top: 5px solid #141F3C;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: ${props => props.caretTop - 1}px;
+    left: ${props => props.caretLeft}px;
+    border-top: 4px solid #141F3C;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  }
+`;
+
 export const ClauseBackground = styled.div`
   background-color: ${props => props.clausebg || '#ECF0FA'};
   border: 1px solid ${props => props.clauseborder || '#19C6C7'};
