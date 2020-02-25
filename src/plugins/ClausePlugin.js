@@ -183,6 +183,7 @@ function ClausePlugin() {
   * Handles dragging clause element
   */
   function onDragStart(event, editor, next) {
+    console.log('in on drag start');
     const { value } = editor;
 
     const path = editor.findPath(event.target);
@@ -191,14 +192,45 @@ function ClausePlugin() {
       event.preventDefault();
       return false;
     }
+    console.log('selection -- ', value.selection);
+
+    console.log('descendants at selection -- ', value.document.getDescendantsAtRange(value.selection));
+
     const node = value.document.getDescendantsAtRange(value.selection).get(0);
+    // console.log('node being dragged -- ', node);
     if (node.type === 'clause') {
       const fragment = Document.create({ nodes: [node] });
       const encoded = Base64.serializeNode(fragment);
+      console.log('selection in start -- ', value.selection);
       return setEventTransfer(event, 'fragment', encoded);
     }
     return next();
   }
+
+  // function onDragStart(event, editor, next) {
+  //   // debug('onDragStart', { event })
+
+  //   // isDraggingInternally = true
+
+  //   const { value } = editor;
+  //   const { document } = value;
+  //   const path = editor.findPath(event.target);
+  //   const node = document.getNode(path);
+  //   const ancestors = document.getAncestors(path);
+  //   const isVoid = node && (editor.isVoid(node) || ancestors.some(a => editor.isVoid(a)));
+  //   const selectionIncludesNode = value.blocks.some(block => block === node);
+
+  //   // If a void block is dragged and is not selected, select it (necessary for local drags).
+  //   if (isVoid && !selectionIncludesNode) {
+  //     editor.moveToRangeOfNode(node);
+  //   }
+
+  //   const { fragment } = editor.value;
+  //   console.log('fragment --- -', fragment);
+  //   const encoded = Base64.serializeNode(fragment);
+  //   setEventTransfer(event, 'fragment', encoded);
+  //   next();
+  // }
 
   /**
   * Handles dragging clause element
@@ -236,40 +268,25 @@ function ClausePlugin() {
     }
     const { value } = editor;
     const { selection } = value;
-    console.log('selection -- ', selection);
+    // console.log('selection -- ', selection);
     // const { anchor, focus } = selection;
     // const anchorPath = anchor.path;
     // const focusPath = focus.path;
     // console.log('nodes in selection?? -- ', value.document.getNodesAtRange(selection));
-    // editor.removeNodeByKey(value.document.getNodesAtRange(selection).get(0).key);
-
-    const target = editor.findEventRange(event);
 
 
-    editor.focus();
+    editor.removeNodeByKey(value.document.getDescendantsAtRange(selection).get(0).key);
 
-    // COMPAT: React's onSelect event breaks after an onDrop event
-    // has fired in a node: https://github.com/facebook/react/issues/11379.
-    // Until this is fixed in React, we dispatch a mouseup event on that
-    // DOM node, since that will make it go back to normal.
-    // const el = editor.findDOMNode(target.focus.path);
+    // const target = editor.findEventRange(event);
 
-    // if (el) {
-    //   el.dispatchEvent(
-    //     new MouseEvent('mouseup', {
-    //       view: window,
-    //       bubbles: true,
-    //       cancelable: true,
-    //     })
-    //   );
-    // }
+    // editor.focus();
 
-    const draggedRange = selection;
-    console.log('draggedRange -- ', draggedRange);
+    // const draggedRange = selection;
+    // console.log('draggedRange -- ', draggedRange);
 
-    editor.select(target);
+    // editor.select(target);
 
-    editor.deleteAtRange(draggedRange);
+    // editor.deleteAtRange(draggedRange);
     // const { value } = editor;
     // const { selection } = value;
     // const target = editor.findEventRange(event);

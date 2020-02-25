@@ -14,7 +14,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KeyUtils } from 'slate';
 import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
@@ -62,19 +61,6 @@ const contractProps = {
  */
 // eslint-disable-next-line react/display-name
 const ContractEditor = React.forwardRef((props, ref) => {
-  function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      // eslint-disable-next-line no-bitwise
-      const r = Math.random() * 16 | 0;
-      // eslint-disable-next-line no-bitwise, no-mixed-operators
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-  React.useEffect(() => {
-    const keygen = () => String(uuidv4()); // custom keys
-    KeyUtils.setGenerator(keygen);
-  }, []);
   const plugins = React.useMemo(() => (props.plugins
     ? props.plugins.concat(
       [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]

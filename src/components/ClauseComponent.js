@@ -69,11 +69,13 @@ function ClauseComponent(props) {
       onMouseLeave={() => setHovering(false)}
       id={props.clauseId}
       draggable="true"
+      {...props.attributes}
     >
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
         clausebg={clauseProps.CLAUSE_BACKGROUND}
         contentEditable={false}
+        {...props.attributes}
       />
       <S.ClauseHeader
         currentHover={hovering}
@@ -81,10 +83,11 @@ function ClauseComponent(props) {
         headercolor={clauseProps.HEADER_COLOR}
         headerbg={clauseProps.CLAUSE_BACKGROUND}
         contentEditable={false}
+        {...props.attributes}
       >
         {(hoveringHeader && header.length > 54)
-          && <S.HeaderToolTipWrapper>
-            <S.HeaderToolTip>
+          && <S.HeaderToolTipWrapper {...props.attributes}>
+            <S.HeaderToolTip {...props.attributes}>
               {title + clauseProps.HEADER_TITLE}
             </S.HeaderToolTip>
           </S.HeaderToolTipWrapper>
@@ -92,24 +95,25 @@ function ClauseComponent(props) {
         <S.HeaderToolTipText
           onMouseEnter={() => setHoveringHeader(true)}
           onMouseLeave={() => setHoveringHeader(false)}
+          {...props.attributes}
         >
           {header}
         </S.HeaderToolTipText>
       </S.ClauseHeader>
       { !props.readOnly
         && <>
-          <S.TestWrapper {...iconWrapperProps}>
-            <S.ClauseIcon {...testIconProps}>
+          <S.TestWrapper {...iconWrapperProps} {...props.attributes}>
+            <S.ClauseIcon {...testIconProps} {...props.attributes}>
               {testIcon.icon()}
             </ S.ClauseIcon>
           </S.TestWrapper>
-          <S.EditWrapper {...iconWrapperProps}>
-            <S.ClauseIcon {...editIconProps}>
+          <S.EditWrapper {...iconWrapperProps} {...props.attributes}>
+            <S.ClauseIcon {...editIconProps} {...props.attributes}>
               {editIcon.icon()}
             </ S.ClauseIcon>
           </S.EditWrapper>
-          <S.DeleteWrapper {...iconWrapperProps}>
-            <S.ClauseIcon {...deleteIconProps}>
+          <S.DeleteWrapper {...props.attributes} {...iconWrapperProps}>
+            <S.ClauseIcon {...deleteIconProps} {...props.attributes}>
               {deleteIcon.icon()}
             </ S.ClauseIcon>
           </S.DeleteWrapper>
@@ -120,6 +124,7 @@ function ClauseComponent(props) {
         variablecolor={clauseProps.VARIABLE_COLOR}
         conditionalcolor={clauseProps.CONDITIONAL_COLOR}
         computedcolor={clauseProps.COMPUTED_COLOR}
+        {...props.attributes}
       >
         {props.children}
       </S.ClauseBody>
