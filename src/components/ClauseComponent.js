@@ -20,6 +20,7 @@ import {
 
 /* Components */
 import ConditionalAddition from './ConditionalAddition';
+import ConditionalOverlay from './ConditionalOverlay';
 
 /**
  * Component to render a clause
@@ -53,6 +54,8 @@ function ClauseComponent(props) {
       const positionalStyle = {
         popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
         popupPosition,
+        popupHeight: elementDOM.offsetHeight,
+        popupWidth: elementDOM.offsetWidth,
       };
       return positionalStyle;
     };
@@ -63,6 +66,7 @@ function ClauseComponent(props) {
           whenTrue: node.data.get('whenTrue'),
           whenFalse: node.data.get('whenFalse'),
           position: findPosition(node.key),
+          currentText: node.text,
           isFalse: node.text === node.data.get('whenFalse'),
         }
       } : {}),
@@ -80,9 +84,7 @@ function ClauseComponent(props) {
     const selectedConditional = conditionals[selectionNodeKey];
 
     if (selectedConditional) {
-      const selectionTextNode = props.editor.value.document
-        .getTextsAtRange(props.editor.value.selection)
-        .find(b => b.text);
+      const selectionTextNode = props.editor.value.document.getNode(key);
 
       const newInlineJSON = {
         object: 'inline',
@@ -150,12 +152,21 @@ function ClauseComponent(props) {
       !props.readOnly
       && Object.entries(conditionals).map(([key, value]) => (
         value.isFalse && (value.whenFalse === '')
-        && <ConditionalAddition
-          key={key}
-          conditionalStyle={value.position.popupStyle}
-          slateKey={key}
-          {...conditionalIconProps}
-        />))
+          ? <ConditionalAddition
+              key={key}
+              conditionalStyle={value.position.popupStyle}
+              slateKey={key}
+              nodeValue={value}
+              {...conditionalIconProps}
+            />
+          : <ConditionalOverlay
+              key={key}
+              conditionalStyle={value.position.popupStyle}
+              slateKey={key}
+              nodeValue={value}
+              {...conditionalIconProps}
+            />
+      ))
     }
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
