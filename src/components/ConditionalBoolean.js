@@ -12,7 +12,7 @@ import * as conditionalIcon from '../icons/conditional';
  * This will have an key property of the Slate node
  * @param {*} props
  */
-const ConditionalAddition = (props) => {
+const ConditionalBoolean = (props) => {
   const [hoveringConditional, setHoveringConditional] = useState(false);
   const [tooltipWidth, setTooltipWidth] = useState(0);
   const ref = useRef(null);
@@ -46,6 +46,7 @@ const ConditionalAddition = (props) => {
       + (props.nodeValue.position.popupHeight * 0.5),
     caretTop: props.nodeValue.position.popupHeight,
     caretLeft: (tooltipWidth / 2),
+    tooltipHeight: 0.1,
   };
 
   return (
@@ -60,12 +61,12 @@ const ConditionalAddition = (props) => {
   );
 };
 
-ConditionalAddition.propTypes = {
-  currentHover: PropTypes.bool,
-  slateKey: PropTypes.string,
-  nodeValue: PropTypes.obj,
+ConditionalBoolean.propTypes = {
   conditionalStyle: PropTypes.obj,
+  currentHover: PropTypes.bool,
+  nodeValue: PropTypes.obj,
+  slateKey: PropTypes.string,
   toggleConditional: PropTypes.func,
 };
 
-export default ConditionalAddition;
+export default ConditionalBoolean;
