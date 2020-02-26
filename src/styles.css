@@ -10,6 +10,12 @@ a {
     cursor: pointer;
 }
 
+.conditional:hover {
+    cursor: pointer;
+    background-color: #d4d8e1;
+    border-radius: 2px;
+}
+
 .conditionalTooltip {
     opacity: 1 !important;
     height: max-content;
@@ -23,20 +29,9 @@ a {
     position: absolute;
 }
 
-.conditionalOverlay {
-    position: absolute;
-    background-color: #d4d8e1;
-    opacity: 0;
-    border-radius: 2px;
-}
-
-.conditionalOverlay:hover {
-    cursor: pointer;
-    opacity: 0.5;
-}
-
 .conditionalIcon {
     position: absolute;
+    display: inline-block;
     transition-duration: 0.2s;
     margin-left: -5px;
     margin-top: -8px;

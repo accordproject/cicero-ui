@@ -16,14 +16,10 @@ export const ClauseConditional = styled.svg`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
 `;
 
-export const ClauseConditionalOverlay = styled.div`
-  height: ${props => props.overlayHeight}px;
-  width: ${props => props.overlayLength}px;
-`;
-
 export const ClauseConditionalTooltip = styled.div`
+  display: inline;
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  margin-top: -${props => props.tooltipHeight}px;
+  margin-top: -${props => props.tooltipHeight}em;
 
   &:before {
     content: '';
