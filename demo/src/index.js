@@ -17,7 +17,7 @@ const slateTransformer = new SlateTransformer();
 
 const templateUri = 'https://templates.accordproject.org/archives/latedeliveryandpenalty@0.15.0.cta';
 
-const templateUri2 = 'https://templates.accordproject.org/archives/acceptanceanddelivery@0.13.0.cta';
+const templateUri2 = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.13.1.cta';
 
 const clauseText = `Late Delivery and Penalty.
 ----
@@ -28,7 +28,7 @@ of delay penalty amounting to <variable id="penaltyPercentage" value="10.5"/>% o
 whose delivery has been delayed. Any fractional part of a <variable id="fractionalPart" value="days"/> is to be
 considered a full <variable id="fractionalPart" value="days"/>. The total amount of penalty shall not however,
 exceed <variable id="capPercentage" value="55.0"/>% of the total value of the Equipment involved in late delivery.
-If the delay is more than <variable id="termination" value="15%20days"/>, the Buyer is entitled to terminate this <variable id="seller" value="%22Dan%22"/> Contract.`;
+If the delay is more than <variable id="termination" value="15%20days"/>, the Buyer is entitled to terminate this Contract.`;
 
 const clauseText2 = `Acceptance of Delivery.
 ----
