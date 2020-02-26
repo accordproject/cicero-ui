@@ -15,6 +15,7 @@ const Conditional = (props) => {
   const { attributes, children, node } = props;
   const [hovering, setHovering] = useState(false);
   const conditional = {
+    id: node.data.get('id'),
     whenTrue: node.data.get('whenTrue'),
     whenFalse: node.data.get('whenFalse'),
     isFalse: node.text === node.data.get('whenFalse'),
@@ -25,7 +26,7 @@ const Conditional = (props) => {
       object: 'inline',
       type: 'conditional',
       data: {
-        id: 'forceMajeure',
+        id: conditional.id,
         whenTrue: conditional.whenTrue,
         whenFalse: conditional.whenFalse
       },
@@ -45,7 +46,7 @@ const Conditional = (props) => {
   };
 
   const conditionalProps = {
-    id: node.data.get('id'),
+    id: conditional.id,
     className: 'conditional',
     onMouseEnter: () => setHovering(true),
     onMouseLeave: () => setHovering(false),

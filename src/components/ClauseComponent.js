@@ -62,6 +62,7 @@ function ClauseComponent(props) {
     const findConditionals = node => ({
       ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '')) ? {
         [node.key]: {
+          id: node.data.get('id'),
           whenTrue: node.data.get('whenTrue'),
           whenFalse: node.data.get('whenFalse'),
           position: findPosition(node.key),
@@ -89,7 +90,7 @@ function ClauseComponent(props) {
         object: 'inline',
         type: 'conditional',
         data: {
-          id: 'forceMajeure',
+          id: selectedConditional.id,
           whenTrue: selectedConditional.whenTrue,
           whenFalse: selectedConditional.whenFalse
         },
