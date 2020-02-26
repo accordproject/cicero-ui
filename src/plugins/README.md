@@ -1,6 +1,7 @@
 # Cicero-UI
 
 ```js
+<<<<<<< HEAD
 import {
 	ClausePlugin,
 	VariablePlugin,
@@ -20,6 +21,15 @@ const plugins = React.useMemo(
 			: [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()],
 	[props.plugins]
 );
+=======
+import { ClausePlugin, VariablePlugin, ConditionalPlugin, ComputedPlugin } from '@accordproject/cicero-ui';
+
+const plugins = React.useMemo(() => (props.plugins
+    ? props.plugins.concat(
+      [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
+    )
+    : [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
+>>>>>>> e6d26314768c72910baf1a776736b23dced57449
 ```
 
 ## VariablePlugin
@@ -77,12 +87,16 @@ where `augmentSchema`, `isEditable` and `renderInline` are functions.
 `renderInline` function renders a variable inline to the text in the editor by returning a span tag with the props.
 
 ```js
+<<<<<<< HEAD
 return (
 	<span id={id} {...attributes} className='variable'>
 		{" "}
 		{children}{" "}
 	</span>
 );
+=======
+return <span id={id} {...attributes} className='variable'>  {children}  </span>;
+>>>>>>> e6d26314768c72910baf1a776736b23dced57449
 ```
 
 ## ComputedPlugin
@@ -140,12 +154,16 @@ where `augmentSchema`, `isEditable` and `renderInline` are functions.
 `renderInline` function renders a computed inline to the text in the editor by returning a span tag with the props.
 
 ```js
+<<<<<<< HEAD
 return (
 	<span id={id} {...attributes} className='computed'>
 		{" "}
 		{children}{" "}
 	</span>
 );
+=======
+return <span id={id} {...attributes} className='computed'>  {children}  </span>;
+>>>>>>> e6d26314768c72910baf1a776736b23dced57449
 ```
 
 ## ClausePlugin
@@ -183,10 +201,17 @@ const plugins = [ClausePlugin()];
     }}
 ```
 
+<<<<<<< HEAD
 - `loadTemplateObject` : `Function` (Required) - Loads a template
 - `onClauseUpdated` : `Function` (Required) - Called when the text of a clause changes
 - `pasteToContract` : `Function` (Required) - Loads a template via copy/paste
 - `clauseProps`: (Required) - Props passed to the `ClauseComponent`
+=======
+* `loadTemplateObject` : `Function` (Required) - Loads a template
+* `onClauseUpdated` : `Function` (Required) - Called when the text of a clause changes
+* `pasteToContract` : `Function` (Required) - Loads a template via copy/paste
+* `clauseProps`: (Required) - Props passed to the `ClauseComponent`
+>>>>>>> e6d26314768c72910baf1a776736b23dced57449
 
 ### What it returns?
 
@@ -271,6 +296,7 @@ const plugins = [ConditionalPlugin()];
 }
 ```
 
+<<<<<<< HEAD
 where `augmentSchema`, `isEditable` and `renderInline` are functions.
 
 ### augmentSchema function
@@ -287,4 +313,22 @@ where `augmentSchema`, `isEditable` and `renderInline` are functions.
 
 ```js
 return (<span id={id} {...attributes} className='computed'>{" "}{children}{" "}</span>);
+=======
+where augmentSchema, isEditable and renderInline are functions.
+
+### augmentSchema function
+
+augmentSchema function returns a new schema for the addition of conditional type in the markdown editor in the format suggested by [slate.js](https://docs.slatejs.org/).
+
+### isEditable function
+
+isEditable function returns a boolean on checking whether the conditional field in the markdown editor is editable or not.
+
+### renderInline function
+
+renderInline function renders a conditional inline to the text in the editor by returning a span tag with the props.
+
+```js
+return <span id={id} {...attributes} className='computed'>  {children}  </span>;
+>>>>>>> e6d26314768c72910baf1a776736b23dced57449
 ```
