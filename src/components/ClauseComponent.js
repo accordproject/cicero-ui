@@ -19,8 +19,7 @@ import {
 } from './actions';
 
 /* Components */
-import ConditionalAddition from './ConditionalAddition';
-import ConditionalOverlay from './ConditionalOverlay';
+import ConditionalBoolean from './ConditionalBoolean';
 
 /**
  * Component to render a clause
@@ -61,7 +60,7 @@ function ClauseComponent(props) {
     };
 
     const findConditionals = node => ({
-      ...(node.type === 'conditional' ? {
+      ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '')) ? {
         [node.key]: {
           whenTrue: node.data.get('whenTrue'),
           whenFalse: node.data.get('whenFalse'),
@@ -152,14 +151,7 @@ function ClauseComponent(props) {
       !props.readOnly
       && Object.entries(conditionals).map(([key, value]) => (
         value.isFalse && (value.whenFalse === '')
-          ? <ConditionalAddition
-              key={key}
-              conditionalStyle={value.position.popupStyle}
-              slateKey={key}
-              nodeValue={value}
-              {...conditionalIconProps}
-            />
-          : <ConditionalOverlay
+          && <ConditionalBoolean
               key={key}
               conditionalStyle={value.position.popupStyle}
               slateKey={key}
@@ -219,7 +211,6 @@ function ClauseComponent(props) {
         variablecolor={clauseProps.VARIABLE_COLOR}
         conditionalcolor={clauseProps.CONDITIONAL_COLOR}
         computedcolor={clauseProps.COMPUTED_COLOR}
-        onClick={() => toggleConditional()}
         {...props.attributes}
       >
         {props.children}
