@@ -18,8 +18,6 @@ a {
 
 .conditionalTooltip {
     opacity: 1 !important;
-    height: max-content;
-    width: max-content;
     border: 1px solid #141F3C;
     border-radius: 2px;
     background-color: #141F3C;
