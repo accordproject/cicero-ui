@@ -7,6 +7,8 @@
 
 The Accord Project Cicero UI Library can be used for implementing React components in your contract editing studio.
 
+## [Demo](https://cicero-ui.netlify.com/)
+
 ## Instructions
 This is a short reference guide, for a more full context, please refer to our [CONTRIBUTING guide][contributing] and information for [DEVELOPERS][developers].
 

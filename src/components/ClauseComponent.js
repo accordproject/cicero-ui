@@ -19,7 +19,7 @@ import {
 } from './actions';
 
 /* Components */
-import ConditionalAddition from './ConditionalAddition';
+import ConditionalBoolean from './ConditionalBoolean';
 
 /**
  * Component to render a clause
@@ -53,16 +53,20 @@ function ClauseComponent(props) {
       const positionalStyle = {
         popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
         popupPosition,
+        popupHeight: elementDOM.offsetHeight,
+        popupWidth: elementDOM.offsetWidth,
       };
       return positionalStyle;
     };
 
     const findConditionals = node => ({
-      ...(node.type === 'conditional' ? {
+      ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '')) ? {
         [node.key]: {
+          id: node.data.get('id'),
           whenTrue: node.data.get('whenTrue'),
           whenFalse: node.data.get('whenFalse'),
           position: findPosition(node.key),
+          currentText: node.text,
           isFalse: node.text === node.data.get('whenFalse'),
         }
       } : {}),
@@ -80,15 +84,13 @@ function ClauseComponent(props) {
     const selectedConditional = conditionals[selectionNodeKey];
 
     if (selectedConditional) {
-      const selectionTextNode = props.editor.value.document
-        .getTextsAtRange(props.editor.value.selection)
-        .find(b => b.text);
+      const selectionTextNode = props.editor.value.document.getNode(key);
 
       const newInlineJSON = {
         object: 'inline',
         type: 'conditional',
         data: {
-          id: 'forceMajeure',
+          id: selectedConditional.id,
           whenTrue: selectedConditional.whenTrue,
           whenFalse: selectedConditional.whenFalse
         },
@@ -150,12 +152,14 @@ function ClauseComponent(props) {
       !props.readOnly
       && Object.entries(conditionals).map(([key, value]) => (
         value.isFalse && (value.whenFalse === '')
-        && <ConditionalAddition
-          key={key}
-          conditionalStyle={value.position.popupStyle}
-          slateKey={key}
-          {...conditionalIconProps}
-        />))
+          && <ConditionalBoolean
+              key={key}
+              conditionalStyle={value.position.popupStyle}
+              slateKey={key}
+              nodeValue={value}
+              {...conditionalIconProps}
+            />
+      ))
     }
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
@@ -208,7 +212,6 @@ function ClauseComponent(props) {
         variablecolor={clauseProps.VARIABLE_COLOR}
         conditionalcolor={clauseProps.CONDITIONAL_COLOR}
         computedcolor={clauseProps.COMPUTED_COLOR}
-        onClick={() => toggleConditional()}
         {...props.attributes}
       >
         {props.children}
