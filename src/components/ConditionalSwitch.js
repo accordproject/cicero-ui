@@ -14,7 +14,7 @@ const ConditionalSwitch = (props) => {
   const conditionalTooltip = {
     className: 'conditionalTooltip',
     currentHover: props.currentHover,
-    caretTop: 20,
+    caretTop: 1.45,
     caretLeft: 2,
     tooltipHeight: 1.85,
   };

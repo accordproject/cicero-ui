@@ -24,7 +24,7 @@ export const ClauseConditionalTooltip = styled.div`
   &:before {
     content: '';
     position: absolute;
-    top: ${props => props.caretTop - 1}px;
+    top: ${props => props.caretTop}em;
     left: ${props => props.caretLeft - 1}px;
     border-top: 5px solid #141F3C;
     border-left: 5px solid transparent;
@@ -34,7 +34,7 @@ export const ClauseConditionalTooltip = styled.div`
   &:after {
     content: '';
     position: absolute;
-    top: ${props => props.caretTop - 1}px;
+    top: ${props => props.caretTop}em;
     left: ${props => props.caretLeft}px;
     border-top: 4px solid #141F3C;
     border-left: 4px solid transparent;
