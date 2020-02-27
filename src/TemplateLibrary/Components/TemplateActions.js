@@ -22,6 +22,7 @@ const AddToContractBtn = styled(TemplateBtn)`
   width: 60%;
   border-right: 1px solid ${props => props.color || '#E1E5EB'}; 
   cursor: pointer;
+  color: #19C6C7;
   &:hover {
     color: #3087CB;
   }
@@ -39,29 +40,27 @@ const DetailsBtn = styled(TemplateBtn)`
  * A Template Actions component that will provide each template
  * with functionality.
  */
-class TemplateActions extends React.Component {
+const TemplateActions = (props) => {
   /**
      * Render this React component
      * @return {*} the react component
   */
-  render() {
-    const { handleViewDetails, libraryProps } = this.props;
-    return (
-        <ActionsContainer color={libraryProps.ACTION_BUTTON_BG}>
-        <div>
-          <AddToContractBtn className="adToContractButton" color={libraryProps.ACTION_BUTTON_BORDER} onClick={() => this.props.addToCont(this.props.uriKey)} >
-            <Icon name="plus" />
-            Add to contract
-          </AddToContractBtn>
-          <DetailsBtn
-            color={libraryProps.ACTION_BUTTON}
-            onClick={() => handleViewDetails(this.props.uriKey)}>
-            Details
-          </DetailsBtn>
-        </div>
-      </ActionsContainer>
-    );
-  }
+  const { handleViewDetails, libraryProps } = props;
+  return (
+      <ActionsContainer color={libraryProps.ACTION_BUTTON_BG}>
+      <div>
+        <AddToContractBtn className="adToContractButton" color={libraryProps.ACTION_BUTTON_BORDER} onClick={() => props.addToCont(props.uriKey)} >
+          <Icon name="plus" />
+          Add to contract
+        </AddToContractBtn>
+        <DetailsBtn
+          color={libraryProps.ACTION_BUTTON}
+          onClick={() => handleViewDetails(props.uriKey)}>
+          Details
+        </DetailsBtn>
+      </div>
+    </ActionsContainer>
+  );
 }
 
 /**

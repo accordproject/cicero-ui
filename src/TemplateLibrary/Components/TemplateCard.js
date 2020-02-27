@@ -46,40 +46,39 @@ const DescriptionContainer = styled(Card.Description)`
  * A Template Card component that will display the each template
  * and it's details.
  */
-class TemplateCard extends React.Component {
+const TemplateCard = (props) => {
   /**
      * Render this React component
      * @return {*} the react component
   */
-  render() {
-    const { libraryProps, template } = this.props;
-    const displayName = template.displayName ? template.displayName : template.name;
-    return (
-        <CardContainer fluid
-          key={template.uri}
-          color={libraryProps.TEMPLATE_BACKGROUND}
-          tempborder={libraryProps.TEMPLATE_BORDER}
-        >
-            <Card.Content>
-              <TemplateLogo src={template.icon} />
-              <Title color={libraryProps.TEMPLATE_TITLE}>
-                {displayName}
-                <Version>v {template.version}</Version>
-              </Title>
-              <DescriptionContainer color={libraryProps.TEMPLATE_DESCRIPTION}>
-                {template.description}
-              </DescriptionContainer>
-            </Card.Content>
-            <TemplateActions
-              libraryProps={libraryProps}
-              addToCont={this.props.addToCont}
-              uriKey={template.uri}
-              handleViewDetails={this.props.handleViewTemplate}
-              className="templateAction"
-            />
-        </CardContainer>
-    );
-  }
+  const { libraryProps, template } = props;
+  const displayName = template.displayName ? template.displayName : template.name;
+
+  return (
+      <CardContainer fluid
+        key={template.uri}
+        color={libraryProps.TEMPLATE_BACKGROUND}
+        tempborder={libraryProps.TEMPLATE_BORDER}
+      >
+          <Card.Content>
+            <TemplateLogo src={template.icon} />
+            <Title color={libraryProps.TEMPLATE_TITLE}>
+              {displayName}
+              <Version>v {template.version}</Version>
+            </Title>
+            <DescriptionContainer color={libraryProps.TEMPLATE_DESCRIPTION}>
+              {template.description}
+            </DescriptionContainer>
+          </Card.Content>
+          <TemplateActions
+            libraryProps={libraryProps}
+            addToCont={props.addToCont}
+            uriKey={template.uri}
+            handleViewDetails={props.handleViewTemplate}
+            className="templateAction"
+          />
+      </CardContainer>
+  ); 
 }
 
 /**

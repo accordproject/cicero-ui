@@ -1,40 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default class TextForm extends React.PureComponent {
-  static propTypes = {
+// The TextForm Pure component
+export default React.memo( (props) => {
+
+  propTypes = {
     label: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-    };
+  const [setValue, value] = useState('');
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  const handleChange = (event) => {
+    setValue(event.target.value);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  handleSubmit(event) {
-    this.props.handleSubmit(this.state.value);
+  const handleSubmit = (event) => {
+    props.handleSubmit(value);
     event.preventDefault();
   }
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <b>{this.props.label}</b>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        <b>{props.label}</b>
+        <input type="text" value={value} onChange={handleChange} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+
+})
