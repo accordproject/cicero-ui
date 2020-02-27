@@ -10,8 +10,28 @@ a {
     cursor: pointer;
 }
 
+.conditional:hover {
+    cursor: pointer;
+    background-color: #d4d8e1;
+    border-radius: 2px;
+}
+
+.conditionalTooltip {
+    opacity: 1 !important;
+    height: max-content;
+    width: max-content;
+    border: 1px solid #141F3C;
+    border-radius: 2px;
+    background-color: #141F3C;
+    transition-duration: 0.25s;
+    color: #FFFFFF;
+    padding: 1px 3px;
+    position: absolute;
+}
+
 .conditionalIcon {
     position: absolute;
+    display: inline-block;
     transition-duration: 0.2s;
     margin-left: -5px;
     margin-top: -8px;

@@ -1,5 +1,6 @@
 import React from 'react';
 import inConditionalHelper from '../utilities/inConditional';
+import Conditional from '../components/Conditional';
 
 /**
  * A plugin for a conditional
@@ -37,7 +38,8 @@ function ConditionalPlugin() {
    */
   const isEditable = ((editor, code) => {
     const { value } = editor;
-    const inConditional = inConditionalHelper(value.document.getDescendantsAtRange(value.selection));
+    const inConditional = inConditionalHelper(value.document
+      .getDescendantsAtRange(value.selection));
 
     const { anchor } = value.selection;
     console.log(`${code} - in conditional ${inConditional}`, anchor.toJSON());
@@ -75,6 +77,7 @@ function ConditionalPlugin() {
 
   /**
    * Render a Slate inline.
+   * This contains an addition symbol and tooltip for conditionals
    *
    * @param {Object} props
    * @param {Editor} editor
@@ -82,15 +85,11 @@ function ConditionalPlugin() {
    * @return {Element}
    */
   function renderInline(props, editor, next) {
-    const { attributes, children, node } = props;
-    const id = node.data.get('id');
+    const { node } = props;
 
     switch (node.type) {
       case 'conditional': {
-        // @ts-ignore
-        return <span id={id} {...attributes} className='conditional'>
-            {children}
-          </span>;
+        return <Conditional {...props}/>;
       }
 
       default: {
