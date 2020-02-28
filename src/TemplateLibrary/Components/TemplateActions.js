@@ -39,34 +39,26 @@ const DetailsBtn = styled(TemplateBtn)`
  * A Template Actions component that will provide each template
  * with functionality.
  */
-class TemplateActions extends React.Component {
-  /**
-     * Render this React component
-     * @return {*} the react component
-  */
-  render() {
-    const { handleViewDetails, libraryProps } = this.props;
-    return (
-        <ActionsContainer color={libraryProps.ACTION_BUTTON_BG}>
-        <div>
-          <AddToContractBtn className="adToContractButton" color={libraryProps.ACTION_BUTTON_BORDER} onClick={() => this.props.addToCont(this.props.uriKey)} >
-            <Icon name="plus" />
-            Add to contract
-          </AddToContractBtn>
-          <DetailsBtn
-            color={libraryProps.ACTION_BUTTON}
-            onClick={() => handleViewDetails(this.props.uriKey)}>
-            Details
-          </DetailsBtn>
-        </div>
-      </ActionsContainer>
-    );
-  }
-}
+const TemplateActions = props => (
+    <ActionsContainer color={props.libraryProps.ACTION_BUTTON_BG}>
+    <div>
+      <AddToContractBtn
+        className="adToContractButton"
+        color={props.libraryProps.ACTION_BUTTON_BORDER}
+        onClick={() => props.addToCont(props.uriKey)}
+      >
+        <Icon name="plus" />
+        Add to contract
+      </AddToContractBtn>
+      <DetailsBtn
+        color={props.libraryProps.ACTION_BUTTON}
+        onClick={() => props.handleViewDetails(props.uriKey)}>
+        Details
+      </DetailsBtn>
+    </div>
+  </ActionsContainer>
+);
 
-/**
- * The property types for this component
- */
 TemplateActions.propTypes = {
   addToCont: PropTypes.func,
   handleViewDetails: PropTypes.func,

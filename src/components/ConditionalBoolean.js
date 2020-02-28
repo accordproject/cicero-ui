@@ -44,7 +44,7 @@ const ConditionalBoolean = (props) => {
     somethingLength: props.nodeValue.position.popupWidth,
     somethingHeight: props.nodeValue.position.popupHeight
       + (props.nodeValue.position.popupHeight * 0.5),
-    caretTop: props.nodeValue.position.popupHeight,
+    caretTop: 1,
     caretLeft: (tooltipWidth / 2),
     tooltipHeight: 0.1,
   };
