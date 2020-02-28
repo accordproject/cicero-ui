@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// The TextForm Pure component
-export default React.memo( (props) => {
-
-  propTypes = {
-    label: PropTypes.string.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-  };
-
-  const [setValue, value] = useState('');
+const TextForm = (props) => {
+  const [value, setValue] = useState('');
 
   const handleChange = (event) => {
     setValue(event.target.value);
-  }
+  };
 
   const handleSubmit = (event) => {
     props.handleSubmit(value);
     event.preventDefault();
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -29,5 +22,11 @@ export default React.memo( (props) => {
       <input type="submit" value="Submit" />
     </form>
   );
+};
 
-})
+TextForm.propTypes = {
+  label: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
+
+export default TextForm;
