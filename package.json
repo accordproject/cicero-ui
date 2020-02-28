@@ -1,6 +1,6 @@
 {
   "name": "@accordproject/cicero-ui",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "cicero-ui React component",
   "main": "dist/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "depcheck": "node ./scripts/depcheck.js"
   },
   "dependencies": {
-    "@accordproject/markdown-editor": "^0.9.7",
+    "@accordproject/markdown-editor": "^0.9.8",
     "@accordproject/markdown-slate": "^0.10.0",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",

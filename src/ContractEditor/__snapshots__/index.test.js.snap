@@ -3,7 +3,9 @@
 exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <body>
   <div>
-    <div>
+    <div
+      class="ap-markdown-editor"
+    >
       <div
         class="sc-ifAKCX hNozxa"
         id="slate-toolbar-wrapper-id"
