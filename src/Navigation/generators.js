@@ -2,7 +2,6 @@
 import React from 'react';
 
 /* Actions */
-import { truncateHeader } from './actions';
 
 /* Styling */
 import * as SC from './styles';
@@ -18,8 +17,7 @@ export const headerGenerator = (props) => {
 
   return headers.map((header) => {
     const { type, key } = header;
-    const heading = truncateHeader(header);
-    if (!heading) return null;
+    if (!header.text) return null;
     switch (type) {
       case 'clause':
         return (
@@ -28,7 +26,7 @@ export const headerGenerator = (props) => {
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {truncateHeader(header)}
+              {header.text}
           </ SC.HeaderClause>
         );
       case 'heading_one':
@@ -38,7 +36,7 @@ export const headerGenerator = (props) => {
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {truncateHeader(header)}
+              {header.text}
           </ SC.HeaderOne>
         );
       case 'heading_two':
@@ -48,7 +46,7 @@ export const headerGenerator = (props) => {
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {truncateHeader(header)}
+               {header.text}
           </ SC.HeaderTwo>
         );
       case 'heading_three':
@@ -58,7 +56,7 @@ export const headerGenerator = (props) => {
               onClick={() => navigateHeader(key, type)}
               {...props.styleProps}
           >
-              {truncateHeader(header)}
+              {header.text}
           </ SC.HeaderThree>
         );
       default:
