@@ -227,12 +227,6 @@ function ClausePlugin() {
           switch (nodeType) {
             case 'computed':
               throw new Error('Computed variable not supported');
-            case 'html_block':
-              throw new Error('HTML block not supported');
-            case 'code_block':
-              throw new Error('Code block not supported');
-            case 'html_inline':
-              throw new Error('HTML inline not supported');
             case 'image':
               throw new Error('Image not supported');
             case 'ol_list':
