@@ -7,7 +7,7 @@ export const NavigationWrapper = styled.div`
     position: ${props => props.positionValue || 'static'};
     top: ${props => props.topValue || 'auto'};
     max-height: ${props => props.navMaxHeight || '80vh'};
-    width: ${props => props.navWidth || '15vw'};
+    width: ${props => props.navWidth || 'inherit'};
     background-color: ${props => props.backgroundColor || 'inherit'};
     overflow-y: inherit;
 
@@ -66,7 +66,6 @@ export const HeaderOne = styled.div`
     margin-top: 2px;
     margin-bottom: 2px;
     height: 24px;
-    width: "14vw";
     color: ${props => props.headerColor || '#B9BCC4'};
     font-family: "IBM Plex Sans";
     font-size: 1em;
@@ -80,16 +79,13 @@ export const HeaderOne = styled.div`
 
 export const HeaderTwo = styled(HeaderOne)`
     margin-left: 20px;
-    width: "12vw";
 `;
 
 export const HeaderThree = styled(HeaderOne)`
     margin-left: 40px;
-    width: "11vw";
 `;
 
 export const HeaderClause = styled(HeaderOne)`
     color: ${props => props.clauseColor || '#FFFFFF'} !important;
     font-weight: bold;
-    width: "13vw";
 `;
