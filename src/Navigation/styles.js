@@ -7,7 +7,7 @@ export const NavigationWrapper = styled.div`
     position: ${props => props.positionValue || 'static'};
     top: ${props => props.topValue || 'auto'};
     max-height: ${props => props.navMaxHeight || '80vh'};
-    width: ${props => props.navWidth || '180px'};
+    width: ${props => props.navWidth || 'inherit'};
     background-color: ${props => props.backgroundColor || 'inherit'};
     overflow-y: inherit;
 
@@ -20,7 +20,6 @@ export const NavigationWrapper = styled.div`
 /* Navigation Component Switch */
 
 export const Title = styled.a`
-    place-self: center;
     color: #FFFFFF;
     font-size: 1em;
     font-weight: bold;
@@ -50,8 +49,8 @@ export const Files = styled(Title)`
 /* Contract Navigation */
 
 export const ContractHeaders = styled.div`
-    overflow-y: scroll !important;
-    overflow-x: hidden;
+    overflow: hidden;
+    white-space: nowrap;
     padding-top: 10px;
 
     grid-area: body;
@@ -62,10 +61,11 @@ export const ContractHeaders = styled.div`
 `;
 
 export const HeaderOne = styled.div`
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-top: 2px;
     margin-bottom: 2px;
     height: 24px;
-    width: 185px;
     color: ${props => props.headerColor || '#B9BCC4'};
     font-family: "IBM Plex Sans";
     font-size: 1em;
