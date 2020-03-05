@@ -44,8 +44,6 @@ export const ClauseConditionalTooltip = styled.div`
 
 export const ClauseBackground = styled.div`
   background-color: ${props => props.clausebg || '#F9FBFF'};
-  border: 1px solid ${props => props.clauseborder || '#19C6C7'};
-  border-radius: 3px;
   grid-area: eight / eight / twentyone / twentyone;
 `;
 
@@ -78,6 +76,7 @@ export const ClauseBody = styled.div`
   font-family: ${props => props.bodyfont || 'serif'};
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;
+  padding: 10px;
   color: #141F3C;
   font-size: 1em;
   line-height: 22px;
