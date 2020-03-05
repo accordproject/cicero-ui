@@ -43,7 +43,7 @@ export const ClauseConditionalTooltip = styled.div`
 `;
 
 export const ClauseBackground = styled.div`
-  background-color: ${props => props.clausebg || '#ECF0FA'};
+  background-color: ${props => props.clausebg || '#F9FBFF'};
   border: 1px solid ${props => props.clauseborder || '#19C6C7'};
   border-radius: 3px;
   grid-area: eight / eight / twentyone / twentyone;
