@@ -22,13 +22,16 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   </styled.div>
   <Styled(styled.div)
     currentHover={false}
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     <styled.svg
       aria-label={[Function]}
-      height="20px"
-      onClick={[Function]}
+      height="19px"
+      hovering={false}
       viewBox="0 0 16 20"
-      width="16px"
+      width="19px"
     >
       <g
         fillRule="evenodd"
@@ -50,11 +53,14 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   </Styled(styled.div)>
   <Styled(styled.div)
     currentHover={false}
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     <styled.svg
       aria-label={[Function]}
       height="19px"
-      onClick={[Function]}
+      hovering={false}
       viewBox="0 0 19 19"
       width="19px"
     >
@@ -74,13 +80,16 @@ exports[`<ClauseComponent /> on initialization renders component correctly 1`] =
   </Styled(styled.div)>
   <Styled(styled.div)
     currentHover={false}
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     <styled.svg
       aria-label={[Function]}
       height="19px"
-      onClick={[Function]}
+      hovering={false}
       viewBox="0 0 12 15"
-      width="15px"
+      width="19px"
     >
       <g
         fillRule="evenodd"

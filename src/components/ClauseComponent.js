@@ -193,14 +193,14 @@ function ClauseComponent(props) {
       </S.ClauseHeader>
       { !props.readOnly
         && <>
-          <S.TestWrapper 
+          <S.TestWrapper
             {...iconWrapperProps}
             onMouseEnter={() => setHoveringTestIcon(true)}
             onMouseLeave={() => setHoveringTestIcon(false)}
             onClick={() => clauseProps.CLAUSE_TEST_FUNCTION(props)}
           >
-            <S.ClauseIcon 
-              {...testIconProps} 
+            <S.ClauseIcon
+              {...testIconProps}
               hovering={hoveringTestIcon}
             >
               {testIcon.icon()}
@@ -213,13 +213,13 @@ function ClauseComponent(props) {
               </S.HeaderToolTipWrapper>
             }
           </S.TestWrapper>
-          <S.EditWrapper 
+          <S.EditWrapper
             {...iconWrapperProps}
             onMouseEnter={() => setHoveringEditIcon(true)}
             onMouseLeave={() => setHoveringEditIcon(false)}
             onClick={() => clauseProps.CLAUSE_EDIT_FUNCTION(props)}
           >
-            <S.ClauseIcon 
+            <S.ClauseIcon
               {...editIconProps}
               hovering={hoveringEditIcon}
             >
@@ -233,13 +233,13 @@ function ClauseComponent(props) {
               </S.HeaderToolTipWrapper>
             }
           </S.EditWrapper>
-          <S.DeleteWrapper 
+          <S.DeleteWrapper
             {...iconWrapperProps}
             onMouseEnter={() => setHoveringDeleteIcon(true)}
             onMouseLeave={() => setHoveringDeleteIcon(false)}
             onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
           >
-            <S.ClauseIcon 
+            <S.ClauseIcon
               {...deleteIconProps}
               hovering={hoveringDeleteIcon}
             >
