@@ -84,20 +84,21 @@ export const ClauseBody = styled.div`
 `;
 
 export const ClauseIcon = styled.svg`
-  fill: #696969;
+  position: relative;
+  z-index: 1;
   cursor: pointer;
-
-  &:hover {
-    fill: ${props => props.clauseIconColor || '#19C6C7'};
-  }
+  fill: ${props => (props.hovering ? props.clauseIconColor || '#19C6C7' : '#696969')};
 `;
 
 const IconWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.iconBg || '#ECF0FA'} 100%);
+  background: linear-gradient(180deg, #FFF 0%, ${props => props.iconBg || '#F9FBFF'} 100%);
+  position: relative;
+  z-index: 1;
   padding: 4px;
   place-self: center;
   transition-duration: 0.5s;
+  cursor: pointer;
 `;
 
 export const TestWrapper = styled(IconWrapper)`
@@ -126,21 +127,31 @@ export const ClauseAdd = styled.svg`
 
 export const HeaderToolTipWrapper = styled.div`
   position: absolute;
-  top: -25px;
+  top: -40px;
+  z-index: 99;
 `;
 
 export const HeaderToolTip = styled.div`
-  background-color: #141f3a;
+  background-color: #121212;
+  padding: 10px;
   border-radius: 3px;
-  padding: 5px;
+  color: #f0f0f0;
+  z-index: 99;
+  font-family: 'IBM Plex Sans', 'sans-serif';
+  transition: all 0.3s ease;
   :after {
     content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    z-index: 99;
     position: absolute;
     top: 100%;
     left: 5px;
-    border-width: 4px;
+    border-radius: 0px;
+    border-width: 6px;
     border-style: solid;
-    border-color: #141f3a transparent transparent transparent;
+    border-color: #121212 transparent transparent transparent;
   }
 `;
 
