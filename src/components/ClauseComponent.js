@@ -28,8 +28,14 @@ import ConditionalBoolean from './ConditionalBoolean';
  */
 function ClauseComponent(props) {
   const clauseProps = props.clauseProps || Object.create(null);
+
+  // Tooltip visibility controls
   const [hovering, setHovering] = useState(false);
   const [hoveringHeader, setHoveringHeader] = useState(false);
+  const [hoveringTestIcon, setHoveringTestIcon] = useState(false);
+  const [hoveringEditIcon, setHoveringEditIcon] = useState(false);
+  const [hoveringDeleteIcon, setHoveringDeleteIcon] = useState(false);
+
   const [conditionals, setConditionals] = useState({});
 
   const errorsComponent = props.errors
@@ -112,11 +118,10 @@ function ClauseComponent(props) {
 
   const testIconProps = {
     'aria-label': testIcon.type,
-    width: '16px',
-    height: '20px',
+    width: '19px',
+    height: '19px',
     viewBox: '0 0 16 20',
-    clauseIconColor: clauseProps.CLAUSE_ICONS,
-    onClick: () => clauseProps.CLAUSE_TEST_FUNCTION(props)
+    clauseIconColor: clauseProps.CLAUSE_ICONS
   };
 
   const editIconProps = {
@@ -124,17 +129,15 @@ function ClauseComponent(props) {
     width: '19px',
     height: '19px',
     viewBox: '0 0 19 19',
-    clauseIconColor: clauseProps.CLAUSE_ICONS,
-    onClick: () => clauseProps.CLAUSE_EDIT_FUNCTION(props)
+    clauseIconColor: clauseProps.CLAUSE_ICONS
   };
 
   const deleteIconProps = {
     'aria-label': deleteIcon.type,
-    width: '15px',
+    width: '19px',
     height: '19px',
     viewBox: '0 0 12 15',
-    clauseIconColor: clauseProps.CLAUSE_ICONS,
-    onClick: () => clauseProps.CLAUSE_DELETE_FUNCTION(props)
+    clauseIconColor: clauseProps.CLAUSE_ICONS
   };
 
   const conditionalIconProps = {
@@ -190,20 +193,65 @@ function ClauseComponent(props) {
       </S.ClauseHeader>
       { !props.readOnly
         && <>
-          <S.TestWrapper {...iconWrapperProps}>
-            <S.ClauseIcon {...testIconProps}>
+          <S.TestWrapper 
+            {...iconWrapperProps}
+            onMouseEnter={() => setHoveringTestIcon(true)}
+            onMouseLeave={() => setHoveringTestIcon(false)}
+            onClick={() => clauseProps.CLAUSE_TEST_FUNCTION(props)}
+          >
+            <S.ClauseIcon 
+              {...testIconProps} 
+              hovering={hoveringTestIcon}
+            >
               {testIcon.icon()}
             </ S.ClauseIcon>
+            {(hoveringTestIcon)
+              && <S.HeaderToolTipWrapper>
+                <S.HeaderToolTip>
+                  Test
+                </S.HeaderToolTip>
+              </S.HeaderToolTipWrapper>
+            }
           </S.TestWrapper>
-          <S.EditWrapper {...iconWrapperProps}>
-            <S.ClauseIcon {...editIconProps}>
+          <S.EditWrapper 
+            {...iconWrapperProps}
+            onMouseEnter={() => setHoveringEditIcon(true)}
+            onMouseLeave={() => setHoveringEditIcon(false)}
+            onClick={() => clauseProps.CLAUSE_EDIT_FUNCTION(props)}
+          >
+            <S.ClauseIcon 
+              {...editIconProps}
+              hovering={hoveringEditIcon}
+            >
               {editIcon.icon()}
             </ S.ClauseIcon>
+            {(hoveringEditIcon)
+              && <S.HeaderToolTipWrapper>
+                <S.HeaderToolTip>
+                  Edit
+                </S.HeaderToolTip>
+              </S.HeaderToolTipWrapper>
+            }
           </S.EditWrapper>
-          <S.DeleteWrapper {...iconWrapperProps}>
-            <S.ClauseIcon {...deleteIconProps}>
+          <S.DeleteWrapper 
+            {...iconWrapperProps}
+            onMouseEnter={() => setHoveringDeleteIcon(true)}
+            onMouseLeave={() => setHoveringDeleteIcon(false)}
+            onClick={() => clauseProps.CLAUSE_DELETE_FUNCTION(props)}
+          >
+            <S.ClauseIcon 
+              {...deleteIconProps}
+              hovering={hoveringDeleteIcon}
+            >
               {deleteIcon.icon()}
             </ S.ClauseIcon>
+            {(hoveringDeleteIcon)
+              && <S.HeaderToolTipWrapper>
+                <S.HeaderToolTip>
+                  Delete
+                </S.HeaderToolTip>
+              </S.HeaderToolTipWrapper>
+            }
           </S.DeleteWrapper>
         </>
       }
