@@ -7,7 +7,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
       class="ap-markdown-editor"
     >
       <div
-        class="sc-ifAKCX hNozxa"
+        class="sc-EHOje gvyJFh"
         id="slate-toolbar-wrapper-id"
       >
         <div
@@ -84,7 +84,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             class="sc-htpNat jqGvzC toolbar-4x0"
           />
           <svg
-            aria-label="bold"
+            aria-label="Bold (Ctrl+B)"
             class="sc-bwzfXH jKgcJe toolbar-0x1"
             height="25px"
             viewBox="0 0 11 13"
@@ -115,7 +115,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             </g>
           </svg>
           <svg
-            aria-label="italic"
+            aria-label="Italic (Ctrl+I)"
             class="sc-bwzfXH jKgcJe toolbar-0x2"
             height="25px"
             viewBox="0 0 10 13"
@@ -150,7 +150,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             class="sc-htpNat jqGvzC toolbar-4x1"
           />
           <svg
-            aria-label="code"
+            aria-label="Code (Ctrl+Alt+C)"
             class="sc-bwzfXH fDMMRC toolbar-1x0"
             height="25px"
             viewBox="0 0 20 12"
@@ -374,7 +374,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
         </div>
       </div>
       <div
-        class="sc-bxivhb bZdZbF"
+        class="sc-ifAKCX cjbJRX"
       >
         <div>
           <div
@@ -461,7 +461,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
         class="field"
       >
         <button
-          class="ui secondary disabled left floated button"
+          class="ui secondary disabled right floated button"
           disabled=""
           tabindex="-1"
         >
