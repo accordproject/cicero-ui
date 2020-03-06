@@ -54,7 +54,7 @@ export const ClauseHeader = styled.div`
   font-family: ${props => props.headerfont || 'serif'};
   grid-area: two / two / ten / ten;
   transition-duration: 0.5s;
-  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.headerbg || '#ECF0FA'} 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.headerbg || '#F9FBFF'} 100%);
   align-self: center;
   justify-self: start;
   margin: 6px 0;
