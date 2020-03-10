@@ -84,7 +84,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             class="sc-htpNat jqGvzC toolbar-4x0"
           />
           <svg
-            aria-label="Bold (Ctrl+B)"
+            aria-label="bold"
             class="sc-bwzfXH jKgcJe toolbar-0x1"
             height="25px"
             viewBox="0 0 11 13"
@@ -115,7 +115,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             </g>
           </svg>
           <svg
-            aria-label="Italic (Ctrl+I)"
+            aria-label="italic"
             class="sc-bwzfXH jKgcJe toolbar-0x2"
             height="25px"
             viewBox="0 0 10 13"
@@ -150,7 +150,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
             class="sc-htpNat jqGvzC toolbar-4x1"
           />
           <svg
-            aria-label="Code (Ctrl+Alt+C)"
+            aria-label="code"
             class="sc-bwzfXH fDMMRC toolbar-1x0"
             height="25px"
             viewBox="0 0 20 12"
