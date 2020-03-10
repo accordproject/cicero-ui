@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 
-const UploadButton = styled(button).attrs({
+const UploadButton = styled.button.attrs({
   'aria-label': 'Upload Button',
 })`
   position: relative;
