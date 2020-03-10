@@ -23,7 +23,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook -s ./static"
   },
   "dependencies": {
-    "@accordproject/markdown-editor": "^0.9.12",
+    "@accordproject/markdown-editor": "^0.9.13",
     "@accordproject/markdown-slate": "^0.10.3",
     "@storybook/addon-a11y": "^5.3.14",
     "@storybook/addon-actions": "^5.3.14",
