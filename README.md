@@ -28,9 +28,9 @@ Available Plugins:
 - [`ComputedPlugin`][computedplugin]
 
 Components still in development:
-- [`ClauseEditor`][clauseeditor]
+- `ClauseEditor`
 - [`ParseResult`][parseresult]
-- [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]
+- `TemplateLoadingClauseEditor`
 
 ### Development
 
@@ -81,13 +81,13 @@ Your app is ready to be deployed!
 ## <a name="Structure"></a> Structure of the Code Repository
 
 Top level repository (cicero-ui), with sub packages. The entire package is published as an independent npm module:
-- [`ClauseEditor`][clauseeditor]: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
+- `ClauseEditor`: Functional ReactJS component which displays text of Clause in [@accordproject/markdown-editor][markdown] and parses text using associated template.
 - [`ContractEditor`][contracteditor]: Functional ReactJS component for a rich text contract editor which wraps the [@accordproject/markdown-editor][markdown] editor and assigns the Clause plugin.
 - [`ErrorLogger`][errorlogger]: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
 - [`Navigation`][navigation]: Functional ReactJS component for displaying markdown headings and clause nodes associated with contracts.
 - [`ParseResult`][parseresult]: 
 - [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
-- [`TemplateLoadingClauseEditor`][templateloadingclauseeditor]:
+- `TemplateLoadingClauseEditor`:
 - [`ClausePlugin`][clauseplugin]: A custom Slate plugin for embedding a clause node within a document
 - [`VariablePlugin`][variableplugin]: A custom Slate plugin for using editable, highlighted variables within a clause
 - [`ComputedPlugin`][computedplugin]: A custom Slate plugin for using non-editable, highlighted computed fields within a clause
