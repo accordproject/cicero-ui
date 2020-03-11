@@ -31,6 +31,7 @@
     "@storybook/addon-notes": "^5.3.14",
     "@storybook/addon-storyshots": "^5.3.14",
     "@storybook/addons": "^5.3.14",
+    "@storybook/theming": "^5.3.14",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.13.1",
