@@ -165,7 +165,7 @@ function Demo() {
 
   return (
     <div>
-      <Button onClick={() => setlockTextState(!lockTextState)} >Toggle lockText</Button>
+      <Button aria-label="Toggle lockText" onClick={() => setlockTextState(!lockTextState)} >Toggle lockText</Button>
       <Header size='medium'>lockText state: {lockTextState.toString()}</Header>
       <Grid centered columns={2}>
         <Grid.Column>
