@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 
-const UploadButton = styled.button`
+const UploadButton = styled.button.attrs({
+  'aria-label': 'Upload Button',
+})`
   position: relative;
   font-weight: 300;
   text-align: right;
@@ -31,11 +33,15 @@ const UploadButton = styled.button`
   }
 `;
 
-const ImportButton = styled(UploadButton)`
+const ImportButton = styled(UploadButton).attrs({
+  'aria-label': 'Import Button',
+})`
   margin-bottom: 5px;
 `;
 
-const AddClauseBtn = styled(Button)`
+const AddClauseBtn = styled(Button).attrs({
+  'aria-label': 'Add Clause Button',
+})`
   margin: 5px 0 0 !important;
   width: 100% !important;
   max-height: 53px;
