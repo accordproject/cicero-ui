@@ -40,3 +40,15 @@ a {
 .conditionalIcon:hover {
     cursor: pointer;
 }
+
+.variable {
+    border: #A4BBE7 1px solid;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.conditional {   
+    border: #FFDDA0 1px solid;
+    border-radius: 2px;
+    background-color: #fff;
+}
