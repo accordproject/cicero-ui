@@ -23,7 +23,7 @@ import ConditionalBoolean from './ConditionalBoolean';
 import ClauseVariableList from './ClauseVariableList';
 
 /*slate-command */
-import regenerateKey from '../SlateCommands/RegenrateAllNodeKeys'
+import regenerateKey from '../SlateCommands/RegenerateAllNodeKeys'
 
 /**
  * Component to render a clause
@@ -88,13 +88,13 @@ function ClauseComponent(props) {
 
     let listData = {};
     const findListVariables = (node) =>{
-      if(node.type === 'ul_list'){
+      if((node.type === 'ul_list') ||(node.type ==='ol_list' )){
         (node.nodes || []).forEach((listNode,index) => {
          if(listNode.getInlinesByType("variable").size > 0){
             listData[listNode.key] = { 
                 currentText: listNode.text,
-                head: index === 0 ? true : false, 
-                tail: index === node.nodes.size - 1 ? true : false,
+                head: index === 0, 
+                tail: index === (node.nodes.size - 1),
                 parentKey: node.key,
                 position: findPosition(listNode.key)
               }
@@ -154,9 +154,7 @@ function ClauseComponent(props) {
     const newBlockJSON = regenerateKey(listLastNode);
     const newBlockSlate = Block.fromJSON(newBlockJSON);
     
-    let newNode = parentNode.nodes.asMutable();
-    
-    newNode =newNode.push(newBlockSlate);
+    let newNode = parentNode.nodes.asMutable().push(newBlockSlate);
    
    const updatedList = {
         data: parentNode.data,

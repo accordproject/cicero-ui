@@ -33,9 +33,12 @@ If the delay is more than <variable id="termination" value="15%20days"/>, the Bu
 -  <variable id="1" value="0.0"/>$ million <= Volume <  <variable id="millionTwo" value="1.0"/>$ million :  <variable id="percent" value="3.1"/>%
 -  <variable id="2" value="4.0"/>$ million <= Volume <  <variable id="millionTwo" value="2.0"/>$ million :  <variable id="percent" value="3.2"/>%
 
-last today is friday
+last friday is today
 -  <variable id="3" value="6.0"/>$ million <= Volume <  <variable id="millionTwo" value="3.0"/>$ million :  <variable id="percent" value="3.3"/>%
--  <variable id="4" value="7.0"/>$ million <= Volume <  <variable id="millionTwo" value="4.0"/>$ million :  <variable id="percent" value="3.4"/>%`;
+-  <variable id="4" value="7.0"/>$ million <= Volume <  <variable id="millionTwo" value="4.0"/>$ million :  <variable id="percent" value="3.4"/>%
+
+1.  Bird costs <variable id="4" value="7.0"/>$ 
+`;
 
 const clauseText2 = `Acceptance of Delivery.
 ----
