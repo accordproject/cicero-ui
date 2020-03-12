@@ -12,6 +12,11 @@ export const ClauseWrapper = styled.div`
                        "fifteen sixteen seventeen eighteen nineteen twenty twentyone";
 `;
 
+
+export const ListIcon = styled.svg`
+  visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
+`;
+
 export const ClauseConditional = styled.svg`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
 `;

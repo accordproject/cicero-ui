@@ -37,6 +37,20 @@ a {
     height: 18px;
 }
 
-.conditionalIcon:hover {
+.conditionalIcon:hover,
+.listIcon:hover {
     cursor: pointer;
+}
+.listIcon {
+    position: absolute;
+    display: inline-block;
+    transition-duration: 0.2s;
+    margin-left: -35px;
+    margin-top: 4px;
+    width: 18px;
+    height: 16px;
+}
+.addListIcon{
+    display: block;
+    margin-top: 23px;
 }

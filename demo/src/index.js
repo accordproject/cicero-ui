@@ -28,7 +28,14 @@ of delay penalty amounting to <variable id="penaltyPercentage" value="10.5"/>% o
 whose delivery has been delayed. Any fractional part of a <variable id="fractionalPart" value="days"/> is to be
 considered a full <variable id="fractionalPart" value="days"/>. The total amount of penalty shall not however,
 exceed <variable id="capPercentage" value="55.0"/>% of the total value of the Equipment involved in late delivery.
-If the delay is more than <variable id="termination" value="15%20days"/>, the Buyer is entitled to terminate this Contract.`;
+If the delay is more than <variable id="termination" value="15%20days"/>, the Buyer is entitled to terminate this Contract.<if id="forceMajeure" value="%20except%20for%20Force%20Majeure%20cases%2C" whenTrue="%20except%20for%20Force%20Majeure%20cases%2C" whenFalse=""/>
+-  <variable id="1" value="0.0"/>$ million <= Volume <  <variable id="millionTwo" value="1.0"/>$ million :  <variable id="percent" value="3.1"/>%
+-  <variable id="1" value="0.0"/>$ million <= Volume <  <variable id="millionTwo" value="1.0"/>$ million :  <variable id="percent" value="3.1"/>%
+-  <variable id="2" value="4.0"/>$ million <= Volume <  <variable id="millionTwo" value="2.0"/>$ million :  <variable id="percent" value="3.2"/>%
+
+last today is friday
+-  <variable id="3" value="6.0"/>$ million <= Volume <  <variable id="millionTwo" value="3.0"/>$ million :  <variable id="percent" value="3.3"/>%
+-  <variable id="4" value="7.0"/>$ million <= Volume <  <variable id="millionTwo" value="4.0"/>$ million :  <variable id="percent" value="3.4"/>%`;
 
 const clauseText2 = `Acceptance of Delivery.
 ----
