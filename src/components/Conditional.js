@@ -47,7 +47,7 @@ const Conditional = (props) => {
 
   const conditionalProps = {
     id: conditional.id,
-    className: 'conditional',
+    className: node.text === '' ? '' : 'conditional',
     onMouseEnter: () => setHovering(true),
     onMouseLeave: () => setHovering(false),
     onClick: () => { toggleConditional(node.key); },
