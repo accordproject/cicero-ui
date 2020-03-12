@@ -131,7 +131,9 @@ export const HeaderToolTipWrapper = styled.div`
   z-index: 99;
 `;
 
-export const HeaderToolTip = styled.div`
+export const HeaderToolTip = styled.div.attrs({
+  'contentEditable': 'false'
+})`
   background-color: #121212;
   padding: 10px;
   border-radius: 3px;
