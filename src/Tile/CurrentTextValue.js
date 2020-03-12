@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 const CurrentTextValue = props => (
-  <React.Fragment>
+  <Fragment>
   <p><b>{props.textLabel}</b>{props.textValue}</p>
-  </React.Fragment>
+  </Fragment>
 );
 
 
