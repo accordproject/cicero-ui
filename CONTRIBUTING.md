@@ -167,7 +167,7 @@ After your pull request is merged, you can safely delete your branch and pull th
   ```bash
     git checkout master
     git fetch --all --prune
-    git rebase upstream/master
+    git rebase upstream/development
     git push origin master
   ```
 

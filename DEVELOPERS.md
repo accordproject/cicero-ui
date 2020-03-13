@@ -58,7 +58,7 @@ It is good practice to always keep your `origin/master` in sync with `upstream/m
 ```shell
     git checkout master
     git fetch --all --prune
-    git rebase upstream/master
+    git rebase upstream/development
     git push origin master
 ```
 
