@@ -1,6 +1,6 @@
 /* React */
 import React, { useState, useEffect } from 'react';
-import { Inline } from 'slate';
+import { Inline, Block } from 'slate';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 
@@ -20,6 +20,10 @@ import {
 
 /* Components */
 import ConditionalBoolean from './ConditionalBoolean';
+import ClauseVariableList from './ClauseVariableList';
+
+/*slate-command */
+import regenerateKey from '../SlateCommands/RegenerateAllNodeKeys'
 
 /**
  * Component to render a clause
@@ -37,6 +41,7 @@ function ClauseComponent(props) {
   const [hoveringDeleteIcon, setHoveringDeleteIcon] = useState(false);
 
   const [conditionals, setConditionals] = useState({});
+  const [listVariables, setListVariables] = useState({});
 
   const errorsComponent = props.errors
     ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
@@ -64,7 +69,7 @@ function ClauseComponent(props) {
       };
       return positionalStyle;
     };
-
+    
     const findConditionals = node => ({
       ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '') ) ? {
         [node.key]: {
@@ -81,8 +86,35 @@ function ClauseComponent(props) {
         .reduce((props, node) => ({ ...props, ...node }), {})
     });
 
+    let listData = {};
+    const findListVariables = (node) =>{
+      if((node.type === 'ul_list') ||(node.type ==='ol_list' )){
+        (node.nodes || []).forEach((listNode,index) => {
+         if(listNode.getInlinesByType("variable").size > 0){
+            listData[listNode.key] = { 
+                currentText: listNode.text,
+                head: index === 0, 
+                tail: index === (node.nodes.size - 1),
+                parentKey: node.key,
+                position: findPosition(listNode.key)
+              }
+         }
+        })
+      }
+      return {
+        ...listData,
+        ...(node.nodes || [])
+        .map(findListVariables)
+        .reduce((props, node) => ({ ...props, ...node }), {})
+      }
+
+    }
+
     const newState = findConditionals(props.clauseNode);
+    const foundListVariables = findListVariables(props.clauseNode)
+
     setConditionals(newState);
+    setListVariables(foundListVariables)
   }, [props.clauseNode, props.editor]);
 
   const toggleConditional = (key) => {
@@ -111,10 +143,33 @@ function ClauseComponent(props) {
         ]
       };
       const newInlineSlate = Inline.fromJSON(newInlineJSON);
-
       props.editor.replaceNodeByKey(selectionNodeKey, newInlineSlate);
     }
   };
+
+  const addList = (listLastkey,parentKey) =>{
+    const listLastNode = props.editor.value.document.getNode(listLastkey);
+    const parentNode = props.editor.value.document.getNode(parentKey);
+
+    const newBlockJSON = regenerateKey(listLastNode);
+    const newBlockSlate = Block.fromJSON(newBlockJSON);
+    
+    let newNode = parentNode.nodes.asMutable().push(newBlockSlate);
+   
+   const updatedList = {
+        data: parentNode.data,
+        key: parentNode.key,
+        object: parentNode.object,
+        text: parentNode.text,
+        type: parentNode.type,
+        nodes:newNode
+   }
+
+    props.editor.replaceNodeByKey(parentKey,Block.fromJSON(updatedList));
+     
+  }
+
+  const removeList = (key) => props.editor.removeNodeByKey(key);
 
   const testIconProps = {
     'aria-label': testIcon.type,
@@ -144,7 +199,11 @@ function ClauseComponent(props) {
     currentHover: hovering,
     toggleConditional,
   };
-
+  const ListIconProps = {
+    currentHover: hovering,
+    removeList,
+    addList
+  };
   return (
     <S.ClauseWrapper
       onMouseEnter={() => setHovering(true)}
@@ -161,6 +220,17 @@ function ClauseComponent(props) {
               slateKey={key}
               nodeValue={value}
               {...conditionalIconProps}
+            />
+      ))
+    }
+    {
+       Object.entries(listVariables).map(([key, value]) => (
+        <ClauseVariableList
+              key={key}
+              listIconStyle={value.position.popupStyle}
+              slateListKey={key}
+              nodeValue={value}
+              {...ListIconProps}
             />
       ))
     }
