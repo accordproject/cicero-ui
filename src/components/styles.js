@@ -80,6 +80,9 @@ export const ClauseBody = styled.div`
   .computed {
     color: ${props => props.computedcolor || '#f1baff'};
   }
+  li{
+    transition:none;
+  },
   font-family: ${props => props.bodyfont || 'serif'};
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;

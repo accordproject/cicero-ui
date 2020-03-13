@@ -29,7 +29,7 @@ export default function ClauseVariableList({slateListKey, nodeValue, listIconSty
 
     return (
         <>
-           {!nodeValue.head && <ListIcon {...listIconProps}>
+           {!(nodeValue.head && nodeValue.tail) && <ListIcon {...listIconProps}>
                 {removeIcon.icon(hoveringRemoveIcon)}
             </ListIcon>}
             {nodeValue.tail && <ListIcon { ...addIconProps}>
