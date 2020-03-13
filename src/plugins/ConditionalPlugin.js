@@ -43,34 +43,13 @@ function ConditionalPlugin() {
 
     const { anchor } = value.selection;
     console.log(`${code} - in conditional ${inConditional}`, anchor.toJSON());
-
-    if (code === 'backspace') {
+     
+    if (code === 'backspace' || code === 'input') {
       if (inConditional) {
-        // if we hit backspace and are at the zeroth
-        // position of a conditional prevent deleting the char
-        // that precedes the conditional
-        return anchor.offset > 0;
+        // once wihin the range of a conditional, we prevent Editing(deleting or adding)
+        return false;
       }
-
-      // if we hit backspace and are outside of a conditional
-      // allow deleting the last char of the conditional
-      // IFF the conditional has more than 1 char
-      const prev = value.document.getPreviousSibling(anchor.path);
-      return prev && anchor.offset === 0 && prev.type === 'conditional' && prev.getFirstText().text.length > 1;
     }
-
-    if (!inConditional && code === 'input') {
-      // if are outside of a conditional allowing
-      // extending the conditional
-      const prev = value.document.getPreviousSibling(anchor.path);
-
-      const extendingVar = prev && anchor.offset === 0 && prev.type === 'conditional';
-      if (extendingVar) {
-        editor.moveToEndOfNode(prev);
-      }
-      return extendingVar;
-    }
-
     // disallow enter within conditionals!
     return code !== 'enter' && inConditional;
   });
