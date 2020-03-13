@@ -12,6 +12,11 @@ export const ClauseWrapper = styled.div`
                        "fifteen sixteen seventeen eighteen nineteen twenty twentyone";
 `;
 
+
+export const ListIcon = styled.svg`
+  visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
+`;
+
 export const ClauseConditional = styled.svg`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
 `;
@@ -78,6 +83,9 @@ export const ClauseBody = styled.div`
   .computed {
     color: ${props => props.computedcolor || '#f1baff'};
   }
+  li{
+    transition:none;
+  },
   font-family: ${props => props.bodyfont || 'serif'};
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;
