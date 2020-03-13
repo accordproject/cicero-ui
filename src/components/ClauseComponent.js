@@ -71,7 +71,7 @@ function ClauseComponent(props) {
     };
     
     const findConditionals = node => ({
-      ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '')) ? {
+      ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '') ) ? {
         [node.key]: {
           id: node.data.get('id'),
           whenTrue: node.data.get('whenTrue'),

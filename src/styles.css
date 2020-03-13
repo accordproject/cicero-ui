@@ -41,6 +41,7 @@ a {
 .listIcon:hover {
     cursor: pointer;
 }
+
 .listIcon {
     position: absolute;
     display: inline-block;
@@ -53,4 +54,16 @@ a {
 .addListIcon{
     display: block;
     margin-top: 23px;
+}
+
+.variable {
+    border: #A4BBE7 1px solid;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.conditional {   
+    border: #FFDDA0 1px solid;
+    border-radius: 2px;
+    background-color: #fff;
 }
