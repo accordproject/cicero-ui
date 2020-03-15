@@ -1,32 +1,17 @@
-
-
-// This story is just for testing purposes, please remove this!
-
 import React from "react";
 import { Button } from "@storybook/react/demo";
 import docs from "./docs.md";
-import { storiesOf } from '@storybook/react'
-import { withA11y } from '@storybook/addon-a11y'
+import { withA11y } from "@storybook/addon-a11y";
 
 export default { title: "'Components/Contract Editor" };
 
-export const contractEditor = () => <Button>Cicero-UI</Button>;
+export const contractEditor = () => <Button>Cicero-UI</Button>; // Please add contractEditor Component definition here
 
+contractEditor.story = {
+  component: contractEditor,
+  decorators: [withA11y],
 
-
-contractEditor.story={
-    
-    component: contractEditor,
-    decorators: [ withA11y ],
-   
-    parameters: {
-        notes: docs,
-      },
-}
-// storiesOf('Components/ContractEditor', module)
-//   .addDecorator(withA11y)
-//   .addParameters({notes: docs})
-//   .add(
-//     'Contract Editor',
-//    (ContractEditorComponent)
-//   )
+  parameters: {
+    notes: docs
+  }
+};
