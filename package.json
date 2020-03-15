@@ -25,6 +25,7 @@
   "dependencies": {
     "@accordproject/markdown-editor": "^0.9.13",
     "@accordproject/markdown-slate": "^0.10.3",
+<<<<<<< HEAD
     "@storybook/addon-a11y": "^5.3.14",
     "@storybook/addon-actions": "^5.3.14",
     "@storybook/addon-docs": "^5.3.17",
@@ -33,6 +34,16 @@
     "@storybook/addon-storyshots": "^5.3.14",
     "@storybook/addons": "^5.3.14",
     "@storybook/theming": "^5.3.14",
+=======
+    "@storybook/addon-a11y": "^5.3.17",
+    "@storybook/addon-actions": "^5.3.17",
+    "@storybook/addon-docs": "^5.3.17",
+    "@storybook/addon-knobs": "^5.3.17",
+    "@storybook/addon-notes": "^5.3.17",
+    "@storybook/addon-storyshots": "^5.3.17",
+    "@storybook/addons": "^5.3.17",
+    "@storybook/theming": "^5.3.17",
+>>>>>>> feat(*): Replace notes -> docs and added roots - I315
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.13.1",
@@ -58,7 +69,7 @@
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
     "@clausehq/eslint-config": "^0.1.8",
-    "@storybook/react": "^5.3.14",
+    "@storybook/react": "^5.3.17",
     "@testing-library/dom": "^6.15.0",
     "@testing-library/react": "^9.5.0",
     "babel-eslint": "^10.1.0",
