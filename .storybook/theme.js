@@ -14,5 +14,5 @@ export default create ({
 
     brandTitle: 'Cicero-UI',
     brandUrl: 'https://github.com/accordproject/cicero-ui',
-    //brandImage: 'https://placehold.it/350x150',
+    brandImage: 'https://raw.githubusercontent.com/accordproject/techdocs/master/website/static/img/accord_logo.png'
 });

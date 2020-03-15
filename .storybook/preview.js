@@ -1,5 +1,5 @@
 import React from "react";
-import { addDecorator } from "@storybook/react";
+import { addDecorator, addParameters } from "@storybook/react";
 
 const styles = {
   position: "relative",
@@ -9,5 +9,15 @@ const styles = {
   textAlign: "initial"
 };
 const WrapperDecorator = storyFn => <div style={styles}>{storyFn()}</div>;
+
+addParameters({
+  options: {
+    /**
+     * display the top-level grouping as a "root" in the sidebar
+     * @type {Boolean}
+     */
+    showRoots: true
+  }
+});
 
 addDecorator(WrapperDecorator);
