@@ -101,5 +101,17 @@ describe('<ContractEditor />', () => {
       expect(document.querySelector('blockquote').textContent).toMatch(first);
       expect(document.querySelector('blockquote').textContent).toMatch(secondSentence);
     });
+
+    it('should render ul_list properly', () => {
+      const item = chance.sentence({ words : 2 });
+      setup(`- ${item}`);
+      expect(document.querySelector('ul').textContent).toMatch(item);
+    });
+
+    it('should render ol_list properly', () => {
+      const item = chance.sentence({ words : 1 });
+      setup(`1. ${item}`);
+      expect(document.querySelector('ol').textContent).toMatch(item);
+    })
   });
 });
