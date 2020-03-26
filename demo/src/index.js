@@ -19,7 +19,7 @@ const templateUri = 'https://templates.accordproject.org/archives/latedeliveryan
 
 const templateUri2 = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.13.1.cta';
 
-const templateUri3 = 'https://templates.accordproject.org/archives/volumediscountulist@0.2.1.cta'
+const templateUri3 = 'https://templates.accordproject.org/archives/volumediscountulist@0.2.1.cta';
 
 const clauseText = `Late Delivery and Penalty.
 ----
@@ -96,28 +96,29 @@ The Discount is determined according to the following table:
 - <variable id="volumeAbove" value="50.0"/>$ million <= Volume < <variable id="volumeUpTo" value="500.0"/>$ million : <variable id="rate" value="2.5"/>%
 - <variable id="volumeAbove" value="500.0"/>$ million <= Volume < <variable id="volumeUpTo" value="1000.0"/>$ million : <variable id="rate" value="1.2"/>%
 - <variable id="volumeAbove" value="1000.0"/>$ million <= Volume < <variable id="volumeUpTo" value="1000000.0"/>$ million : <variable id="rate" value="0.1"/>%
-`
+`;
 
 const getContractSlateVal = async () => {
-  const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-${clauseText}
-\`\`\`
-`;
+//   const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
+// ${clauseText}
+// \`\`\`
+// `;
 
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri2}" clauseid="123">
 ${clauseText2}
 \`\`\`
 `;
 
-const volumeDiscountList = `\`\`\` <clause src="${templateUri3}" clauseid="123">
-${clauseText3}
-\`\`\`
-`;
+  //   const volumeDiscountList = `\`\`\` <clause src="${templateUri3}" clauseid="123">
+  // ${clauseText3}
+  // \`\`\`
+  // `;
+  // ${lateDeliveryandPenaltyClause}
+  // ${volumeDiscountList}
 
   const defaultContractMarkdown = `# Heading One
   This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
   
-  ${lateDeliveryandPenaltyClause}
 
   Paragraph in between
   
@@ -125,11 +126,19 @@ ${clauseText3}
 
   second Paragraph in between
   
-  ${volumeDiscountList}
   Fin.
   `;
-  return Value.fromJSON(slateTransformer.fromMarkdown(defaultContractMarkdown));
+  console.log('defaultContractMarkdown ---- ', defaultContractMarkdown);
+  console.log('??????????? ---- ', slateTransformer.fromMarkdown(defaultContractMarkdown));
+  return slateTransformer.fromMarkdown(defaultContractMarkdown);
+  // return defaultContractMarkdown;
 };
+
+const defaultContractMarkdown = `# Heading One
+  This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
+  
+  
+  `;
 
 /**
  * Parses user inputted text for a template using Cicero
@@ -160,11 +169,36 @@ const parseClause = (template, clauseNode) => {
  * A demo component that uses ContractEditor
  */
 function Demo() {
+  //  OLD CODE::::
+  // const [contractValue, setContractValue] = useState(null);
+  // const [lockTextState, setlockTextState] = useState(true);
+  // const [templateObj, setTemplateObj] = useState({});
+
+  // useEffect(() => {
+  //   getContractSlateVal().then(value => setContractValue(value));
+  // }, []);
+
+  // const fetchTemplateObj = async (uri) => {
+  //   try {
+  //     if (!templateObj[uri]) {
+  //       const template = await Template.fromUrl(uri);
+  //       setTemplateObj({ ...templateObj, [uri]: template });
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // const onContractChange = useCallback((value) => {
+  //   setContractValue(value);
+  // }, []);
+
+
   /**
    * Currently contract value
    */
   const [contractValue, setContractValue] = useState(null);
-  const [lockTextState, setlockTextState] = useState(true);
+  // const [lockTextState, setlockTextState] = useState(true);
   const [templateObj, setTemplateObj] = useState({});
 
   /**
@@ -177,6 +211,7 @@ function Demo() {
   const fetchTemplateObj = async (uri) => {
     try {
       if (!templateObj[uri]) {
+        console.log('fetchTemplateObj');
         const template = await Template.fromUrl(uri);
         setTemplateObj({ ...templateObj, [uri]: template });
       }
@@ -184,8 +219,6 @@ function Demo() {
       console.log(err);
     }
   };
-
-
   /**
    * Called when the data in the contract editor has been modified
    */
@@ -193,32 +226,52 @@ function Demo() {
     setContractValue(value);
   }, []);
 
-  const editorProps = {
-    BUTTON_BACKGROUND_INACTIVE: null,
-    BUTTON_BACKGROUND_ACTIVE: null,
-    BUTTON_SYMBOL_INACTIVE: null,
-    BUTTON_SYMBOL_ACTIVE: null,
-    DROPDOWN_COLOR: null,
-    TOOLBAR_BACKGROUND: null,
-    TOOLTIP_BACKGROUND: null,
-    TOOLTIP: null,
-    TOOLBAR_SHADOW: null,
-    EDITOR_WIDTH: '600px',
-  };
 
-  const demo = <ContractEditor
-        lockText={lockTextState}
-        value={contractValue}
-        onChange={onContractChange}
-        editorProps={editorProps}
-        onClauseUpdated={(clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
-        loadTemplateObject={fetchTemplateObj}
-      />;
+  const [slateValue, setSlateValue] = useState(() => {
+    const slate = slateTransformer.fromMarkdown(defaultContractMarkdown); // getContractSlateVal();
+    console.log('SLATE ==>', slate);
+    return slate.document.children;
+  });
+
+
+  /**
+   * Called when the Slate Value changes
+   */
+  const onSlateValueChange = useCallback((slateChildren) => {
+    // localStorage.setItem('slate-editor-value', JSON.stringify(slateChildren));
+    // const slateValue = {
+    //   document: {
+    //     children: slateChildren
+    //   }
+    // };
+    setSlateValue(slateChildren);
+  }, []);
+
+  console.log('slateValue -------', slateValue);
+  console.log('getContractSlateVal() -------', getContractSlateVal());
+  const demo = (
+    <ContractEditor
+      value={slateValue}
+      onChange={onSlateValueChange}
+      // onClauseUpdated={
+      //    (clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
+      loadTemplateObject={fetchTemplateObj}
+
+              // OLD CODE:::
+      // lockText={lockTextState}
+      // value={contractValue}
+      // onChange={onContractChange}
+      // editorProps={editorProps}
+      // onClauseUpdated={(clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
+      // loadTemplateObject={fetchTemplateObj}
+    />
+  );
 
   return (
     <div>
-      <Button aria-label="Toggle lockText" onClick={() => setlockTextState(!lockTextState)} >Toggle lockText</Button>
-      <Header size='medium'>lockText state: {lockTextState.toString()}</Header>
+      <Button aria-label="Toggle lockText"
+      /* onClick={() => setlockTextState(!lockTextState)} */ >Toggle lockText</Button>
+      <Header size='medium'>lockText state: Sure</Header>
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment>
