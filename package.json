@@ -45,8 +45,8 @@
   "peerDependencies": {
     "react": ">= 16.6.0",
     "react-dom": ">= 16.6.0",
-    "slate": "0.47.x",
-    "slate-react": "0.22.x",
+    "slate": "^0.57.1",
+    "slate-react": "^0.57.1",
     "styled-components": ">= 4"
   },
   "devDependencies": {
@@ -91,8 +91,8 @@
     "react-dom": "^16.13.0",
     "sass-loader": "^7.1.0",
     "semver": "6.1.1",
-    "slate": "^0.47.8",
-    "slate-react": "^0.22.9",
+    "slate": "0.57.1",
+    "slate-react": "0.57.1",
     "style-loader": "^0.23.1",
     "styled-components": "^4.4.1",
     "url-loader": "^2.2.0",
