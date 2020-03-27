@@ -16,10 +16,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import ClausePlugin from '../plugins/ClausePlugin';
-import VariablePlugin from '../plugins/VariablePlugin';
-import ConditionalPlugin from '../plugins/ConditionalPlugin';
-import ComputedPlugin from '../plugins/ComputedPlugin';
+import withClauses, { customElements } from '../plugins/ClausePlugin';
+// import VariablePlugin from '../plugins/VariablePlugin';
+// import ConditionalPlugin from '../plugins/ConditionalPlugin';
+// import ComputedPlugin from '../plugins/ComputedPlugin';
 
 /**
  * Adds the current value to local storage
@@ -61,28 +61,29 @@ const contractProps = {
  */
 // eslint-disable-next-line react/display-name
 const ContractEditor = React.forwardRef((props, ref) =>
-  // const plugins = React.useMemo(() => (props.plugins
-  //   ? props.plugins.concat(
-  //     [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
-  //   )
-  //   : [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
+  // const plugins = React.useMemo(() => (
+  //   props.plugins
+  //     ? props.plugins.concat([withClauses])
+  //     : [withClauses]
+  // ), [props.plugins]);
   (
     <RichTextEditor
-    ref={ref}
-    value={props.value || contractProps.value}
-    onChange={props.onChange || contractProps.onChange}
-    // plugins={plugins}
-    // lockText={props.lockText}
-    // readOnly={props.readOnly}
-    // editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
-    data-testid='editor'
-    clausePluginProps={{
-      loadTemplateObject: props.loadTemplateObject,
-      onClauseUpdated: props.onClauseUpdated,
-      pasteToContract: props.pasteToContract,
-      clauseProps: props.clauseProps,
-      clauseMap: props.clauseMap
-    }}
+      ref={ref}
+      value={props.value || contractProps.value}
+      onChange={props.onChange || contractProps.onChange}
+      // plugins={plugins}
+      customElements={customElements}
+      // lockText={props.lockText}
+      // readOnly={props.readOnly}
+      // editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
+      data-testid='editor'
+      clausePluginProps={{
+        loadTemplateObject: props.loadTemplateObject,
+        onClauseUpdated: props.onClauseUpdated,
+        pasteToContract: props.pasteToContract,
+        clauseProps: props.clauseProps,
+        clauseMap: props.clauseMap
+      }}
   />
   ));
 
