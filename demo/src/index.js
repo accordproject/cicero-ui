@@ -96,10 +96,10 @@ The Discount is determined according to the following table:
 `;
 
 const getContractSlateVal = () => {
-  //   const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-  // ${clauseText}
-  // \`\`\`
-  // `;
+  const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
+  ${clauseText}
+  \`\`\`
+  `;
 
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri2}" clauseid="123">
 ${clauseText2}
@@ -110,7 +110,6 @@ ${clauseText2}
   // ${clauseText3}
   // \`\`\`
   // `;
-  // ${lateDeliveryandPenaltyClause}
   // ${volumeDiscountList}
 
   const defaultContractMarkdown = `# Heading One
@@ -122,6 +121,8 @@ ${clauseText2}
   ${acceptanceOfDeliveryClause}
 
   second Paragraph in between
+
+  ${lateDeliveryandPenaltyClause}
   
   Fin.
   `;
