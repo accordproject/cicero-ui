@@ -305,6 +305,7 @@ export const customElements = (attributes, children, element) => {
         {children}
       </span>
     ),
+    conditional: () => (<span style={{ border: '1px solid red' }} {...attributes}>{children}</span>)
   };
   return returnObject;
 };
