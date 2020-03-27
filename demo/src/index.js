@@ -1,13 +1,10 @@
-import React, {
-  useCallback, useEffect, useState
-} from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Button, Grid, Header, Segment
 } from 'semantic-ui-react';
 
 import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
-import { Value } from 'slate';
 
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
@@ -98,11 +95,11 @@ The Discount is determined according to the following table:
 - <variable id="volumeAbove" value="1000.0"/>$ million <= Volume < <variable id="volumeUpTo" value="1000000.0"/>$ million : <variable id="rate" value="0.1"/>%
 `;
 
-const getContractSlateVal = async () => {
-//   const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
-// ${clauseText}
-// \`\`\`
-// `;
+const getContractSlateVal = () => {
+  //   const lateDeliveryandPenaltyClause = `\`\`\` <clause src="${templateUri}" clauseid="123">
+  // ${clauseText}
+  // \`\`\`
+  // `;
 
   const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri2}" clauseid="123">
 ${clauseText2}
@@ -128,17 +125,9 @@ ${clauseText2}
   
   Fin.
   `;
-  console.log('defaultContractMarkdown ---- ', defaultContractMarkdown);
-  console.log('??????????? ---- ', slateTransformer.fromMarkdown(defaultContractMarkdown));
   return slateTransformer.fromMarkdown(defaultContractMarkdown);
   // return defaultContractMarkdown;
 };
-
-const defaultContractMarkdown = `# Heading One
-  This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
-  
-  
-  `;
 
 /**
  * Parses user inputted text for a template using Cicero
@@ -164,54 +153,19 @@ const parseClause = (template, clauseNode) => {
   }
 };
 
-
 /**
  * A demo component that uses ContractEditor
  */
 function Demo() {
-  //  OLD CODE::::
-  // const [contractValue, setContractValue] = useState(null);
-  // const [lockTextState, setlockTextState] = useState(true);
-  // const [templateObj, setTemplateObj] = useState({});
-
-  // useEffect(() => {
-  //   getContractSlateVal().then(value => setContractValue(value));
-  // }, []);
-
-  // const fetchTemplateObj = async (uri) => {
-  //   try {
-  //     if (!templateObj[uri]) {
-  //       const template = await Template.fromUrl(uri);
-  //       setTemplateObj({ ...templateObj, [uri]: template });
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const onContractChange = useCallback((value) => {
-  //   setContractValue(value);
-  // }, []);
-
-
-  /**
-   * Currently contract value
-   */
-  const [contractValue, setContractValue] = useState(null);
-  // const [lockTextState, setlockTextState] = useState(true);
   const [templateObj, setTemplateObj] = useState({});
-
-  /**
-   * Async rewrite of the markdown text to a slate value
-   */
-  useEffect(() => {
-    getContractSlateVal().then(value => setContractValue(value));
-  }, []);
+  const [slateValue, setSlateValue] = useState(() => {
+    const slate = getContractSlateVal();
+    return slate.document.children;
+  });
 
   const fetchTemplateObj = async (uri) => {
     try {
       if (!templateObj[uri]) {
-        console.log('fetchTemplateObj');
         const template = await Template.fromUrl(uri);
         setTemplateObj({ ...templateObj, [uri]: template });
       }
@@ -219,53 +173,11 @@ function Demo() {
       console.log(err);
     }
   };
+
   /**
    * Called when the data in the contract editor has been modified
    */
-  const onContractChange = useCallback((value) => {
-    setContractValue(value);
-  }, []);
-
-
-  const [slateValue, setSlateValue] = useState(() => {
-    const slate = slateTransformer.fromMarkdown(defaultContractMarkdown); // getContractSlateVal();
-    console.log('SLATE ==>', slate);
-    return slate.document.children;
-  });
-
-
-  /**
-   * Called when the Slate Value changes
-   */
-  const onSlateValueChange = useCallback((slateChildren) => {
-    // localStorage.setItem('slate-editor-value', JSON.stringify(slateChildren));
-    // const slateValue = {
-    //   document: {
-    //     children: slateChildren
-    //   }
-    // };
-    setSlateValue(slateChildren);
-  }, []);
-
-  console.log('slateValue -------', slateValue);
-  console.log('getContractSlateVal() -------', getContractSlateVal());
-  const demo = (
-    <ContractEditor
-      value={slateValue}
-      onChange={onSlateValueChange}
-      // onClauseUpdated={
-      //    (clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
-      loadTemplateObject={fetchTemplateObj}
-
-              // OLD CODE:::
-      // lockText={lockTextState}
-      // value={contractValue}
-      // onChange={onContractChange}
-      // editorProps={editorProps}
-      // onClauseUpdated={(clauseNode => parseClause(templateObj[clauseNode.data.get('src')], clauseNode))}
-      // loadTemplateObject={fetchTemplateObj}
-    />
-  );
+  const onContractChange = useCallback((value) => { setSlateValue(value); }, []);
 
   return (
     <div>
@@ -275,7 +187,11 @@ function Demo() {
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment>
-          {demo}
+            <ContractEditor
+              value={slateValue}
+              onChange={onContractChange}
+              loadTemplateObject={fetchTemplateObj}
+            />
           </Segment>
         </Grid.Column>
       </Grid>

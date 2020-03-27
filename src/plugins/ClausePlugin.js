@@ -288,4 +288,27 @@ function ClausePlugin() {
   };
 }
 
-export default ClausePlugin;
+export const customElements = (attributes, children) => {
+  const returnObject = {
+    clause: () => (<div {...attributes}>{children}</div>),
+    variable: () => (<div {...attributes}>{children}</div>),
+  };
+  return returnObject;
+};
+
+const withClauses = (editor) => {
+  console.log('Inside withClauses');
+  const {
+    insertData, insertText, isVoid, renderElement
+  } = editor;
+
+  editor.insertText = (text) => {
+    console.log('Inside withClauses insertText', text);
+    insertText(text);
+  };
+
+  editor.isVoid = element => (element.type === 'image' ? true : isVoid(element));
+  return editor;
+};
+
+export default withClauses;
