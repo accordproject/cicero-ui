@@ -12,7 +12,6 @@ export const ClauseWrapper = styled.div`
                        "fifteen sixteen seventeen eighteen nineteen twenty twentyone";
 `;
 
-
 export const ListIcon = styled.svg`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
 `;
@@ -48,23 +47,23 @@ export const ClauseConditionalTooltip = styled.div`
 `;
 
 export const ClauseBackground = styled.div`
-  background-color: ${props => props.clausebg || '#F4F6FC'};
-  border: 1px solid ${props => props.clauseborder || '#19C6C7'};
+  background-color: #F4F6FC;
+  border: 1px solid #19C6C7;
   border-radius: 3px;
   grid-area: eight / eight / twentyone / twentyone;
 `;
 
 export const ClauseHeader = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  font-family: ${props => props.headerfont || 'serif'};
+  font-family: serif;
   grid-area: two / two / ten / ten;
   transition-duration: 0.5s;
-  background: linear-gradient(180deg, #FFFFFF 0%, ${props => props.headerbg || '#F9FBFF'} 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F4F6FC 100%);
   align-self: center;
   justify-self: start;
   margin: 6px 0;
   padding: 3px;
-  color: ${props => props.headercolor || '#696969'};
+  color: #696969;
   line-height: 14px;
   font-size: 0.87em;
   font-weight: 600;
@@ -72,21 +71,21 @@ export const ClauseHeader = styled.div`
 
 export const ClauseBody = styled.div`
   .variable {
-    color: ${props => props.variablecolor || '#000'};
+    color: #000;
     padding: 0 3px 1px 3px;
   }
   .conditional {
-    color: ${props => props.conditionalcolor || '#000'};
+    color: #000;
     padding: 0 3px 1px 3px;
     margin-left: 2px;
   }
   .computed {
-    color: ${props => props.computedcolor || '#f1baff'};
+    color: #f1baff;
   }
   li{
     transition:none;
   },
-  font-family: ${props => props.bodyfont || 'serif'};
+  font-family: serif;
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;
   color: #141F3C;
@@ -103,7 +102,7 @@ export const ClauseIcon = styled.svg`
 
 const IconWrapper = styled.div`
   visibility: ${props => (props.currentHover ? 'visible' : 'hidden')};
-  background: linear-gradient(180deg, #FFF 0%, ${props => props.iconBg || '#F9FBFF'} 100%);
+  background: linear-gradient(180deg, #FFF 0%, #F4F6FC 100%);
   position: relative;
   z-index: 1;
   padding: 4px;
@@ -143,7 +142,7 @@ export const HeaderToolTipWrapper = styled.div`
 `;
 
 export const HeaderToolTip = styled.div.attrs({
-  'contentEditable': 'false'
+  contentEditable: 'false'
 })`
   background-color: #121212;
   padding: 10px;

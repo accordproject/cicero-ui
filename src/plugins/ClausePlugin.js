@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { getEventTransfer } from 'slate-react';
 import _ from 'lodash';
 
@@ -288,13 +289,26 @@ function ClausePlugin() {
   };
 }
 
-export const customElements = (attributes, children) => {
+/* eslint react/display-name: 0 */
+export const customElements = (attributes, children, element) => {
   const returnObject = {
-    clause: () => (<div {...attributes}>{children}</div>),
-    variable: () => (<div {...attributes}>{children}</div>),
+    clause: () => (
+      <ClauseComponent
+        templateUri={element.data.src}
+        clauseId={element.data.clauseid}
+        {...attributes}>
+          {children}
+      </ClauseComponent>
+    ),
+    variable: () => (
+      <span id={element.data.id} {...attributes} className='variable'>
+        {children}
+      </span>
+    ),
   };
   return returnObject;
 };
+
 
 const withClauses = (editor) => {
   console.log('Inside withClauses');

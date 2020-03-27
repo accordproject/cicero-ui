@@ -1,8 +1,7 @@
 /* React */
 import React, { useState, useEffect } from 'react';
-import { Inline, Block } from 'slate';
+// import { Inline, Block } from 'slate';
 import PropTypes from 'prop-types';
-import { Segment } from 'semantic-ui-react';
 
 /* Styling */
 import * as S from './styles';
@@ -19,11 +18,11 @@ import {
 } from './actions';
 
 /* Components */
-import ConditionalBoolean from './ConditionalBoolean';
-import ClauseVariableList from './ClauseVariableList';
+// import ConditionalBoolean from './ConditionalBoolean';
+// import ClauseVariableList from './ClauseVariableList';
 
-/*slate-command */
-import regenerateKey from '../SlateCommands/RegenerateAllNodeKeys'
+/* slate-command */
+// import regenerateKey from '../SlateCommands/RegenerateAllNodeKeys';
 
 /**
  * Component to render a clause
@@ -40,143 +39,139 @@ function ClauseComponent(props) {
   const [hoveringEditIcon, setHoveringEditIcon] = useState(false);
   const [hoveringDeleteIcon, setHoveringDeleteIcon] = useState(false);
 
-  const [conditionals, setConditionals] = useState({});
-  const [listVariables, setListVariables] = useState({});
-
-  const errorsComponent = props.errors
-    ? <Segment contentEditable={false} attached raised>{props.errors}</Segment>
-    : null;
+  // const [conditionals, setConditionals] = useState({});
+  // const [listVariables, setListVariables] = useState({});
 
   const title = titleGenerator(props.templateUri);
   const header = headerGenerator(props.templateUri, clauseProps.HEADER_TITLE);
 
   const iconWrapperProps = {
     currentHover: hovering,
-    iconBg: clauseProps.CLAUSE_BACKGROUND
+    // iconBg: clauseProps.CLAUSE_BACKGROUND
   };
 
   /* eslint react/no-find-dom-node: "off" */
-  useEffect(() => {
-    const findPosition = (key) => {
-      const pathToConditional = props.editor.value.document.getPath(key);
-      const elementDOM = props.editor.findDOMNode(pathToConditional);
-      const popupPosition = 'bottom left';
-      const positionalStyle = {
-        popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
-        popupPosition,
-        popupHeight: elementDOM.offsetHeight,
-        popupWidth: elementDOM.offsetWidth,
-      };
-      return positionalStyle;
-    };
-    
-    const findConditionals = node => ({
-      ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '') ) ? {
-        [node.key]: {
-          id: node.data.get('id'),
-          whenTrue: node.data.get('whenTrue'),
-          whenFalse: node.data.get('whenFalse'),
-          position: findPosition(node.key),
-          currentText: node.text,
-          isFalse: node.text === node.data.get('whenFalse'),
-        }
-      } : {}),
-      ...(node.nodes || [])
-        .map(findConditionals)
-        .reduce((props, node) => ({ ...props, ...node }), {})
-    });
+  // useEffect(() => {
+  //   const findPosition = (key) => {
+  //     const pathToConditional = props.editor.value.document.getPath(key);
+  //     const elementDOM = props.editor.findDOMNode(pathToConditional);
+  //     const popupPosition = 'bottom left';
+  //     const positionalStyle = {
+  //       popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
+  //       popupPosition,
+  //       popupHeight: elementDOM.offsetHeight,
+  //       popupWidth: elementDOM.offsetWidth,
+  //     };
+  //     return positionalStyle;
+  //   };
 
-    let listData = {};
-    const findListVariables = (node) =>{
-      if((node.type === 'ul_list') ||(node.type ==='ol_list' )){
-        (node.nodes || []).forEach((listNode,index) => {
-         if(listNode.getInlinesByType("variable").size > 0){
-            listData[listNode.key] = { 
-                currentText: listNode.text,
-                head: index === 0, 
-                tail: index === (node.nodes.size - 1),
-                parentKey: node.key,
-                position: findPosition(listNode.key)
-              }
-         }
-        })
-      }
-      return {
-        ...listData,
-        ...(node.nodes || [])
-        .map(findListVariables)
-        .reduce((props, node) => ({ ...props, ...node }), {})
-      }
+  //   const findConditionals = node => ({
+  //     ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '') ) ? {
+  //       [node.key]: {
+  //         id: node.data.get('id'),
+  //         whenTrue: node.data.get('whenTrue'),
+  //         whenFalse: node.data.get('whenFalse'),
+  //         position: findPosition(node.key),
+  //         currentText: node.text,
+  //         isFalse: node.text === node.data.get('whenFalse'),
+  //       }
+  //     } : {}),
+  //     ...(node.nodes || [])
+  //       .map(findConditionals)
+  //       .reduce((props, node) => ({ ...props, ...node }), {})
+  //   });
 
-    }
+  //   let listData = {};
+  //   const findListVariables = (node) =>{
+  //     if((node.type === 'ul_list') ||(node.type ==='ol_list' )){
+  //       (node.nodes || []).forEach((listNode,index) => {
+  //        if(listNode.getInlinesByType("variable").size > 0){
+  //           listData[listNode.key] = {
+  //               currentText: listNode.text,
+  //               head: index === 0,
+  //               tail: index === (node.nodes.size - 1),
+  //               parentKey: node.key,
+  //               position: findPosition(listNode.key)
+  //             }
+  //        }
+  //       })
+  //     }
+  //     return {
+  //       ...listData,
+  //       ...(node.nodes || [])
+  //       .map(findListVariables)
+  //       .reduce((props, node) => ({ ...props, ...node }), {})
+  //     }
 
-    const newState = findConditionals(props.clauseNode);
-    const foundListVariables = findListVariables(props.clauseNode)
+  //   }
 
-    setConditionals(newState);
-    setListVariables(foundListVariables)
-  }, [props.clauseNode, props.editor]);
+  //   const newState = findConditionals(props.clauseNode);
+  //   const foundListVariables = findListVariables(props.clauseNode)
 
-  const toggleConditional = (key) => {
-    const selectionNodeKey = key || props.editor.value.selection.focus.key - 1;
-    const selectedConditional = conditionals[selectionNodeKey];
+  //   setConditionals(newState);
+  //   setListVariables(foundListVariables)
+  // }, [props.clauseNode, props.editor]);
 
-    if (selectedConditional) {
-      const selectionTextNode = props.editor.value.document.getNode(key);
+  // const toggleConditional = (key) => {
+  //   const selectionNodeKey = key || props.editor.value.selection.focus.key - 1;
+  //   const selectedConditional = conditionals[selectionNodeKey];
 
-      const newInlineJSON = {
-        object: 'inline',
-        type: 'conditional',
-        data: {
-          id: selectedConditional.id,
-          whenTrue: selectedConditional.whenTrue,
-          whenFalse: selectedConditional.whenFalse
-        },
-        nodes: [
-          {
-            object: 'text',
-            text: selectionTextNode.text === selectedConditional.whenTrue
-              ? selectedConditional.whenFalse
-              : selectedConditional.whenTrue,
-            marks: []
-          }
-        ]
-      };
-      const newInlineSlate = Inline.fromJSON(newInlineJSON);
-      props.editor.replaceNodeByKey(selectionNodeKey, newInlineSlate);
-    }
-  };
+  //   if (selectedConditional) {
+  //     const selectionTextNode = props.editor.value.document.getNode(key);
 
-  const addList = (listLastkey,parentKey) =>{
-    const listLastNode = props.editor.value.document.getNode(listLastkey);
-    const parentNode = props.editor.value.document.getNode(parentKey);
+  //     const newInlineJSON = {
+  //       object: 'inline',
+  //       type: 'conditional',
+  //       data: {
+  //         id: selectedConditional.id,
+  //         whenTrue: selectedConditional.whenTrue,
+  //         whenFalse: selectedConditional.whenFalse
+  //       },
+  //       nodes: [
+  //         {
+  //           object: 'text',
+  //           text: selectionTextNode.text === selectedConditional.whenTrue
+  //             ? selectedConditional.whenFalse
+  //             : selectedConditional.whenTrue,
+  //           marks: []
+  //         }
+  //       ]
+  //     };
+  //     const newInlineSlate = Inline.fromJSON(newInlineJSON);
+  //     props.editor.replaceNodeByKey(selectionNodeKey, newInlineSlate);
+  //   }
+  // };
 
-    const newBlockJSON = regenerateKey(listLastNode);
-    const newBlockSlate = Block.fromJSON(newBlockJSON);
-    
-    let newNode = parentNode.nodes.asMutable().push(newBlockSlate);
-   
-   const updatedList = {
-        data: parentNode.data,
-        key: parentNode.key,
-        object: parentNode.object,
-        text: parentNode.text,
-        type: parentNode.type,
-        nodes:newNode
-   }
+  // const addList = (listLastkey,parentKey) =>{
+  //   const listLastNode = props.editor.value.document.getNode(listLastkey);
+  //   const parentNode = props.editor.value.document.getNode(parentKey);
 
-    props.editor.replaceNodeByKey(parentKey,Block.fromJSON(updatedList));
-     
-  }
+  //   const newBlockJSON = regenerateKey(listLastNode);
+  //   const newBlockSlate = Block.fromJSON(newBlockJSON);
 
-  const removeList = (key) => props.editor.removeNodeByKey(key);
+  //   let newNode = parentNode.nodes.asMutable().push(newBlockSlate);
+
+  //  const updatedList = {
+  //       data: parentNode.data,
+  //       key: parentNode.key,
+  //       object: parentNode.object,
+  //       text: parentNode.text,
+  //       type: parentNode.type,
+  //       nodes:newNode
+  //  }
+
+  //   props.editor.replaceNodeByKey(parentKey,Block.fromJSON(updatedList));
+
+  // }
+
+  // const removeList = (key) => props.editor.removeNodeByKey(key);
 
   const testIconProps = {
     'aria-label': testIcon.type,
     width: '19px',
     height: '19px',
     viewBox: '0 0 16 20',
-    clauseIconColor: clauseProps.CLAUSE_ICONS
+    // clauseIconColor: clauseProps.CLAUSE_ICONS
   };
 
   const editIconProps = {
@@ -184,7 +179,7 @@ function ClauseComponent(props) {
     width: '19px',
     height: '19px',
     viewBox: '0 0 19 19',
-    clauseIconColor: clauseProps.CLAUSE_ICONS
+    // clauseIconColor: clauseProps.CLAUSE_ICONS
   };
 
   const deleteIconProps = {
@@ -192,25 +187,25 @@ function ClauseComponent(props) {
     width: '19px',
     height: '19px',
     viewBox: '0 0 12 15',
-    clauseIconColor: clauseProps.CLAUSE_ICONS
+    // clauseIconColor: clauseProps.CLAUSE_ICONS
   };
 
-  const conditionalIconProps = {
-    currentHover: hovering,
-    toggleConditional,
-  };
-  const ListIconProps = {
-    currentHover: hovering,
-    removeList,
-    addList
-  };
+  // const conditionalIconProps = {
+  //   currentHover: hovering,
+  //   toggleConditional,
+  // };
+  // const ListIconProps = {
+  //   currentHover: hovering,
+  //   removeList,
+  //   addList
+  // };
   return (
     <S.ClauseWrapper
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       id={props.clauseId}
     >
-    {
+    {/* {
       !props.readOnly
       && Object.entries(conditionals).map(([key, value]) => (
         value.isFalse && (value.whenFalse === '')
@@ -233,7 +228,7 @@ function ClauseComponent(props) {
               {...ListIconProps}
             />
       ))
-    }
+    } */}
       <S.ClauseBackground
         clauseborder={clauseProps.CLAUSE_BORDER}
         clausebg={clauseProps.CLAUSE_BACKGROUND}
@@ -334,7 +329,6 @@ function ClauseComponent(props) {
       >
         {props.children}
       </S.ClauseBody>
-    {errorsComponent}
   </S.ClauseWrapper>
   );
 }
