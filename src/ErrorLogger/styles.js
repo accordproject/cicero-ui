@@ -8,26 +8,30 @@ export const ErrorDisplay = styled.div`
     width: 100%;
     position: fixed;
     max-height: 300px;
+    overflow-y: scroll;
     background-color: ${props => props.displayBackground || '#1E2D53'};
     box-shadow: ${props => props.displayShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
     z-index: ${props => props.zIndexInput || 'auto'};
 `;
 
+ErrorDisplay.displayName = 'ErrorDisplay';
+
 export const ErrorsHeader = styled.div`
     z-index: ${props => props.zIndexInput || 'auto'};
     width: 100%;
     position: fixed;
-    bottom: ${props => (props.errors ? '0' : 'auto')};
     transition: 1s;
-    height: ${props => (props.errors ? '25px' : '0')};
     padding: 0.1em 0.1em 0.1em 1em;
+    bottom: 0;
+    height: 25px;
+    display: ${props => (props.errors ? 'inline' : 'none')};
     background-color: ${props => props.headerBackground || '#1E2D53'};
     box-shadow: ${props => props.headerShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
     border-top: ${props => props.headerTop || ' 1px solid #50637F'};
 
-    color: ${props => (props.errors ? '#FF4242' : '#19C6C7')};
+    color: #FF4242;
     font-family: "IBM Plex Sans";
-    font-size: 16px;
+    font-size: 1em;
     font-weight: bold;
     letter-spacing: -0.5px;
     line-height: 20px;
@@ -38,9 +42,13 @@ export const ErrorsHeader = styled.div`
     }
 `;
 
+ErrorsHeader.displayName = 'ErrorsHeader';
+
 export const ErrorSymbol = styled(Icon)`
     vertical-align: middle;
 `;
+
+ErrorSymbol.displayName = 'ErrorSymbol';
 
 export const ErrorBarArrow = styled.div`
     float: right;
@@ -57,6 +65,8 @@ export const ErrorBarArrow = styled.div`
     ? '0' : (`7px solid ${props.headerBarArrow || '#7B9AD1'}`))};
 `;
 
+ErrorBarArrow.displayName = 'ErrorBarArrow';
+
 export const ErrorComponent = styled.div`
     width: 100%;
     color: #F0F0F0;
@@ -64,19 +74,21 @@ export const ErrorComponent = styled.div`
     padding: 10px 16px;
 
     display: grid;
-    grid-row-gap: 20px; 
+    grid-row-gap: 20px;
     grid-template-areas: "errorArrow errorFile errorType errorMessage"
                         "errorFull errorFull errorFull errorFull";
     grid-template-columns: 0.25fr 1fr 1fr 8fr;
     grid-template-rows: min-content auto;
 `;
 
+ErrorComponent.displayName = 'ErrorComponent';
+
 export const ErrorFile = styled.a`
     text-decoration: underline;
 
     color: ${props => props.errorFile || '#FFFFFF'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
 
     grid-area: errorFile;
@@ -87,39 +99,47 @@ export const ErrorFile = styled.a`
     }
 `;
 
+ErrorFile.displayName = 'ErrorFile';
+
 export const ErrorType = styled.div`
     grid-area: errorType;
     color: ${props => props.errorType || '#B9BCC4'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
     align-self: center;
     padding: 5px;
 `;
+
+ErrorType.displayName = 'ErrorType';
 
 export const ErrorShortMessage = styled.div`
     grid-area: errorMessage;
     color: ${props => props.shortMessage || '#B9BCC4'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
     align-self: center;
     padding: 5px;
 `;
 
+ErrorShortMessage.displayName = 'ErrorShortMessage';
+
 export const ErrorFullMessage = styled.div`
     grid-area: errorFull;
     color: ${props => props.fullMessage || '#FFFFFF'};
     font-family: "IBM Plex Sans";
-    font-size: 13px;
+    font-size: 0.81em;
     line-height: 13px;
 `;
+
+ErrorFullMessage.displayName = 'ErrorFullMessage';
 
 export const ArrowDiv = styled.div`
     grid-area: errorArrow;
     place-self: center;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     margin: 5px;
 
     border-top: ${props => (props.expanded
@@ -136,3 +156,5 @@ export const ArrowDiv = styled.div`
         cursor: pointer;
     }
 `;
+
+ArrowDiv.displayName = 'ArrowDiv';

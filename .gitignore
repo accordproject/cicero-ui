@@ -9,3 +9,7 @@ npm-debug.log*
 /log
 
 .DS_Store
+thumbs.db
+
+.vscode
+.dist

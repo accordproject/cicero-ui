@@ -64,10 +64,7 @@ exports[`<NavigationComponent /> on initialization renders component correctly h
       Object {
         "clauseColor": undefined,
         "clauseHeaderColor": undefined,
-        "clauseHeaderHover": undefined,
-        "clauseHover": undefined,
         "headerColor": undefined,
-        "headerHover": undefined,
       }
     }
   />
@@ -96,10 +93,7 @@ exports[`<NavigationComponent /> on initialization renders component correctly s
       Object {
         "clauseColor": undefined,
         "clauseHeaderColor": undefined,
-        "clauseHeaderHover": undefined,
-        "clauseHover": undefined,
         "headerColor": undefined,
-        "headerHover": undefined,
       }
     }
   />

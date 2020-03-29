@@ -13,12 +13,13 @@ import ErrorComponent from './Error';
 
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
+  const errorLength = Object.keys(errors).length ? Object.keys(errors).length : 0;
   const errorsProps = props.errorsProps || Object.create(null);
 
   const [errorsVisible, setErrorsVisible] = useState(false);
 
   const handleClickErrorsBar = () => {
-    if (ACT.gtZero(errors.length)) { setErrorsVisible(!errorsVisible); }
+    if (ACT.gtZero(errorLength)) { setErrorsVisible(!errorsVisible); }
   };
 
   const headerProps = {
@@ -50,24 +51,24 @@ const ErrorLogger = (props) => {
     size: 'small'
   };
 
-  const errorComponentGenerator = errors => errors
-    .map(soloError => <ErrorComponent
+  const errorComponentGenerator = errors => Object.values(errors)
+    .map(errorValue => <ErrorComponent
       errorProps={errorsProps}
-      error={soloError}
+      error={errorValue}
       errorNav={errorNav}
-      key={ACT.keySwitchCase(soloError)} />);
+      key={ACT.keySwitchCase(errorValue)} />);
 
   return (
     <div>
       {errorsVisible
         && <SC.ErrorDisplay {...displayProps} >
             {errorComponentGenerator(errors)}
-          </SC.ErrorDisplay>}
-
+        </SC.ErrorDisplay>
+    }
       <SC.ErrorsHeader {...headerProps} >
-        {ACT.gtZero(errors.length)
+        {ACT.gtZero(errorLength)
           && <SC.ErrorSymbol {...symbolProps} />}
-        {ACT.errorArrayLength(errors)} {ACT.isMultpleErrors(errors)}
+        {ACT.errorArrayLength(errors)} {ACT.isMultipleErrors(errors)}
         <SC.ErrorBarArrow {...barArrowProps} />
       </SC.ErrorsHeader>
     </div>
@@ -75,7 +76,7 @@ const ErrorLogger = (props) => {
 };
 
 ErrorLogger.propTypes = {
-  errors: PropTypes.array.isRequired,
+  errors: PropTypes.object.isRequired,
   errorNav: PropTypes.func,
   errorsProps: PropTypes.shape({
     ERRORS_HEADER_BACKGROUND: PropTypes.string,

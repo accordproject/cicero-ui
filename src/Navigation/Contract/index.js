@@ -23,11 +23,8 @@ ContractNavigation.propTypes = {
   navigateHeader: PropTypes.func,
   styleProps: PropTypes.shape({
     headerColor: PropTypes.string,
-    headerHover: PropTypes.string,
     clauseColor: PropTypes.string,
-    clauseHover: PropTypes.string,
     clauseHeaderColor: PropTypes.string,
-    clauseHeaderHover: PropTypes.string,
   }),
 };
 

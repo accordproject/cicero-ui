@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import headerGenerator from './actions';
+import { headerGenerator, titleGenerator } from './actions';
 import ClauseComponent from './ClauseComponent';
 
 const templateTitle = 'ap://acceptance-of-delivery@0.12.1#721d1aa0999a5d278653e211ae2a64b75fdd8ca6fa1f34255533c942404c5c1f';
@@ -37,4 +37,15 @@ describe('headerGenerator', () => {
     const truncatedTitle = 'ACCEPTANCE OF DELIVERY - CLAUSE TEMPLATE';
     expect(headerGenerator(templateTitle, inputTitle)).toEqual(truncatedTitle);
   });
+
+  it('should handle missing `inputTitle`', () => {
+    const truncatedTitle = 'ACCEPTANCE OF DELIVERY';
+    expect(headerGenerator(templateTitle)).toEqual(truncatedTitle);
+  });
 });
+
+describe('titleGenerator',() => {
+  it('should generate a title', () => {
+    expect(titleGenerator(templateTitle)).toEqual('ACCEPTANCE OF DELIVERY');
+  })
+})

@@ -1,41 +1,16 @@
 import React from 'react';
-import { Point } from 'slate';
 import { getEventTransfer } from 'slate-react';
-import { Icon } from 'semantic-ui-react';
-import styled from 'styled-components';
-import { Template, Clause } from '@accordproject/cicero-core';
-import { PluginManager, List, ToMarkdown } from '@accordproject/markdown-editor';
+import _ from 'lodash';
 
 import '../styles.css';
-// eslint-disable-next-line camelcase
-import murmurhash3_32_gc from './murmurhash3_gc';
 import ClauseComponent from '../components/ClauseComponent';
-import VariablePlugin from './VariablePlugin';
 
-const plugins = [List(), VariablePlugin({ rawValue: true })];
-const pluginManager = new PluginManager(plugins);
-const markdownGenerator = new ToMarkdown(pluginManager);
-
-const StyledIcon = styled(Icon)`
-  color: #ffffff !important;
-`;
 
 /**
  * A plugin for a clause embedded in a contract
- * @param {*} customLoadTemplate - a custom function used to load templates
- * @param {*} customParseClause - a custom function used to parse clause text
- * @param {*} customPasteClause - a custom function used to paste a clause template
  */
-function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, clauseProps) {
+function ClausePlugin() {
   const name = 'clause';
-  const tags = [
-    {
-      html: 'clause',
-      slate: 'clause',
-      md: 'clause'
-    }
-  ];
-  const templates = {};
 
   /**
    * Augment the base schema with the variable type
@@ -47,7 +22,27 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
         clause: {
           nodes: [
             {
-              match: [{ type: 'paragraph' }],
+              match: [
+                { type: 'paragraph' },
+                { type: 'list' },
+                { type: 'link' },
+                { type: 'horizontal_rule' },
+                { type: 'heading_one' },
+                { type: 'heading_two' },
+                { type: 'heading_three' },
+                { type: 'heading_four' },
+                { type: 'heading_five' },
+                { type: 'heading_six' },
+                { type: 'block_quote' },
+                { type: 'code_block' },
+                { type: 'html_block' },
+                { type: 'html_inline' },
+                { type: 'softbreak' },
+                { type: 'linebreak' },
+                { type: 'ol_list' },
+                { type: 'ul_list' },
+                { type: 'image' },
+              ],
             },
           ],
         },
@@ -56,115 +51,19 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
 
     const newSchema = JSON.parse(JSON.stringify(schema));
     newSchema.blocks = { ...newSchema.blocks, ...additions.blocks };
-    newSchema.document.nodes[0].match.push({ type: tags[0].slate });
+    newSchema.document.nodes[0].match.push({ type: 'clause' });
     return newSchema;
   });
-
-  /**
-   * Called by the clause plugin into the contract editor
-   * when we need to load a template
-   */
-  async function loadTemplate(templateUri) {
-    let template = templates[templateUri];
-    if (!template) {
-      console.log(`Loading template: ${templateUri}`);
-      template = await Template.fromUrl(templateUri);
-      templates[templateUri] = template;
-    }
-
-    return template;
-  }
-
-  /**
-   * Called by the clause plugin into the contract editor
-   * when we need to parse a clause
-   */
-  function parseClause(templateUri, text, clauseId) {
-    try {
-      const template = templates[templateUri];
-      if (template) {
-        console.log(`parseClause: ${templateUri} with ${text}`);
-        const clause = new Clause(template);
-        clause.parse(text);
-        return Promise.resolve(clause.getData());
-      }
-      return Promise.resolve('Template not loaded.');
-    } catch (err) {
-      return Promise.resolve(err);
-    }
-  }
-
-  const loadTemplateCallback = customLoadTemplate || loadTemplate;
-  const parseClauseCallback = customParseClause || parseClause;
-
-  /**
-   * Rewrites the text of a clause to introduce variables
-   *
-   * @param {string} templateUri the URI of the template to load
-   * @param {string} clauseText the text of the clause (must be parseable)
-   */
-  async function rewriteClause(templateUri, clauseText) {
-    try {
-      const template = await loadTemplateCallback(templateUri);
-      const clause = new Clause(template);
-      clause.parse(clauseText);
-      const variableText = clause.generateText({ wrapVariables: true });
-      console.log(variableText);
-      return Promise.resolve(variableText);
-    } catch (err) {
-      console.log(err);
-      return Promise.resolve(err);
-    }
-  }
-
-  /**
-   * Adds an annotation to the editor
-   *
-   * @param {*} editor
-   * @param {*} annotation
-   */
-  function addAnnotation(editor, annotation) {
-    editor.addAnnotation(annotation);
-  }
-
-  /**
-   * Remove the parse annotations from the editor
-   *
-   * @param {*} editor
-   */
-  function removeParseAnnotations(editor) {
-    const { annotations } = editor.value;
-
-    editor.withoutSaving(() => {
-      annotations.forEach((ann) => {
-        if (ann.type.startsWith('parse')) {
-          editor.removeAnnotation(ann);
-        }
-      });
-    });
-  }
-
-  /**
-   * Checks whether an annotation exists
-   *
-   * @param {*} editor
-   * @param {*} annotation
-   * @returns {boolean} true if the annotation already exists on the value
-   */
-  function annotationExists(editor, annotation) {
-    const { annotations } = editor.value;
-    return annotations.get(annotation.key);
-  }
 
   /**
    * Allow edits if we are outside of a Clause
    *
    * @param {Value} value - the Slate value
    */
-  const isEditable = ((value, code) => {
+  const isEditable = ((editor, code) => {
+    const { value } = editor;
     const blocks = value.document.getDescendantsAtRange(value.selection);
     const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
-    console.log('outside clause', !inClause);
     return !inClause;
   });
 
@@ -182,44 +81,74 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   }
 
   /**
+   * Function called when a clause is updated
+   */
+  function onClauseUpdated(editor, clauseNode) {
+    editor.props.clausePluginProps.onClauseUpdated(clauseNode);
+  }
+
+  /**
+   * Debounced onClauseUpdated to only be called after 1 second
+   */
+  const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
+
+  /**
+   * Utility function to parse clauses within a paste value
+   */
+  function parsePastedClauses(editor, clausesArray) {
+    clausesArray.forEach((clauseNode) => {
+      onClauseUpdated(editor, clauseNode);
+    });
+  }
+
+  /**
   * Called on a paste
   * @param {*} event
   * @param {*} editor
   * @param {*} next
   * @return {*} the react component
   */
-  const onPaste = (event, editor, next) => {
-    if (isEditable(editor.value, 'paste')) {
+  const onPaste = async (event, editor, next) => {
+    if (isEditable(editor, 'paste')) {
       const transfer = getEventTransfer(event);
+
+      // keep track of all the things that just got pasted
+      const clausesToParse = [];
+      const clausesToPaste = [];
 
       if (transfer.type === 'fragment') {
         const mutableFragment = transfer.fragment.asMutable();
-        const mutableNodes = mutableFragment.nodes.asMutable();
+        let mutableNodes = mutableFragment.nodes.asMutable();
         const isHeadingClause = node => node.type === 'clause';
-        mutableNodes.map((node) => {
+        mutableNodes = mutableNodes.map((node) => {
           if (isHeadingClause(node)) {
-            const mutableNode = node.asMutable();
-            const mutableDataMap = mutableNode.data.asMutable();
-            const mutableAttributesMap = mutableDataMap.get('attributes');
-
-            const generatedUUID = uuidv4();
-            const clauseUriSrc = mutableAttributesMap.src;
-
-            mutableAttributesMap.clauseid = generatedUUID;
-
-            customPasteClause(generatedUUID, clauseUriSrc);
-
-            mutableDataMap.set('attributes', mutableAttributesMap);
-            mutableNode.data = mutableDataMap.asImmutable();
+            const mutableNode = node.withMutations((n) => {
+              const clauseUriSrc = n.data.get('src');
+              const generatedUUID = uuidv4();
+              const newData = n.data.withMutations((d) => {
+                d.set('clauseid', generatedUUID);
+              });
+              n.set('data', newData);
+              clausesToParse.push(n);
+              clausesToPaste.push({ id: generatedUUID, src: clauseUriSrc, text: node.text });
+            });
             return mutableNode;
           }
           return node;
         });
         mutableFragment.nodes = mutableNodes.asImmutable();
         transfer.fragment = mutableFragment.asImmutable();
-        editor.insertFragment(transfer.fragment);
+
+        await editor.insertFragment(transfer.fragment);
+        clausesToPaste.forEach(clause => editor.props.clausePluginProps
+          .pasteToContract(clause.id, clause.src, clause.text));
+        // on change is fired here, so then we can look into if there are new blocks
+
+        parsePastedClauses(editor, clausesToParse);
+
         return undefined;
       }
+      return next();
     }
     return next();
   };
@@ -230,69 +159,31 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   function onChange(editor, next) {
     const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
     const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
-
     if (!clauseNode) {
-      console.log('onChange - outside clause');
       return next();
     }
 
-    console.log('onChange - inside clause', clauseNode.toJSON());
-
-    const parseText = markdownGenerator.recursive(clauseNode.nodes);
-
-    const nodeAttributes = clauseNode.data.get('attributes');
-    const { src, clauseid } = nodeAttributes;
-    const { selection } = editor.value;
-
-    const anchor = Point.create(selection.anchor).moveToStartOfNode(clauseNode)
-      .normalize(editor.value.document);
-    const focus = Point.create(selection.focus).moveToEndOfNode(clauseNode)
-      .normalize(editor.value.document);
-
-    // @ts-ignore
-    const hash = murmurhash3_32_gc(`${parseText} at ${anchor.toJSON()} to ${focus.toJSON()}`, 0xdeadbeef);
-
-    const annotation = {
-      anchor,
-      focus,
-      key: `clauseParse-${hash}`
-    };
-
-    // we only re-parse and modify the value if the text has changed
-    if (!annotationExists(editor, annotation)) {
-      removeParseAnnotations(editor);
-      parseClauseCallback(src, parseText, clauseid)
-        .then((parseResult) => {
-          console.log(parseResult);
-          annotation.type = 'parseResult';
-          annotation.data = parseResult;
-          addAnnotation(editor, annotation);
-        })
-        .catch((error) => {
-          annotation.type = 'parseError';
-          annotation.data = { error };
-          addAnnotation(editor, annotation);
-        });
-    }
-
+    debouncedOnClauseUpdated(editor, clauseNode);
     return next();
   }
 
   /**
   * @param {Object} props
-  * @param {Editor} editor
+  * @param {*} editor Slate Editor
   * @param {Function} next
   */
   function renderBlock(props, editor, next) {
-    const { node, attributes, children } = props;
+    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject;
+    const { readOnly } = editor.props;
+    const { clauseProps } = editor.props.clausePluginProps;
+    const { node, children } = props;
 
     switch (node.type) {
       case 'clause': {
-        const nodeAttributes = node.data.get('attributes');
-        const { src, clauseid } = nodeAttributes;
+        const src = node.data.get('src');
+        const clauseid = node.data.get('clauseid');
 
         if (src) {
-          console.log(`handing over responsibility of loading: ${src}`);
           loadTemplateCallback(src.toString());
         }
 
@@ -301,6 +192,8 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
             clauseProps={clauseProps}
             templateUri={src}
             clauseId={clauseid}
+            readOnly={readOnly}
+            clauseNode={node}
             {...props}>
               {children}
           </ClauseComponent>
@@ -312,129 +205,85 @@ function ClausePlugin(customLoadTemplate, customParseClause, customPasteClause, 
   }
 
   /**
-   * @param {ToMarkdown} parent
-   * @param {Node} value
-   */
-  function toMarkdown(parent, value) {
-    let markdown = `\n\n\`\`\` <clause src=${value.data.get('attributes').src} clauseid=${value.data.get('attributes').clauseid}>\n`;
-
-    value.nodes.forEach((li) => {
-      const text = parent.recursive(li.nodes);
-      markdown += text;
-    });
-
-    markdown += '\n```\n';
-    return markdown;
-  }
-
-  /**
-  * Handles data from markdown.
-  */
-  function fromMarkdown(stack, event, tag, node, parseNestedMarkdown) {
-    const block = {
-      object: 'block',
-      type: 'clause',
-      data: tag,
-      nodes: [],
-    };
-
-    stack.push(block);
-
-    const para = {
-      object: 'block',
-      type: 'paragraph',
-      data: {},
-      nodes: [],
-    };
-
-    stack.push(para);
-
-    // sub-parse of the contents of the clause node
-    const text = tag.content ? tag.content : node.literal;
-    const slateDoc = parseNestedMarkdown(text).toJSON();
-    slateDoc.document.nodes.forEach(node => stack.append(node));
-    stack.pop();
-    stack.pop();
-    return true;
-  }
-
-  /**
-  * Handles data from the HTML format.
-  */
-  function fromHTML(editor, el, next) {
-    return {
-      object: 'block',
-      type: 'clause',
-      data: {},
-      nodes: next(el.childNodes),
-    };
-  }
-
-  /**
-  * Handles a button click.
-  */
-  function onClickButton(editor, event) {
-    event.preventDefault();
-    alert('Clause plugin button clicked!');
-  }
-
-  /**
-   * Render a clause toolbar button.
-   *
-   * @param {Editor} editor
-   * @return {Element}
-   */
-  function renderToolbar(editor) {
-    return (<StyledIcon
-      key={name}
-      name='legal'
-      aria-label='clause'
-      onMouseDown={event => onClickButton(editor, event)}
-    />);
-  }
-
-  /**
-   * Render Slate annotations.
-   */
-  function renderAnnotation(props, editor, next) {
-    const { children, annotation, attributes } = props;
-
-    switch (annotation.type) {
-      case 'parseError':
-        return (
-          <span {...attributes} className='parseError'>
-            {children}
-          </span>
-        );
-      default:
-        return next();
-    }
-  }
-
-  /**
    * Find clause node by clauseId.
    */
   function findClauseNode(editor, clauseId) {
     return editor.value.document.nodes.find(node => (node.type === 'clause')
-    && (node.data.get('attributes').clauseid === clauseId));
+    && (node.data.get('clauseid') === clauseId));
+  }
+
+  /**
+   * Check if UI valid (depth first traversal)
+   * @param {object} params - recursion params
+   * @param {object} nodes - the Slate nodes
+   */
+  function _recursive(params, nodes) {
+    nodes.forEach((node, index) => {
+      const nodeType = node.type;
+      switch (node.object) {
+        case 'text':
+          break;
+        default: {
+          switch (nodeType) {
+            case 'computed':
+              throw new Error('Computed variable not supported');
+            case 'image':
+              throw new Error('Image not supported');
+            case 'ol_list':
+            case 'ul_list': {
+              if (node.data.kind === 'variable') {
+                throw new Error('List variable not supported');
+              } if (params.depth > 0) {
+                throw new Error('Nested list not supported');
+              } else {
+                // Increment depth before handling a list children
+                params.depth += 1;
+              }
+            }
+          }
+        }
+      }
+
+      // process any children, attaching to first child if it exists
+      if (node.nodes) {
+        _recursive(params, node.nodes);
+      }
+      // Decrement depth when coming out of a list
+      if (nodeType === 'ol_list' || nodeType === 'ul_list') {
+        params.depth -= 1;
+      }
+    });
+  }
+
+  /**
+   * Check if UI valid
+   * @param {object} editor - Slate editor
+   * @param {object} clauseNode - the Slate node
+   * @return {boolean} is it valid
+   */
+  function isClauseSupported(editor, clauseNode) {
+    const params = { depth: 0 };
+    let nodes;
+    if (clauseNode.document) {
+      nodes = clauseNode.document.nodes;
+    } else {
+      nodes = [clauseNode];
+    }
+    _recursive(params, nodes);
+    return true;
   }
 
   return {
     name,
-    tags,
     augmentSchema,
     renderBlock,
-    toMarkdown,
-    fromMarkdown,
     isEditable,
     onChange,
     onPaste,
-    fromHTML,
-    renderToolbar,
-    renderAnnotation,
-    rewriteClause,
     queries: {
-      findClauseNode
+      findClauseNode,
+      isOutsideOfClause: isEditable,
+      isClauseSupported
     }
   };
 }

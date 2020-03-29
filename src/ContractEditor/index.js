@@ -12,18 +12,20 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { SlateAsInputEditor, List } from '@accordproject/markdown-editor';
+import { SlateAsInputEditor } from '@accordproject/markdown-editor';
 
 import ClausePlugin from '../plugins/ClausePlugin';
 import VariablePlugin from '../plugins/VariablePlugin';
+import ConditionalPlugin from '../plugins/ConditionalPlugin';
+import ComputedPlugin from '../plugins/ComputedPlugin';
 
 /**
- * Adds the current markdown to local storage
+ * Adds the current value to local storage
  */
-function storeLocal(value, markdown) {
-  localStorage.setItem('contract-editor', markdown);
+function storeLocal(value) {
+  localStorage.setItem('contract-editor', value.toJSON());
 }
 
 /**
@@ -59,32 +61,11 @@ const contractProps = {
  */
 // eslint-disable-next-line react/display-name
 const ContractEditor = React.forwardRef((props, ref) => {
-  const [plugins, setPlugins] = useState([]);
-  useEffect(() => {
-    setPlugins(
-      props.plugins
-        ? props.plugins.concat(
-          [List(), VariablePlugin(), ClausePlugin(
-            props.loadTemplateObject,
-            props.parseClause,
-            props.pasteToContract,
-            props.clauseProps
-          )]
-        )
-        : [List(), VariablePlugin(), ClausePlugin(
-          props.loadTemplateObject,
-          props.parseClause,
-          props.pasteToContract,
-          props.clauseProps
-        )]
-    );
-  }, [
-    props.clauseProps,
-    props.loadTemplateObject,
-    props.parseClause,
-    props.pasteToContract,
-    props.plugins
-  ]);
+  const plugins = React.useMemo(() => (props.plugins
+    ? props.plugins.concat(
+      [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]
+    )
+    : [VariablePlugin(), ConditionalPlugin(), ClausePlugin(), ComputedPlugin()]), [props.plugins]);
   return (
     plugins.length ? <SlateAsInputEditor
     ref={ref}
@@ -92,7 +73,16 @@ const ContractEditor = React.forwardRef((props, ref) => {
     onChange={props.onChange || contractProps.onChange}
     plugins={plugins}
     lockText={props.lockText}
-    editorProps={props.editorProps}
+    readOnly={props.readOnly}
+    editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
+    data-testid='editor'
+    clausePluginProps={{
+      loadTemplateObject: props.loadTemplateObject,
+      onClauseUpdated: props.onClauseUpdated,
+      pasteToContract: props.pasteToContract,
+      clauseProps: props.clauseProps,
+      clauseMap: props.clauseMap
+    }}
   /> : null
   );
 });
@@ -103,30 +93,46 @@ const ContractEditor = React.forwardRef((props, ref) => {
 ContractEditor.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func,
-  editorProps: PropTypes.object,
+  editorProps: PropTypes.shape({
+    BUTTON_BACKGROUND_INACTIVE: PropTypes.string,
+    BUTTON_BACKGROUND_ACTIVE: PropTypes.string,
+    BUTTON_SYMBOL_INACTIVE: PropTypes.string,
+    BUTTON_SYMBOL_ACTIVE: PropTypes.string,
+    DROPDOWN_COLOR: PropTypes.string,
+    EDITOR_BORDER: PropTypes.string,
+    EDITOR_BORDER_RADIUS: PropTypes.string,
+    EDITOR_MARGIN: PropTypes.string,
+    EDITOR_HEIGHT: PropTypes.string,
+    EDITOR_SHADOW: PropTypes.string,
+    EDITOR_WIDTH: PropTypes.string,
+    TOOLBAR_BACKGROUND: PropTypes.string,
+    TOOLTIP_BACKGROUND: PropTypes.string,
+    TOOLTIP: PropTypes.string,
+    TOOLBAR_SHADOW: PropTypes.string,
+  }),
   lockText: PropTypes.bool,
-  loadTemplateObject: PropTypes.func,
-  pasteToContract: PropTypes.func,
+  readOnly: PropTypes.bool,
+  loadTemplateObject: PropTypes.func.isRequired,
+  pasteToContract: PropTypes.func.isRequired,
+  clauseMap: PropTypes.object,
   clauseProps: PropTypes.shape({
     BODY_FONT: PropTypes.string,
     CLAUSE_BACKGROUND: PropTypes.string,
     CLAUSE_BORDER: PropTypes.string,
-    CLAUSE_DELETE: PropTypes.string,
+    CLAUSE_ICONS: PropTypes.string,
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
+    CLAUSE_EDIT_FUNCTION: PropTypes.func,
+    CLAUSE_TEST_FUNCTION: PropTypes.func,
     HEADER_FONT: PropTypes.string,
     HEADER_TITLE: PropTypes.string,
-  }),
-  parseClause: PropTypes.func,
+  }).isRequired,
+  onClauseUpdated: PropTypes.func.isRequired,
+  onUndoOrRedo: PropTypes.func,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
-    renderBlock: PropTypes.func.isRequired,
-    toMarkdown: PropTypes.func.isRequired,
-    fromMarkdown: PropTypes.func.isRequired,
-    fromHTML: PropTypes.func.isRequired,
-    plugin: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    schema: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    augmentSchema: PropTypes.func,
   })),
 };
 

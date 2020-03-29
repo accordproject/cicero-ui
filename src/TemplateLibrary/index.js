@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 /* React */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
@@ -9,7 +9,8 @@ import styled from 'styled-components';
 import { Input } from 'semantic-ui-react';
 
 /* Internal */
-import TemplateCard from './TemplateCard';
+import isQueryMatch from '../utilities/isQueryMatch';
+import TemplateCard from './Components/TemplateCard';
 import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
 const TemplatesWrapper = styled.div`
@@ -28,7 +29,7 @@ const Header = styled.div`
   position: relative;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 1em;
   margin-bottom: 10px;
   
   display: grid;
@@ -40,7 +41,7 @@ const Header = styled.div`
 const HeaderTitle = styled.p`
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 1em;
   text-align: left;
   color: ${props => props.color || null};
 `;
@@ -64,10 +65,21 @@ const Functionality = styled.div`
 const SearchInput = styled(Input)`
   margin: 5px 0 !important;
   width: 100% !important;
-  max-height: 53px;
-  border: 1px solid #B5BABE;
+  max-height: 40px;
   border-radius: 3px;
   box-shadow: inset 0 0 4px 0 #ABABAB;
+  &&&,
+  &&& input,
+  &&& input::placeholder,
+  &&& input:focus {
+    color: ${props => props.searchColor || '#FFFFFF'} !important;
+    caret-color: ${props => props.searchColor || '#FFFFFF'} !important;
+    background-color: transparent;
+    opacity: 1 !important;
+  },
+  &&& input::selection {
+    background-color: #cce2ff;
+  }
 `;
 
 const TemplateCards = styled.div`
@@ -83,93 +95,83 @@ const TemplateCards = styled.div`
  * and provide drag-and-drop functionality.
  */
 
-class TemplateLibraryComponent extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: '',
-    };
-    this.onQueryChange = this.onQueryChange.bind(this);
-  }
+const TemplateLibraryComponent = (props) => {
+  const [query, setQuery] = useState([]);
 
-  static propTypes = {
-    libraryProps: PropTypes.shape({
-      ACTION_BUTTON: PropTypes.string,
-      ACTION_BUTTON_BG: PropTypes.string,
-      ACTION_BUTTON_BORDER: PropTypes.string,
-      HEADER_TITLE: PropTypes.string,
-      TEMPLATE_BACKGROUND: PropTypes.string,
-      TEMPLATE_BORDER: PropTypes.string,
-      TEMPLATE_DESCRIPTION: PropTypes.string,
-      TEMPLATE_TITLE: PropTypes.string,
-      TEMPLATES_HEIGHT: PropTypes.string,
-    }),
-    upload: PropTypes.func,
-    import: PropTypes.func,
-    addTemp: PropTypes.func,
-    addToCont: PropTypes.func,
-    handleViewTemplate: PropTypes.func,
-    templates: PropTypes.arrayOf(PropTypes.object),
-  }
-
-  onQueryChange(e, input) {
-    const query = input.value.toLowerCase().trim();
-    if (query !== this.state.query) {
-      this.setState({ query });
+  const onQueryChange = (e, input) => {
+    const inputQuery = input.value.toLowerCase().trim().split(' ').filter(q => q.length);
+    if (inputQuery !== query) {
+      setQuery(inputQuery);
     }
-  }
+  };
 
-  filterTemplates(templates) {
-    const { query } = this.state;
-    let filteredTemplates = templates;
+  const filterTemplates = (templates) => {
+    let filtered = templates;
     if (query.length) {
-      const regex = new RegExp(query, 'i');
-      filteredTemplates = _.filter(filteredTemplates, t => (
-        t.name.match(regex) || t.uri.match(regex)
-      ));
+      filtered = _.filter(filtered, t => isQueryMatch([t.name, t.displayName, t.uri], query));
     }
-    return filteredTemplates;
-  }
+
+    return filtered;
+  };
 
   /**
    * Render this React component
    * @return {*} the react component
    */
-  render() {
-    const filtered = this.filterTemplates(this.props.templates);
-    const libraryProps = this.props.libraryProps || Object.create(null);
+  const filtered = filterTemplates(props.templates);
+  const libraryProps = props.libraryProps || Object.create(null);
 
-    return (
+  return (
       <TemplatesWrapper>
         <Header>
           <HeaderTitle color={libraryProps.HEADER_TITLE}>Clause Templates</HeaderTitle>
           <HeaderImports>
-            {this.props.import
-            && <ImportComponent importInput={this.props.import} />}
-            {this.props.upload
-            && <UploadComponent uploadInput={this.props.upload} />}
+            {props.import
+            && <ImportComponent importInput={props.import} />}
+            {props.upload
+            && <UploadComponent uploadInput={props.upload} />}
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={this.onQueryChange} />
-          {this.props.addTemp
-          && <NewClauseComponent addTempInput={this.props.addTemp} />}
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} searchColor={libraryProps.SEARCH_COLOR} />
+          {props.addTemp
+          && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
         {filtered.length ? <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
           {_.sortBy(filtered, ['name']).map(t => (
             <TemplateCard
               key={t.uri}
-              addToCont={this.props.addToCont}
+              addToCont={props.addToCont}
               template={t}
-              handleViewTemplate={this.props.handleViewTemplate}
+              handleViewTemplate={props.handleViewTemplate}
               className="templateCard"
               libraryProps={libraryProps}
             />
           ))}
         </TemplateCards> : <div style={{ textAlign: 'center' }}>No results found !</div>}
       </TemplatesWrapper>
-    );
-  }
-}
+  );
+};
+
+TemplateLibraryComponent.propTypes = {
+  libraryProps: PropTypes.shape({
+    ACTION_BUTTON: PropTypes.string,
+    ACTION_BUTTON_BG: PropTypes.string,
+    ACTION_BUTTON_BORDER: PropTypes.string,
+    HEADER_TITLE: PropTypes.string,
+    SEARCH_COLOR: PropTypes.string,
+    TEMPLATE_BACKGROUND: PropTypes.string,
+    TEMPLATE_BORDER: PropTypes.string,
+    TEMPLATE_DESCRIPTION: PropTypes.string,
+    TEMPLATE_TITLE: PropTypes.string,
+    TEMPLATES_HEIGHT: PropTypes.string,
+  }),
+  upload: PropTypes.func,
+  import: PropTypes.func,
+  addTemp: PropTypes.func,
+  addToCont: PropTypes.func,
+  handleViewTemplate: PropTypes.func,
+  templates: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default TemplateLibraryComponent;

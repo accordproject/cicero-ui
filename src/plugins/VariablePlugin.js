@@ -1,19 +1,12 @@
 import React from 'react';
+import inVariableHelper from '../utilities/inVariable';
+import isToolbarMethodHelper from '../utilities/isToolbarMethod';
 
 /**
  * A plugin for a variable
  */
-function VariablePlugin(opts) {
+function VariablePlugin() {
   const name = 'variable';
-  const options = opts;
-
-  const tags = [
-    {
-      html: 'variable',
-      slate: 'variable',
-      md: 'variable'
-    }
-  ];
 
   /**
    * Augment the base schema with the variable type
@@ -32,20 +25,27 @@ function VariablePlugin(opts) {
 
     const newSchema = JSON.parse(JSON.stringify(schema));
     newSchema.inlines = { ...newSchema.inlines, ...additions.inlines };
-    newSchema.document.nodes[0].match.push({ type: tags[0].slate });
-    newSchema.blocks.paragraph.nodes[0].match.push({ type: tags[0].slate });
+    newSchema.document.nodes[0].match.push({ type: 'variable' });
+    newSchema.blocks.paragraph.nodes[0].match.push({ type: 'variable' });
     return newSchema;
   });
 
   /**
    * Allow variable inlines to be edited
    *
-   * @param {Value} value - the Slate value
+   * @param {*} value - the Slate value
+   * @param {string} code - the key code
    */
-  const isEditable = ((value, code) => {
-    const inVariable = value.inlines.size > 0 && value.inlines.every(node => node.type === 'variable');
+  const isEditable = ((editor, code) => {
+    const { value } = editor;
+    const inVariable = inVariableHelper(value);
+
     const { anchor } = value.selection;
     console.log(`${code} - in variable ${inVariable}`, anchor.toJSON());
+
+    if (inVariable && isToolbarMethodHelper(code)) {
+      return false;
+    }
 
     if (code === 'backspace') {
       if (inVariable) {
@@ -58,15 +58,24 @@ function VariablePlugin(opts) {
       // if we hit backspace and are outside of a variable
       // allow deleting the last char of the variable
       // IFF the variable has more than 1 char
+      // AND IFF the selection does not include anything outside the variable
       const prev = value.document.getPreviousSibling(anchor.path);
-      return prev && anchor.offset === 0 && prev.type === 'variable' && prev.getFirstText().text.length > 1;
+      return prev && anchor.offset === 0
+        && prev.type === 'variable'
+        && prev.getFirstText().text.length > 1
+        && value.selection.start.key === value.selection.end.key;
     }
 
     if (!inVariable && code === 'input') {
       // if are outside of a variable allowing
       // extending the variable
       const prev = value.document.getPreviousSibling(anchor.path);
-      return prev && anchor.offset === 0 && prev.type === 'variable';
+
+      const extendingVar = prev && anchor.offset === 0 && prev.type === 'variable';
+      if (extendingVar) {
+        editor.moveToEndOfNode(prev);
+      }
+      return extendingVar;
     }
 
     // disallow enter within variables!
@@ -83,11 +92,12 @@ function VariablePlugin(opts) {
    */
   function renderInline(props, editor, next) {
     const { attributes, children, node } = props;
+    const id = node.data.get('id');
 
     switch (node.type) {
       case 'variable': {
         // @ts-ignore
-        return <span {...attributes} className='variable'>
+        return <span id={id} {...attributes} className='variable'>
             {children}
           </span>;
       }
@@ -98,89 +108,11 @@ function VariablePlugin(opts) {
     }
   }
 
-  /**
-     * @param {ToMarkdown} parent
-     * @param {Node} value
-     */
-  function toMarkdown(parent, value) {
-    let textValue = '';
-
-    if (value.nodes.size > 0 && value.nodes.get(0).text) {
-      textValue = value.nodes.get(0).text;
-    }
-
-    if (opts && opts.rawValue) {
-      return textValue;
-    }
-
-    const attributes = value.data.get('attributes');
-    let result = `<variable id="${attributes.id}" value="${encodeURI(textValue)}"`;
-
-    if (attributes.format) {
-      result += ` format="${encodeURI(attributes.format)}`;
-    }
-
-    result += '/>';
-    return result;
-  }
-
-  /**
- * Handles data from markdown.
- */
-  function fromMarkdown(stack, event, tag, node) {
-    const parent = stack.peek();
-
-    // variables can only occur inside paragraphs
-    if (!parent.type || parent.type !== 'paragraph') {
-      const para = {
-        object: 'block',
-        type: 'paragraph',
-        data: {},
-        nodes: [],
-      };
-      stack.push(para);
-    }
-
-    const inline = {
-      object: 'inline',
-      type: 'variable',
-      data: Object.assign(tag),
-      nodes: [{
-        object: 'text',
-        text: `${decodeURI(tag.attributes.value)}`,
-      }]
-    };
-
-    stack.append(inline);
-
-    if (!parent.type || parent.type !== 'paragraph') {
-      stack.pop();
-    }
-
-    return true;
-  }
-
-  /**
- * Handles data from the HTML format.
- */
-  function fromHTML(editor, el, next) {
-    return {
-      object: 'block',
-      type: 'variable',
-      data: {},
-      nodes: next(el.childNodes),
-    };
-  }
-
   return {
     name,
-    tags,
     augmentSchema,
     isEditable,
     renderInline,
-    toMarkdown,
-    fromMarkdown,
-    fromHTML,
   };
 }
 

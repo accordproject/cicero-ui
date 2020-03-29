@@ -13,10 +13,15 @@ const clausePropsObject = {
     BODY_FONT (string),
     CLAUSE_BACKGROUND (string),
     CLAUSE_BORDER (string),
-    CLAUSE_DELETE (string),
     CLAUSE_DELETE_FUNCTION (function),
+    CLAUSE_EDIT_FUNCTION (function),
+    CLAUSE_TEST_FUNCTION (function),
+    CLAUSE_ICONS (string),
+    COMPUTED_COLOR (string),
     HEADER_FONT (string),
     HEADER_TITLE (string),
+    VARIABLE_COLOR (string),
+    CONDITIONAL_COLOR (string),
 }
 
 const editorPropsObject = {
@@ -25,11 +30,16 @@ const editorPropsObject = {
     BUTTON_SYMBOL_INACTIVE (string),
     BUTTON_SYMBOL_ACTIVE (string),
     DROPDOWN_COLOR (string),
+    EDITOR_BORDER (string),
+    EDITOR_BORDER_RADIUS (string),
+    EDITOR_HEIGHT (string),
+    EDITOR_MARGIN (string),
+    EDITOR_SHADOW (string),
+    EDITOR_WIDTH (string),
     TOOLBAR_BACKGROUND (string),
     TOOLTIP_BACKGROUND (string),
     TOOLTIP (string),
     TOOLBAR_SHADOW (string),
-    WIDTH (string),
 }
 
 const givenState = {
@@ -51,8 +61,7 @@ ReactDOM.render(<ContractEditor
     clauseProps={clausePropsObject}
     loadTemplateObject={loadTemplateObjectFunction}
     pasteToContract={pasteToContractFunction}
-    parseClause={(uri, text, clauseId) =>
-        parseClauseFunction(givenState.templateObjs, uri, text, clauseId)}
+    onClauseUpdated={parseClauseFunction}
     value={givenState.value}
     lockText={false}
     />,
@@ -68,12 +77,13 @@ ReactDOM.render(<ContractEditor
 
 - `value`: An `object` which is the initial contents of the editor.
 - `lockText`: A `boolean` to lock all non variable text.
+- `readOnly`: A `boolean` to lock all text and remove the formatting toolbar.
 
 #### Functionality
 
 - `loadTemplateObject`: A callback `function` to load a template.
 - `onChange`: A callback `function` called when the contents of the editor change.
-- `parseClause`: A callback `function` to parse the contents of a clause.
+- `onClauseUpdated`: A callback `function` called when text inside of a clause is changed.
 - `pasteToContract`: A callback `function` to load a clause template via copy/paste.
 
 - `plugins`:
@@ -108,11 +118,16 @@ editorProps = {
     BUTTON_SYMBOL_INACTIVE,     // (String)
     BUTTON_SYMBOL_ACTIVE,       // (String)
     DROPDOWN_COLOR,             // (String)
+    EDITOR_BORDER,              // (String)
+    EDITOR_BORDER_RADIUS,       // (String)
+    EDITOR_HEIGHT,              // (String)
+    EDITOR_MARGIN,              // (String)
+    EDITOR_SHADOW,              // (String)
+    EDITOR_WIDTH,               // (String)
     TOOLBAR_BACKGROUND,         // (String)
     TOOLTIP_BACKGROUND,         // (String)
     TOOLTIP,                    // (String)
     TOOLBAR_SHADOW,             // (String)
-    WIDTH,                      // (String)
 }
 ```
 
@@ -123,9 +138,14 @@ clauseProps = {
     BODY_FONT,               // (String)
     CLAUSE_BACKGROUND,       // (String)
     CLAUSE_BORDER,           // (String)
-    CLAUSE_DELETE,           // (String)
     CLAUSE_DELETE_FUNCTION,  // (Function)
+    CLAUSE_EDIT_FUNCTION,    // (Function)
+    CLAUSE_TEST_FUNCTION,    // (Function)
+    CLAUSE_ICONS,            // (String)
+    COMPUTED_COLOR,          // (String)
     HEADER_FONT,             // (String)
     HEADER_TITLE,            // (String)
+    VARIABLE_COLOR,          // (String)
+    CONDITIONAL_COLOR,       // (String)
 }
 ```
