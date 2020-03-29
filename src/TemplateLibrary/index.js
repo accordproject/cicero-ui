@@ -137,7 +137,7 @@ const TemplateLibraryComponent = (props) => {
           {props.addTemp
           && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
-        <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
+        {filtered.length ? <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
           {_.sortBy(filtered, ['name']).map(t => (
             <TemplateCard
               key={t.uri}
@@ -148,7 +148,7 @@ const TemplateLibraryComponent = (props) => {
               libraryProps={libraryProps}
             />
           ))}
-        </TemplateCards>
+        </TemplateCards> : <div style={{ textAlign: 'center' }}>No results found !</div>}
       </TemplatesWrapper>
   );
 };
