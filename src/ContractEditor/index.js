@@ -16,8 +16,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import { onClauseChange } from '../plugins/ClausePlugin';
-// import VariablePlugin from '../plugins/VariablePlugin';
+import { onClauseChange, isInsideClause } from '../plugins/ClausePlugin';
+import { isEditable } from '../plugins/VariablePlugin';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
 import ClauseComponent from '../components/ClauseComponent';
@@ -64,9 +64,11 @@ const contractProps = {
 const ContractEditor = React.forwardRef((props, ref) => {
   // Handles change to document.
   const onChangeNew = (value, editor) => {
-    onClauseChange(editor, props.onClauseUpdated);
-    // plugin2.onchange();
-    if (props.onChange) { props.onChange(value); } else { contractProps.onChange(value); }
+    if (!isInsideClause(editor) || isEditable(editor)) {
+      onClauseChange(editor, props.onClauseUpdated);
+      // plugin2.onchange();
+      if (props.onChange) { props.onChange(value); } else { contractProps.onChange(value); }
+    }
   };
 
   /* eslint react/display-name: 0 */
