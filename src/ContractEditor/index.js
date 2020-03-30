@@ -16,17 +16,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import withClauses, { customElements } from '../plugins/ClausePlugin';
+import withClauses from '../plugins/ClausePlugin';
 // import VariablePlugin from '../plugins/VariablePlugin';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
+import ClauseComponent from '../components/ClauseComponent';
 
 /**
  * Adds the current value to local storage
  */
-function storeLocal(value) {
+const storeLocal = (value) => {
   localStorage.setItem('contract-editor', value.toJSON());
-}
+};
 
 /**
  * Default contract props
@@ -51,6 +52,52 @@ const contractProps = {
   },
   onChange: storeLocal,
   plugins: []
+};
+
+/* eslint react/display-name: 0 */
+const customElements = (attributes, children, element) => {
+  const returnObject = {
+    clause: () => (
+      <ClauseComponent
+        templateUri={element.data.src}
+        clauseId={element.data.clauseid}
+        {...attributes}>
+          {children}
+      </ClauseComponent>
+    ),
+    variable: () => (
+      <span id={element.data.id} {...attributes} className='variable'>
+        {children}
+      </span>
+    ),
+    conditional: () => (<span style={{ border: '1px solid red' }} {...attributes}>{children}</span>)
+  };
+  return returnObject;
+};
+/**
+   * Function called when a clause is updated
+   */
+const onClauseUpdatedNew = (editor, clauseNode) => {
+  editor.props.clausePluginProps.onClauseUpdated(clauseNode);
+};
+
+/**
+   * Debounced onClauseUpdated to only be called after 1 second
+   */
+const debouncedOnClauseUpdatedNew = _.debounce(onClauseUpdatedNew, 1000, { maxWait: 10000 });
+
+/**
+  * Handles change to document.
+  */
+const onChangeNew = (editor, next) => {
+  const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
+  const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
+  if (!clauseNode) {
+    return next();
+  }
+
+  debouncedOnClauseUpdatedNew(editor, clauseNode);
+  return next();
 };
 
 /**

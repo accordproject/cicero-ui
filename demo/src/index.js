@@ -106,11 +106,10 @@ ${clauseText2}
 \`\`\`
 `;
 
-  //   const volumeDiscountList = `\`\`\` <clause src="${templateUri3}" clauseid="123">
-  // ${clauseText3}
-  // \`\`\`
-  // `;
-  // ${volumeDiscountList}
+  const volumeDiscountList = `\`\`\` <clause src="${templateUri3}" clauseid="123">
+  ${clauseText3}
+  \`\`\`
+  `;
 
   const defaultContractMarkdown = `# Heading One
   This is text. This is *italic* text. This is **bold** text. This is a [link](https://clause.io). This is \`inline code\`.
@@ -123,6 +122,10 @@ ${clauseText2}
   second Paragraph in between
 
   ${lateDeliveryandPenaltyClause}
+
+  third
+
+  ${volumeDiscountList}
   
   Fin.
   `;

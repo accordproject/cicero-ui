@@ -55,6 +55,7 @@ function ClausePlugin() {
     newSchema.document.nodes[0].match.push({ type: 'clause' });
     return newSchema;
   });
+  /* DO NOT NEED */
 
   /**
    * Allow edits if we are outside of a Clause
@@ -204,6 +205,7 @@ function ClausePlugin() {
         return next();
     }
   }
+  /* DO NOT NEED */
 
   /**
    * Find clause node by clauseId.
@@ -219,12 +221,14 @@ function ClausePlugin() {
    * @param {object} nodes - the Slate nodes
    */
   function _recursive(params, nodes) {
+    /* eslint no-underscore-dangle: 0 */
     nodes.forEach((node, index) => {
       const nodeType = node.type;
       switch (node.object) {
         case 'text':
           break;
         default: {
+          // eslint-disable-next-line default-case
           switch (nodeType) {
             case 'computed':
               throw new Error('Computed variable not supported');
@@ -288,27 +292,6 @@ function ClausePlugin() {
     }
   };
 }
-
-/* eslint react/display-name: 0 */
-export const customElements = (attributes, children, element) => {
-  const returnObject = {
-    clause: () => (
-      <ClauseComponent
-        templateUri={element.data.src}
-        clauseId={element.data.clauseid}
-        {...attributes}>
-          {children}
-      </ClauseComponent>
-    ),
-    variable: () => (
-      <span id={element.data.id} {...attributes} className='variable'>
-        {children}
-      </span>
-    ),
-    conditional: () => (<span style={{ border: '1px solid red' }} {...attributes}>{children}</span>)
-  };
-  return returnObject;
-};
 
 
 const withClauses = (editor) => {
