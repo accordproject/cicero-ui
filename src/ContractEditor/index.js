@@ -16,7 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import withClauses from '../plugins/ClausePlugin';
+import withClauses, { onClauseChange } from '../plugins/ClausePlugin';
 // import VariablePlugin from '../plugins/VariablePlugin';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
@@ -74,31 +74,6 @@ const customElements = (attributes, children, element) => {
   };
   return returnObject;
 };
-/**
-   * Function called when a clause is updated
-   */
-const onClauseUpdatedNew = (editor, clauseNode) => {
-  editor.props.clausePluginProps.onClauseUpdated(clauseNode);
-};
-
-/**
-   * Debounced onClauseUpdated to only be called after 1 second
-   */
-const debouncedOnClauseUpdatedNew = _.debounce(onClauseUpdatedNew, 1000, { maxWait: 10000 });
-
-/**
-  * Handles change to document.
-  */
-const onChangeNew = (editor, next) => {
-  const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
-  const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
-  if (!clauseNode) {
-    return next();
-  }
-
-  debouncedOnClauseUpdatedNew(editor, clauseNode);
-  return next();
-};
 
 /**
  * ContractEditor React component, which wraps a markdown-editor
@@ -107,18 +82,20 @@ const onChangeNew = (editor, next) => {
  * @param {*} props the properties for the component
  */
 // eslint-disable-next-line react/display-name
-const ContractEditor = React.forwardRef((props, ref) =>
-  // const plugins = React.useMemo(() => (
-  //   props.plugins
-  //     ? props.plugins.concat([withClauses])
-  //     : [withClauses]
-  // ), [props.plugins]);
-  (
+const ContractEditor = React.forwardRef((props, ref) => {
+  // Handles change to document.
+  const onChangeNew = (value, editor) => {
+    onClauseChange(editor, props.onClauseUpdated);
+    // plugin2.onchange();
+    if (props.onChange) { props.onChange(value); } else { contractProps.onChange(value); }
+  };
+
+  return (
     <RichTextEditor
       ref={ref}
       value={props.value || contractProps.value}
-      onChange={props.onChange || contractProps.onChange}
-      // plugins={plugins}
+      // onChange={props.onChange || contractProps.onChange}
+      onChange={onChangeNew || contractProps.onChange}
       customElements={customElements}
       // lockText={props.lockText}
       // readOnly={props.readOnly}
@@ -132,7 +109,8 @@ const ContractEditor = React.forwardRef((props, ref) =>
         clauseMap: props.clauseMap
       }}
   />
-  ));
+  );
+});
 
 /**
  * The property types for this component

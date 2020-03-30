@@ -1,11 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Editor } from 'slate';
 import { getEventTransfer } from 'slate-react';
 import _ from 'lodash';
 
 import '../styles.css';
 import ClauseComponent from '../components/ClauseComponent';
 
+
+const onClauseUpdated = (onClauseUpdated, isInsideClause) => {
+  onClauseUpdated(isInsideClause);
+};
+
+const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
+
+export const onClauseChange = (editor, onClauseUpdated) => {
+  const isInsideClause = ((editor, format) => {
+    const [match] = Editor.nodes(editor, { match: n => n.type === format });
+    return !!match;
+  })(editor, 'clause');
+
+  if (!isInsideClause) { return; }
+  debouncedOnClauseUpdated(onClauseUpdated, isInsideClause);
+};
 
 /**
  * A plugin for a clause embedded in a contract
