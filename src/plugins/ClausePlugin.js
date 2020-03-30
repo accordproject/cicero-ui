@@ -1,11 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import { uuid } from 'uuidv4';
 import { Editor } from 'slate';
 import { getEventTransfer } from 'slate-react';
 import _ from 'lodash';
 
 import '../styles.css';
-import ClauseComponent from '../components/ClauseComponent';
 
 
 const onClauseUpdated = (onClauseUpdated, isInsideClause) => {
@@ -14,66 +12,26 @@ const onClauseUpdated = (onClauseUpdated, isInsideClause) => {
 
 const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
 
+const isEditable = (editor, format) => {
+  const [match] = Editor.nodes(editor, { match: n => n.type === format });
+  return !!match;
+};
+
 export const onClauseChange = (editor, onClauseUpdated) => {
-  const isInsideClause = ((editor, format) => {
-    const [match] = Editor.nodes(editor, { match: n => n.type === format });
-    return !!match;
-  })(editor, 'clause');
+  const isInsideClause = isEditable(editor, 'clause');
 
   if (!isInsideClause) { return; }
   debouncedOnClauseUpdated(onClauseUpdated, isInsideClause);
 };
 
+const findClauseNodeById = (editor, clauseId) => editor.children.find(
+  ({ type, data }) => type === 'clause' && data.clauseid === clauseId
+);
+
 /**
  * A plugin for a clause embedded in a contract
  */
 function ClausePlugin() {
-  const name = 'clause';
-
-  /**
-   * Augment the base schema with the variable type
-   * @param {*} schema
-   */
-  const augmentSchema = ((schema) => {
-    const additions = {
-      blocks: {
-        clause: {
-          nodes: [
-            {
-              match: [
-                { type: 'paragraph' },
-                { type: 'list' },
-                { type: 'link' },
-                { type: 'horizontal_rule' },
-                { type: 'heading_one' },
-                { type: 'heading_two' },
-                { type: 'heading_three' },
-                { type: 'heading_four' },
-                { type: 'heading_five' },
-                { type: 'heading_six' },
-                { type: 'block_quote' },
-                { type: 'code_block' },
-                { type: 'html_block' },
-                { type: 'html_inline' },
-                { type: 'softbreak' },
-                { type: 'linebreak' },
-                { type: 'ol_list' },
-                { type: 'ul_list' },
-                { type: 'image' },
-              ],
-            },
-          ],
-        },
-      },
-    };
-
-    const newSchema = JSON.parse(JSON.stringify(schema));
-    newSchema.blocks = { ...newSchema.blocks, ...additions.blocks };
-    newSchema.document.nodes[0].match.push({ type: 'clause' });
-    return newSchema;
-  });
-  /* DO NOT NEED */
-
   /**
    * Allow edits if we are outside of a Clause
    *
@@ -87,29 +45,11 @@ function ClausePlugin() {
   });
 
   /**
-   * a utility function to generate a random node id for annotations
-   */
-  function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      // eslint-disable-next-line no-bitwise
-      const r = Math.random() * 16 | 0;
-      // eslint-disable-next-line no-bitwise, no-mixed-operators
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-
-  /**
    * Function called when a clause is updated
    */
   function onClauseUpdated(editor, clauseNode) {
     editor.props.clausePluginProps.onClauseUpdated(clauseNode);
   }
-
-  /**
-   * Debounced onClauseUpdated to only be called after 1 second
-   */
-  const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
 
   /**
    * Utility function to parse clauses within a paste value
@@ -143,7 +83,7 @@ function ClausePlugin() {
           if (isHeadingClause(node)) {
             const mutableNode = node.withMutations((n) => {
               const clauseUriSrc = n.data.get('src');
-              const generatedUUID = uuidv4();
+              const generatedUUID = uuid();
               const newData = n.data.withMutations((d) => {
                 d.set('clauseid', generatedUUID);
               });
@@ -171,66 +111,6 @@ function ClausePlugin() {
     }
     return next();
   };
-
-  /**
-  * Handles change to document.
-  */
-  function onChange(editor, next) {
-    const blocks = editor.value.document.getDescendantsAtRange(editor.value.selection);
-    const clauseNode = blocks.size > 0 && blocks.find(node => node.type === 'clause');
-    if (!clauseNode) {
-      return next();
-    }
-
-    debouncedOnClauseUpdated(editor, clauseNode);
-    return next();
-  }
-
-  /**
-  * @param {Object} props
-  * @param {*} editor Slate Editor
-  * @param {Function} next
-  */
-  function renderBlock(props, editor, next) {
-    const loadTemplateCallback = editor.props.clausePluginProps.loadTemplateObject;
-    const { readOnly } = editor.props;
-    const { clauseProps } = editor.props.clausePluginProps;
-    const { node, children } = props;
-
-    switch (node.type) {
-      case 'clause': {
-        const src = node.data.get('src');
-        const clauseid = node.data.get('clauseid');
-
-        if (src) {
-          loadTemplateCallback(src.toString());
-        }
-
-        return (
-          <ClauseComponent
-            clauseProps={clauseProps}
-            templateUri={src}
-            clauseId={clauseid}
-            readOnly={readOnly}
-            clauseNode={node}
-            {...props}>
-              {children}
-          </ClauseComponent>
-        );
-      }
-      default:
-        return next();
-    }
-  }
-  /* DO NOT NEED */
-
-  /**
-   * Find clause node by clauseId.
-   */
-  function findClauseNode(editor, clauseId) {
-    return editor.value.document.nodes.find(node => (node.type === 'clause')
-    && (node.data.get('clauseid') === clauseId));
-  }
 
   /**
    * Check if UI valid (depth first traversal)
@@ -296,14 +176,13 @@ function ClausePlugin() {
   }
 
   return {
-    name,
-    augmentSchema,
-    renderBlock,
+    // augmentSchema,
+    // renderBlock,
     isEditable,
-    onChange,
+    // onChange,
     onPaste,
     queries: {
-      findClauseNode,
+      // findClauseNodeById,
       isOutsideOfClause: isEditable,
       isClauseSupported
     }
