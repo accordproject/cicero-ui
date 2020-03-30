@@ -194,7 +194,7 @@ function Demo() {
             <ContractEditor
               value={slateValue}
               onChange={onContractChange}
-              loadTemplateObject={fetchTemplateObj}
+              // loadTemplateObject={fetchTemplateObj}
             />
           </Segment>
         </Grid.Column>

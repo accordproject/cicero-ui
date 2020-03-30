@@ -16,7 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import withClauses, { onClauseChange } from '../plugins/ClausePlugin';
+import { onClauseChange } from '../plugins/ClausePlugin';
 // import VariablePlugin from '../plugins/VariablePlugin';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
@@ -54,27 +54,6 @@ const contractProps = {
   plugins: []
 };
 
-/* eslint react/display-name: 0 */
-const customElements = (attributes, children, element) => {
-  const returnObject = {
-    clause: () => (
-      <ClauseComponent
-        templateUri={element.data.src}
-        clauseId={element.data.clauseid}
-        {...attributes}>
-          {children}
-      </ClauseComponent>
-    ),
-    variable: () => (
-      <span id={element.data.id} {...attributes} className='variable'>
-        {children}
-      </span>
-    ),
-    conditional: () => (<span style={{ border: '1px solid red' }} {...attributes}>{children}</span>)
-  };
-  return returnObject;
-};
-
 /**
  * ContractEditor React component, which wraps a markdown-editor
  * and assigns the ClausePlugin.
@@ -88,6 +67,32 @@ const ContractEditor = React.forwardRef((props, ref) => {
     onClauseChange(editor, props.onClauseUpdated);
     // plugin2.onchange();
     if (props.onChange) { props.onChange(value); } else { contractProps.onChange(value); }
+  };
+
+  /* eslint react/display-name: 0 */
+  const customElements = (attributes, children, element) => {
+    const returnObject = {
+      clause: () => {
+        if (props.loadTemplateObject) {
+          props.loadTemplateObject(element.data.src.toString());
+        }
+        return (
+        <ClauseComponent
+          templateUri={element.data.src}
+          clauseId={element.data.clauseid}
+          {...attributes}>
+            {children}
+        </ClauseComponent>
+        );
+      },
+      variable: () => (
+        <span id={element.data.id} {...attributes} className='variable'>
+          {children}
+        </span>
+      ),
+      conditional: () => (<span style={{ border: '1px solid red' }} {...attributes}>{children}</span>)
+    };
+    return returnObject;
   };
 
   return (
