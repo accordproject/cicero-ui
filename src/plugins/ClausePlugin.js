@@ -17,10 +17,10 @@ const isEditable = (editor, format) => {
   return !!match;
 };
 
-export const onClauseChange = (editor, onClauseUpdated) => {
-  const isInsideClause = isEditable(editor, 'clause');
+export const isInsideClause = editor => isEditable(editor, 'clause');
 
-  if (!isInsideClause) { return; }
+export const onClauseChange = (editor, onClauseUpdated) => {
+  if (!isInsideClause(editor)) { return; }
   debouncedOnClauseUpdated(onClauseUpdated, isInsideClause);
 };
 

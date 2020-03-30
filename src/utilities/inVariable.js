@@ -1,12 +1,14 @@
-const inVariable = (value) => {
+import { Node } from 'slate';
+import { isEqual } from 'lodash';
+
+const inVariable = (editor) => {
+  const { selection } = editor;
+
   // check if the user has selected more than just a variable
-  if (value.selection.start.key !== value.selection.end.key) return false;
+  if (!isEqual(selection.anchor.path, selection.focus.path)) return false;
 
-  const descendants = value.document.getDescendantsAtRange(value.selection);
-  // check that the selection contains exactly one variable node
-  if (descendants.filter(d => d.type === 'variable').size === 1) return true;
-
-  return false;
+  console.log('parent --- ', Node.parent(editor, editor.selection.anchor.path).type);
+  return Node.parent(editor, editor.selection.anchor.path).type === 'variable';
 };
 
 export default inVariable;
