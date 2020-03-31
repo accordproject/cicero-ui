@@ -162,6 +162,7 @@ const parseClause = (template, clauseNode) => {
  */
 function Demo() {
   const [templateObj, setTemplateObj] = useState({});
+  const [lockText, setlockText] = useState(true);
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal();
     return slate.document.children;
@@ -186,7 +187,7 @@ function Demo() {
   return (
     <div>
       <Button aria-label="Toggle lockText"
-      /* onClick={() => setlockTextState(!lockTextState)} */ >Toggle lockText</Button>
+      onClick={() => setlockText(!lockText)}>Toggle lockText</Button>
       <Header size='medium'>lockText state: Sure</Header>
       <Grid centered columns={2}>
         <Grid.Column>
@@ -194,6 +195,7 @@ function Demo() {
             <ContractEditor
               value={slateValue}
               onChange={onContractChange}
+              lockText={lockText}
               // loadTemplateObject={fetchTemplateObj}
             />
           </Segment>

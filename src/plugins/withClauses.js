@@ -42,6 +42,7 @@ const withClauses = (editor) => {
   // };
 
   // editor.isVoid = element => (element.type === 'image' ? true : isVoid(element));
+  editor.isInsideClause = () => isEditable(editor, 'clause');
   return editor;
 };
 
