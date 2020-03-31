@@ -18,7 +18,7 @@ import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
 import withClauseSchema from '../plugins/withClauseSchema';
 import withClauses, { onClauseChange, isInsideClause } from '../plugins/withClauses';
-import withVariables, { isEditable } from '../plugins/VariablePlugin';
+import withVariables from '../plugins/withVariables';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
 import ClauseComponent from '../components/ClauseComponent';
@@ -65,11 +65,9 @@ const contractProps = {
 const ContractEditor = React.forwardRef((props, ref) => {
   // Handles change to document.
   const onChangeNew = (value, editor) => {
-    if (!isInsideClause(editor) || isEditable(editor)) {
-      onClauseChange(editor, props.onClauseUpdated);
-      // plugin2.onchange();
-      if (props.onChange) { props.onChange(value); } else { contractProps.onChange(value); }
-    }
+    onClauseChange(editor, props.onClauseUpdated);
+    // plugin2.onchange();
+    if (props.onChange) { props.onChange(value); } else { contractProps.onChange(value); }
   };
 
   /* eslint react/display-name: 0 */
@@ -98,13 +96,15 @@ const ContractEditor = React.forwardRef((props, ref) => {
     return returnObject;
   };
 
+  const augmentEditor = React.useCallback(editor => withVariables(editor), []);
+
   return (
     <RichTextEditor
       ref={ref}
       augmentEditor={editor => withClauses(withClauseSchema(editor))}
       value={props.value || contractProps.value}
       // onChange={props.onChange || contractProps.onChange}
-      onChange={onChangeNew || contractProps.onChange}
+      onChange={(val => props.onChange(val))}
       customElements={customElements}
       // lockText={props.lockText}
       // readOnly={props.readOnly}
