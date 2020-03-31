@@ -191,6 +191,7 @@ function ClausePlugin() {
 
 
 const withClauses = (editor) => {
+  // extract functions augmenting, call them at the end
   console.log('Inside withClauses');
   const {
     insertData, insertText, isVoid, renderElement
