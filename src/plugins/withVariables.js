@@ -47,6 +47,15 @@ import isToolbarMethodHelper from '../utilities/isToolbarMethod';
 //   return code !== 'enter' && inVariable;
 // });
 
-const withVariables = editor => editor;
+const withVariables = (editor) => {
+  const { onChange } = editor;
+  editor.onChange = () => {
+    if (editor.isInsideClause() && !inVariableHelper(editor)) {
+      return;
+    }
+    onChange();
+  };
+  return editor;
+};
 
 export default withVariables;

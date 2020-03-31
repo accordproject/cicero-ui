@@ -96,17 +96,14 @@ const ContractEditor = React.forwardRef((props, ref) => {
     return returnObject;
   };
 
-  const augmentEditor = React.useCallback(editor => withVariables(editor), []);
-
   return (
     <RichTextEditor
       ref={ref}
-      augmentEditor={editor => withClauses(withClauseSchema(editor))}
+      augmentEditor={editor => withVariables(withClauses(withClauseSchema(editor)))}
       value={props.value || contractProps.value}
-      // onChange={props.onChange || contractProps.onChange}
-      onChange={(val => props.onChange(val))}
+      onChange={props.onChange || contractProps.onChange}
       customElements={customElements}
-      // lockText={props.lockText}
+      lockText={props.lockText}
       // readOnly={props.readOnly}
       // editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
       data-testid='editor'
