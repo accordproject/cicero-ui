@@ -1,4 +1,4 @@
-import ClausePlugin from './plugins/ClausePlugin';
+// import ClausePlugin from './plugins/withClauses';
 import ContractEditor from './ContractEditor';
 import ErrorLogger from './ErrorLogger';
 import Navigation from './Navigation';
@@ -10,7 +10,7 @@ import ComputedPlugin from './plugins/ComputedPlugin';
 import 'semantic-ui-css/semantic.min.css';
 
 export {
-  ClausePlugin,
+  // ClausePlugin,
   ComputedPlugin,
   ContractEditor,
   ErrorLogger,

@@ -28,6 +28,23 @@ const findClauseNodeById = (editor, clauseId) => editor.children.find(
   ({ type, data }) => type === 'clause' && data.clauseid === clauseId
 );
 
+
+const withClauses = (editor) => {
+  // extract functions augmenting, call them at the end
+  console.log('Inside withClauses', editor);
+  const {
+    insertData, insertText, isVoid, renderElement
+  } = editor;
+
+  // editor.insertText = (text) => {
+  //   console.log('Inside withClauses insertText', text);
+  //   insertText(text);
+  // };
+
+  // editor.isVoid = element => (element.type === 'image' ? true : isVoid(element));
+  return editor;
+};
+
 /**
  * A plugin for a clause embedded in a contract
  */
@@ -188,22 +205,5 @@ function ClausePlugin() {
     }
   };
 }
-
-
-const withClauses = (editor) => {
-  // extract functions augmenting, call them at the end
-  console.log('Inside withClauses');
-  const {
-    insertData, insertText, isVoid, renderElement
-  } = editor;
-
-  editor.insertText = (text) => {
-    console.log('Inside withClauses insertText', text);
-    insertText(text);
-  };
-
-  editor.isVoid = element => (element.type === 'image' ? true : isVoid(element));
-  return editor;
-};
 
 export default withClauses;

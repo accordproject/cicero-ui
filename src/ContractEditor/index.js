@@ -16,7 +16,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import withClauses, { onClauseChange, isInsideClause } from '../plugins/ClausePlugin';
+import withClauseSchema from '../plugins/withClauseSchema';
+import withClauses, { onClauseChange, isInsideClause } from '../plugins/withClauses';
 import withVariables, { isEditable } from '../plugins/VariablePlugin';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
@@ -100,7 +101,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
   return (
     <RichTextEditor
       ref={ref}
-      augmentEditor={editor => withVariables(withClauses(editor))}
+      augmentEditor={editor => withClauses(withClauseSchema(editor))}
       value={props.value || contractProps.value}
       // onChange={props.onChange || contractProps.onChange}
       onChange={onChangeNew || contractProps.onChange}
