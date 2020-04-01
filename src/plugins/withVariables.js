@@ -47,6 +47,7 @@ import isToolbarMethodHelper from '../utilities/isToolbarMethod';
 //   return code !== 'enter' && inVariable;
 // });
 
+/* eslint no-param-reassign: 0 */
 const withVariables = (editor) => {
   const { onChange } = editor;
   editor.onChange = () => {

@@ -6,22 +6,13 @@ import _ from 'lodash';
 import '../styles.css';
 
 
-const onClauseUpdated = (onClauseUpdated, isInsideClause) => {
-  onClauseUpdated(isInsideClause);
-};
-
-const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
+const debouncedOnClauseUpdated = onClauseUpdated => _.debounce(
+  onClauseUpdated, 1000, { maxWait: 10000 }
+);
 
 const isEditable = (editor, format) => {
   const [match] = Editor.nodes(editor, { match: n => n.type === format });
   return !!match;
-};
-
-export const isInsideClause = editor => isEditable(editor, 'clause');
-
-export const onClauseChange = (editor, onClauseUpdated) => {
-  if (!isInsideClause(editor)) { return; }
-  debouncedOnClauseUpdated(onClauseUpdated, isInsideClause);
 };
 
 const findClauseNodeById = (editor, clauseId) => editor.children.find(
@@ -29,20 +20,19 @@ const findClauseNodeById = (editor, clauseId) => editor.children.find(
 );
 
 
-const withClauses = (editor) => {
-  // extract functions augmenting, call them at the end
-  console.log('Inside withClauses', editor);
-  const {
-    insertData, insertText, isVoid, renderElement
-  } = editor;
+/* eslint no-param-reassign: 0 */
+const withClauses = (editor, withClausesProps) => {
+  const { onChange } = editor;
+  const { onClauseUpdated } = withClausesProps;
 
-  // editor.insertText = (text) => {
-  //   console.log('Inside withClauses insertText', text);
-  //   insertText(text);
-  // };
-
-  // editor.isVoid = element => (element.type === 'image' ? true : isVoid(element));
   editor.isInsideClause = () => isEditable(editor, 'clause');
+
+  editor.onChange = () => {
+    if (editor.isInsideClause()) {
+      debouncedOnClauseUpdated(onClauseUpdated, editor.isInsideClause);
+    }
+    onChange();
+  };
   return editor;
 };
 
