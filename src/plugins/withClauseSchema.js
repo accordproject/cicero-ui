@@ -1,4 +1,4 @@
-const CLAUSE = 'clause';
+export const CLAUSE = 'clause';
 const VARIABLE = 'variable';
 const CONDITIONAL = 'conditional';
 

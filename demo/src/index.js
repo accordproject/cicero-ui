@@ -101,12 +101,12 @@ const getContractSlateVal = () => {
   \`\`\`
   `;
 
-  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri2}" clauseid="123">
+  const acceptanceOfDeliveryClause = `\`\`\` <clause src="${templateUri2}" clauseid="345">
 ${clauseText2}
 \`\`\`
 `;
 
-  const volumeDiscountList = `\`\`\` <clause src="${templateUri3}" clauseid="123">
+  const volumeDiscountList = `\`\`\` <clause src="${templateUri3}" clauseid="678">
   ${clauseText3}
   \`\`\`
   `;

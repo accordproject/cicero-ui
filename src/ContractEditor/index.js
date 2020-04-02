@@ -70,12 +70,12 @@ const ContractEditor = React.forwardRef((props, ref) => {
           props.loadTemplateObject(element.data.src.toString());
         }
         return (
-        <ClauseComponent
-          templateUri={element.data.src}
-          clauseId={element.data.clauseid}
-          {...attributes}>
-            {children}
-        </ClauseComponent>
+          <ClauseComponent
+            templateUri={element.data.src}
+            clauseId={element.data.clauseid}
+            {...attributes}>
+              {children}
+          </ClauseComponent>
         );
       },
       variable: () => (
@@ -83,7 +83,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
           {children}
         </span>
       ),
-      conditional: () => (<span style={{ border: '1px solid red' }} {...attributes}>{children}</span>)
+      conditional: () => (<span style={{ border: '1px solid blue' }} {...attributes}>{children}</span>)
     };
     return returnObject;
   };

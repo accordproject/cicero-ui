@@ -201,9 +201,11 @@ function ClauseComponent(props) {
   // };
   return (
     <S.ClauseWrapper
+      src={props.templateUri}
+      id={props.clauseId}
+      className='clause'
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
-      id={props.clauseId}
     >
     {/* {
       !props.readOnly
