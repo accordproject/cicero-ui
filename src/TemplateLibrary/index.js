@@ -148,7 +148,7 @@ const TemplateLibraryComponent = (props) => {
               libraryProps={libraryProps}
             />
           ))}
-        </TemplateCards> : <div style={{ textAlign: 'center' }}>No results found !</div>}
+        </TemplateCards> : <p style={{ textAlign: 'center' }}>No results found</p>}
       </TemplatesWrapper>
   );
 };
