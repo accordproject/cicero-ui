@@ -28,7 +28,7 @@ const withClauses = (editor, withClausesProps) => {
   editor.isInsideClause = () => isEditable(editor, 'clause');
 
   editor.onChange = () => {
-    if (editor.isInsideClause()) {
+    if (onClauseUpdated && editor.isInsideClause()) {
       debouncedOnClauseUpdated(onClauseUpdated, editor.isInsideClause);
     }
     onChange();
