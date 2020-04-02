@@ -1,12 +1,56 @@
 import { uuid } from 'uuidv4';
 import { Editor } from 'slate';
-import { getEventTransfer } from 'slate-react';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 import { HtmlTransformer } from '@accordproject/markdown-html';
 import _ from 'lodash';
 import { CLAUSE } from './withClauseSchema';
 
 import '../styles.css';
+
+/**
+   * Check if UI valid (depth first traversal)
+   * @param {object} params - recursion params
+   * @param {object} children - the Slate children
+   */
+function _recursive(params, children) {
+  /* eslint no-underscore-dangle: 0 */
+  children.forEach((child) => {
+    const childType = child.type;
+    switch (child.object) {
+      case 'text':
+        break;
+      default: {
+        // eslint-disable-next-line default-case
+        switch (childType) {
+          case 'computed':
+            throw new Error('Computed variable not supported');
+          case 'image':
+            throw new Error('Image not supported');
+          case 'ol_list':
+          case 'ul_list': {
+            if (child.data.kind === 'variable') {
+              throw new Error('List variable not supported');
+            } if (params.depth > 0) {
+              throw new Error('Nested list not supported');
+            } else {
+              // Increment depth before handling a list children
+              params.depth += 1;
+            }
+          }
+        }
+      }
+    }
+
+    // process any children, attaching to first child if it exists
+    if (child.children) {
+      _recursive(params, child.children);
+    }
+    // Decrement depth when coming out of a list
+    if (childType === 'ol_list' || childType === 'ul_list') {
+      params.depth -= 1;
+    }
+  });
+}
 
 // const findClauseNodeById = (editor, clauseId) => editor.children.find(
 //   ({ type, data }) => type === 'clause' && data.clauseid === clauseId
@@ -79,88 +123,20 @@ const withClauses = (editor, withClausesProps) => {
     }
     insertData(data);
   };
+
+  editor.isClauseSupported = (editor, clauseNode) => {
+    const params = { depth: 0 };
+    let children;
+    if (clauseNode.document) {
+      children = clauseNode.document.children;
+    } else {
+      children = [clauseNode];
+    }
+    _recursive(params, children);
+    return true;
+  };
+
   return editor;
 };
-
-/**
- * A plugin for a clause embedded in a contract
- */
-function ClausePlugin() {
-  /**
-   * Check if UI valid (depth first traversal)
-   * @param {object} params - recursion params
-   * @param {object} nodes - the Slate nodes
-   */
-  function _recursive(params, nodes) {
-    /* eslint no-underscore-dangle: 0 */
-    nodes.forEach((node, index) => {
-      const nodeType = node.type;
-      switch (node.object) {
-        case 'text':
-          break;
-        default: {
-          // eslint-disable-next-line default-case
-          switch (nodeType) {
-            case 'computed':
-              throw new Error('Computed variable not supported');
-            case 'image':
-              throw new Error('Image not supported');
-            case 'ol_list':
-            case 'ul_list': {
-              if (node.data.kind === 'variable') {
-                throw new Error('List variable not supported');
-              } if (params.depth > 0) {
-                throw new Error('Nested list not supported');
-              } else {
-                // Increment depth before handling a list children
-                params.depth += 1;
-              }
-            }
-          }
-        }
-      }
-
-      // process any children, attaching to first child if it exists
-      if (node.nodes) {
-        _recursive(params, node.nodes);
-      }
-      // Decrement depth when coming out of a list
-      if (nodeType === 'ol_list' || nodeType === 'ul_list') {
-        params.depth -= 1;
-      }
-    });
-  }
-
-  /**
-   * Check if UI valid
-   * @param {object} editor - Slate editor
-   * @param {object} clauseNode - the Slate node
-   * @return {boolean} is it valid
-   */
-  function isClauseSupported(editor, clauseNode) {
-    const params = { depth: 0 };
-    let nodes;
-    if (clauseNode.document) {
-      nodes = clauseNode.document.nodes;
-    } else {
-      nodes = [clauseNode];
-    }
-    _recursive(params, nodes);
-    return true;
-  }
-
-  return {
-    // augmentSchema,
-    // renderBlock,
-    // isEditable,
-    // onChange,
-    // onPaste,
-    queries: {
-      // findClauseNodeById,
-      // isOutsideOfClause: isEditable,
-      isClauseSupported
-    }
-  };
-}
 
 export default withClauses;
