@@ -1,10 +1,22 @@
 import { uuid } from 'uuidv4';
 import { Editor } from 'slate';
 import { getEventTransfer } from 'slate-react';
+import { SlateTransformer } from '@accordproject/markdown-slate';
+import { HtmlTransformer } from '@accordproject/markdown-html';
 import _ from 'lodash';
+import { CLAUSE } from './withClauseSchema';
 
 import '../styles.css';
 
+// const findClauseNodeById = (editor, clauseId) => editor.children.find(
+//   ({ type, data }) => type === 'clause' && data.clauseid === clauseId
+// );
+
+// const parsePastedClauses = (editor, clausesArray) => {
+//   clausesArray.forEach((clauseNode) => {
+//     onClauseUpdated(editor, clauseNode);
+//   });
+// }
 
 const debouncedOnClauseUpdated = onClauseUpdated => _.debounce(
   onClauseUpdated, 1000, { maxWait: 10000 }
@@ -15,14 +27,9 @@ const isEditable = (editor, format) => {
   return !!match;
 };
 
-const findClauseNodeById = (editor, clauseId) => editor.children.find(
-  ({ type, data }) => type === 'clause' && data.clauseid === clauseId
-);
-
-
 /* eslint no-param-reassign: 0 */
 const withClauses = (editor, withClausesProps) => {
-  const { onChange } = editor;
+  const { insertData, onChange } = editor;
   const { onClauseUpdated } = withClausesProps;
 
   editor.isInsideClause = () => isEditable(editor, 'clause');
@@ -33,6 +40,40 @@ const withClauses = (editor, withClausesProps) => {
     }
     onChange();
   };
+
+  editor.insertData = (data) => {
+    const HTML_DOM = data.getData('text/html');
+    if (HTML_DOM) {
+      try {
+        const htmlTransformer = new HtmlTransformer();
+        const slateTransformer = new SlateTransformer();
+
+        const SLATE_DOM = slateTransformer
+          .fromCiceroMark(htmlTransformer.toCiceroMark(HTML_DOM));
+
+        const NEW_SLATE_CHILDREN = SLATE_DOM.document.children.map(
+          (child) => {
+            if (child.type === CLAUSE) { child.data.clauseid = uuid(); }
+            return child;
+          }
+        );
+        const NEW_SLATE_DOM = {
+          object: 'value',
+          document: {
+            object: 'document',
+            data: {},
+            children: NEW_SLATE_CHILDREN
+          }
+        };
+
+        const NEW_HTML_DOM = htmlTransformer
+          .toHtml(slateTransformer.toCiceroMark(NEW_SLATE_DOM));
+        insertData(data, NEW_HTML_DOM);
+        return editor;
+      } catch (err) { console.error(err); }
+    }
+    insertData(data);
+  };
   return editor;
 };
 
@@ -40,25 +81,6 @@ const withClauses = (editor, withClausesProps) => {
  * A plugin for a clause embedded in a contract
  */
 function ClausePlugin() {
-  /**
-   * Allow edits if we are outside of a Clause
-   *
-   * @param {Value} value - the Slate value
-   */
-  const isEditable = ((editor, code) => {
-    const { value } = editor;
-    const blocks = value.document.getDescendantsAtRange(value.selection);
-    const inClause = blocks.size > 0 && blocks.some(node => node.type === 'clause');
-    return !inClause;
-  });
-
-  /**
-   * Function called when a clause is updated
-   */
-  function onClauseUpdated(editor, clauseNode) {
-    editor.props.clausePluginProps.onClauseUpdated(clauseNode);
-  }
-
   /**
    * Utility function to parse clauses within a paste value
    */
