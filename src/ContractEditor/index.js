@@ -89,7 +89,8 @@ const ContractEditor = React.forwardRef((props, ref) => {
   };
 
   const withClausesProps = {
-    onClauseUpdated: props.onClauseUpdated
+    onClauseUpdated: props.onClauseUpdated,
+    pasteToContract: props.pasteToContract
   };
 
   const augmentEditor = editor => withVariables(withClauses(withClauseSchema(editor), withClausesProps));

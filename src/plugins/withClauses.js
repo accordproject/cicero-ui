@@ -12,11 +12,6 @@ import '../styles.css';
 //   ({ type, data }) => type === 'clause' && data.clauseid === clauseId
 // );
 
-// const parsePastedClauses = (editor, clausesArray) => {
-//   clausesArray.forEach((clauseNode) => {
-//     onClauseUpdated(editor, clauseNode);
-//   });
-// }
 
 const debouncedOnClauseUpdated = onClauseUpdated => _.debounce(
   onClauseUpdated, 1000, { maxWait: 10000 }
@@ -30,7 +25,7 @@ const isEditable = (editor, format) => {
 /* eslint no-param-reassign: 0 */
 const withClauses = (editor, withClausesProps) => {
   const { insertData, onChange } = editor;
-  const { onClauseUpdated } = withClausesProps;
+  const { onClauseUpdated, pasteToContract } = withClausesProps;
 
   editor.isInsideClause = () => isEditable(editor, 'clause');
 
@@ -45,6 +40,7 @@ const withClauses = (editor, withClausesProps) => {
     const HTML_DOM = data.getData('text/html');
     if (HTML_DOM) {
       try {
+        const clausesToParseAndPaste = [];
         const htmlTransformer = new HtmlTransformer();
         const slateTransformer = new SlateTransformer();
 
@@ -53,7 +49,11 @@ const withClauses = (editor, withClausesProps) => {
 
         const NEW_SLATE_CHILDREN = SLATE_DOM.document.children.map(
           (child) => {
-            if (child.type === CLAUSE) { child.data.clauseid = uuid(); }
+            if (child.type === CLAUSE) {
+              console.log('child', child);
+              child.data.clauseid = uuid();
+              clausesToParseAndPaste.push(child);
+            }
             return child;
           }
         );
@@ -65,6 +65,11 @@ const withClauses = (editor, withClausesProps) => {
             children: NEW_SLATE_CHILDREN
           }
         };
+
+        clausesToParseAndPaste.forEach((clause) => {
+          pasteToContract(clause);
+          onClauseUpdated(editor, clause);
+        });
 
         const NEW_HTML_DOM = htmlTransformer
           .toHtml(slateTransformer.toCiceroMark(NEW_SLATE_DOM));
@@ -81,67 +86,6 @@ const withClauses = (editor, withClausesProps) => {
  * A plugin for a clause embedded in a contract
  */
 function ClausePlugin() {
-  /**
-   * Utility function to parse clauses within a paste value
-   */
-  function parsePastedClauses(editor, clausesArray) {
-    clausesArray.forEach((clauseNode) => {
-      onClauseUpdated(editor, clauseNode);
-    });
-  }
-
-  /**
-  * Called on a paste
-  * @param {*} event
-  * @param {*} editor
-  * @param {*} next
-  * @return {*} the react component
-  */
-  const onPaste = async (event, editor, next) => {
-    if (isEditable(editor, 'paste')) {
-      const transfer = getEventTransfer(event);
-
-      // keep track of all the things that just got pasted
-      const clausesToParse = [];
-      const clausesToPaste = [];
-
-      if (transfer.type === 'fragment') {
-        const mutableFragment = transfer.fragment.asMutable();
-        let mutableNodes = mutableFragment.nodes.asMutable();
-        const isHeadingClause = node => node.type === 'clause';
-        mutableNodes = mutableNodes.map((node) => {
-          if (isHeadingClause(node)) {
-            const mutableNode = node.withMutations((n) => {
-              const clauseUriSrc = n.data.get('src');
-              const generatedUUID = uuid();
-              const newData = n.data.withMutations((d) => {
-                d.set('clauseid', generatedUUID);
-              });
-              n.set('data', newData);
-              clausesToParse.push(n);
-              clausesToPaste.push({ id: generatedUUID, src: clauseUriSrc, text: node.text });
-            });
-            return mutableNode;
-          }
-          return node;
-        });
-        mutableFragment.nodes = mutableNodes.asImmutable();
-        transfer.fragment = mutableFragment.asImmutable();
-
-        await editor.insertFragment(transfer.fragment);
-        clausesToPaste.forEach(clause => editor.props.clausePluginProps
-          .pasteToContract(clause.id, clause.src, clause.text));
-        // on change is fired here, so then we can look into if there are new blocks
-
-        parsePastedClauses(editor, clausesToParse);
-
-        return undefined;
-      }
-      return next();
-    }
-    return next();
-  };
-
   /**
    * Check if UI valid (depth first traversal)
    * @param {object} params - recursion params
@@ -208,12 +152,12 @@ function ClausePlugin() {
   return {
     // augmentSchema,
     // renderBlock,
-    isEditable,
+    // isEditable,
     // onChange,
-    onPaste,
+    // onPaste,
     queries: {
       // findClauseNodeById,
-      isOutsideOfClause: isEditable,
+      // isOutsideOfClause: isEditable,
       isClauseSupported
     }
   };
