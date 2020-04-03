@@ -117,12 +117,11 @@ const withClauses = (editor, withClausesProps) => {
 
         const NEW_HTML_DOM = htmlTransformer
           .toHtml(slateTransformer.toCiceroMark(NEW_SLATE_DOM));
-        const NEW_PLAIN_TEXT = data.getData('text/plain');
 
         insertData({
           getData: format => (format === 'text/html'
             ? NEW_HTML_DOM
-            : NEW_PLAIN_TEXT),
+            : data.getData('text/plain')),
         });
         return editor;
       } catch (err) { console.error(err); }
