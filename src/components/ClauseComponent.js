@@ -39,7 +39,7 @@ function ClauseComponent(props) {
   const [hoveringEditIcon, setHoveringEditIcon] = useState(false);
   const [hoveringDeleteIcon, setHoveringDeleteIcon] = useState(false);
 
-  // const [conditionals, setConditionals] = useState({});
+  const [conditionals, setConditionals] = useState({});
   // const [listVariables, setListVariables] = useState({});
 
   const title = titleGenerator(props.templateUri);
@@ -52,65 +52,70 @@ function ClauseComponent(props) {
 
   /* eslint react/no-find-dom-node: "off" */
   // useEffect(() => {
-  //   const findPosition = (key) => {
-  //     const pathToConditional = props.editor.value.document.getPath(key);
-  //     const elementDOM = props.editor.findDOMNode(pathToConditional);
-  //     const popupPosition = 'bottom left';
-  //     const positionalStyle = {
-  //       popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
-  //       popupPosition,
-  //       popupHeight: elementDOM.offsetHeight,
-  //       popupWidth: elementDOM.offsetWidth,
-  //     };
-  //     return positionalStyle;
+  //   console.log('useEffect props.clauseNode', props);
+  // const findPosition = (key) => {
+  //   const pathToConditional = props.editor.value.document.getPath(key);
+  //   const elementDOM = props.editor.findDOMNode(pathToConditional);
+  //   const popupPosition = 'bottom left';
+  //   const positionalStyle = {
+  //     popupStyle: { top: elementDOM.offsetTop, left: elementDOM.offsetLeft, transform: 'none' },
+  //     popupPosition,
+  //     popupHeight: elementDOM.offsetHeight,
+  //     popupWidth: elementDOM.offsetWidth,
   //   };
+  //   return positionalStyle;
+  // };
 
-  //   const findConditionals = node => ({
-  //     ...(((node.type === 'conditional') && (node.data.get('whenFalse') === '') ) ? {
-  //       [node.key]: {
-  //         id: node.data.get('id'),
-  //         whenTrue: node.data.get('whenTrue'),
-  //         whenFalse: node.data.get('whenFalse'),
-  //         position: findPosition(node.key),
-  //         currentText: node.text,
-  //         isFalse: node.text === node.data.get('whenFalse'),
-  //       }
-  //     } : {}),
+  // const findConditionals = node => ({
+  //   ...(((node.type === 'conditional') && (node.data.whenFalse === '')) ? {
+  //     [node.key]: {
+  //       id: node.data.id,
+  //       whenTrue: node.data.whenTrue,
+  //       whenFalse: node.data.whenFalse,
+  //       // position: findPosition(node.key),
+  //       currentText: node.children[0].text,
+  //       isFalse: (node.children[0].text === node.data.whenFalse),
+  //     }
+  //   } : {}),
+  //   ...(node.children || [])
+  //     .map(findConditionals)
+  //     .reduce((props, node) => ({ ...props, ...node }), {})
+  // });
+  // props.children.props.node.children.forEach((clauseNode) => {
+  //   clauseNode.children.forEach(block => findConditionals(block));
+  // });
+
+  // let listData = {};
+  // const findListVariables = (node) =>{
+  //   if((node.type === 'ul_list') ||(node.type ==='ol_list' )){
+  //     (node.nodes || []).forEach((listNode,index) => {
+  //      if(listNode.getInlinesByType("variable").size > 0){
+  //         listData[listNode.key] = {
+  //             currentText: listNode.text,
+  //             head: index === 0,
+  //             tail: index === (node.nodes.size - 1),
+  //             parentKey: node.key,
+  //             position: findPosition(listNode.key)
+  //           }
+  //      }
+  //     })
+  //   }
+  //   return {
+  //     ...listData,
   //     ...(node.nodes || [])
-  //       .map(findConditionals)
-  //       .reduce((props, node) => ({ ...props, ...node }), {})
-  //   });
-
-  //   let listData = {};
-  //   const findListVariables = (node) =>{
-  //     if((node.type === 'ul_list') ||(node.type ==='ol_list' )){
-  //       (node.nodes || []).forEach((listNode,index) => {
-  //        if(listNode.getInlinesByType("variable").size > 0){
-  //           listData[listNode.key] = {
-  //               currentText: listNode.text,
-  //               head: index === 0,
-  //               tail: index === (node.nodes.size - 1),
-  //               parentKey: node.key,
-  //               position: findPosition(listNode.key)
-  //             }
-  //        }
-  //       })
-  //     }
-  //     return {
-  //       ...listData,
-  //       ...(node.nodes || [])
-  //       .map(findListVariables)
-  //       .reduce((props, node) => ({ ...props, ...node }), {})
-  //     }
-
+  //     .map(findListVariables)
+  //     .reduce((props, node) => ({ ...props, ...node }), {})
   //   }
 
-  //   const newState = findConditionals(props.clauseNode);
-  //   const foundListVariables = findListVariables(props.clauseNode)
+  // }
 
-  //   setConditionals(newState);
-  //   setListVariables(foundListVariables)
-  // }, [props.clauseNode, props.editor]);
+  // const newState = findConditionals(props.clauseNode);
+  // console.log('useEffect newState', newState);
+  // const foundListVariables = findListVariables(props.clauseNode)
+
+  // setConditionals(newState);
+  // setListVariables(foundListVariables)
+  // }, [props, props.clauseNode, props.editor]);
 
   // const toggleConditional = (key) => {
   //   const selectionNodeKey = key || props.editor.value.selection.focus.key - 1;
@@ -199,6 +204,7 @@ function ClauseComponent(props) {
   //   removeList,
   //   addList
   // };
+  // console.log('clause component', props);
   return (
     <S.ClauseWrapper
       src={props.templateUri}

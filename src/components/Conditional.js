@@ -14,43 +14,47 @@ import ConditionalSwitch from './ConditionalSwitch';
 const Conditional = (props) => {
   const { attributes, children, node } = props;
   const [hovering, setHovering] = useState(false);
+  // console.log('props in Conditional', props.children.props.node);
+
   const conditional = {
-    id: node.data.get('id'),
-    whenTrue: node.data.get('whenTrue'),
-    whenFalse: node.data.get('whenFalse'),
-    isFalse: node.text === node.data.get('whenFalse'),
+    id: children.props.node.data.id,
+    whenTrue: children.props.node.data.whenTrue,
+    whenFalse: children.props.node.data.whenFalse,
+    isFalse: (
+      children.props.node.children[0].text === children.props.node.data.whenFalse
+    ),
   };
 
-  const toggleConditional = (key) => {
-    const newInlineJSON = {
-      object: 'inline',
-      type: 'conditional',
-      data: {
-        id: conditional.id,
-        whenTrue: conditional.whenTrue,
-        whenFalse: conditional.whenFalse
-      },
-      nodes: [
-        {
-          object: 'text',
-          text: node.text === conditional.whenTrue
-            ? conditional.whenFalse
-            : conditional.whenTrue,
-          marks: []
-        }
-      ]
-    };
-    const newInlineSlate = Inline.fromJSON(newInlineJSON);
+  // const toggleConditional = (key) => {
+  //   const newInlineJSON = {
+  //     object: 'inline',
+  //     type: 'conditional',
+  //     data: {
+  //       id: conditional.id,
+  //       whenTrue: conditional.whenTrue,
+  //       whenFalse: conditional.whenFalse
+  //     },
+  //     nodes: [
+  //       {
+  //         object: 'text',
+  //         text: node.text === conditional.whenTrue
+  //           ? conditional.whenFalse
+  //           : conditional.whenTrue,
+  //         marks: []
+  //       }
+  //     ]
+  //   };
+  //   const newInlineSlate = Inline.fromJSON(newInlineJSON);
 
-    props.editor.replaceNodeByKey(key, newInlineSlate);
-  };
+  //   props.editor.replaceNodeByKey(key, newInlineSlate);
+  // };
 
   const conditionalProps = {
     id: conditional.id,
-    className: node.text === '' ? '' : 'conditional',
+    className: children.props.node.children[0].text === '' ? '' : 'conditional',
     onMouseEnter: () => setHovering(true),
     onMouseLeave: () => setHovering(false),
-    onClick: () => { toggleConditional(node.key); },
+    // onClick: () => { toggleConditional(node.key); },
     ...attributes,
   };
 
@@ -61,9 +65,9 @@ const Conditional = (props) => {
 
   return (
     <>
-        { !props.readOnly && node.text !== ''
+        {/* { !props.readOnly && node.text !== ''
         && <ConditionalSwitch {...conditionalSwitchProps} />
-        }
+        } */}
         <span {...conditionalProps}>{children}</span>
     </>
   );
