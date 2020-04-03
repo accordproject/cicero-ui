@@ -51,10 +51,21 @@ import isToolbarMethodHelper from '../utilities/isToolbarMethod';
 // });
 
 /* eslint no-param-reassign: 0 */
-const withVariables = editor => editor;
+const withVariables = (editor) => {
+  const { insertText, isInline } = editor;
+  editor.insertText = (text) => {
+    // console.log('in custom insert text', text);
+    insertText(text);
+  };
+
+  editor.isInline = element => (element.type === 'variable' ? true : isInline(element));
+  return editor;
+};
 
 export const isEditable = (lockText, editor, event) => {
+  console.log('isInsideClause --- ', editor.isInsideClause());
   if (!lockText || !editor.isInsideClause()) return true;
+  console.log('isInVariable -- ', inVariable(editor));
   const { selection } = editor;
   const textLength = Node.get(editor, editor.selection.focus.path).text.length;
   if (inVariable(editor)) {
@@ -72,7 +83,7 @@ export const isEditable = (lockText, editor, event) => {
 
     // Do not allow user to type at end of variable
     // because that change will happen outside variable
-    if (textLength === selection.focus.offset) return false;
+    // if (textLength === selection.focus.offset) return false;
   }
 
   // if (inVariable(editor) && selection.anchor.offset === 0) {
