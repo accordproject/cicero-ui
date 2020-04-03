@@ -22,6 +22,7 @@ import withVariables, { isEditable } from '../plugins/withVariables';
 // import ConditionalPlugin from '../plugins/ConditionalPlugin';
 // import ComputedPlugin from '../plugins/ComputedPlugin';
 import ClauseComponent from '../components/ClauseComponent';
+import Conditional from '../components/Conditional';
 
 /**
  * Adds the current value to local storage
@@ -83,7 +84,11 @@ const ContractEditor = React.forwardRef((props, ref) => {
           {children}
         </span>
       ),
-      conditional: () => (<span style={{ border: '1px solid blue' }} {...attributes}>{children}</span>)
+      conditional: () => (
+        <Conditional style={{ border: '1px solid blue' }} {...attributes}>
+          {children}
+        </Conditional>
+      )
     };
     return returnObject;
   };

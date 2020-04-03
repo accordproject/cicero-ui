@@ -110,14 +110,20 @@ const withClauses = (editor, withClausesProps) => {
           }
         };
 
-        clausesToParseAndPaste.forEach((clause) => {
-          pasteToContract(clause);
-          onClauseUpdated(editor, clause);
-        });
+        // clausesToParseAndPaste.forEach((clause) => {
+        //   pasteToContract(clause);
+        //   onClauseUpdated(editor, clause);
+        // });
 
         const NEW_HTML_DOM = htmlTransformer
           .toHtml(slateTransformer.toCiceroMark(NEW_SLATE_DOM));
-        insertData(data, NEW_HTML_DOM);
+        const NEW_PLAIN_TEXT = data.getData('text/plain');
+
+        insertData({
+          getData: format => (format === 'text/html'
+            ? NEW_HTML_DOM
+            : NEW_PLAIN_TEXT),
+        });
         return editor;
       } catch (err) { console.error(err); }
     }
