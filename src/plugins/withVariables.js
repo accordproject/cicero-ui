@@ -43,6 +43,10 @@ export const isEditable = (lockText, editor, event) => {
       // variable prevent deleting the char that precedes the variable
       return selection.anchor.offset > 0;
     }
+    // do not allow hitting enter or pasting inside variables
+    if (isHotkey('enter', event) || isHotkey('mod+v', event)) {
+      return false;
+    }
   }
   const nextNode = Editor.next(editor, { at: editor.selection.focus.path });
   // if the current focus is at the end of a node & the next node is a variable allow editing
