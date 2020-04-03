@@ -16,6 +16,9 @@ const withVariables = (editor) => {
       Transforms.collapse(editor, { edge: 'start' });
     }
 
+    // the default slate implementation of `insertText` moves the cursor
+    // out of inlines before inserting text. Override this for variables
+    // https://github.com/ianstormtaylor/slate/blob/1d7ab974292a3e831908a2ba0aab9fdd8a66fe10/packages/slate/src/create-editor.ts#L154
     if (Node.parent(editor, editor.selection.focus.path).type === 'variable') {
       Transforms.insertText(editor, text);
     } else {
