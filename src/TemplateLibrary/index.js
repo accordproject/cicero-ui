@@ -49,6 +49,7 @@ const HeaderTitle = styled.p`
 const HeaderImports = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 `;
 
 const Functionality = styled.div`
