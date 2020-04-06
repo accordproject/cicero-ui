@@ -31,9 +31,8 @@ const withVariables = (editor) => {
 };
 
 export const isEditable = (lockText, editor, event) => {
-  if (!lockText || !editor.isInsideClause() || isHotkey('mod+c', event) || isHotkey('mod+x', event)) {
-    return true;
-  }
+  if (!lockText || !editor.isInsideClause()) return true;
+  if (event && (isHotkey('mod+c', event) || isHotkey('mod+x', event))) return true;
   const { selection } = editor;
   const textLength = Node.get(editor, editor.selection.focus.path).text.length;
   if (inVariable(editor)) {
