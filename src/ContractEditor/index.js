@@ -109,7 +109,8 @@ const ContractEditor = React.forwardRef((props, ref) => {
       onChange={props.onChange || contractProps.onChange}
       customElements={customElements}
       lockText={props.lockText}
-      // readOnly={props.readOnly}
+      readOnly={props.readOnly}
+      canBeFormatted={editor => !props.lockText || !editor.isInsideClause()}
       // editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
       data-testid='editor'
       clausePluginProps={{
