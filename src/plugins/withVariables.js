@@ -1,4 +1,3 @@
-import isHotkey from 'is-hotkey';
 import { Transforms, Node, Editor } from 'slate';
 import inVariable from '../utilities/inVariable';
 
@@ -32,11 +31,10 @@ const withVariables = (editor) => {
 
 export const isEditable = (lockText, editor, event) => {
   if (!lockText || !editor.isInsideClause()) return true;
-  if (event && (isHotkey('mod+c', event) || isHotkey('mod+x', event))) return true;
   const { selection } = editor;
   const textLength = Node.get(editor, editor.selection.focus.path).text.length;
   if (inVariable(editor)) {
-    if (isHotkey('backspace', event)) {
+    if (event.inputType === 'deleteContentBackward') {
       // Do not allow user to delete variable if only 1 char left
       if (textLength === 1) {
         return false;
@@ -46,7 +44,7 @@ export const isEditable = (lockText, editor, event) => {
       return selection.anchor.offset > 0;
     }
     // do not allow hitting enter or pasting inside variables
-    if (isHotkey('enter', event) || isHotkey('mod+v', event)) {
+    if (event.inputType === 'insertFromPaste' || event.inputType === 'insertParagraph') {
       return false;
     }
   }
