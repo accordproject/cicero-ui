@@ -34,7 +34,6 @@
     "@storybook/addons": "^5.3.17",
     "@storybook/react": "^5.3.17",
     "@storybook/theming": "^5.3.17",
-    "is-hotkey": "^0.1.6",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.13.1",
