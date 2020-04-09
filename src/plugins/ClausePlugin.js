@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import '../styles.css';
 import ClauseComponent from '../components/ClauseComponent';
-
+import isTemplateUri from '../utilities/isTemplateUri';
 
 /**
  * A plugin for a clause embedded in a contract
@@ -183,7 +183,7 @@ function ClausePlugin() {
         const src = node.data.get('src');
         const clauseid = node.data.get('clauseid');
 
-        if (src) {
+        if (src && isTemplateUri(src.toString())) {
           loadTemplateCallback(src.toString());
         }
 
