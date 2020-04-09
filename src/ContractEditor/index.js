@@ -12,17 +12,19 @@
  * limitations under the License.
  */
 
+/* React */
 import React from 'react';
 import PropTypes from 'prop-types';
-import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 
-import withClauseSchema from '../plugins/withClauseSchema';
-import withClauses from '../plugins/withClauses';
-import withVariables, { isEditable } from '../plugins/withVariables';
-// import ConditionalPlugin from '../plugins/ConditionalPlugin';
-// import ComputedPlugin from '../plugins/ComputedPlugin';
+/* Components */
+import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
 import ClauseComponent from '../components/ClauseComponent';
 import Conditional from '../components/Conditional';
+
+/* Plugins */
+import withClauseSchema, { VARIABLE } from '../plugins/withClauseSchema';
+import withClauses from '../plugins/withClauses';
+import withVariables, { isEditable } from '../plugins/withVariables';
 
 /**
  * Adds the current value to local storage
@@ -86,7 +88,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
         );
       },
       variable: () => (
-        <span id={element.data.id} {...attributes} className='variable'>
+        <span id={element.data.id} {...attributes} className={VARIABLE}>
           {children}
         </span>
       ),

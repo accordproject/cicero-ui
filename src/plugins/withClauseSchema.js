@@ -1,6 +1,6 @@
 export const CLAUSE = 'clause';
-const VARIABLE = 'variable';
-const CONDITIONAL = 'conditional';
+export const VARIABLE = 'variable';
+export const CONDITIONAL = 'conditional';
 
 const INLINES = { [VARIABLE]: true, [CONDITIONAL]: true };
 const VOIDS = {};

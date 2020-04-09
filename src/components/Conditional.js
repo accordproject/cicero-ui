@@ -4,6 +4,9 @@ import { Transforms } from 'slate';
 import PropTypes from 'prop-types';
 import { ReactEditor, useEditor } from 'slate-react';
 
+/* Plugins */
+import { CONDITIONAL } from '../plugins/withClauseSchema';
+
 /* Components */
 import ConditionalBoolean from './ConditionalBoolean';
 import ConditionalSwitch from './ConditionalSwitch';
@@ -38,7 +41,7 @@ const Conditional = (props) => {
   const toggleConditional = (path) => {
     const newConditional = {
       object: 'inline',
-      type: 'conditional',
+      type: CONDITIONAL,
       data: {
         id: conditional.id,
         whenTrue: conditional.whenTrue,
@@ -57,7 +60,7 @@ const Conditional = (props) => {
 
   const conditionalProps = {
     id: conditional.id,
-    className: node.children[0].text === '' ? '' : 'conditional',
+    className: node.children[0].text === '' ? '' : CONDITIONAL,
     onMouseEnter: () => setHovering(true),
     onMouseLeave: () => setHovering(false),
     onClick: () => toggleConditional(conditionalPath),

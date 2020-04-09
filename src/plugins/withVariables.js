@@ -1,5 +1,6 @@
 import { Transforms, Node, Editor } from 'slate';
 import inVariable from '../utilities/inVariable';
+import { VARIABLE } from './withClauseSchema';
 
 /* eslint no-param-reassign: 0 */
 const withVariables = (editor) => {
@@ -10,7 +11,7 @@ const withVariables = (editor) => {
 
     // if the current focus is at the end of a node and the next node is a variable
     // move focus to the start of the variable node
-    if (nextNode && nextNode[0].type === 'variable' && textLength === editor.selection.focus.offset) {
+    if (nextNode && nextNode[0].type === VARIABLE && textLength === editor.selection.focus.offset) {
       Transforms.select(editor, nextNode[1]);
       Transforms.collapse(editor, { edge: 'start' });
     }
@@ -18,14 +19,14 @@ const withVariables = (editor) => {
     // the default slate implementation of `insertText` moves the cursor
     // out of inlines before inserting text. Override this for variables
     // https://github.com/ianstormtaylor/slate/blob/1d7ab974292a3e831908a2ba0aab9fdd8a66fe10/packages/slate/src/create-editor.ts#L154
-    if (Node.parent(editor, editor.selection.focus.path).type === 'variable') {
+    if (Node.parent(editor, editor.selection.focus.path).type === VARIABLE) {
       Transforms.insertText(editor, text);
     } else {
       insertText(text);
     }
   };
 
-  editor.isInline = element => (element.type === 'variable' ? true : isInline(element));
+  editor.isInline = element => (element.type === VARIABLE ? true : isInline(element));
   return editor;
 };
 
@@ -50,7 +51,7 @@ export const isEditable = (lockText, editor, event) => {
   }
   const nextNode = Editor.next(editor, { at: editor.selection.focus.path });
   // if the current focus is at the end of a node & the next node is a variable allow editing
-  if (nextNode && nextNode[0].type === 'variable' && textLength === editor.selection.focus.offset) {
+  if (nextNode && nextNode[0].type === VARIABLE && textLength === editor.selection.focus.offset) {
     return true;
   }
   return inVariable(editor);
