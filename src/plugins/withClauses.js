@@ -3,7 +3,7 @@ import { Editor } from 'slate';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 import { HtmlTransformer } from '@accordproject/markdown-html';
 import _ from 'lodash';
-import { CLAUSE } from './withClauseSchema';
+import { CLAUSE, VARIABLE } from './withClauseSchema';
 
 import '../styles.css';
 
@@ -28,7 +28,7 @@ function _recursive(params, children) {
             throw new Error('Image not supported');
           case 'ol_list':
           case 'ul_list': {
-            if (child.data.kind === 'variable') {
+            if (child.data.kind === VARIABLE) {
               throw new Error('List variable not supported');
             } if (params.depth > 0) {
               throw new Error('Nested list not supported');
