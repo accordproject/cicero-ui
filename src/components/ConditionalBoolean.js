@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
+import { ClauseContext } from './ClauseComponent';
 import { ClauseConditional, ClauseConditionalTooltip } from './styles';
 
 import * as conditionalIcon from '../icons/conditional';
@@ -14,50 +15,42 @@ import * as conditionalIcon from '../icons/conditional';
  */
 const ConditionalBoolean = (props) => {
   const [hoveringConditional, setHoveringConditional] = useState(false);
-  const [tooltipWidth, setTooltipWidth] = useState(0);
+  const [tooltipHeight, setTooltipHeight] = useState(0);
   const ref = useRef(null);
 
   useEffect(() => {
-    setTooltipWidth(ref.current ? ref.current.offsetWidth : 0);
+    setTooltipHeight(ref.current ? ref.current.offsetHeight : 0);
   }, []);
 
   const conditionalIconProps = {
     'aria-label': conditionalIcon.type,
     viewBox: '0 0 18 18',
     className: 'conditionalIcon',
-    currentHover: props.currentHover,
-    style: props.conditionalStyle,
     onMouseEnter: () => setHoveringConditional(true),
     onMouseLeave: () => setHoveringConditional(false),
-    onClick: () => props.toggleConditional(props.slateKey)
+    onClick: props.toggleConditional
   };
 
   const conditionalTooltip = {
     ref,
     currentHover: hoveringConditional,
     className: 'conditionalTooltip',
-    style: {
-      ...props.conditionalStyle,
-      top: props.conditionalStyle.top - 26,
-      left: props.conditionalStyle.left - (tooltipWidth / 2),
-    },
-    somethingLength: props.nodeValue.position.popupWidth,
-    somethingHeight: props.nodeValue.position.popupHeight
-      + (props.nodeValue.position.popupHeight * 0.5),
-    caretTop: 1,
-    caretLeft: (tooltipWidth / 2),
-    tooltipHeight: 0.1,
+    style: { marginTop: `-${tooltipHeight + 10}px` },
+    caretTop: tooltipHeight - 2,
+    caretLeft: 2,
   };
 
   return (
-    <div>
-      <ClauseConditionalTooltip {...conditionalTooltip}>
-        Show text: "{props.nodeValue.whenTrue}"
-      </ClauseConditionalTooltip>
-      <ClauseConditional {...conditionalIconProps}>
+    <ClauseContext.Consumer>
+      { hoveringClause => (<>
+        <ClauseConditionalTooltip {...conditionalTooltip}>
+          Show text: "{props.whenTrue}"
+        </ClauseConditionalTooltip>
+        <ClauseConditional currentHover={hoveringClause} {...conditionalIconProps}>
           {conditionalIcon.icon(hoveringConditional)}
-      </ClauseConditional>
-    </div>
+        </ClauseConditional>
+      </>) }
+    </ClauseContext.Consumer>
   );
 };
 
@@ -66,6 +59,7 @@ ConditionalBoolean.propTypes = {
   currentHover: PropTypes.bool,
   nodeValue: PropTypes.obj,
   slateKey: PropTypes.string,
+  whenTrue: PropTypes.string,
   toggleConditional: PropTypes.func,
 };
 

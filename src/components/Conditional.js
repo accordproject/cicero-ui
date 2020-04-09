@@ -1,9 +1,11 @@
 /* React */
 import React, { useState } from 'react';
-import { Inline } from 'slate';
+import { Transforms } from 'slate';
 import PropTypes from 'prop-types';
+import { ReactEditor, useEditor } from 'slate-react';
 
 /* Components */
+import ConditionalBoolean from './ConditionalBoolean';
 import ConditionalSwitch from './ConditionalSwitch';
 
 /**
@@ -12,62 +14,70 @@ import ConditionalSwitch from './ConditionalSwitch';
  * @param {*} props
  */
 const Conditional = (props) => {
-  const { attributes, children, node } = props;
+  const {
+    attributes,
+    children,
+    children: { props: { node } },
+    children: { props: { node: { data } } },
+  } = props;
+  const editor = useEditor();
   const [hovering, setHovering] = useState(false);
-  // console.log('props in Conditional', props.children.props.node);
-
+  const conditionalPath = ReactEditor.findPath(editor, node);
+  const isNotReadOnly = !props.readOnly;
+  const isNotEmptyString = node.children[0].text !== '';
+  const isEmptyString = node.children[0].text === '';
   const conditional = {
-    id: children.props.node.data.id,
-    whenTrue: children.props.node.data.whenTrue,
-    whenFalse: children.props.node.data.whenFalse,
+    id: data.id,
+    whenTrue: data.whenTrue,
+    whenFalse: data.whenFalse,
     isFalse: (
-      children.props.node.children[0].text === children.props.node.data.whenFalse
+      node.children[0].text === data.whenFalse
     ),
   };
 
-  // const toggleConditional = (key) => {
-  //   const newInlineJSON = {
-  //     object: 'inline',
-  //     type: 'conditional',
-  //     data: {
-  //       id: conditional.id,
-  //       whenTrue: conditional.whenTrue,
-  //       whenFalse: conditional.whenFalse
-  //     },
-  //     nodes: [
-  //       {
-  //         object: 'text',
-  //         text: node.text === conditional.whenTrue
-  //           ? conditional.whenFalse
-  //           : conditional.whenTrue,
-  //         marks: []
-  //       }
-  //     ]
-  //   };
-  //   const newInlineSlate = Inline.fromJSON(newInlineJSON);
-
-  //   props.editor.replaceNodeByKey(key, newInlineSlate);
-  // };
+  const toggleConditional = (path) => {
+    const newConditional = {
+      object: 'inline',
+      type: 'conditional',
+      data: {
+        id: conditional.id,
+        whenTrue: conditional.whenTrue,
+        whenFalse: conditional.whenFalse
+      },
+      children: [{
+        object: 'text',
+        text: conditional.isFalse
+          ? conditional.whenTrue
+          : conditional.whenFalse
+      }]
+    };
+    Transforms.removeNodes(editor, { at: path });
+    Transforms.insertNodes(editor, newConditional, { at: path });
+  };
 
   const conditionalProps = {
     id: conditional.id,
-    className: children.props.node.children[0].text === '' ? '' : 'conditional',
+    className: node.children[0].text === '' ? '' : 'conditional',
     onMouseEnter: () => setHovering(true),
     onMouseLeave: () => setHovering(false),
-    // onClick: () => { toggleConditional(node.key); },
+    onClick: () => toggleConditional(conditionalPath),
     ...attributes,
   };
 
   const conditionalSwitchProps = {
-    ...conditional,
     currentHover: hovering,
+    ...conditional,
+  };
+  const conditionalIconProps = {
+    currentHover: hovering,
+    whenTrue: conditional.whenTrue,
+    toggleConditional: () => toggleConditional(conditionalPath),
   };
 
   return (
     <>
-        {/* { !props.readOnly && node.text !== ''
-        && <ConditionalSwitch {...conditionalSwitchProps} />
-        } */}
+        { isNotReadOnly && isNotEmptyString && <ConditionalSwitch {...conditionalSwitchProps} /> }
+        { isNotReadOnly && isEmptyString && <ConditionalBoolean {...conditionalIconProps} /> }
         <span {...conditionalProps}>{children}</span>
     </>
   );

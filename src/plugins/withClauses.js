@@ -71,7 +71,7 @@ const withClauses = (editor, withClausesProps) => {
   const { insertData, onChange } = editor;
   const { onClauseUpdated, pasteToContract } = withClausesProps;
 
-  editor.isInsideClause = () => isEditable(editor, 'clause');
+  editor.isInsideClause = () => isEditable(editor, CLAUSE);
 
   editor.onChange = () => {
     if (onClauseUpdated && editor.isInsideClause()) {
@@ -79,6 +79,10 @@ const withClauses = (editor, withClausesProps) => {
     }
     onChange();
   };
+
+  // findDOMNodes should be here
+  // withSelection - look into this?
+  // this gives you the current selection
 
   editor.insertData = (data) => {
     const HTML_DOM = data.getData('text/html');
