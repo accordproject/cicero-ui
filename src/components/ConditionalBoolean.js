@@ -55,10 +55,6 @@ const ConditionalBoolean = (props) => {
 };
 
 ConditionalBoolean.propTypes = {
-  conditionalStyle: PropTypes.obj,
-  currentHover: PropTypes.bool,
-  nodeValue: PropTypes.obj,
-  slateKey: PropTypes.string,
   whenTrue: PropTypes.string,
   toggleConditional: PropTypes.func,
 };
