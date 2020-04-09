@@ -2,7 +2,7 @@ export const CLAUSE = 'clause';
 const VARIABLE = 'variable';
 const CONDITIONAL = 'conditional';
 
-const INLINES = { [VARIABLE]: true };
+const INLINES = { [VARIABLE]: true, [CONDITIONAL]: true };
 const VOIDS = {};
 
 /* eslint no-param-reassign: 0 */

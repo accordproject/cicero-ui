@@ -64,6 +64,11 @@ const contractProps = {
  */
 /* eslint react/display-name: 0 */
 const ContractEditor = React.forwardRef((props, ref) => {
+  const withClausesProps = {
+    onClauseUpdated: props.onClauseUpdated,
+    pasteToContract: props.pasteToContract
+  };
+
   const customElements = (attributes, children, element) => {
     const returnObject = {
       clause: () => {
@@ -74,6 +79,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
           <ClauseComponent
             templateUri={element.data.src}
             clauseId={element.data.clauseid}
+            // editorRef={ref}
             {...attributes}>
               {children}
           </ClauseComponent>
@@ -85,20 +91,15 @@ const ContractEditor = React.forwardRef((props, ref) => {
         </span>
       ),
       conditional: () => (
-        <Conditional style={{ border: '1px solid blue' }} {...attributes}>
-          {children}
-        </Conditional>
+        <Conditional readOnly={props.readOnly} {...attributes}>{children}</Conditional>
       )
     };
     return returnObject;
   };
 
-  const withClausesProps = {
-    onClauseUpdated: props.onClauseUpdated,
-    pasteToContract: props.pasteToContract
-  };
-
-  const augmentEditor = editor => withVariables(withClauses(withClauseSchema(editor), withClausesProps));
+  const augmentEditor = editor => withVariables(
+    withClauses(withClauseSchema(editor), withClausesProps)
+  );
 
   return (
     <RichTextEditor
