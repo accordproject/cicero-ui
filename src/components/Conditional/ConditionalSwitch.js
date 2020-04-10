@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
-import { ClauseConditionalTooltip } from './styles';
+import { ClauseConditionalTooltip } from '../styles';
 
 /**
  * Component to render a tooltip

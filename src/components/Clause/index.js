@@ -3,15 +3,15 @@ import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
-import * as S from './styles';
+import * as S from '../styles';
 
 /* Icons */
-import * as deleteIcon from '../icons/trash';
-import * as editIcon from '../icons/edit';
-import * as testIcon from '../icons/testIcon';
+import * as deleteIcon from '../../icons/trash';
+import * as editIcon from '../../icons/edit';
+import * as testIcon from '../../icons/testIcon';
 
 /* Actions */
-import { headerGenerator, titleGenerator } from './actions';
+import { headerGenerator, titleGenerator } from '../actions';
 
 /**
  * A React context for sharing the clause object,
@@ -24,7 +24,7 @@ export const ClauseContext = createContext(null);
  * This will have an id property of the clauseid
  * @param {*} props
  */
-function ClauseComponent(props) {
+const ClauseComponent = (props) => {
   const clauseProps = props.clauseProps || Object.create(null);
 
   // Tooltip visibility controls
@@ -170,7 +170,7 @@ function ClauseComponent(props) {
     </S.ClauseWrapper>
     </ClauseContext.Provider>
   );
-}
+};
 
 ClauseComponent.propTypes = {
   attributes: PropTypes.PropTypes.shape({

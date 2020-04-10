@@ -3,10 +3,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 /* Styling */
-import { ClauseContext } from './ClauseComponent';
-import { ClauseConditional, ClauseConditionalTooltip } from './styles';
+import { ClauseContext } from '../Clause';
+import { ClauseConditional, ClauseConditionalTooltip } from '../styles';
 
-import * as conditionalIcon from '../icons/conditional';
+import * as conditionalIcon from '../../icons/conditional';
 
 /**
  * Component to render an addition symbol for an empty conditional
