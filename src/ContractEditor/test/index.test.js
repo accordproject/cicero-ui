@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { SlateTransformer } from '@accordproject/markdown-slate';
-import ContractEditor from './index';
+import ContractEditor from '../index';
 
 const slateTransformer = new SlateTransformer();
 

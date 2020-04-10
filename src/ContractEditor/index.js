@@ -18,11 +18,11 @@ import PropTypes from 'prop-types';
 
 /* Components */
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
-import ClauseComponent from '../components/ClauseComponent';
+import ClauseComponent from '../components/Clause';
 import Conditional from '../components/Conditional';
 
 /* Plugins */
-import withClauseSchema, { VARIABLE } from '../plugins/withClauseSchema';
+import withClauseSchema, { COMPUTED, VARIABLE } from '../plugins/withClauseSchema';
 import withClauses from '../plugins/withClauses';
 import withVariables, { isEditable } from '../plugins/withVariables';
 
@@ -88,12 +88,13 @@ const ContractEditor = React.forwardRef((props, ref) => {
         );
       },
       variable: () => (
-        <span id={element.data.id} {...attributes} className={VARIABLE}>
-          {children}
-        </span>
+        <span id={element.data.id} {...attributes} className={VARIABLE}>{children}</span>
       ),
       conditional: () => (
         <Conditional readOnly={props.readOnly} {...attributes}>{children}</Conditional>
+      ),
+      computed: () => (
+        <span id={element.data.id} {...attributes} className={COMPUTED}>{children}</span>
       )
     };
     return returnObject;
