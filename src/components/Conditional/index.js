@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { ReactEditor, useEditor } from 'slate-react';
 
 /* Plugins */
-import { CONDITIONAL } from '../../plugins/withClauseSchema';
+import { CONDITIONAL } from '../../ContractEditor/plugins/withClauseSchema';
 
 /* Components */
 import ConditionalBoolean from './ConditionalBoolean';

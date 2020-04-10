@@ -1,5 +1,5 @@
 import { Transforms, Node, Editor } from 'slate';
-import inVariable from '../utilities/inVariable';
+import inVariable from '../../utilities/inVariable';
 import { VARIABLE } from './withClauseSchema';
 
 /* eslint no-param-reassign: 0 */
