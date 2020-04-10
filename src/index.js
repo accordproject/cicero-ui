@@ -1,4 +1,3 @@
-// import ClausePlugin from './plugins/withClauses';
 import ContractEditor from './ContractEditor';
 import ErrorLogger from './ErrorLogger';
 import Navigation from './Navigation';

@@ -1,6 +1,6 @@
 import { Node } from 'slate';
 import { isEqual } from 'lodash';
-import { VARIABLE } from '../plugins/withClauseSchema';
+import { VARIABLE } from '../ContractEditor/plugins/withClauseSchema';
 
 const inVariable = (editor) => {
   const { selection } = editor;

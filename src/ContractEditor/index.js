@@ -22,9 +22,9 @@ import ClauseComponent from '../components/Clause';
 import Conditional from '../components/Conditional';
 
 /* Plugins */
-import withClauseSchema, { COMPUTED, VARIABLE } from '../plugins/withClauseSchema';
-import withClauses from '../plugins/withClauses';
-import withVariables, { isEditable } from '../plugins/withVariables';
+import withClauseSchema, { COMPUTED, VARIABLE } from './plugins/withClauseSchema';
+import withClauses from './plugins/withClauses';
+import withVariables, { isEditable } from './plugins/withVariables';
 
 /**
  * Adds the current value to local storage
