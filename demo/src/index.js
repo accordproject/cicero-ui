@@ -1,8 +1,4 @@
 import React, { useCallback, useState, useRef } from 'react';
-import {
-  Button, Grid, Header, Segment
-} from 'semantic-ui-react';
-
 import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
 
@@ -187,24 +183,21 @@ function Demo() {
   const onContractChange = useCallback((value) => { setSlateValue(value); }, []);
 
   return (
-    <div>
-      <Button aria-label="Toggle lockText"
-      onClick={() => setLockText(!lockText)}>Toggle lockText</Button>
-      <Header size='medium'>lockText state: Sure</Header>
-      <Grid centered columns={2}>
-        <Grid.Column>
-          <Segment>
-            <ContractEditor
-              value={slateValue}
-              onChange={onContractChange}
-              lockText={lockText}
-              readOnly={readOnly}
-              ref={refUse}
-              // loadTemplateObject={fetchTemplateObj}
-            />
-          </Segment>
-        </Grid.Column>
-      </Grid>
+    <div style={{
+      borderRadius: '3px',
+      border: '1px solid gray',
+      margin: '50px',
+      padding: '20px',
+      width: 'min-content'
+    }}>
+      <ContractEditor
+        value={slateValue}
+        onChange={onContractChange}
+        lockText={lockText}
+        readOnly={readOnly}
+        ref={refUse}
+        // loadTemplateObject={fetchTemplateObj}
+      />
     </div>
   );
 }
