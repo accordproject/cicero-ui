@@ -11,7 +11,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
       style="outline: none; white-space: pre-wrap; word-wrap: break-word;"
     >
       <h1
-        class="sc-bdVaJa gfJmis"
+        class="sc-htpNat kiiZDr"
         data-slate-node="element"
       >
         <span
@@ -28,9 +28,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
           </span>
         </span>
       </h1>
-      <p
-        data-slate-node="element"
-      >
+      <p>
         <span
           data-slate-node="text"
         >
@@ -101,8 +99,6 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
           </span>
         </span>
         <a
-          data-slate-inline="true"
-          data-slate-node="element"
           href="https://clause.io"
         >
           <span
