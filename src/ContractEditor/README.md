@@ -7,6 +7,7 @@ npm install @accordproject/cicero-ui
 ```
 
 ```js
+import { render } from 'react-dom';
 import React, { useCallback, useState } from 'react';
 import { ContractEditor } from '@accordproject/cicero-ui';
 import { SlateTransformer } from '@accordproject/markdown-slate';
@@ -50,7 +51,7 @@ const ContractEditorRenderer = () => {
   );
 }
 
-ReactDOM.render(<ContractEditorRenderer />, document.getElementById('root'));
+render(<ContractEditorRenderer />, document.getElementById('root'));
 ```
 
 
