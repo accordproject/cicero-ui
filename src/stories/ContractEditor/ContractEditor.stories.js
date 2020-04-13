@@ -3,9 +3,13 @@ import { Button } from "@storybook/react/demo";
 import docs from "./docs.md";
 import { withA11y } from "@storybook/addon-a11y";
 
+import Demo from '../../../demo/src';
+
 export default { title: "'Components/Contract Editor" };
 
-export const contractEditor = () => <Button>Cicero-UI</Button>; // Please add contractEditor Component definition here
+export const contractEditor = () => <Demo/>; // Please add contractEditor Component definition here
+
+/** Using exisiting Demo file for testing if webpack config is workig fine*/
 
 contractEditor.story = {
   component: contractEditor,
