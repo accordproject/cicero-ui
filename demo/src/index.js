@@ -203,3 +203,6 @@ function Demo() {
 }
 
 render(<Demo/>, document.querySelector('#root'));
+
+//For usage with Storybook (temporary)
+export default Demo
