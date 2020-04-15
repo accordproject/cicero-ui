@@ -16,7 +16,7 @@ module.exports = module.exports = {
       new HtmlWebpackPlugin({
         template: "demo/src/index.html",
         mountId: "demo",
-        title: "YES"
+        title: "Cicero UI Components Demo"
       })
     );
     config.plugins.push(new CleanWebpackPlugin());
