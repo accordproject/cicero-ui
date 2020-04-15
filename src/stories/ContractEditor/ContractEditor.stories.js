@@ -2,7 +2,7 @@ import React, { useCallback, useState, useRef } from "react";
 import { SlateTransformer } from "@accordproject/markdown-slate";
 import "semantic-ui-css/semantic.min.css";
 import ContractEditor from "../../ContractEditor";
-import docs from "./docs.md";
+import docs from "./../../ContractEditor/README.md";
 import { withA11y } from "@storybook/addon-a11y";
 import { withKnobs } from "@storybook/addon-knobs";
 

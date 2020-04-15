@@ -1,5 +1,5 @@
 import React from "react";
-import docs from "./docs.md";
+import docs from "../../TemplateLibrary/README.md";
 import { withA11y } from "@storybook/addon-a11y";
 import { withKnobs, text } from "@storybook/addon-knobs";
 import TemplateLibrary from "../../TemplateLibrary";

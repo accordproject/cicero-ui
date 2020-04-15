@@ -1,5 +1,5 @@
 import React from "react";
-import docs from "./docs.md";
+import docs from "../../Navigation/README.md";
 import { withA11y } from "@storybook/addon-a11y";
 import { withKnobs, text, boolean } from "@storybook/addon-knobs";
 import Navigation from "../../Navigation";

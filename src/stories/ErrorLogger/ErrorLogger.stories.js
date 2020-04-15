@@ -1,5 +1,5 @@
 import React from "react";
-import docs from "./docs.md";
+import docs from "../../ErrorLogger/README.md";
 import { withA11y } from "@storybook/addon-a11y";
 import ErrorLogger from "../../ErrorLogger";
 import { withKnobs, text } from "@storybook/addon-knobs";
