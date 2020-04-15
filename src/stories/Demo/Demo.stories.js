@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import ContractEditor from '../../ContractEditor';
 
-import docs from "./docs.md";
+import docs from "../../../README.md";
 import { withA11y } from "@storybook/addon-a11y";
 import { withKnobs } from "@storybook/addon-knobs";
 
