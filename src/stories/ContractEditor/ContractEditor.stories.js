@@ -4,7 +4,7 @@ import "semantic-ui-css/semantic.min.css";
 import ContractEditor from "../../ContractEditor";
 import docs from "./../../ContractEditor/README.md";
 import { withA11y } from "@storybook/addon-a11y";
-import { withKnobs } from "@storybook/addon-knobs";
+import { withKnobs,boolean } from "@storybook/addon-knobs";
 
 const slateTransformer = new SlateTransformer();
 
@@ -40,8 +40,8 @@ export default { title: "'Components/Contract Editor" };
 export const contractEditor = () => {
   const refUse = useRef(null);
   const [templateObj, setTemplateObj] = useState({});
-  const [lockText, setLockText] = useState(true);
-  const [readOnly, setReadOnly] = useState(false);
+  let [lockText,setLockText] = useState(true)
+  let readOnly = boolean("readOnly",false);
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal();
     return slate.document.children;
