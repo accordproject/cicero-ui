@@ -9,15 +9,15 @@ export const ErrorDisplay = styled.div`
     position: fixed;
     max-height: 300px;
     overflow-y: scroll;
-    background-color: ${props => props.displayBackground || '#1E2D53'};
-    box-shadow: ${props => props.displayShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
-    z-index: ${props => props.zIndexInput || 'auto'};
+    background-color: #1E2D53;
+    box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
+    z-index: auto;
 `;
 
 ErrorDisplay.displayName = 'ErrorDisplay';
 
 export const ErrorsHeader = styled.div`
-    z-index: ${props => props.zIndexInput || 'auto'};
+    z-index: auto;
     width: 100%;
     position: fixed;
     transition: 1s;
@@ -25,9 +25,9 @@ export const ErrorsHeader = styled.div`
     bottom: 0;
     height: 25px;
     display: ${props => (props.errors ? 'inline' : 'none')};
-    background-color: ${props => props.headerBackground || '#1E2D53'};
-    box-shadow: ${props => props.headerShadow || '0 -2px 20px 0 rgba(20,31,60,0.65)'};
-    border-top: ${props => props.headerTop || ' 1px solid #50637F'};
+    background-color: #1E2D53;
+    box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
+    border-top: 1px solid #50637F;
 
     color: #FF4242;
     font-family: "IBM Plex Sans";
@@ -37,7 +37,7 @@ export const ErrorsHeader = styled.div`
     line-height: 20px;
 
     &:hover {
-        background-color: ${props => props.headerBackgroundHover || '#364C77'};
+        background-color: #364C77;
         cursor: pointer;
     }
 `;
@@ -55,14 +55,14 @@ export const ErrorBarArrow = styled.div`
     margin: 5px 15px;
 
     border-top: ${props => (props.errorDisplay
-    ? (`7px solid ${props.headerBarArrow || '#7B9AD1'}`) : '0')};
+    ? (`7px solid #7B9AD1`) : '0')};
 
     border-right: 4px solid transparent;
 
     border-left: 4px solid transparent;
 
     border-bottom: ${props => (props.errorDisplay
-    ? '0' : (`7px solid ${props.headerBarArrow || '#7B9AD1'}`))};
+    ? '0' : (`7px solid #7B9AD1`))};
 `;
 
 ErrorBarArrow.displayName = 'ErrorBarArrow';
@@ -70,7 +70,7 @@ ErrorBarArrow.displayName = 'ErrorBarArrow';
 export const ErrorComponent = styled.div`
     width: 100%;
     color: #F0F0F0;
-    border-bottom: 1px solid ${props => props.borderBottom || '#50637F'};
+    border-bottom: 1px solid #50637F;
     padding: 10px 16px;
 
     display: grid;
@@ -86,7 +86,7 @@ ErrorComponent.displayName = 'ErrorComponent';
 export const ErrorFile = styled.a`
     text-decoration: underline;
 
-    color: ${props => props.errorFile || '#FFFFFF'};
+    color: #FFFFFF;
     font-family: "IBM Plex Sans";
     font-size: 0.81em;
     line-height: 13px;
@@ -95,7 +95,7 @@ export const ErrorFile = styled.a`
     align-self: center;
     &:hover {
         cursor: pointer;
-        color: ${props => props.errorFileHover || '#0066CC'};
+        color: #0066CC;
     }
 `;
 
@@ -103,7 +103,7 @@ ErrorFile.displayName = 'ErrorFile';
 
 export const ErrorType = styled.div`
     grid-area: errorType;
-    color: ${props => props.errorType || '#B9BCC4'};
+    color: #B9BCC4;
     font-family: "IBM Plex Sans";
     font-size: 0.81em;
     line-height: 13px;
@@ -115,7 +115,7 @@ ErrorType.displayName = 'ErrorType';
 
 export const ErrorShortMessage = styled.div`
     grid-area: errorMessage;
-    color: ${props => props.shortMessage || '#B9BCC4'};
+    color: #B9BCC4;
     font-family: "IBM Plex Sans";
     font-size: 0.81em;
     line-height: 13px;
@@ -127,7 +127,7 @@ ErrorShortMessage.displayName = 'ErrorShortMessage';
 
 export const ErrorFullMessage = styled.div`
     grid-area: errorFull;
-    color: ${props => props.fullMessage || '#FFFFFF'};
+    color: #FFFFFF;
     font-family: "IBM Plex Sans";
     font-size: 0.81em;
     line-height: 13px;
@@ -143,14 +143,14 @@ export const ArrowDiv = styled.div`
     margin: 5px;
 
     border-top: ${props => (props.expanded
-    ? (`10px solid ${props.errorArrow || '#50637F'}`) : '4px solid transparent')};
+    ? (`10px solid #50637F`) : '4px solid transparent')};
 
     border-right: ${props => (props.expanded ? '4px solid transparent' : '0')};
 
     border-bottom: ${props => (props.expanded ? '0' : '4px solid transparent')};
 
     border-left: ${props => (props.expanded
-    ? '4px solid transparent' : (`10px solid ${props.errorArrow || '#50637F'}`))};
+    ? '4px solid transparent' : (`10px solid #50637F`))};
 
     &:hover {
         cursor: pointer;
