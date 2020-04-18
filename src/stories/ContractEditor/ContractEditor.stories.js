@@ -5,6 +5,7 @@ import ContractEditor from "../../ContractEditor";
 import docs from "./../../ContractEditor/README.md";
 import { withA11y } from "@storybook/addon-a11y";
 import { withKnobs,boolean } from "@storybook/addon-knobs";
+import styled from "styled-components";
 
 const slateTransformer = new SlateTransformer();
 
@@ -35,6 +36,22 @@ ${Clause}
   return slateTransformer.fromMarkdown(defaultContractMarkdown);
 };
 
+const Wrapper = styled.div`
+  border-radius: 3px;
+  border: 1px solid gray;
+  margin: 50px;
+  padding: 20px;
+  width: min-content;
+  blockquote {
+    width: 80%;
+    margin: 10px auto;
+    padding: 1.0em 10px 1.2em 15px;
+    border-left: 3px solid #484848;
+    line-height: 1.4285em;
+    position: relative;
+  }
+`;
+
 export default { title: "'Components/Contract Editor" };
 
 export const contractEditor = () => {
@@ -63,15 +80,7 @@ export const contractEditor = () => {
   };
 
   return (
-    <div
-      style={{
-        borderRadius: "3px",
-        border: "1px solid gray",
-        margin: "50px",
-        padding: "20px",
-        width: "min-content"
-      }}
-    >
+    <Wrapper>
       <ContractEditor
         value={slateValue}
         onChange={onContractChange}
@@ -83,7 +92,7 @@ export const contractEditor = () => {
         pasteToContract={pasteToContractFunction}
         onClauseUpdated={parseClauseFunction}
       />
-    </div>
+    </Wrapper>
   );
 };
 
