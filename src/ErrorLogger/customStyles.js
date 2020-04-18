@@ -11,7 +11,9 @@ export const CustomStylesWrapper = styled.div`
 };
 .errorFile{
 };
-.errorArrowDiv{
+.errorArrowDivExpanded{
+};
+.errorArrowDivCollapsed{
 };
 .errorType{
 };

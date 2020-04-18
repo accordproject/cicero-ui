@@ -35,7 +35,7 @@ const ErrorComponent = (props) => {
   return (
     <SC.ErrorComponent className={'errorComponent'}>
 
-      <SC.ArrowDiv {...errorArrowProps} className={'errorArrowDiv'}/>
+      <SC.ArrowDiv {...errorArrowProps} className={specErrorVisible?'errorArrowDivExpanded':'errorArrowDivCollapsed'}/>
       <SC.ErrorFile onClick={() => errorNav(error)} className={'errorFile'}>
         {ACT.typeSwitchCase(error || {})}
       </SC.ErrorFile>
