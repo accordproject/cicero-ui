@@ -4,11 +4,11 @@ import styled from 'styled-components';
 /* Overall Navigation Component */
 
 export const NavigationWrapper = styled.div`
-    position: ${props => props.positionValue || 'static'};
-    top: ${props => props.topValue || 'auto'};
-    max-height: ${props => props.navMaxHeight || '80vh'};
-    width: ${props => props.navWidth || 'inherit'};
-    background-color: ${props => props.backgroundColor || 'inherit'};
+    position: static;
+    top: auto;
+    max-height: 80vh;
+    width: inherit;
+    background-color: inherit;
     overflow-y: inherit;
 
     display: grid;
@@ -34,16 +34,16 @@ export const Navigation = styled(Title)`
     display: grid;
     grid-area: navigation;
     color: ${props => (props.navState === 'NAVIGATION'
-    ? (props.titleActive || '#19C6C7')
-    : (props.titleInactive || '#86888D'))};
+    ? ('#19C6C7')
+    : ('#86888D'))};
 `;
 
 export const Files = styled(Title)`
-    display: ${props => (props.filesVisible ? 'grid' : 'none')};
+    display: grid;
     grid-area: files;
     color: ${props => (props.navState === 'FILES'
-    ? (props.titleActive || '#19C6C7')
-    : (props.titleInactive || '#86888D'))};
+    ? ('#19C6C7')
+    : ('#86888D'))};
 `;
 
 /* Contract Navigation */
@@ -66,7 +66,7 @@ export const HeaderOne = styled.div`
     margin-top: 2px;
     margin-bottom: 2px;
     height: 24px;
-    color: ${props => props.headerColor || '#B9BCC4'};
+    color: #B9BCC4;
     font-family: "IBM Plex Sans";
     font-size: 1em;
     letter-spacing: -0.5px;
@@ -86,6 +86,6 @@ export const HeaderThree = styled(HeaderOne)`
 `;
 
 export const HeaderClause = styled(HeaderOne)`
-    color: ${props => props.clauseColor || '#FFFFFF'} !important;
+    color: #FFFFFF !important;
     font-weight: bold;
 `;
