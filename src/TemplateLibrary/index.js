@@ -13,6 +13,9 @@ import isQueryMatch from '../utilities/isQueryMatch';
 import TemplateCard from './Components/TemplateCard';
 import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
+/** classNames exposed for user-defined styling */
+import {CustomStylesWrapper} from './customStyles';
+
 const TemplatesWrapper = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   position: relative;
@@ -43,7 +46,6 @@ const HeaderTitle = styled.p`
   font-weight: 800;
   font-size: 1em;
   text-align: left;
-  color: ${props => props.color || null};
 `;
 
 const HeaderImports = styled.div`
@@ -73,8 +75,8 @@ const SearchInput = styled(Input)`
   &&& input,
   &&& input::placeholder,
   &&& input:focus {
-    color: ${props => props.searchColor || '#FFFFFF'} !important;
-    caret-color: ${props => props.searchColor || '#FFFFFF'} !important;
+    color: #FFFFFF !important;
+    caret-color: #FFFFFF !important;
     background-color: transparent;
     opacity: 1 !important;
   },
@@ -86,7 +88,7 @@ const SearchInput = styled(Input)`
 const TemplateCards = styled.div`
   margin: 0 !important;
   width: 100%;
-  height: ${props => props.tempsHeight || 'calc(100% - 54px)'};
+  height: calc(100% - 54px);
   display: inherit;
   overflow-y: scroll !important;
 `;
@@ -120,12 +122,12 @@ const TemplateLibraryComponent = (props) => {
    * @return {*} the react component
    */
   const filtered = filterTemplates(props.templates);
-  const libraryProps = props.libraryProps || Object.create(null);
 
   return (
+    <CustomStylesWrapper>
       <TemplatesWrapper>
         <Header>
-          <HeaderTitle color={libraryProps.HEADER_TITLE}>Clause Templates</HeaderTitle>
+          <HeaderTitle className={'templateListTitle'} >Clause Templates</HeaderTitle>
           <HeaderImports>
             {props.import
             && <ImportComponent importInput={props.import} />}
@@ -134,7 +136,7 @@ const TemplateLibraryComponent = (props) => {
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} searchColor={libraryProps.SEARCH_COLOR} />
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} className={'templateSearchInput'} />
           {props.addTemp
           && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
@@ -146,27 +148,15 @@ const TemplateLibraryComponent = (props) => {
               template={t}
               handleViewTemplate={props.handleViewTemplate}
               className="templateCard"
-              libraryProps={libraryProps}
             />
           ))}
         </TemplateCards> : <p style={{ textAlign: 'center' }}>No results found</p>}
       </TemplatesWrapper>
+      </CustomStylesWrapper>
   );
 };
 
 TemplateLibraryComponent.propTypes = {
-  libraryProps: PropTypes.shape({
-    ACTION_BUTTON: PropTypes.string,
-    ACTION_BUTTON_BG: PropTypes.string,
-    ACTION_BUTTON_BORDER: PropTypes.string,
-    HEADER_TITLE: PropTypes.string,
-    SEARCH_COLOR: PropTypes.string,
-    TEMPLATE_BACKGROUND: PropTypes.string,
-    TEMPLATE_BORDER: PropTypes.string,
-    TEMPLATE_DESCRIPTION: PropTypes.string,
-    TEMPLATE_TITLE: PropTypes.string,
-    TEMPLATES_HEIGHT: PropTypes.string,
-  }),
   upload: PropTypes.func,
   import: PropTypes.func,
   addTemp: PropTypes.func,
