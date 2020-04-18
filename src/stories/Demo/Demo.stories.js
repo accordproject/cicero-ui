@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
-
+import styled from "styled-components";
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import ContractEditor from '../../ContractEditor';
@@ -157,6 +157,22 @@ const parseClause = (template, clauseNode) => {
   }
 };
 
+const Wrapper = styled.div`
+  border-radius: 3px;
+  border: 1px solid gray;
+  margin: 50px;
+  padding: 20px;
+  width: min-content;
+  blockquote {
+    width: 80%;
+    margin: 10px auto;
+    padding: 1.0em 10px 1.2em 15px;
+    border-left: 3px solid #484848;
+    line-height: 1.4285em;
+    position: relative;
+  }
+`;
+
 export default { title: "'Components/Demo" };
 
 export const demo = () => {
@@ -186,13 +202,7 @@ export const demo = () => {
   const onContractChange = useCallback((value) => { setSlateValue(value); }, []);
 
   return (
-    <div style={{
-      borderRadius: '3px',
-      border: '1px solid gray',
-      margin: '50px',
-      padding: '20px',
-      width: 'min-content'
-    }}>
+    <Wrapper>
       <ContractEditor
         value={slateValue}
         onChange={onContractChange}
@@ -201,7 +211,7 @@ export const demo = () => {
         ref={refUse}
         // loadTemplateObject={fetchTemplateObj}
       />
-    </div>
+    </Wrapper>
   );
 };
 
