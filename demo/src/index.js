@@ -182,13 +182,13 @@ const Demo = () => {
     try {
       const ciceroClause = new Clause(newReduxState[uri]);
       const slateTransformer = new SlateTransformer();
-      const SLATE_CHILDREN = JSON.parse(JSON.stringify(clauseNode));
+      const SLATE_CHILDREN = JSON.parse(JSON.stringify(clauseNode.children));
       const NEW_SLATE_DOM = {
         object: 'value',
         document: {
           object: 'document',
           data: {},
-          children: [SLATE_CHILDREN]
+          children: SLATE_CHILDREN
         }
       };
       const text = slateTransformer.toMarkdown(NEW_SLATE_DOM, { wrapVariables: false });
