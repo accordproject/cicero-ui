@@ -1,14 +1,14 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
-import styled from "styled-components";
+import styled from 'styled-components';
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
+import { withA11y } from '@storybook/addon-a11y';
+import { withKnobs } from '@storybook/addon-knobs';
 import ContractEditor from '../../ContractEditor';
 
-import docs from "../../../README.md";
-import { withA11y } from "@storybook/addon-a11y";
-import { withKnobs } from "@storybook/addon-knobs";
+import docs from '../../../README.md';
 
 const slateTransformer = new SlateTransformer();
 
@@ -210,7 +210,7 @@ export const demo = () => {
         readOnly={readOnly}
         ref={refUse}
         // loadTemplateObject={fetchTemplateObj}
-        onClauseUpdated={() => {console.log('Demo')})}
+        onClauseUpdated={() => console.log('Demo')}
       />
     </Wrapper>
   );
