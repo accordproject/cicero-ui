@@ -210,6 +210,7 @@ export const demo = () => {
         readOnly={readOnly}
         ref={refUse}
         // loadTemplateObject={fetchTemplateObj}
+        onClauseUpdated={() => {console.log('Demo')})}
       />
     </Wrapper>
   );
