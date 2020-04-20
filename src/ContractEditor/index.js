@@ -73,20 +73,14 @@ const ContractEditor = React.forwardRef((props, ref) => {
 
   const customElements = (attributes, children, element) => {
     const returnObject = {
-      clause: () => {
-        if (props.loadTemplateObject) {
-          props.loadTemplateObject(element.data.src.toString());
-        }
-        return (
-          <ClauseComponent
-            templateUri={element.data.src}
-            clauseId={element.data.clauseid}
-            // editorRef={ref}
-            {...attributes}>
-              {children}
-          </ClauseComponent>
-        );
-      },
+      clause: () => (
+        <ClauseComponent
+          templateUri={element.data.src}
+          clauseId={element.data.clauseid}
+          {...attributes}>
+            {children}
+        </ClauseComponent>
+      ),
       variable: () => (
         <span id={element.data.id} {...attributes} className={VARIABLE}>{children}</span>
       ),
@@ -99,6 +93,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
     };
     return returnObject;
   };
+
 
   const augmentEditor = editor => withVariables(
     withClauses(withClauseSchema(editor), withClausesProps)
@@ -117,13 +112,13 @@ const ContractEditor = React.forwardRef((props, ref) => {
       canBeFormatted={editor => !props.lockText || !editor.isInsideClause()}
       // editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
       data-testid='editor'
-      clausePluginProps={{
-        loadTemplateObject: props.loadTemplateObject,
-        onClauseUpdated: props.onClauseUpdated,
-        pasteToContract: props.pasteToContract,
-        clauseProps: props.clauseProps,
-        clauseMap: props.clauseMap
-      }}
+      // clausePluginProps={{
+      //   loadTemplateObject: props.loadTemplateObject,
+      //   onClauseUpdated: props.onClauseUpdated,
+      //   pasteToContract: props.pasteToContract,
+      //   clauseProps: props.clauseProps,
+      //   clauseMap: props.clauseMap
+      // }}
   />
   );
 });
@@ -136,7 +131,6 @@ ContractEditor.propTypes = {
   onChange: PropTypes.func,
   lockText: PropTypes.bool,
   readOnly: PropTypes.bool,
-  loadTemplateObject: PropTypes.func.isRequired,
   pasteToContract: PropTypes.func.isRequired,
   clauseMap: PropTypes.object,
   clauseProps: PropTypes.shape({

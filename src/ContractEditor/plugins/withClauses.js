@@ -52,15 +52,6 @@ function _recursive(params, children) {
   });
 }
 
-// const findClauseNodeById = (editor, clauseId) => editor.children.find(
-//   ({ type, data }) => type === 'clause' && data.clauseid === clauseId
-// );
-
-
-const debouncedOnClauseUpdated = onClauseUpdated => _.debounce(
-  onClauseUpdated, 1000, { maxWait: 10000 }
-);
-
 const isEditable = (editor, format) => {
   const [match] = Editor.nodes(editor, { match: n => n.type === format });
   return !!match;
@@ -70,19 +61,17 @@ const isEditable = (editor, format) => {
 const withClauses = (editor, withClausesProps) => {
   const { insertData, onChange } = editor;
   const { onClauseUpdated, pasteToContract } = withClausesProps;
+  const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
 
   editor.isInsideClause = () => isEditable(editor, CLAUSE);
 
   editor.onChange = () => {
     if (onClauseUpdated && editor.isInsideClause()) {
-      debouncedOnClauseUpdated(onClauseUpdated, editor.isInsideClause);
+      const [clauseNode] = Editor.nodes(editor, { match: n => n.type === CLAUSE });
+      debouncedOnClauseUpdated(clauseNode[0]);
     }
     onChange();
   };
-
-  // findDOMNodes should be here
-  // withSelection - look into this?
-  // this gives you the current selection
 
   editor.insertData = (data) => {
     const HTML_DOM = data.getData('text/html');

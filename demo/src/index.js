@@ -1,7 +1,11 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, {
+  useCallback, useState, useEffect, useRef
+} from 'react';
 import { Clause, Template } from '@accordproject/cicero-core';
 import { SlateTransformer } from '@accordproject/markdown-slate';
-import styled from "styled-components";
+import styled from 'styled-components';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
 import { render } from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import ContractEditor from '../../src/ContractEditor';
@@ -126,32 +130,27 @@ ${clauseText2}
   Fin.
   `;
   return slateTransformer.fromMarkdown(defaultContractMarkdown);
-  // return defaultContractMarkdown;
 };
 
-/**
- * Parses user inputted text for a template using Cicero
- * @param {object} clauseNode The slate node of the clause.
- * @returns {Promise} The result of the parse or an error.
- */
-const parseClause = (template, clauseNode) => {
-  try {
-    const clauseNodeJson = clauseNode.toJSON();
-    const ciceroClause = new Clause(template);
-    const slateTransformer = new SlateTransformer();
-    const value = {
-      document: {
-        nodes: clauseNodeJson.nodes
-      }
-    };
-    const text = slateTransformer.toMarkdown(value, { wrapVariables: false });
-    ciceroClause.parse(text);
-    const parseResult = ciceroClause.getData();
-    console.log(parseResult);
-  } catch (error) {
-    console.log(error);
+const addTemplates = templates => ({
+  type: 'ADD_TEMPLATES',
+  templates
+});
+
+const reducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'ADD_TEMPLATES':
+      console.log('Added these templates to the store: ', action);
+      return {
+        ...state,
+        ...action.templates
+      };
+    default:
+      return state;
   }
 };
+
+const store = createStore(reducer);
 
 const Wrapper = styled.div`
   border-radius: 3px;
@@ -172,26 +171,47 @@ const Wrapper = styled.div`
 /**
  * A demo component that uses ContractEditor
  */
-function Demo() {
+const Demo = () => {
   const refUse = useRef(null);
-  const [templateObj, setTemplateObj] = useState({});
-  const [lockText, setLockText] = useState(true);
-  const [readOnly, setReadOnly] = useState(false);
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal();
     return slate.document.children;
   });
-
-  const fetchTemplateObj = async (uri) => {
+  const parseClause = (uri, clauseNode) => {
+    const newReduxState = store.getState();
+    console.log('parseClause');
     try {
-      if (!templateObj[uri]) {
-        const template = await Template.fromUrl(uri);
-        setTemplateObj({ ...templateObj, [uri]: template });
-      }
-    } catch (err) {
-      console.log(err);
+      const ciceroClause = new Clause(newReduxState[uri]);
+      const slateTransformer = new SlateTransformer();
+      const SLATE_CHILDREN = JSON.parse(JSON.stringify(clauseNode));
+      const NEW_SLATE_DOM = {
+        object: 'value',
+        document: {
+          object: 'document',
+          data: {},
+          children: [SLATE_CHILDREN]
+        }
+      };
+      const text = slateTransformer.toMarkdown(NEW_SLATE_DOM, { wrapVariables: false });
+      ciceroClause.parse(text);
+      const parseResult = ciceroClause.getData();
+      console.log(parseResult);
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  useEffect(() => {
+    const clausesArray = slateValue.filter(slateNode => slateNode.type === 'clause');
+    Promise.all(clausesArray.map(clause => Template.fromUrl(clause.data.src)
+      .then(template => ({ [clause.data.src]: template }))))
+      .then((templateArray) => {
+        const templateStateObject = templateArray
+          .reduce((accumulator, currentValue) => ({ ...accumulator, ...currentValue }), {});
+        store.dispatch(addTemplates(templateStateObject));
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /**
    * Called when the data in the contract editor has been modified
@@ -203,13 +223,22 @@ function Demo() {
       <ContractEditor
         value={slateValue}
         onChange={onContractChange}
-        lockText={lockText}
-        readOnly={readOnly}
         ref={refUse}
-        // loadTemplateObject={fetchTemplateObj}
+        onClauseUpdated={(clauseNode => parseClause(clauseNode.data.src, clauseNode))}
       />
     </Wrapper>
   );
-}
+};
 
-render(<Demo/>, document.querySelector('#root'));
+const mapStateToProps = state => ({
+  templates: state.templates
+});
+
+connect(mapStateToProps)(Demo);
+const renderDemo = () => render(
+  <Provider store={store}>
+    <Demo/>
+  </Provider>, document.querySelector('#root')
+);
+renderDemo();
+store.subscribe(renderDemo);
