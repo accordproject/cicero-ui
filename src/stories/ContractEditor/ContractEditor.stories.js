@@ -1,16 +1,15 @@
-import React, { useCallback, useState, useRef } from "react";
-import { SlateTransformer } from "@accordproject/markdown-slate";
-import "semantic-ui-css/semantic.min.css";
-import ContractEditor from "../../ContractEditor";
-import docs from "./../../ContractEditor/README.md";
-import { withA11y } from "@storybook/addon-a11y";
-import { withKnobs,boolean } from "@storybook/addon-knobs";
-import styled from "styled-components";
+import React, { useCallback, useState, useRef } from 'react';
+import { SlateTransformer } from '@accordproject/markdown-slate';
+import 'semantic-ui-css/semantic.min.css';
+import { withA11y } from '@storybook/addon-a11y';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
+import styled from 'styled-components';
+import docs from '../../ContractEditor/README.md';
+import ContractEditor from '../../ContractEditor';
 
 const slateTransformer = new SlateTransformer();
 
-const templateUri =
-  "https://templates.accordproject.org/archives/latedeliveryandpenalty@0.15.0.cta";
+const templateUri = 'https://templates.accordproject.org/archives/latedeliveryandpenalty@0.15.0.cta';
 const clauseText = `Late Delivery and Penalty.
 ----
 
@@ -57,26 +56,25 @@ export default { title: "'Components/Contract Editor" };
 export const contractEditor = () => {
   const refUse = useRef(null);
   const [templateObj, setTemplateObj] = useState({});
-  let [lockText,setLockText] = useState(true)
-  let readOnly = boolean("readOnly",false);
+  const [lockText, setLockText] = useState(true);
+  const readOnly = boolean('readOnly', false);
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal();
     return slate.document.children;
   });
 
-  const onContractChange = useCallback(value => {
+  const onContractChange = useCallback((value) => {
     setSlateValue(value);
   }, []);
 
-  const parseClauseFunction = () => console.log("parseClauseFunction");
-  const loadTemplateObjectFunction = () =>
-    console.log("loadTemplateObjectFunction");
-  const pasteToContractFunction = () => console.log("pasteToContractFunction");
+  const parseClauseFunction = () => console.log('parseClauseFunction');
+  const loadTemplateObjectFunction = () => console.log('loadTemplateObjectFunction');
+  const pasteToContractFunction = () => console.log('pasteToContractFunction');
 
   const clausePropsObject = {
-    CLAUSE_DELETE_FUNCTION: () => console.log("CLAUSE_DELETE_FUNCTION"),
-    CLAUSE_EDIT_FUNCTION: () => console.log("CLAUSE_EDIT_FUNCTION"),
-    CLAUSE_TEST_FUNCTION: () => console.log("CLAUSE_TEST_FUNCTION")
+    CLAUSE_DELETE_FUNCTION: () => console.log('CLAUSE_DELETE_FUNCTION'),
+    CLAUSE_EDIT_FUNCTION: () => console.log('CLAUSE_EDIT_FUNCTION'),
+    CLAUSE_TEST_FUNCTION: () => console.log('CLAUSE_TEST_FUNCTION')
   };
 
   return (

@@ -14,6 +14,7 @@ const slateFinal = slate.document.children;
 const props = {
   value: slateFinal,
   onChange: () => 1,
+  onClauseUpdated: () => 1,
   lockText: true,
   readOnly: true,
 };

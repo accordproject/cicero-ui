@@ -140,7 +140,7 @@ const addTemplates = templates => ({
 const reducer = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_TEMPLATES':
-      console.log('Added these templates to the store: ', action);
+      console.log('Added these templates to the store: ', action.templates);
       return {
         ...state,
         ...action.templates
@@ -179,7 +179,6 @@ const Demo = () => {
   });
   const parseClause = (uri, clauseNode) => {
     const newReduxState = store.getState();
-    console.log('parseClause');
     try {
       const ciceroClause = new Clause(newReduxState[uri]);
       const slateTransformer = new SlateTransformer();
