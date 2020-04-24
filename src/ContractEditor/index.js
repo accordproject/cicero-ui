@@ -95,9 +95,16 @@ const ContractEditor = React.forwardRef((props, ref) => {
   };
 
 
-  const augmentEditor = editor => withVariables(
-    withClauses(withClauseSchema(editor), withClausesProps)
-  );
+  const augmentEditor = (editor) => {
+    if (props.augmentEditor) {
+      return props.augmentEditor(withVariables(
+        withClauses(withClauseSchema(editor), withClausesProps)
+      ));
+    }
+    return withVariables(
+      withClauses(withClauseSchema(editor), withClausesProps)
+    );
+  };
 
   return (
     <RichTextEditor
@@ -127,6 +134,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
  * The property types for this component
  */
 ContractEditor.propTypes = {
+  augmentEditor: PropTypes.func,
   value: PropTypes.object,
   onChange: PropTypes.func,
   lockText: PropTypes.bool,
