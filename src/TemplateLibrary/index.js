@@ -13,9 +13,6 @@ import isQueryMatch from '../utilities/isQueryMatch';
 import TemplateCard from './Components/TemplateCard';
 import { ImportComponent, UploadComponent, NewClauseComponent } from './Buttons';
 
-/** classNames exposed for user-defined styling */
-import {CustomStylesWrapper} from './customStyles';
-
 const TemplatesWrapper = styled.div`
   font-family: 'IBM Plex Sans', sans-serif;
   position: relative;
@@ -124,7 +121,6 @@ const TemplateLibraryComponent = (props) => {
   const filtered = filterTemplates(props.templates);
 
   return (
-    <CustomStylesWrapper>
       <TemplatesWrapper>
         <Header>
           <HeaderTitle className='templateListTitle' >Clause Templates</HeaderTitle>
@@ -152,7 +148,6 @@ const TemplateLibraryComponent = (props) => {
           ))}
         </TemplateCards> : <p style={{ textAlign: 'center' }}>No results found</p>}
       </TemplatesWrapper>
-      </CustomStylesWrapper>
   );
 };
 

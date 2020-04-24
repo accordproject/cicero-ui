@@ -13,9 +13,6 @@ import ContractNavigation from './Contract';
 import FilesNavigation from './Files';
 import ComponentSwitch from './ComponentSwitch';
 
-/** classNames exposed for user-defined styling */
-import {CustomStylesWrapper} from './customStyles';
-
 /**
  * Represents the overall navigation wrapper, consisting of
  * two separate components, navigating between headers of the
@@ -50,12 +47,10 @@ const NavigationComponent = (props) => {
   };
 
   return (
-    <CustomStylesWrapper>
     <NavigationWrapper {...navigationWrapperProps} >
         <ComponentSwitch {...switchProps} />
         {navigationGenerator(props)}
     </NavigationWrapper>
-    </CustomStylesWrapper>
   );
 };
 

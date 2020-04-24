@@ -11,9 +11,6 @@ import * as SC from './styles';
 /* Component */
 import ErrorComponent from './Error';
 
-/** classNames exposed for user-defined styling */
-import {CustomStylesWrapper} from './customStyles';
-
 const ErrorLogger = (props) => {
   const { errors, errorNav } = props;
   const errorLength = Object.keys(errors).length ? Object.keys(errors).length : 0;
@@ -51,7 +48,7 @@ const ErrorLogger = (props) => {
       key={ACT.keySwitchCase(errorValue)} />);
 
   return (
-    <CustomStylesWrapper>
+    <div>
       {errorsVisible
         && <SC.ErrorDisplay {...displayProps} className='errorDisplay'>
             {errorComponentGenerator(errors)}
@@ -63,7 +60,7 @@ const ErrorLogger = (props) => {
         {ACT.errorArrayLength(errors)} {ACT.isMultipleErrors(errors)}
         <SC.ErrorBarArrow {...barArrowProps} className='errorBarArrow'/>
       </SC.ErrorsHeader>
-    </CustomStylesWrapper>
+    </div>
   );
 };
 
