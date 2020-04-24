@@ -121,7 +121,7 @@ const TemplateLibraryComponent = (props) => {
   const filtered = filterTemplates(props.templates);
 
   return (
-      <TemplatesWrapper>
+      <TemplatesWrapper className='ciceroUI'>
         <Header>
           <HeaderTitle className='templateListTitle' >Clause Templates</HeaderTitle>
           <HeaderImports>

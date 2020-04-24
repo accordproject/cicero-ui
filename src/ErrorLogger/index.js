@@ -48,7 +48,7 @@ const ErrorLogger = (props) => {
       key={ACT.keySwitchCase(errorValue)} />);
 
   return (
-    <div>
+    <div className='ciceroUI'>
       {errorsVisible
         && <SC.ErrorDisplay {...displayProps} className='errorDisplay'>
             {errorComponentGenerator(errors)}

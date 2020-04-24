@@ -26,7 +26,8 @@ const NavigationComponent = (props) => {
   const filesState = () => navState === FILES;
 
   const navigationWrapperProps = {
-    id: 'NavigationWrapperComponent'
+    id: 'NavigationWrapperComponent',
+    className : 'ciceroUI'
   };
 
   const switchProps = {
