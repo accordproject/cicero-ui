@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 export const NavigationWrapper = styled.div`
     position: static;
-    top: auto;
     max-height: 80vh;
     width: inherit;
     background-color: inherit;

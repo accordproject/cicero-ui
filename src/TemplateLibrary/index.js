@@ -127,7 +127,7 @@ const TemplateLibraryComponent = (props) => {
     <CustomStylesWrapper>
       <TemplatesWrapper>
         <Header>
-          <HeaderTitle className={'templateListTitle'} >Clause Templates</HeaderTitle>
+          <HeaderTitle className='templateListTitle' >Clause Templates</HeaderTitle>
           <HeaderImports>
             {props.import
             && <ImportComponent importInput={props.import} />}
@@ -136,7 +136,7 @@ const TemplateLibraryComponent = (props) => {
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} className={'templateSearchInput'} />
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} className='templateSearchInput' />
           {props.addTemp
           && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>

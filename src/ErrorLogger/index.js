@@ -53,15 +53,15 @@ const ErrorLogger = (props) => {
   return (
     <CustomStylesWrapper>
       {errorsVisible
-        && <SC.ErrorDisplay {...displayProps} className={'errorDisplay'}>
+        && <SC.ErrorDisplay {...displayProps} className='errorDisplay'>
             {errorComponentGenerator(errors)}
         </SC.ErrorDisplay>
     }
-      <SC.ErrorsHeader {...headerProps} className={'errorHeader'}>
+      <SC.ErrorsHeader {...headerProps} className='errorHeader'>
         {ACT.gtZero(errorLength)
           && <SC.ErrorSymbol {...symbolProps} />}
         {ACT.errorArrayLength(errors)} {ACT.isMultipleErrors(errors)}
-        <SC.ErrorBarArrow {...barArrowProps} className={'errorBarArrow'}/>
+        <SC.ErrorBarArrow {...barArrowProps} className='errorBarArrow'/>
       </SC.ErrorsHeader>
     </CustomStylesWrapper>
   );

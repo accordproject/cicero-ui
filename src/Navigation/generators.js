@@ -23,7 +23,7 @@ export const headerGenerator = (props) => {
           <SC.HeaderClause
               key={key}
               onClick={() => navigateHeader(key, type)}
-              className={'navHeaderClause'}
+              className='navHeaderClause'
           >
               {text}
           </ SC.HeaderClause>
@@ -33,7 +33,7 @@ export const headerGenerator = (props) => {
           <SC.HeaderOne
               key={key}
               onClick={() => navigateHeader(key, type)}
-              className={'navHeaderH1'}
+              className='navHeaderH1'
           >
               {text}
           </ SC.HeaderOne>
@@ -43,7 +43,7 @@ export const headerGenerator = (props) => {
           <SC.HeaderTwo
               key={key}
               onClick={() => navigateHeader(key, type)}
-              className={'navHeaderH2'}
+              className='navHeaderH2'
           >
               {text}
           </ SC.HeaderTwo>
@@ -53,7 +53,7 @@ export const headerGenerator = (props) => {
           <SC.HeaderThree
               key={key}
               onClick={() => navigateHeader(key, type)}
-              className={'navHeaderH3'}
+              className='navHeaderH3'
           >
               {text}
           </ SC.HeaderThree>

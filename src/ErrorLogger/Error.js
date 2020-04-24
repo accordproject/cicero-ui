@@ -24,32 +24,29 @@ const ErrorComponent = (props) => {
     onClick: handleClickSpecError,
   };
 
-  const fullMessageProps = {
-  };
-
   const errorArrowProps = {
     expanded: specErrorVisible,
     onClick: handleClickSpecError,
   };
 
   return (
-    <SC.ErrorComponent className={'errorComponent'}>
+    <SC.ErrorComponent className='errorComponent'>
 
       <SC.ArrowDiv {...errorArrowProps} className={specErrorVisible?'errorArrowDivExpanded':'errorArrowDivCollapsed'}/>
-      <SC.ErrorFile onClick={() => errorNav(error)} className={'errorFile'}>
+      <SC.ErrorFile onClick={() => errorNav(error)} className='errorFile'>
         {ACT.typeSwitchCase(error || {})}
       </SC.ErrorFile>
 
-      <SC.ErrorType {...typeProps} className={'errorType'}>
+      <SC.ErrorType {...typeProps} className='errorType'>
         {ACT.overalltypeSwitchCase(error).name || 'Unknown Error'}:
       </SC.ErrorType>
 
-      <SC.ErrorShortMessage {...shortMessageProps} className={'errorShortMessage'}>
+      <SC.ErrorShortMessage {...shortMessageProps} className='errorShortMessage'>
         {ACT.truncateMessage(ACT.overalltypeSwitchCase(error).shortMessage || 'Unknown Error')}
       </SC.ErrorShortMessage>
 
       {specErrorVisible
-        && <SC.ErrorFullMessage {...fullMessageProps} className={'errorFullMessage'}>
+        && <SC.ErrorFullMessage {...fullMessageProps} className='errorFullMessage'>
             {ACT.overalltypeSwitchCase(error).message || 'Unknown Error'}
           </SC.ErrorFullMessage>}
     </SC.ErrorComponent>

@@ -11,13 +11,11 @@ export const ErrorDisplay = styled.div`
     overflow-y: scroll;
     background-color: #1E2D53;
     box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
-    z-index: auto;
 `;
 
 ErrorDisplay.displayName = 'ErrorDisplay';
 
 export const ErrorsHeader = styled.div`
-    z-index: auto;
     width: 100%;
     position: fixed;
     transition: 1s;
