@@ -220,9 +220,11 @@ const Demo = () => {
   return (
     <Wrapper>
       <ContractEditor
+        ref={refUse}
+        lockText={true}
+        readOnly={false}
         value={slateValue}
         onChange={onContractChange}
-        ref={refUse}
         onClauseUpdated={(clauseNode => parseClause(clauseNode.data.src, clauseNode))}
       />
     </Wrapper>
