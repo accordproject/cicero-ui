@@ -4,6 +4,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <body>
   <div>
     <div
+      class="ap-rich-text-editor"
       data-gramm="false"
       data-slate-editor="true"
       data-slate-node="value"
@@ -13,6 +14,7 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
       <h1
         class="sc-htpNat kiiZDr"
         data-slate-node="element"
+        id="Heading-One"
       >
         <span
           data-slate-node="text"
