@@ -95,16 +95,11 @@ const ContractEditor = React.forwardRef((props, ref) => {
   };
 
 
-  const augmentEditor = (editor) => {
-    if (props.augmentEditor) {
-      return props.augmentEditor(withVariables(
-        withClauses(withClauseSchema(editor), withClausesProps)
-      ));
-    }
-    return withVariables(
-      withClauses(withClauseSchema(editor), withClausesProps)
-    );
-  };
+  const augmentEditor = editor => (
+    props.augmentEditor
+      ? props.augmentEditor(withVariables(withClauses(withClauseSchema(editor), withClausesProps)))
+      : withVariables(withClauses(withClauseSchema(editor), withClausesProps))
+  );
 
   return (
     <RichTextEditor
