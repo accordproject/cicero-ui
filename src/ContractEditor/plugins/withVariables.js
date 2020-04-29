@@ -34,7 +34,12 @@ export const isEditable = (lockText, editor, event) => {
   if (!lockText || !editor.isInsideClause()) return true;
   const { selection } = editor;
   const textLength = Node.get(editor, editor.selection.focus.path).text.length;
+  const atEnd = editor => textLength === editor.selection.focus.offset;
+
   if (inVariable(editor)) {
+    if (atEnd(editor) && event.inputType === 'deleteContentForward') {
+      return false;
+    }
     if (event.inputType === 'deleteContentBackward') {
       // Do not allow user to delete variable if only 1 char left
       if (textLength === 1) {
