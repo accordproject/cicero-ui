@@ -1,6 +1,6 @@
 /* React */
 import React, { useState } from 'react';
-import { Transforms } from 'slate';
+import { Editor, Transforms } from 'slate';
 import PropTypes from 'prop-types';
 import { ReactEditor, useEditor } from 'slate-react';
 
@@ -54,8 +54,10 @@ const Conditional = (props) => {
           : conditional.whenFalse
       }]
     };
-    Transforms.removeNodes(editor, { at: path });
-    Transforms.insertNodes(editor, newConditional, { at: path });
+    Editor.withoutNormalizing(editor, () => {
+      Transforms.removeNodes(editor, { at: path });
+      Transforms.insertNodes(editor, newConditional, { at: path });
+    });
   };
 
   const conditionalProps = {
