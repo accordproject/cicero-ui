@@ -172,7 +172,6 @@ const Wrapper = styled.div`
  * A demo component that uses ContractEditor
  */
 const Demo = () => {
-  const refUse = useRef(null);
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal();
     return slate.document.children;
@@ -220,7 +219,6 @@ const Demo = () => {
   return (
     <Wrapper>
       <ContractEditor
-        ref={refUse}
         lockText={true}
         readOnly={false}
         value={slateValue}
