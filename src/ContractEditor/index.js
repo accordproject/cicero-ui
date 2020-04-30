@@ -64,8 +64,7 @@ const contractProps = {
  *
  * @param {*} props the properties for the component
  */
-/* eslint react/display-name: 0 */
-const ContractEditor = React.forwardRef((props, ref) => {
+const ContractEditor = (props) => {
   const withClausesProps = {
     onClauseUpdated: props.onClauseUpdated,
     pasteToContract: props.pasteToContract
@@ -103,7 +102,6 @@ const ContractEditor = React.forwardRef((props, ref) => {
 
   return (
     <RichTextEditor
-      ref={ref}
       augmentEditor={augmentEditor}
       isEditable={(...args) => isEditable(props.lockText, ...args)}
       value={props.value || contractProps.value}
@@ -123,7 +121,7 @@ const ContractEditor = React.forwardRef((props, ref) => {
       // }}
   />
   );
-});
+};
 
 /**
  * The property types for this component
@@ -134,14 +132,14 @@ ContractEditor.propTypes = {
   onChange: PropTypes.func,
   lockText: PropTypes.bool,
   readOnly: PropTypes.bool,
-  pasteToContract: PropTypes.func.isRequired,
+  pasteToContract: PropTypes.func,
   clauseMap: PropTypes.object,
   clauseProps: PropTypes.shape({
     CLAUSE_DELETE_FUNCTION: PropTypes.func,
     CLAUSE_EDIT_FUNCTION: PropTypes.func,
     CLAUSE_TEST_FUNCTION: PropTypes.func,
-  }).isRequired,
-  onClauseUpdated: PropTypes.func.isRequired,
+  }),
+  onClauseUpdated: PropTypes.func,
   onUndoOrRedo: PropTypes.func,
   plugins: PropTypes.arrayOf(PropTypes.shape({
     onEnter: PropTypes.func,

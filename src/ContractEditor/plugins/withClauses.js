@@ -61,12 +61,12 @@ const isEditable = (editor, format) => {
 const withClauses = (editor, withClausesProps) => {
   const { insertData, onChange } = editor;
   const { onClauseUpdated, pasteToContract } = withClausesProps;
-  const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
 
   editor.isInsideClause = () => isEditable(editor, CLAUSE);
 
   editor.onChange = () => {
     if (onClauseUpdated && editor.isInsideClause()) {
+      const debouncedOnClauseUpdated = _.debounce(onClauseUpdated, 1000, { maxWait: 10000 });
       const [clauseNode] = Editor.nodes(editor, { match: n => n.type === CLAUSE });
       debouncedOnClauseUpdated(clauseNode[0]);
     }
