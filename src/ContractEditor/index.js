@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +77,9 @@ const ContractEditor = (props) => {
         <ClauseComponent
           templateUri={element.data.src}
           clauseId={element.data.clauseid}
-          {...attributes}>
+          clauseProps={props.clauseProps}
+          {...attributes}
+        >
             {children}
         </ClauseComponent>
       ),
@@ -110,15 +113,7 @@ const ContractEditor = (props) => {
       lockText={props.lockText}
       readOnly={props.readOnly}
       canBeFormatted={editor => !props.lockText || !editor.isInsideClause()}
-      // editorProps={{ ...props.editorProps, onUndoOrRedo: props.onUndoOrRedo }}
       data-testid='editor'
-      // clausePluginProps={{
-      //   loadTemplateObject: props.loadTemplateObject,
-      //   onClauseUpdated: props.onClauseUpdated,
-      //   pasteToContract: props.pasteToContract,
-      //   clauseProps: props.clauseProps,
-      //   clauseMap: props.clauseMap
-      // }}
   />
   );
 };
