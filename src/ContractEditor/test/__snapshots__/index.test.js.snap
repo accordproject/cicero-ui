@@ -4,10 +4,10 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
 <body>
   <div>
     <div
-      class="ap-rich-text-editor"
       data-gramm="false"
       data-slate-editor="true"
       data-slate-node="value"
+      id="ap-rich-text-editor"
       spellcheck="true"
       style="outline: none; white-space: pre-wrap; word-wrap: break-word;"
     >
