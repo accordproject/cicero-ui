@@ -122,7 +122,7 @@ const withClauses = (editor, withClausesProps) => {
     insertData(data);
   };
 
-  editor.isClauseSupported = (editor, clauseNode) => {
+  editor.isClauseSupported = (clauseNode) => {
     const params = { depth: 0 };
     let children;
     if (clauseNode.document) {
