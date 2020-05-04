@@ -24,8 +24,8 @@ import Conditional from '../components/Conditional';
 
 /* Plugins */
 import withClauseSchema, { COMPUTED, VARIABLE } from './plugins/withClauseSchema';
-import withClauses from './plugins/withClauses';
-import withVariables, { isEditable } from './plugins/withVariables';
+import withClauses, { isEditableClause } from './plugins/withClauses';
+import withVariables, { isEditableVariable } from './plugins/withVariables';
 
 /**
  * Adds the current value to local storage
@@ -103,10 +103,13 @@ const ContractEditor = (props) => {
       : withVariables(withClauses(withClauseSchema(editor), withClausesProps))
   );
 
+  const isEditable = (...args) => isEditableClause(...args)
+    && isEditableVariable(props.lockText, ...args);
+
   return (
     <RichTextEditor
       augmentEditor={augmentEditor}
-      isEditable={(...args) => isEditable(props.lockText, ...args)}
+      isEditable={isEditable}
       value={props.value || contractProps.value}
       onChange={props.onChange || contractProps.onChange}
       customElements={customElements}
