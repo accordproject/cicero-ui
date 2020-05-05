@@ -113,10 +113,10 @@ const withClauses = (editor, withClausesProps) => {
           }
         };
 
-        // clausesToParseAndPaste.forEach((clause) => {
-        //   pasteToContract(clause);
-        //   onClauseUpdated(editor, clause);
-        // });
+        clausesToParseAndPaste.forEach((clause) => {
+          pasteToContract(clause.data.clauseid, clause.data.src);
+          onClauseUpdated(clause);
+        });
 
         const NEW_HTML_DOM = htmlTransformer
           .toHtml(slateTransformer.toCiceroMark(NEW_SLATE_DOM));
