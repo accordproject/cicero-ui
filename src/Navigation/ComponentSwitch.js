@@ -33,10 +33,10 @@ const NavigationComponent = (props) => {
 
   return (
     <React.Fragment>
-        <SC.Navigation {...navigationProps} className={props.navState === 'NAVIGATION'?'navTitleActive':'navTitleInactive'}>
+        <SC.Navigation {...navigationProps} className={props.navState === 'NAVIGATION'?'navigationTitleActive':'navigationTitleInactive'}>
             NAVIGATION
         </SC.Navigation>
-        <SC.Files {...fileProps} className={props.navState === 'FILES'?'navTitleActive':'navTitleInactive'}>
+        <SC.Files {...fileProps} className={props.navState === 'FILES'?'navigationTitleActive':'navigationTitleInactive'}>
             FILES
         </SC.Files>
     </React.Fragment>

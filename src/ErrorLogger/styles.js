@@ -13,7 +13,7 @@ export const ErrorDisplay = styled.div`
     box-shadow: 0 -2px 20px 0 rgba(20,31,60,0.65);
 `;
 
-ErrorDisplay.displayName = 'ErrorDisplay';
+ErrorDisplay.displayName = 'errorLoggerDisplay';
 
 export const ErrorsHeader = styled.div`
     width: 100%;
@@ -63,7 +63,7 @@ export const ErrorBarArrow = styled.div`
     ? '0' : (`7px solid #7B9AD1`))};
 `;
 
-ErrorBarArrow.displayName = 'ErrorBarArrow';
+ErrorBarArrow.displayName = 'errorLoggerBarArrow';
 
 export const ErrorComponent = styled.div`
     width: 100%;
@@ -79,7 +79,7 @@ export const ErrorComponent = styled.div`
     grid-template-rows: min-content auto;
 `;
 
-ErrorComponent.displayName = 'ErrorComponent';
+ErrorComponent.displayName = 'errorLoggerError';
 
 export const ErrorFile = styled.a`
     text-decoration: underline;
@@ -121,7 +121,7 @@ export const ErrorShortMessage = styled.div`
     padding: 5px;
 `;
 
-ErrorShortMessage.displayName = 'ErrorShortMessage';
+ErrorShortMessage.displayName = 'errorLoggerErrorShortMessage';
 
 export const ErrorFullMessage = styled.div`
     grid-area: errorFull;

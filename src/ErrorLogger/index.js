@@ -50,15 +50,15 @@ const ErrorLogger = (props) => {
   return (
     <div className='ciceroUI'>
       {errorsVisible
-        && <SC.ErrorDisplay {...displayProps} className='errorDisplay'>
+        && <SC.ErrorDisplay {...displayProps} className='errorLoggerDisplay'>
             {errorComponentGenerator(errors)}
         </SC.ErrorDisplay>
     }
-      <SC.ErrorsHeader {...headerProps} className='errorHeader'>
+      <SC.ErrorsHeader {...headerProps} className='errorLoggerHeader'>
         {ACT.gtZero(errorLength)
           && <SC.ErrorSymbol {...symbolProps} />}
         {ACT.errorArrayLength(errors)} {ACT.isMultipleErrors(errors)}
-        <SC.ErrorBarArrow {...barArrowProps} className='errorBarArrow'/>
+        <SC.ErrorBarArrow {...barArrowProps} className='errorLoggerBarArrow'/>
       </SC.ErrorsHeader>
     </div>
   );

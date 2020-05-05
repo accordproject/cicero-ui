@@ -47,11 +47,11 @@ const DescriptionContainer = styled(Card.Description)`
 const TemplateCard = props => (
     <CardContainer fluid
       key={props.template.uri}
-      className='templateCard'
+      className='templateLibraryCard'
     >
         <Card.Content>
           <TemplateLogo src={props.template.icon} />
-          <Title className='templateCardTitle'>
+          <Title className='templateLibraryCardTitle'>
             {
               props.template.displayName
                 ? props.template.displayName
@@ -59,7 +59,7 @@ const TemplateCard = props => (
             }
             <Version>v {props.template.version}</Version>
           </Title>
-          <DescriptionContainer className='templateCardDesc'>
+          <DescriptionContainer className='templateLibraryCardDescription'>
             {props.template.description}
           </DescriptionContainer>
         </Card.Content>

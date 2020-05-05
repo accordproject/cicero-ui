@@ -30,23 +30,23 @@ const ErrorComponent = (props) => {
   };
 
   return (
-    <SC.ErrorComponent className='errorComponent'>
+    <SC.ErrorComponent className='errorLoggerError'>
 
-      <SC.ArrowDiv {...errorArrowProps} className={specErrorVisible?'errorArrowDivExpanded':'errorArrowDivCollapsed'}/>
-      <SC.ErrorFile onClick={() => errorNav(error)} className='errorFile'>
+      <SC.ArrowDiv {...errorArrowProps} className={specErrorVisible?'errorLoggerErrorArrowExpanded':'errorLoggerErrorArrowCollapsed'}/>
+      <SC.ErrorFile onClick={() => errorNav(error)} className='errorLoggerError'>
         {ACT.typeSwitchCase(error || {})}
       </SC.ErrorFile>
 
-      <SC.ErrorType {...typeProps} className='errorType'>
+      <SC.ErrorType {...typeProps} className='errorLoggerErrorType'>
         {ACT.overalltypeSwitchCase(error).name || 'Unknown Error'}:
       </SC.ErrorType>
 
-      <SC.ErrorShortMessage {...shortMessageProps} className='errorShortMessage'>
+      <SC.ErrorShortMessage {...shortMessageProps} className='errorLoggerErrorShortMessage'>
         {ACT.truncateMessage(ACT.overalltypeSwitchCase(error).shortMessage || 'Unknown Error')}
       </SC.ErrorShortMessage>
 
       {specErrorVisible
-        && <SC.ErrorFullMessage {...fullMessageProps} className='errorFullMessage'>
+        && <SC.ErrorFullMessage {...fullMessageProps} className='errorLoggerErrorFullMessage'>
             {ACT.overalltypeSwitchCase(error).message || 'Unknown Error'}
           </SC.ErrorFullMessage>}
     </SC.ErrorComponent>

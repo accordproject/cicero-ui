@@ -132,11 +132,11 @@ const TemplateLibraryComponent = (props) => {
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} className='templateSearchInput' />
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} className='templateLibrarySearchInput' />
           {props.addTemp
           && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
-        {filtered && filtered.length ? <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
+        {filtered && filtered.length ? <TemplateCards className={'templateCardsDiv'} >
           {_.sortBy(filtered, ['name']).map(t => (
             <TemplateCard
               key={t.uri}
