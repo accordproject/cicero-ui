@@ -30,7 +30,9 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
           </span>
         </span>
       </h1>
-      <p>
+      <p
+        data-slate-node="element"
+      >
         <span
           data-slate-node="text"
         >
@@ -101,6 +103,8 @@ exports[`<ContractEditor /> on initialization renders page correctly 1`] = `
           </span>
         </span>
         <a
+          data-slate-inline="true"
+          data-slate-node="element"
           href="https://clause.io"
         >
           <span
