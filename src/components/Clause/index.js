@@ -24,7 +24,7 @@ export const ClauseContext = createContext(null);
  * This will have an id property of the clauseid
  * @param {*} props
  */
-const ClauseComponent = (props) => {
+const ClauseComponent = React.forwardRef((props, ref) => {
   const clauseProps = props.clauseProps || Object.create(null);
 
   // Tooltip visibility controls
@@ -84,8 +84,8 @@ const ClauseComponent = (props) => {
               />
         ))
       } */}
-        <S.ClauseBackground contentEditable={false}/>
-        <S.ClauseHeader currentHover={hovering} contentEditable={false}>
+        <S.ClauseBackground />
+        <S.ClauseHeader currentHover={hovering} >
           {(hoveringHeader && header.length > 54)
             && <S.HeaderToolTipWrapper>
               <S.HeaderToolTip>
@@ -164,19 +164,21 @@ const ClauseComponent = (props) => {
             </S.DeleteWrapper>
           </>
         }
-        <S.ClauseBody {...props.attributes}>
+        <S.ClauseBody {...props.attributes} ref={ref}>
             {props.children}
         </S.ClauseBody>
     </S.ClauseWrapper>
     </ClauseContext.Provider>
   );
-};
+});
+
+ClauseComponent.displayName = 'ClauseComponent';
 
 ClauseComponent.propTypes = {
   attributes: PropTypes.PropTypes.shape({
     'data-key': PropTypes.string,
   }),
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  children: PropTypes.object.isRequired,
   clauseId: PropTypes.string,
   clauseProps: PropTypes.shape({
     CLAUSE_DELETE_FUNCTION: PropTypes.func,

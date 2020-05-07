@@ -97,7 +97,6 @@ const withClauses = (editor, withClausesProps) => {
         const NEW_SLATE_CHILDREN = SLATE_DOM.document.children.map(
           (child) => {
             if (child.type === CLAUSE) {
-              console.log('child', child);
               child.data.clauseid = uuid();
               clausesToParseAndPaste.push(child);
             }
@@ -126,7 +125,6 @@ const withClauses = (editor, withClausesProps) => {
             ? NEW_HTML_DOM
             : data.getData('text/plain')),
         });
-        return editor;
       } catch (err) { console.error(err); }
     }
     insertData(data);

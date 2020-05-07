@@ -126,7 +126,7 @@ const ContractEditor = (props) => {
  */
 ContractEditor.propTypes = {
   augmentEditor: PropTypes.func,
-  value: PropTypes.object,
+  value: PropTypes.array,
   onChange: PropTypes.func,
   lockText: PropTypes.bool,
   readOnly: PropTypes.bool,
