@@ -125,6 +125,7 @@ const withClauses = (editor, withClausesProps) => {
             ? NEW_HTML_DOM
             : data.getData('text/plain')),
         });
+        return;
       } catch (err) { console.error(err); }
     }
     insertData(data);
