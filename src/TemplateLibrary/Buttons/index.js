@@ -55,12 +55,12 @@ const AddClauseBtn = styled(Button).attrs({
 `;
 
 export const ImportComponent = props => (
-    <ImportButton onClick={props.importInput} className="importButton">
+    <ImportButton onClick={props.importInput} className="templateImportButton">
         Import from VS Code
     </ImportButton>);
 
 export const UploadComponent = props => (
-    <UploadButton onClick={props.uploadInput} className="uploadButton">
+    <UploadButton onClick={props.uploadInput} className="templateUploadButton">
         Upload CTA file
     </UploadButton>);
 

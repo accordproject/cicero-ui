@@ -16,10 +16,6 @@ import { NAVIGATION, FILES } from './constants';
  */
 const NavigationComponent = (props) => {
   const navigationSwitchProps = {
-    headerFont: props.headerFont,
-    titleActive: props.titleActive,
-    titleInactive: props.titleInactive,
-    filesVisible: props.filesVisible,
     navState: props.navState,
   };
 
@@ -37,10 +33,10 @@ const NavigationComponent = (props) => {
 
   return (
     <React.Fragment>
-        <SC.Navigation {...navigationProps}>
+        <SC.Navigation {...navigationProps} className={props.navState === 'NAVIGATION'?'navigationTitleActive':'navigationTitleInactive'}>
             NAVIGATION
         </SC.Navigation>
-        <SC.Files {...fileProps}>
+        <SC.Files {...fileProps} className={props.navState === 'FILES'?'navigationTitleActive':'navigationTitleInactive'}>
             FILES
         </SC.Files>
     </React.Fragment>
@@ -50,10 +46,6 @@ const NavigationComponent = (props) => {
 NavigationComponent.propTypes = {
   setNavState: PropTypes.func.isRequired,
   navState: PropTypes.string.isRequired,
-  filesVisible: PropTypes.bool,
-  headerFont: PropTypes.string,
-  titleActive: PropTypes.string,
-  titleInactive: PropTypes.string,
 };
 
 export default NavigationComponent;

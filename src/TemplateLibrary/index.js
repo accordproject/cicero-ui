@@ -43,7 +43,6 @@ const HeaderTitle = styled.p`
   font-weight: 800;
   font-size: 1em;
   text-align: left;
-  color: ${props => props.color || null};
 `;
 
 const HeaderImports = styled.div`
@@ -73,8 +72,8 @@ const SearchInput = styled(Input)`
   &&& input,
   &&& input::placeholder,
   &&& input:focus {
-    color: ${props => props.searchColor || '#FFFFFF'} !important;
-    caret-color: ${props => props.searchColor || '#FFFFFF'} !important;
+    color: #FFFFFF !important;
+    caret-color: #FFFFFF !important;
     background-color: transparent;
     opacity: 1 !important;
   },
@@ -86,7 +85,7 @@ const SearchInput = styled(Input)`
 const TemplateCards = styled.div`
   margin: 0 !important;
   width: 100%;
-  height: ${props => props.tempsHeight || 'calc(100% - 54px)'};
+  height: calc(100% - 54px);
   display: inherit;
   overflow-y: scroll !important;
 `;
@@ -120,12 +119,11 @@ const TemplateLibraryComponent = (props) => {
    * @return {*} the react component
    */
   const filtered = filterTemplates(props.templates);
-  const libraryProps = props.libraryProps || Object.create(null);
 
   return (
-      <TemplatesWrapper>
+      <TemplatesWrapper className='ciceroUI'>
         <Header>
-          <HeaderTitle color={libraryProps.HEADER_TITLE}>Clause Templates</HeaderTitle>
+          <HeaderTitle className='templateListTitle' >Clause Templates</HeaderTitle>
           <HeaderImports>
             {props.import
             && <ImportComponent importInput={props.import} />}
@@ -134,11 +132,11 @@ const TemplateLibraryComponent = (props) => {
           </HeaderImports>
         </Header>
         <Functionality>
-          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} searchColor={libraryProps.SEARCH_COLOR} />
+          <SearchInput className="icon" fluid icon="search" placeholder="Search..." onChange={onQueryChange} className='templateLibrarySearchInput' />
           {props.addTemp
           && <NewClauseComponent addTempInput={props.addTemp} />}
         </Functionality>
-        {filtered && filtered.length ? <TemplateCards tempsHeight={libraryProps.TEMPLATES_HEIGHT} >
+        {filtered && filtered.length ? <TemplateCards className={'templateCardsDiv'} >
           {_.sortBy(filtered, ['name']).map(t => (
             <TemplateCard
               key={t.uri}
@@ -146,7 +144,6 @@ const TemplateLibraryComponent = (props) => {
               template={t}
               handleViewTemplate={props.handleViewTemplate}
               className="templateCard"
-              libraryProps={libraryProps}
             />
           ))}
         </TemplateCards> : <p style={{ textAlign: 'center' }}>No results found</p>}
@@ -155,18 +152,6 @@ const TemplateLibraryComponent = (props) => {
 };
 
 TemplateLibraryComponent.propTypes = {
-  libraryProps: PropTypes.shape({
-    ACTION_BUTTON: PropTypes.string,
-    ACTION_BUTTON_BG: PropTypes.string,
-    ACTION_BUTTON_BORDER: PropTypes.string,
-    HEADER_TITLE: PropTypes.string,
-    SEARCH_COLOR: PropTypes.string,
-    TEMPLATE_BACKGROUND: PropTypes.string,
-    TEMPLATE_BORDER: PropTypes.string,
-    TEMPLATE_DESCRIPTION: PropTypes.string,
-    TEMPLATE_TITLE: PropTypes.string,
-    TEMPLATES_HEIGHT: PropTypes.string,
-  }),
   upload: PropTypes.func,
   import: PropTypes.func,
   addTemp: PropTypes.func,
