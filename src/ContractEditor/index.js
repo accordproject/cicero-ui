@@ -16,6 +16,7 @@
 /* React */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Editor, Node, Point } from 'slate';
 
 /* Components */
 import RichTextEditor from '@accordproject/markdown-editor/dist/RichTextEditor';
@@ -23,7 +24,7 @@ import ClauseComponent from '../components/Clause';
 import Conditional from '../components/Conditional';
 
 /* Plugins */
-import withClauseSchema, { COMPUTED, VARIABLE } from './plugins/withClauseSchema';
+import withClauseSchema, { CLAUSE, COMPUTED, VARIABLE } from './plugins/withClauseSchema';
 import withClauses, { isEditableClause } from './plugins/withClauses';
 import withVariables, { isEditableVariable } from './plugins/withVariables';
 
@@ -106,6 +107,24 @@ const ContractEditor = (props) => {
   const isEditable = (...args) => isEditableClause(...args)
     && isEditableVariable(props.lockText, ...args);
 
+  const canCopy = editor => (!((
+    editor.isInsideClause(editor.selection.anchor)
+    || editor.isInsideClause(editor.selection.focus)
+  )));
+
+  const canKeyDown = (editor, event) => {
+    if (
+      (event.keyCode || event.charCode) === 8
+      && Node.get(editor, editor.selection.focus.path).text.length === 0
+      && Point.equals(Editor.end(editor, []), editor.selection.anchor)
+    ) {
+      const [match] = Editor
+        .nodes(editor, { at: Editor.previous(editor)[1], match: n => n.type === CLAUSE });
+      return !match;
+    }
+    return true;
+  };
+
   return (
     <RichTextEditor
       augmentEditor={augmentEditor}
@@ -116,6 +135,8 @@ const ContractEditor = (props) => {
       lockText={props.lockText}
       readOnly={props.readOnly}
       canBeFormatted={editor => !props.lockText || !editor.isInsideClause()}
+      canCopy={canCopy}
+      canKeyDown={canKeyDown}
       data-testid='editor'
   />
   );
