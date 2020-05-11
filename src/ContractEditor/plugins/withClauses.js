@@ -69,8 +69,10 @@ const withClauses = (editor, withClausesProps) => {
   const { insertData, onChange } = editor;
   const { onClauseUpdated, pasteToContract } = withClausesProps;
 
-  editor.isInsideClause = () => {
-    const [match] = Editor.nodes(editor, { match: n => n.type === CLAUSE });
+  editor.isInsideClause = (
+    input = { anchor: editor.selection.anchor, focus: editor.selection.focus }
+  ) => {
+    const [match] = Editor.nodes(editor, { match: n => n.type === CLAUSE, at: input });
     return !!match;
   };
 
