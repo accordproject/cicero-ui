@@ -20,7 +20,7 @@ Components ready for use:
 - [`ContractEditor`][contracteditor]
 - [`ErrorLogger`][errorlogger]
 - [`Navigation`][navigation]
-- [`TemplateLibrary`][templatelibrary]
+- [`Library`][library]
 
 Components still in development:
 - [`ParseResult`][parseresult]
@@ -79,7 +79,7 @@ Top level repository (cicero-ui), with sub packages. The entire package is publi
 - [`ErrorLogger`][errorlogger]: Functional ReactJS component for displaying model and logic errors associated with contracts and clauses with location information when applicable.
 - [`Navigation`][navigation]: Functional ReactJS component for displaying markdown headings and clause nodes associated with contracts.
 - [`ParseResult`][parseresult]: 
-- [`TemplateLibrary`][templatelibrary]: Provides a ReactJS component to fetch and display a library of contract and clause templates in the [Accord Project Cicero format][cicero].
+- [`Library`][library]: Provides a ReactJS component to fetch and display a collection of library items.
 - `TemplateLoadingClauseEditor`:
 
 ---
@@ -256,7 +256,7 @@ Accord Project is an open source, non-profit, initiative working to transform co
      <td headers="co1 c1">Cicero UI</td>
       <td headers="co2 c1"><a href="https://github.com/accordproject/cicero-ui">cicero-ui</a></td>
       <td headers="co3 c1"> <a href="https://badge.fury.io/js/%40accordproject%2Fcicero-ui"><img src="https://badge.fury.io/js/%40accordproject%2Fcicero-ui.svg" alt="npm version"></a></td>
-       <td headers="co4 c1">WYSIWYG contract editor, template library browser, error panel component</td>
+       <td headers="co4 c1">WYSIWYG contract editor, library browser, error panel component</td>
      </tr>
      <tr>
      <td headers="co1 c1">Concerto UI</td>
@@ -351,7 +351,7 @@ Accord Project documentation files are made available under the [Creative Common
 Copyright 2018-2019 Clause, Inc. All trademarks are the property of their respective owners. See [LF Projects Trademark Policy](https://lfprojects.org/policies/trademark-policy/).
 
 [contracteditor]: src/ContractEditor/README.md
-[templatelibrary]: src/TemplateLibrary/README.md
+[library]: src/Library/README.md
 [navigation]: src/Navigation/README.md
 [errorlogger]: src/ErrorLogger/README.md
 [parseresult]: src/ParseResult/README.md
