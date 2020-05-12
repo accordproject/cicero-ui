@@ -50,6 +50,7 @@ const ClauseComponent = React.forwardRef((props, ref) => {
     width: '19px',
     height: '19px',
     viewBox: '0 0 16 20',
+    clauseIconColor: clauseProps.ICON_HOVER_COLOR,
   };
 
   const editIconProps = {
@@ -57,6 +58,7 @@ const ClauseComponent = React.forwardRef((props, ref) => {
     width: '19px',
     height: '19px',
     viewBox: '0 0 19 19',
+    clauseIconColor: clauseProps.ICON_HOVER_COLOR,
   };
 
   const deleteIconProps = {
@@ -64,6 +66,7 @@ const ClauseComponent = React.forwardRef((props, ref) => {
     width: '19px',
     height: '19px',
     viewBox: '0 0 12 15',
+    clauseIconColor: clauseProps.ICON_HOVER_COLOR,
   };
 
   return (
@@ -71,7 +74,7 @@ const ClauseComponent = React.forwardRef((props, ref) => {
       <S.ClauseWrapper
         src={props.templateUri}
         id={props.clauseId}
-        className='clause'
+        className='cicero-ui__clause'
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
       >
@@ -87,12 +90,13 @@ const ClauseComponent = React.forwardRef((props, ref) => {
               />
         ))
       } */}
-        <S.ClauseBackground />
+        <S.ClauseBackground className='cicero-ui__clause-background'/>
         <S.ClauseHeader
           currentHover={hovering}
           contentEditable={false}
           suppressContentEditableWarning={true}
           style={{ userSelect: 'none' }}
+          className='cicero-ui__clause-header'
         >
           {(hoveringHeader && header.length > 54)
             && <S.HeaderToolTipWrapper>
