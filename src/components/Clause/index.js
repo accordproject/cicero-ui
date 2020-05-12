@@ -40,6 +40,9 @@ const ClauseComponent = React.forwardRef((props, ref) => {
 
   const iconWrapperProps = {
     currentHover: hovering,
+    contentEditable: false,
+    suppressContentEditableWarning: true,
+    style: { userSelect: 'none' },
   };
 
   const testIconProps = {
@@ -85,7 +88,12 @@ const ClauseComponent = React.forwardRef((props, ref) => {
         ))
       } */}
         <S.ClauseBackground />
-        <S.ClauseHeader currentHover={hovering} >
+        <S.ClauseHeader
+          currentHover={hovering}
+          contentEditable={false}
+          suppressContentEditableWarning={true}
+          style={{ userSelect: 'none' }}
+        >
           {(hoveringHeader && header.length > 54)
             && <S.HeaderToolTipWrapper>
               <S.HeaderToolTip>
