@@ -81,9 +81,9 @@ export const ClauseBody = styled.div`
   .computed {
     color: #f1baff;
   }
-  li{
-    transition:none;
-  },
+  li {
+    transition: none;
+  }
   font-family: serif;
   grid-area: sixteen / sixteen / twenty / twenty;
   margin: 2px 0 10px;
