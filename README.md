@@ -1,3 +1,7 @@
+# ❗---❗---❗---❗DEPRECATED❗---❗---❗---❗
+
+This repository has been moved to https://github.com/accordproject/web-components
+
 # Cicero UI Library
 
 [![Build Status](https://travis-ci.org/accordproject/cicero-ui.svg?branch=master)](https://travis-ci.org/accordproject/cicero-ui) 
